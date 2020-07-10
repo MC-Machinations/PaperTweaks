@@ -102,4 +102,9 @@ public enum Lang {
     public static void reload() {
         Lang.config.reload();
     }
+
+    @Override
+    public String toString() {
+        return ChatColor.translateAlternateColorCodes('&', this.msg);
+    }
 }

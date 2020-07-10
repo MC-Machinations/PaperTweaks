@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,7 +48,7 @@ public class MultiplayerSleep extends BaseModule implements Listener {
         if (currentWorldSleeping.contains(event.getPlayer())) return;
         currentWorldSleeping.add(event.getPlayer());
         worlds.forEach(world -> {
-            world.getPlayers().forEach(player -> player.sendMessage(event.getPlayer().getDisplayName() + " is sleeping, " + currentWorldSleeping.size() + "/" + world.getPlayers().size()));
+            world.getPlayers().forEach(player -> player.sendMessage(ChatColor.YELLOW + event.getPlayer().getDisplayName() + " is sleeping (" + currentWorldSleeping.size() + "/" + world.getPlayers().size() + ")."));
 
             if ((double) currentWorldSleeping.size() / (double) world.getPlayers().size() >= config.sleepPercentage) {
                 event.getPlayer().getWorld().setTime(0);
