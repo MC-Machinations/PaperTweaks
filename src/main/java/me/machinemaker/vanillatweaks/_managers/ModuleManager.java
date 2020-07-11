@@ -22,6 +22,7 @@ import me.machinemaker.vanillatweaks.spawningspheres.SpawningSpheres;
 import me.machinemaker.vanillatweaks.spectatortoggle.SpectatorNightVision;
 import me.machinemaker.vanillatweaks.thundershrine.ThunderShrine;
 import me.machinemaker.vanillatweaks.trackrawstats.TrackRawStats;
+import me.machinemaker.vanillatweaks.wrenches.Wrench;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
 public class ModuleManager {
 
     private List<BaseModule> allModules;
-    private final List<BaseModule> enabled = Lists.newArrayList();
+    public final List<BaseModule> enabled = Lists.newArrayList();
     @Inject
     VanillaTweaks plugin;
 
@@ -68,6 +69,7 @@ public class ModuleManager {
                     new MobCounting(plugin),
 
                     new DurabilityPing(plugin),
+                    new Wrench(plugin),
 
                     new AFKDisplay(plugin),
                     new SetHome(plugin),

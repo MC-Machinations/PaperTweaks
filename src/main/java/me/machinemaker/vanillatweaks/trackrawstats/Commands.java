@@ -31,8 +31,6 @@ class Commands extends BaseModuleCommand<TrackRawStats> {
     @Subcommand("show")
     @CommandCompletion("@trs/stattypes @trs/objective")
     public void show(Player player, StatType type, Objective objective) {
-        System.out.println(objective.getCriteria());
-        System.out.println(objective.getDisplayName());
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 }

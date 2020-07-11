@@ -28,7 +28,6 @@ class ShrineRunnable extends BukkitRunnable {
                 player.getWorld().setThunderDuration(6000);
                 player.getWorld().setStorm(true);
                 player.getWorld().setThundering(true);
-                System.out.println(player.getWorld().getThunderDuration());
                 player.sendMessage(Lang.STORM_STARTED.p());
             });
         }));

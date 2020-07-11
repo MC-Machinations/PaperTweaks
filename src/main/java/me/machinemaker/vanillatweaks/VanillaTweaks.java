@@ -50,6 +50,11 @@ public final class VanillaTweaks extends JavaPlugin {
         moduleManager.load();
     }
 
+    @Override
+    public void onDisable() {
+        moduleManager.enabled.forEach(BaseModule::unregister);
+    }
+
     private void injectDependencies() {
         Injector injector = injectionManager.createInjector();
         injector.injectMembers(moduleManager);
