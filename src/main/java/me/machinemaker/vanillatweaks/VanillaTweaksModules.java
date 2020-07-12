@@ -101,4 +101,19 @@ public class VanillaTweaksModules extends BaseConfig {
 
     @Path("utilities.real-time-clock")
     public Boolean realTimeClock = false;
+
+    @Path("villagers.villagerdeathmessage")
+    public Boolean villagerDeathMsgs = false;
+
+    @Path("villagers.pillagertools")
+    public Boolean pillagerTools = false;
+
+    @Path("villagers.customvillagershops")
+    public Boolean customVillagerShops = false;
+
+    @Path("villagers.workstationhighlights")
+    public Boolean workstationHighlights = false;
+
+    @Path("villagers.wanderingtrades")
+    public Boolean wanderingTrades = false;
 }

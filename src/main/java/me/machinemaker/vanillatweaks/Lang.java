@@ -50,8 +50,23 @@ public enum Lang {
     NO_STAND_FOUND("thundershrine.", "&eCould not find a valid armor stand near you!"),
     NO_SHRINE("thundershrine.", "&eCould not find a shrine owned by you!"),
     REMOVED_SHRINE("thundershrine.", "&aRemoved the shrine."),
-    STORM_STARTED("thundershrine.", "&cA great storm has been initiated by the ritual.");
+    STORM_STARTED("thundershrine.", "&cA great storm has been initiated by the ritual."),
 
+    // Kill Empty Boats
+    KILL_BOATS("killemptyboats.", "&eRemoved %num% empty boats(s)."),
+
+    // Villager Death Messages
+    VILLAGER_DEATH("villagerdeathmessages.", "&cA villager has died! &e(X:%x% Y:%y% Z:%z%)"),
+    VILLAGER_CONVERSION("villagerdeathmessages.", "&cA villager has turned into a &aZombie Villager!"),
+
+    // Pillager Tools
+    PILLAGER_TOGGLE("pillagertools.", "&6%setting% &ehas been set to &6%val%&e."),
+
+    // Workstation Highlights
+    NO_VILLAGER("workstationhightlights.", "&eNo villager found withing 3 blocks."),
+    NO_JOB_SITE("workstationhighlights.", "&eThis villager does not have a job site."),
+    HIGHLIGHTED_SITE("workstationhighlights.", "&aHighlighted the workstation!")
+    ;
 
     String path;
     String msg;

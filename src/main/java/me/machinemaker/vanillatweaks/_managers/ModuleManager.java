@@ -7,6 +7,7 @@ import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.afkdisplay.AFKDisplay;
 import me.machinemaker.vanillatweaks.coordinateshud.CoordinatesHUD;
 import me.machinemaker.vanillatweaks.durabilityping.DurabilityPing;
+import me.machinemaker.vanillatweaks.killemptyboats.KillEmptyBoats;
 import me.machinemaker.vanillatweaks.largerphantoms.LargerPhantoms;
 import me.machinemaker.vanillatweaks.mobcounting.MobCounting;
 import me.machinemaker.vanillatweaks.mobdrops.MobDrops;
@@ -14,6 +15,7 @@ import me.machinemaker.vanillatweaks.mobgriefing.MobGriefing;
 import me.machinemaker.vanillatweaks.mobheads.MobHeads;
 import me.machinemaker.vanillatweaks.multiplayersleep.MultiplayerSleep;
 import me.machinemaker.vanillatweaks.netherportalcoords.NetherPortalCoords;
+import me.machinemaker.vanillatweaks.pillagertools.PillagerTools;
 import me.machinemaker.vanillatweaks.playergraves.PlayerGraves;
 import me.machinemaker.vanillatweaks.playerheaddrops.PlayerHeadDrops;
 import me.machinemaker.vanillatweaks.sethome.SetHome;
@@ -22,6 +24,9 @@ import me.machinemaker.vanillatweaks.spawningspheres.SpawningSpheres;
 import me.machinemaker.vanillatweaks.spectatortoggle.SpectatorNightVision;
 import me.machinemaker.vanillatweaks.thundershrine.ThunderShrine;
 import me.machinemaker.vanillatweaks.trackrawstats.TrackRawStats;
+import me.machinemaker.vanillatweaks.villagerdeathmessages.VillagerDeathMessages;
+import me.machinemaker.vanillatweaks.wanderingtrades.WanderingTrades;
+import me.machinemaker.vanillatweaks.workstationhighlights.WorkstationHighlights;
 import me.machinemaker.vanillatweaks.wrenches.Wrench;
 
 import java.util.Arrays;
@@ -70,6 +75,7 @@ public class ModuleManager {
 
                     new DurabilityPing(plugin),
                     new Wrench(plugin),
+                    new KillEmptyBoats(plugin),
 
                     new AFKDisplay(plugin),
                     new SetHome(plugin),
@@ -81,7 +87,12 @@ public class ModuleManager {
                     new ThunderShrine(plugin),
                     new SpawningSpheres(plugin),
                     new PlayerHeadDrops(plugin),
-                    new TrackRawStats(plugin)
+                    new TrackRawStats(plugin),
+
+                    new VillagerDeathMessages(plugin),
+                    new PillagerTools(plugin),
+                    new WorkstationHighlights(plugin),
+                    new WanderingTrades(plugin)
             );
         }
         return this.allModules;

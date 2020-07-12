@@ -21,7 +21,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import sun.awt.SunToolkit.InfiniteLoop;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -32,7 +31,7 @@ public class Wrench extends BaseModule implements Listener {
     private final byte[] hash = new BigInteger("1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147", 16).toByteArray();
     private final NamespacedKey RECIPE_KEY = new NamespacedKey(this.plugin, "redstone_wrench");
     private final List<BlockFace> faces = Lists.newArrayList(BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.UP, BlockFace.DOWN);
-    final ItemStack wrench = new ItemStack(Material.CARROT_ON_A_STICK, 1);;
+    final ItemStack wrench = new ItemStack(Material.CARROT_ON_A_STICK, 1);
     final ShapedRecipe recipe;
 
     public Wrench(VanillaTweaks plugin) {
@@ -62,7 +61,7 @@ public class Wrench extends BaseModule implements Listener {
                 BlockFace nextFace = null;
                 int i = 0;
                 while (nextFace == null || !state.getFaces().contains(nextFace)) {
-                    if (i >= 6) throw new InfiniteLoop();
+                    if (i >= 6) throw new IllegalStateException("Infinite loop detected");
                     nextFace = event.getPlayer().isSneaking() ? facing - 1 < 0 ? faces.get(facing + 6 - 1) : faces.get(facing - 1) : faces.get((facing + 1) % 6);
                     facing = faces.indexOf(nextFace);
                     i++;
@@ -83,9 +82,7 @@ public class Wrench extends BaseModule implements Listener {
     public void register() {
         Bukkit.addRecipe(recipe);
         this.registerEvents(this);
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            player.setResourcePack("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip0", hash);
-        });
+        Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip0", hash));
     }
 
     @Override
