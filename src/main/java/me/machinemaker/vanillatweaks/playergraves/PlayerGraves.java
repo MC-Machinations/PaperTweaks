@@ -39,6 +39,7 @@ public class PlayerGraves extends BaseModule implements Listener {
     private final NamespacedKey PLAYER_UUID = new NamespacedKey(this.plugin, "player_uuid");
     private final NamespacedKey PLAYER_INV_CONTENTS = new NamespacedKey(this.plugin, "player_inventory_contents");
     private final NamespacedKey PLAYER_ARM_CONTENTS = new NamespacedKey(this.plugin, "player_armor_contents");
+    private final NamespacedKey PLAYER_EXTRA_CONTENTS = new NamespacedKey(this.plugin, "player_extra_contents");
 
     private final List<Material> graves = Lists.newArrayList(Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL);
 
@@ -62,6 +63,8 @@ public class PlayerGraves extends BaseModule implements Listener {
         List<ItemStack> inventoryContents = Arrays.asList(inventory.getStorageContents());
         armorContents = nullUnionList(armorContents, cachedDrops);
         inventoryContents = nullUnionList(inventoryContents, cachedDrops);
+        List<ItemStack> extraContents = Arrays.asList(inventory.getExtraContents());
+        extraContents = nullUnionList(extraContents, cachedDrops);
         drops.clear(); // We could assert that cachedDrops is empty
 
         event.getEntity().sendMessage(Lang.GRAVE_AT.p().replace("%x%", String.valueOf(location.getBlockX())).replace("%y%", String.valueOf(location.getBlockY())).replace("%z%", String.valueOf(location.getBlockZ())));
@@ -75,6 +78,7 @@ public class PlayerGraves extends BaseModule implements Listener {
         container.set(PLAYER_UUID, DataType.UUID, event.getEntity().getUniqueId());
         container.set(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY, inventoryContents.toArray(new ItemStack[0]));
         container.set(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY, armorContents.toArray(new ItemStack[0]));
+        container.set(PLAYER_EXTRA_CONTENTS, DataType.ITEMSTACK_ARRAY, extraContents.toArray(new ItemStack[0]));
         container.set(TIMESTAMP, PersistentDataType.LONG, timestamp);
         setupStand(headstone, graves.get(0));
         Collections.shuffle(graves);
@@ -95,10 +99,13 @@ public class PlayerGraves extends BaseModule implements Listener {
             for (ItemStack stack : event.getPlayer().getInventory().getContents()) {
                 if (stack != null) event.getPlayer().getLocation().getWorld().dropItemNaturally(event.getPlayer().getLocation(), stack);
             }
+            PlayerInventory inventory = event.getPlayer().getInventory();
             ItemStack[] storage = container.get(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY);
             ItemStack[] armor = container.get(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY);
-            event.getPlayer().getInventory().setStorageContents(storage);
-            event.getPlayer().getInventory().setArmorContents(armor);
+            ItemStack[] extra = container.get(PLAYER_EXTRA_CONTENTS, DataType.ITEMSTACK_ARRAY);
+            inventory.setStorageContents(storage);
+            inventory.setArmorContents(armor);
+            inventory.setExtraContents(extra);
             event.getPlayer().sendMessage("Retrieved items");
             entity.remove();
         });
