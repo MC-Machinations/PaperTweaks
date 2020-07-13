@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.Lang;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
+import me.machinemaker.vanillatweaks.utils.CachedHashObjectWrapper;
 import me.machinemaker.vanillatweaks.utils.DataType;
+import org.apache.commons.lang.mutable.MutableInt;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,12 +22,15 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static me.machinemaker.vanillatweaks.utils.VTUtils.nullUnionList;
+import static me.machinemaker.vanillatweaks.utils.VTUtils.toCachedMapCount;
 
 public class PlayerGraves extends BaseModule implements Listener {
 
@@ -44,19 +49,21 @@ public class PlayerGraves extends BaseModule implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (event.getKeepInventory()) return;
-        boolean empty = true;
-        for (ItemStack stack : event.getEntity().getInventory().getContents()) {
-            if (stack != null) {
-                empty = false;
-                break;
-            }
-        }
-        if (empty) return;
+        if (event.getDrops().isEmpty()) return;
         Block spawnBlock = event.getEntity().getLocation().getBlock();
         while (spawnBlock.getType() == Material.AIR) {
             spawnBlock = spawnBlock.getRelative(BlockFace.DOWN);
         }
         Location location = spawnBlock.getRelative(BlockFace.UP).getLocation().add(0.5, 0, 0.5);
+        PlayerInventory inventory = event.getEntity().getInventory();
+        List<ItemStack> drops = event.getDrops();
+        @NotNull Map<CachedHashObjectWrapper<ItemStack>, MutableInt> cachedDrops = toCachedMapCount(drops);
+        List<ItemStack> armorContents = Arrays.asList(inventory.getArmorContents());
+        List<ItemStack> inventoryContents = Arrays.asList(inventory.getStorageContents());
+        armorContents = nullUnionList(armorContents, cachedDrops);
+        inventoryContents = nullUnionList(inventoryContents, cachedDrops);
+        drops.clear(); // We could assert that cachedDrops is empty
+
         event.getEntity().sendMessage(Lang.GRAVE_AT.p().replace("%x%", String.valueOf(location.getBlockX())).replace("%y%", String.valueOf(location.getBlockY())).replace("%z%", String.valueOf(location.getBlockZ())));
         Long timestamp = System.currentTimeMillis();
         ArmorStand block = (ArmorStand) location.getWorld().spawnEntity(location.clone().subtract(-0.1, 1.77, 0), EntityType.ARMOR_STAND);
@@ -66,13 +73,11 @@ public class PlayerGraves extends BaseModule implements Listener {
         ArmorStand headstone = (ArmorStand) location.getWorld().spawnEntity(location.clone().subtract(0.3, 1.37, 0), EntityType.ARMOR_STAND);
         PersistentDataContainer container = headstone.getPersistentDataContainer();
         container.set(PLAYER_UUID, DataType.UUID, event.getEntity().getUniqueId());
-        container.set(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY, event.getEntity().getInventory().getStorageContents());
-        container.set(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY, event.getEntity().getInventory().getArmorContents());
+        container.set(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY, inventoryContents.toArray(new ItemStack[0]));
+        container.set(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY, armorContents.toArray(new ItemStack[0]));
         container.set(TIMESTAMP, PersistentDataType.LONG, timestamp);
         setupStand(headstone, graves.get(0));
         Collections.shuffle(graves);
-        event.getDrops().clear();
-        event.getEntity().getInventory().clear();
     }
 
     @EventHandler
