@@ -2,6 +2,7 @@ package me.machinemaker.vanillatweaks;
 
 import co.aikar.commands.BukkitCommandManager;
 import com.google.inject.Injector;
+import io.papermc.lib.PaperLib;
 import me.machinemaker.configmanager.configs.YamlConfig;
 import me.machinemaker.configmanager.managers.YamlConfigManager;
 import me.machinemaker.vanillatweaks._managers.InjectionManager;
@@ -48,6 +49,7 @@ public final class VanillaTweaks extends JavaPlugin {
         commandManager.registerCommand(new VanillaTweaksCommand());
 
         moduleManager.load();
+        PaperLib.suggestPaper(this);
     }
 
     @Override

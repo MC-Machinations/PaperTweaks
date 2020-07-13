@@ -68,6 +68,7 @@ public class PlayerGraves extends BaseModule implements Listener {
         container.set(TIMESTAMP, PersistentDataType.LONG, timestamp);
         setupStand(headstone, graves.get(0));
         Collections.shuffle(graves);
+        event.getDrops().clear();
         event.getEntity().getInventory().clear();
     }
 

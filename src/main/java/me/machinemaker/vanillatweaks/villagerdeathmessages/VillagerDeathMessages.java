@@ -26,7 +26,7 @@ public class VillagerDeathMessages extends BaseModule implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntityType() == EntityType.VILLAGER && config.showMessageOnDeath) {
             Location loc = event.getEntity().getLocation();
-            event.getEntity().getWorld().getPlayers().forEach(player -> player.sendMessage(Lang.VILLAGER_DEATH.toString().replace("%x%", String.valueOf(loc.getBlockX())).replace("%y%", String.valueOf(loc.getBlockY())).replace("%z%", String.valueOf(loc.getBlockZ()))));
+            event.getEntity().getWorld().getPlayers().forEach(player -> player.sendMessage(Lang.VILLAGER_DEATH.toString().replace("%x%", String.valueOf(loc.getBlockX())).replace("%y%", String.valueOf(loc.getBlockY())).replace("%z%", String.valueOf(loc.getBlockZ())).replace("%world%", loc.getWorld().getName())));
         }
     }
 

@@ -56,7 +56,7 @@ public enum Lang {
     KILL_BOATS("killemptyboats.", "&eRemoved %num% empty boats(s)."),
 
     // Villager Death Messages
-    VILLAGER_DEATH("villagerdeathmessages.", "&cA villager has died! &e(X:%x% Y:%y% Z:%z%)"),
+    VILLAGER_DEATH("villagerdeathmessages.", "&cA villager has died! &e(World:%world% X:%x% Y:%y% Z:%z%)"),
     VILLAGER_CONVERSION("villagerdeathmessages.", "&cA villager has turned into a &aZombie Villager!"),
 
     // Pillager Tools
