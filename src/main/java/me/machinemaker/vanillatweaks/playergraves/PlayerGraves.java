@@ -14,8 +14,10 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -27,6 +29,7 @@ import java.util.List;
 
 public class PlayerGraves extends BaseModule implements Listener {
 
+    private final NamespacedKey PROTECTED = new NamespacedKey(this.plugin, "protected");
     private final NamespacedKey TIMESTAMP = new NamespacedKey(this.plugin, "timestamp");
     private final NamespacedKey PLAYER_UUID = new NamespacedKey(this.plugin, "player_uuid");
     private final NamespacedKey PLAYER_INV_CONTENTS = new NamespacedKey(this.plugin, "player_inventory_contents");
@@ -96,12 +99,20 @@ public class PlayerGraves extends BaseModule implements Listener {
         });
     }
 
+    // Don't let players mess with the graves
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onArmorStandManipulation(PlayerArmorStandManipulateEvent event) {
+        PersistentDataContainer pdc = event.getRightClicked().getPersistentDataContainer();
+        if (pdc.get(PROTECTED, PersistentDataType.BYTE) != null) event.setCancelled(true);
+    }
+
     private void setupStand(ArmorStand stand, Material head) {
         stand.setInvulnerable(true);
         stand.setGravity(false);
         stand.setVisible(false);
         stand.setArms(false);
         stand.setCollidable(false);
+        stand.getPersistentDataContainer().set(PROTECTED, PersistentDataType.BYTE, (byte)1);
         stand.getEquipment().setHelmet(new ItemStack(head));
     }
 
