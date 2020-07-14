@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
-from uuid import UUID
-import itertools
 import re
 import sys
+from uuid import UUID
 
 
 def array_to_uuid(arr):
@@ -18,12 +17,11 @@ NAME_PATTERN = re.compile(r'Name:\\"([^\\]+)\\"')
 TEXTURE_PATTERN = re.compile(r'Value:\\"([^\\]+)\\"')
 
 
-
 if len(sys.argv) == 2:
     entity = sys.argv[1].split('.')[0]
     with open(sys.argv[1]) as f:
         for line in f:
-            if (TAG_PATTERN.match(line)):
+            if TAG_PATTERN.match(line):
                 uuid_match = UUID_PATTERN.search(line)
                 uuid_arr = [int(i) for i in uuid_match.group(1).split(',')]
                 uuid = array_to_uuid(uuid_arr)
@@ -32,7 +30,7 @@ if len(sys.argv) == 2:
                 predicate = ''
                 java_name = entity[0] + entity.title().replace('_', '')[1:]
                 if entity == 'villager':
-                    predicate = f", {java_name} -> {java_name}.getProfession() == Villager.Profession.{name.split()[0].upper()}"
+                    predicate = f", {java_name} -> {java_name}.getProfession() == Villager.Profession.{name.split()[0].upper()} "
                 elif entity == 'zombie_villager':
                     predicate = f", {java_name} -> {java_name}.getVillagerProfession() == Villager.Profession.{name.split()[1].upper()}"
 

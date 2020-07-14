@@ -65,7 +65,12 @@ public enum Lang {
     // Workstation Highlights
     NO_VILLAGER("workstationhightlights.", "&eNo villager found withing 3 blocks."),
     NO_JOB_SITE("workstationhighlights.", "&eThis villager does not have a job site."),
-    HIGHLIGHTED_SITE("workstationhighlights.", "&aHighlighted the workstation!")
+    HIGHLIGHTED_SITE("workstationhighlights.", "&aHighlighted the workstation!"),
+
+    // Tag
+    PLAYER_IS_IT("tag.", "&e%name% &ehas been tagged!"),
+    PLAYER_IS_AFK("tag.", "&e%name% &eis AFK!"),
+    PLAYER_IS_ALREADY_IT("tag.", "&e%name% &eis already it!"),
     ;
 
     String path;

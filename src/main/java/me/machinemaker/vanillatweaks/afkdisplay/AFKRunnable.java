@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Iterator;
@@ -16,8 +17,10 @@ import java.util.UUID;
 class AFKRunnable extends BukkitRunnable {
 
     private final Map<UUID, LocationTime> locationMap = Maps.newConcurrentMap();
+    private final AFKDisplay module;
 
-    public AFKRunnable() {
+    public AFKRunnable(AFKDisplay module) {
+        this.module = module;
         Bukkit.getOnlinePlayers().forEach(this::addPlayer);
     }
 
@@ -43,6 +46,7 @@ class AFKRunnable extends BukkitRunnable {
             } else if (entry.getValue().time < System.currentTimeMillis() - (1000L * 60 * 5)) {
                 player.getPlayer().setDisplayName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
                 player.getPlayer().setPlayerListName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
+                player.getPlayer().getPersistentDataContainer().set(module.afkKey, PersistentDataType.BYTE, (byte) 1);
                 locationMap.remove(entry.getKey());
             }
         }

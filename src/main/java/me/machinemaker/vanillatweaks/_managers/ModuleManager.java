@@ -22,6 +22,7 @@ import me.machinemaker.vanillatweaks.sethome.SetHome;
 import me.machinemaker.vanillatweaks.silencemobs.SilenceMobs;
 import me.machinemaker.vanillatweaks.spawningspheres.SpawningSpheres;
 import me.machinemaker.vanillatweaks.spectatortoggle.SpectatorNightVision;
+import me.machinemaker.vanillatweaks.tag.Tag;
 import me.machinemaker.vanillatweaks.thundershrine.ThunderShrine;
 import me.machinemaker.vanillatweaks.trackrawstats.TrackRawStats;
 import me.machinemaker.vanillatweaks.villagerdeathmessages.VillagerDeathMessages;
@@ -88,6 +89,7 @@ public class ModuleManager {
                     new SpawningSpheres(plugin),
                     new PlayerHeadDrops(plugin),
                     new TrackRawStats(plugin),
+                    new Tag(plugin),
 
                     new VillagerDeathMessages(plugin),
                     new PillagerTools(plugin),

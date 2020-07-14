@@ -46,4 +46,9 @@ public class VillagerDeathMessages extends BaseModule implements Listener {
     public void unregister() {
         this.unregisterEvents(this);
     }
+
+    @Override
+    public void reload() {
+        config.reload();
+    }
 }

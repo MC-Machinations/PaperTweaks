@@ -54,6 +54,11 @@ public class PillagerTools extends BaseModule implements Listener {
         this.unregisterEvents(this);
     }
 
+    @Override
+    public void reload() {
+        config.reload();
+    }
+
     enum ToggleOption {
         PATROLS,
         PATROL_LEADERS,
