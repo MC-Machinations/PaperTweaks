@@ -28,6 +28,7 @@ import java.util.Objects;
 
 public class Wrench extends BaseModule implements Listener {
 
+    private final String resourcePackUrl = "https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip";
     private final byte[] hash = new BigInteger("1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147", 16).toByteArray();
     private final NamespacedKey RECIPE_KEY = new NamespacedKey(this.plugin, "redstone_wrench");
     private final List<BlockFace> faces = Lists.newArrayList(BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.UP, BlockFace.DOWN);
@@ -75,14 +76,14 @@ public class Wrench extends BaseModule implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().setResourcePack("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip", hash);
+        event.getPlayer().setResourcePack(resourcePackUrl, hash);
     }
 
     @Override
     public void register() {
         Bukkit.addRecipe(recipe);
         this.registerEvents(this);
-        Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip0", hash));
+        Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack(resourcePackUrl, hash));
     }
 
     @Override
