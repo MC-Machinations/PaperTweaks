@@ -15,6 +15,7 @@ import me.machinemaker.vanillatweaks.mobgriefing.MobGriefing;
 import me.machinemaker.vanillatweaks.mobheads.MobHeads;
 import me.machinemaker.vanillatweaks.multiplayersleep.MultiplayerSleep;
 import me.machinemaker.vanillatweaks.netherportalcoords.NetherPortalCoords;
+import me.machinemaker.vanillatweaks.persistentheads.PersistentHeads;
 import me.machinemaker.vanillatweaks.pillagertools.PillagerTools;
 import me.machinemaker.vanillatweaks.playergraves.PlayerGraves;
 import me.machinemaker.vanillatweaks.playerheaddrops.PlayerHeadDrops;
@@ -90,6 +91,7 @@ public class ModuleManager {
                     new PlayerHeadDrops(plugin),
                     new TrackRawStats(plugin),
                     new Tag(plugin),
+                    new PersistentHeads(plugin),
 
                     new VillagerDeathMessages(plugin),
                     new PillagerTools(plugin),

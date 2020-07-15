@@ -102,6 +102,9 @@ public class VanillaTweaksModules extends BaseConfig {
     @Path("utilities.real-time-clock")
     public Boolean realTimeClock = false;
 
+    @Path("utilities.persist-head-data")
+    public Boolean persistHeadData = false;
+
     @Path("villagers.villagerdeathmessage")
     public Boolean villagerDeathMsgs = false;
 
