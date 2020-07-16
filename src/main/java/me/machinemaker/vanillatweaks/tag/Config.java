@@ -10,4 +10,7 @@ class Config extends BaseConfig {
 
     @Path("show-messages")
     public Boolean showMessages = true;
+
+    @Path("play-sound")
+    public Boolean playSound = true;
 }

@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +27,8 @@ public class Tag extends BaseModule implements Listener {
     final NamespacedKey tagKey = new NamespacedKey(this.plugin, "tag");
     private Team colorTeam;
 
+    private TagRunnable runnable;
+
     public Tag(VanillaTweaks plugin) {
         super(plugin, config -> config.tag);
         config.init(plugin, new File(plugin.getDataFolder(), "tag"));
@@ -41,7 +44,7 @@ public class Tag extends BaseModule implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInteract(EntityDamageByEntityEvent event) {
+    public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player) || event.getEntityType() != EntityType.PLAYER) return;
         Player damager = (Player) event.getDamager();
         Player damagee = (Player) event.getEntity();
@@ -61,7 +64,13 @@ public class Tag extends BaseModule implements Listener {
         player.getPersistentDataContainer().set(this.tagKey, PersistentDataType.BYTE, (byte) 1);
         player.setDisplayName(ChatColor.RED + player.getDisplayName());
         player.setPlayerListName(ChatColor.RED + player.getDisplayName());
-        player.getInventory().addItem(tagItem.clone());
+        int firstEmpty = player.getInventory().firstEmpty();
+        if (firstEmpty > -1) player.getInventory().setItem(firstEmpty, tagItem.clone());
+        else {
+            Item item = player.getWorld().dropItem(player.getLocation(), tagItem.clone());
+            item.setPickupDelay(0);
+            this.runnable.addPlayerItem(player, item);
+        }
     }
 
     void removeAsIt(Player player) {
@@ -75,11 +84,14 @@ public class Tag extends BaseModule implements Listener {
     @Override
     public void register() {
         this.registerEvents(this);
+        this.runnable = new TagRunnable(this);
+        this.runnable.runTaskTimer(this.plugin, 0L, 5L);
     }
 
     @Override
     public void unregister() {
         this.unregisterEvents(this);
+        this.runnable.cancel();
     }
 
     @Override
