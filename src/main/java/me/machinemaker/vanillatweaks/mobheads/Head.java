@@ -5,8 +5,11 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Bee;
@@ -258,7 +261,11 @@ class Head<E extends LivingEntity> {
         this(type, addToMap, chance, lootingMult);
         SkullMeta meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
         if (meta == null) throw new IllegalArgumentException("Failed to configure a texture!");
-        meta.setDisplayName(ChatColor.RESET + ChatColor.YELLOW.toString() + ChatColor.BOLD + name);
+        BaseComponent[] displayName = new ComponentBuilder(name)
+                .color(ChatColor.YELLOW)
+                .bold(true)
+                .create();
+        meta.setDisplayName(TextComponent.toLegacyText(displayName));
         GameProfile profile = new GameProfile(UUID.fromString(uuid), null);
         profile.getProperties().put("textures", new Property("textures", encoded));
         ReflectionUtils.getField(meta.getClass(), "profile", GameProfile.class).set(meta, profile);
