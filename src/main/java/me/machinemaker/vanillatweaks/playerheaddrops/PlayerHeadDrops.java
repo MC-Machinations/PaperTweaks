@@ -3,7 +3,10 @@ package me.machinemaker.vanillatweaks.playerheaddrops;
 import com.google.common.collect.Lists;
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,7 +33,14 @@ public class PlayerHeadDrops extends BaseModule implements Listener {
             ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
             meta.setOwningPlayer(event.getEntity());
-            meta.setLore(Lists.newArrayList(ChatColor.RESET + ChatColor.WHITE.toString() + "Killed by " + ChatColor.YELLOW + event.getEntity().getKiller().getDisplayName()));
+            BaseComponent[] lore = new ComponentBuilder("Killed by ")
+                    .color(ChatColor.WHITE)
+                    .append(event.getEntity().getKiller().getName())
+                    .color(ChatColor.YELLOW)
+                    .create();
+            meta.setLore(Lists.newArrayList(
+                    TextComponent.toLegacyText(lore)
+            ));
             skull.setItemMeta(meta);
             event.getDrops().add(skull);
         }
