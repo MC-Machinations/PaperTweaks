@@ -28,7 +28,7 @@ public class PlayerHeadDrops extends BaseModule implements Listener {
 
     @EventHandler
     public void onPlayerKilledByPlayer(PlayerDeathEvent event) {
-        if (event.getEntity().getKiller() == null) return;
+        if (event.getEntity().getKiller() == null || !event.getEntity().getKiller().hasPermission("vanillatweaks.playerheaddrops")) return;
         if (ThreadLocalRandom.current().nextDouble() < config.dropChance) {
             ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();

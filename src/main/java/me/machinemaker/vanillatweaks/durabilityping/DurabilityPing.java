@@ -35,7 +35,7 @@ public class DurabilityPing extends BaseModule implements Listener {
 
     @EventHandler
     public void onDurabilityChange(PlayerItemDamageEvent event) {
-        if (event.getPlayer().getPersistentDataContainer().get(PING, PersistentDataType.INTEGER) == 1 && event.getItem().getItemMeta() instanceof Damageable && 1 - (((Damageable) event.getItem().getItemMeta()).getDamage() / (double) event.getItem().getType().getMaxDurability()) < config.threshold && cooldownMap.computeIfAbsent(event.getPlayer().getUniqueId(), uuid -> System.currentTimeMillis() + (config.notificationCooldown * 1000)) < System.currentTimeMillis()) {
+        if (event.getPlayer().getPersistentDataContainer().get(PING, PersistentDataType.INTEGER) == 1 && event.getItem().getItemMeta() instanceof Damageable && 1 - (((Damageable) event.getItem().getItemMeta()).getDamage() / (double) event.getItem().getType().getMaxDurability()) < config.threshold && cooldownMap.computeIfAbsent(event.getPlayer().getUniqueId(), uuid -> System.currentTimeMillis() + (config.notificationCooldown * 1000)) < System.currentTimeMillis() && event.getPlayer().hasPermission("vanillatweaks.durabilityping")) {
             event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 1f, 1f);
             event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("DURABILITY LOW!!").color(ChatColor.RED).create());
             cooldownMap.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + (config.notificationCooldown * 1000));

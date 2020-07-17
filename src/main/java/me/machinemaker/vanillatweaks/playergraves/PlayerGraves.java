@@ -41,6 +41,7 @@ public class PlayerGraves extends BaseModule implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (event.getKeepInventory()) return;
+        if (!event.getEntity().hasPermission("vanillatweaks.playergraves")) return;
         boolean empty = true;
         for (ItemStack stack : event.getEntity().getInventory().getContents()) {
             if (stack != null) {

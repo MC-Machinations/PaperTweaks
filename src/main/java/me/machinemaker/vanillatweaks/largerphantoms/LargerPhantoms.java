@@ -37,7 +37,7 @@ public class LargerPhantoms extends BaseModule implements Listener {
                 }
             }
         }
-        if (closest != -1) {
+        if (closest != -1 && player.hasPermission("vanillatweaks.largerphantoms")) {
             int ticksSinceSleep = player.getStatistic(Statistic.TIME_SINCE_REST);
             int size;
             double maxHealth;

@@ -71,6 +71,7 @@ public enum Lang {
     PLAYER_IS_IT("tag.", "&e%name% &ehas been tagged!"),
     PLAYER_IS_AFK("tag.", "&e%name% &eis AFK!"),
     PLAYER_IS_ALREADY_IT("tag.", "&e%name% &eis already it!"),
+    COOLDOWN_ACTIVE("tag.", "&eYou cannot tag anyone yet! &6%time% &eseconds left...")
     ;
 
     String path;

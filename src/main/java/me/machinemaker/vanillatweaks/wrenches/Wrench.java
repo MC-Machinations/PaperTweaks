@@ -56,7 +56,7 @@ public class Wrench extends BaseModule implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getItem() != null && event.getItem().equals(wrench)) {
             Block block = event.getClickedBlock();
-            if (((this.plugin.modules.redstoneRotationWrench && Tags.REDSTONE_COMPONENTS.isTagged(block.getType())) || (this.plugin.modules.terracottaRotationWrench && Tags.GLAZED_TERRACOTTA.isTagged(block.getType())))&& block.getBlockData() instanceof Directional) {
+            if (((this.plugin.modules.redstoneRotationWrench && Tags.REDSTONE_COMPONENTS.isTagged(block.getType()) && event.getPlayer().hasPermission("vanillatweaks.wrench.redstone")) || (this.plugin.modules.terracottaRotationWrench && Tags.GLAZED_TERRACOTTA.isTagged(block.getType())) && event.getPlayer().hasPermission("vanillatweaks.wrench.terracotta")) && block.getBlockData() instanceof Directional) {
                 Directional state = (Directional) block.getBlockData();
                 int facing = faces.indexOf(state.getFacing());
                 BlockFace nextFace = null;

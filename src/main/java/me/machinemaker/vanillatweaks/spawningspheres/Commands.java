@@ -1,7 +1,11 @@
 package me.machinemaker.vanillatweaks.spawningspheres;
 
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.HelpCommand;
 import co.aikar.commands.annotation.Subcommand;
 import com.google.common.collect.Sets;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
@@ -10,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -33,8 +38,15 @@ class Commands extends BaseModuleCommand<SpawningSpheres> {
         super(module);
     }
 
+    @HelpCommand
+    public void help(CommandSender sender, CommandHelp help) {
+        help.showHelp();
+    }
+
     @Subcommand("add")
     @CommandCompletion("@ss/colors")
+    @Description("Adds a colored sphere")
+    @CommandPermission("vanillatweaks.spawningspheres.add")
     public void add(Player player, Color color) {
         if (enabledColors.contains(color)) {
             player.sendMessage(Lang.COLOR_ALREADY_DISPLAYED.p().replace("%color%", color.name()));
@@ -54,6 +66,8 @@ class Commands extends BaseModuleCommand<SpawningSpheres> {
 
     @Subcommand("remove")
     @CommandCompletion("@ss/colors")
+    @Description("Removes a colored sphere")
+    @CommandPermission("vanillatweaks.spawningspheres.remove")
     public void remove(Player player, Color color) {
         if (!enabledColors.contains(color)) {
             player.sendMessage(Lang.COLOR_ALREADY_REMOVED.p().replace("%color%", color.name()));

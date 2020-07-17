@@ -40,6 +40,7 @@ class AFKRunnable extends BukkitRunnable {
             Entry<UUID, LocationTime> entry = iterator.next();
             OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
             if (!player.isOnline() || !player.hasPlayedBefore() || player.getPlayer() == null) iterator.remove();
+            else if (!player.getPlayer().hasPermission("vanillatweaks.afkdisplay")) iterator.remove();
             else if (notEqual(entry.getValue().loc, player.getPlayer().getLocation())) {
                 entry.getValue().loc = player.getPlayer().getLocation();
                 entry.getValue().time = System.currentTimeMillis();

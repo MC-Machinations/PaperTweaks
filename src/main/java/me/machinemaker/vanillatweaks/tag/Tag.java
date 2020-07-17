@@ -25,6 +25,7 @@ public class Tag extends BaseModule implements Listener {
     final Config config = new Config();
     final ItemStack tagItem = new ItemStack(Material.NAME_TAG);
     final NamespacedKey tagKey = new NamespacedKey(this.plugin, "tag");
+    final NamespacedKey cooldownKey = new NamespacedKey(this.plugin, "cooldown");
     private Team colorTeam;
 
     private TagRunnable runnable;
@@ -54,6 +55,10 @@ public class Tag extends BaseModule implements Listener {
             damager.sendMessage(Lang.PLAYER_IS_ALREADY_IT.p().replace("%name%", damagee.getDisplayName()));
             return;
         }
+        if (damager.getPersistentDataContainer().has(this.cooldownKey, PersistentDataType.LONG) && damager.getPersistentDataContainer().get(this.cooldownKey, PersistentDataType.LONG) > System.currentTimeMillis()) {
+            damager.sendMessage(Lang.COOLDOWN_ACTIVE.p().replace("%time%", String.valueOf((damager.getPersistentDataContainer().get(this.cooldownKey, PersistentDataType.LONG)-System.currentTimeMillis())/1000)));
+            return;
+        }
         setAsIt(damagee);
         removeAsIt(damager);
         Bukkit.broadcastMessage(Lang.PLAYER_IS_IT.toString().replace("%name%", damagee.getDisplayName()));
@@ -62,6 +67,7 @@ public class Tag extends BaseModule implements Listener {
     void setAsIt(Player player) {
         colorTeam.addPlayer(player);
         player.getPersistentDataContainer().set(this.tagKey, PersistentDataType.BYTE, (byte) 1);
+        player.getPersistentDataContainer().set(this.cooldownKey, PersistentDataType.LONG, System.currentTimeMillis() + (this.config.timeBetweenTags * 1000L));
         player.setDisplayName(ChatColor.RED + player.getDisplayName());
         player.setPlayerListName(ChatColor.RED + player.getDisplayName());
         int firstEmpty = player.getInventory().firstEmpty();
@@ -78,6 +84,7 @@ public class Tag extends BaseModule implements Listener {
         player.setDisplayName(player.getName() + ChatColor.RESET);
         player.setPlayerListName(player.getName() + ChatColor.RESET);
         player.getPersistentDataContainer().remove(this.tagKey);
+        player.getPersistentDataContainer().remove(this.cooldownKey);
         player.getInventory().remove(tagItem.clone());
     }
 
