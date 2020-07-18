@@ -15,20 +15,22 @@ public class CoordinatesHUD extends BaseModule {
 
     final List<Player> enabled = Lists.newArrayList();
     private HUDRunnable runnable;
+    private final Commands commands = new Commands(this);
 
     public CoordinatesHUD(VanillaTweaks plugin) {
         super(plugin, config -> config.coordinatesHud);
-        this.registerCommands(new Commands(this));
     }
 
     @Override
     public void register() {
+        this.registerCommands(commands);
         runnable = new HUDRunnable();
         runnable.runTaskTimer(this.plugin, 1L, 2L);
     }
 
     @Override
     public void unregister() {
+        this.unregisterCommands(commands);
         runnable.cancel();
     }
 

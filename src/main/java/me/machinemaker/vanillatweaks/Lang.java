@@ -7,7 +7,7 @@ public enum Lang {
     PREFIX("&8[&9V&1T&8] &r"),
     ERROR_PREFIX("&8[&4V&cT&8] &r"),
 
-    RELOAD("&aConfiguration/Modules/Lang reloaded."),
+    RELOAD("&aConfiguration/Modules/Lang reloaded. &cIf you are overriding commands from this plugin with commands from another plugin, you should do a full reload of the server."),
     NOT_ENABLED("&cThis module is not enabled!"),
 
     SCOREBOARD_ON("&aTurned on %board% scoreboard."),

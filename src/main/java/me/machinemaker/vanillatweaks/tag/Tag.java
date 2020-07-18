@@ -29,6 +29,7 @@ public class Tag extends BaseModule implements Listener {
     private Team colorTeam;
 
     private TagRunnable runnable;
+    private final Commands commands = new Commands(this);
 
     public Tag(VanillaTweaks plugin) {
         super(plugin, config -> config.tag);
@@ -36,7 +37,6 @@ public class Tag extends BaseModule implements Listener {
         ItemMeta meta = tagItem.getItemMeta();
         meta.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW + "Tag!");
         tagItem.setItemMeta(meta);
-        this.registerCommands(new Commands(this));
         colorTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("tag/redcolor");
         if (colorTeam == null) {
             colorTeam = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam("tag/redcolor");
@@ -90,6 +90,7 @@ public class Tag extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.registerCommands(commands);
         this.registerEvents(this);
         this.runnable = new TagRunnable(this);
         this.runnable.runTaskTimer(this.plugin, 0L, 5L);
@@ -97,6 +98,7 @@ public class Tag extends BaseModule implements Listener {
 
     @Override
     public void unregister() {
+        this.unregisterCommands(commands);
         this.unregisterEvents(this);
         this.runnable.cancel();
     }

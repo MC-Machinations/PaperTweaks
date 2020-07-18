@@ -33,7 +33,6 @@ public abstract class BaseModule {
         this.plugin.commandManager.registerCommand(command);
     }
 
-    @Deprecated
     protected void unregisterCommands(BaseCommand command) {
         this.plugin.commandManager.unregisterCommand(command);
     }

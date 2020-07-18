@@ -14,7 +14,7 @@ import java.util.UUID;
 public class SetHome extends BaseModule {
 
     final Config config = new Config();
-
+    final Commands commands = new Commands(this);
     final Map<UUID, SetHomeInfo> homeMap;
 
     public SetHome(VanillaTweaks plugin) {
@@ -23,7 +23,6 @@ public class SetHome extends BaseModule {
         File configDir = new File(plugin.getDataFolder(), "sethome");
         config.init(plugin, configDir);
         plugin.configManager.createConfig("sethome/homes", "homes.yml", configDir);
-        this.registerCommands(new Commands(this));
         homeMap = Maps.newHashMap();
     }
 
@@ -33,6 +32,7 @@ public class SetHome extends BaseModule {
 
     @Override
     public void register() {
+        this.registerCommands(commands);
         ConfigurationSection section = getConfig().getConfigurationSection("players");
         if (section != null) {
             section.getKeys(false).forEach(uuid -> homeMap.put(UUID.fromString(uuid), section.getObject(uuid, SetHomeInfo.class)));
@@ -41,6 +41,7 @@ public class SetHome extends BaseModule {
 
     @Override
     public void unregister() {
+        this.plugin.commandManager.unregisterCommand(commands);
         homeMap.forEach((uuid, info) -> getConfig().set("players." + uuid.toString(), info));
     }
 

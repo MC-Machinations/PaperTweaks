@@ -5,18 +5,19 @@ import me.machinemaker.vanillatweaks.VanillaTweaks;
 
 public class KillEmptyBoats extends BaseModule {
 
+    private final Commands commands = new Commands(this);
+
     public KillEmptyBoats(VanillaTweaks plugin) {
         super(plugin, config -> config.killEmptyBoats);
-        this.registerCommands(new Commands(this));
     }
 
     @Override
     public void register() {
-
+        this.registerCommands(commands);
     }
 
     @Override
     public void unregister() {
-
+        this.unregisterCommands(commands);
     }
 }
