@@ -71,7 +71,12 @@ public enum Lang {
     PLAYER_IS_IT("tag.", "&e%name% &ehas been tagged!"),
     PLAYER_IS_AFK("tag.", "&e%name% &eis AFK!"),
     PLAYER_IS_ALREADY_IT("tag.", "&e%name% &eis already it!"),
-    COOLDOWN_ACTIVE("tag.", "&eYou cannot tag anyone yet! &6%time% &eseconds left...")
+    COOLDOWN_ACTIVE("tag.", "&eYou cannot tag anyone yet! &6%time% &eseconds left..."),
+
+    // Nether Portal Coords
+    PLAYER_IN_OVERWORLD("portalcoords.", "&eNether: X:%x% | Y:%y% | Z:%z%"),
+    PLAYER_IN_NETHER("portalcoords.", "&3eOverworld: X:%x% | Y:%y% | Z:%z%"),
+    INVALID_WORLD("portalcoords.", "&eThis world is not configured as an overworld or nether.")
     ;
 
     String path;
