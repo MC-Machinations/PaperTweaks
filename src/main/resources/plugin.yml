@@ -159,7 +159,7 @@ permissions:
   vanillatweaks.trackrawstats:
     default: true
     description: All TRS commands
-    chilren:
+    chidlren:
       vanillatweaks.trackrawstats.toggle: true
       vanillatweaks.trackrawstats.show: true
       vanillatweaks.trackrawstats.help: true
