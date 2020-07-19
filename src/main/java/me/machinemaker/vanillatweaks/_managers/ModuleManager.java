@@ -22,7 +22,7 @@ import me.machinemaker.vanillatweaks.playerheaddrops.PlayerHeadDrops;
 import me.machinemaker.vanillatweaks.sethome.SetHome;
 import me.machinemaker.vanillatweaks.silencemobs.SilenceMobs;
 import me.machinemaker.vanillatweaks.spawningspheres.SpawningSpheres;
-import me.machinemaker.vanillatweaks.spectatortoggle.SpectatorNightVision;
+import me.machinemaker.vanillatweaks.spectatortoggle.SpectatorToggleEffect;
 import me.machinemaker.vanillatweaks.tag.Tag;
 import me.machinemaker.vanillatweaks.thundershrine.ThunderShrine;
 import me.machinemaker.vanillatweaks.trackrawstats.TrackRawStats;
@@ -30,6 +30,8 @@ import me.machinemaker.vanillatweaks.villagerdeathmessages.VillagerDeathMessages
 import me.machinemaker.vanillatweaks.wanderingtrades.WanderingTrades;
 import me.machinemaker.vanillatweaks.workstationhighlights.WorkstationHighlights;
 import me.machinemaker.vanillatweaks.wrenches.Wrench;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +65,7 @@ public class ModuleManager {
             }
         });
         if (unregister) enabled.forEach(BaseModule::reload);
+        Bukkit.getOnlinePlayers().forEach(Player::updateCommands);
     }
 
     public List<BaseModule> allModules() {
@@ -85,7 +88,7 @@ public class ModuleManager {
                     new PlayerGraves(plugin),
                     new CoordinatesHUD(plugin),
                     new NetherPortalCoords(plugin),
-                    new SpectatorNightVision(plugin),
+                    new SpectatorToggleEffect(plugin),
                     new ThunderShrine(plugin),
                     new SpawningSpheres(plugin),
                     new PlayerHeadDrops(plugin),

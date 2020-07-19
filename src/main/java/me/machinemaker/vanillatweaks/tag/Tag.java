@@ -29,7 +29,7 @@ public class Tag extends BaseModule implements Listener {
     private Team colorTeam;
 
     private TagRunnable runnable;
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
     public Tag(VanillaTweaks plugin) {
         super(plugin, config -> config.tag);
@@ -90,6 +90,7 @@ public class Tag extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
         this.registerEvents(this);
         this.runnable = new TagRunnable(this);

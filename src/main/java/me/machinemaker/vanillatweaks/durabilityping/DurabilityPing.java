@@ -25,7 +25,7 @@ public class DurabilityPing extends BaseModule implements Listener {
 
     private final Config config = new Config();
     private final Map<UUID, Long> cooldownMap = Maps.newHashMap();
-    private final Commands commands = new Commands(this);
+    private Commands commands;
     final NamespacedKey PING = new NamespacedKey(this.plugin, "ping");
 
     public DurabilityPing(VanillaTweaks plugin) {
@@ -55,6 +55,7 @@ public class DurabilityPing extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
         this.registerEvents(this);
     }

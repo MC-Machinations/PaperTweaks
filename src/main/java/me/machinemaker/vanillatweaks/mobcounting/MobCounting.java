@@ -19,7 +19,7 @@ public class MobCounting extends BaseModule implements Listener {
     final Scoreboard board;
     final Objective objective;
     boolean isCounting = false;
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
     public MobCounting(VanillaTweaks vanillaTweaks) {
         super(vanillaTweaks, config -> config.countMobDeaths);
@@ -38,6 +38,7 @@ public class MobCounting extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
         this.registerEvents(this);
     }

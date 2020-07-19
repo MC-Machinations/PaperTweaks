@@ -8,7 +8,7 @@ import java.io.File;
 public class NetherPortalCoords extends BaseModule {
 
     final Config config = new Config();
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
     public NetherPortalCoords(VanillaTweaks plugin) {
         super(plugin, config -> config.netherPortalCoords);
@@ -17,6 +17,7 @@ public class NetherPortalCoords extends BaseModule {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
     }
 

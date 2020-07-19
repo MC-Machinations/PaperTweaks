@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class PillagerTools extends BaseModule implements Listener {
 
     final Config config = new Config();
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
     public PillagerTools(VanillaTweaks plugin) {
         super(plugin, config -> config.pillagerTools);
@@ -46,6 +46,7 @@ public class PillagerTools extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
         this.registerEvents(this);
     }

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class SetHome extends BaseModule {
 
     final Config config = new Config();
-    final Commands commands = new Commands(this);
+    private Commands commands;
     final Map<UUID, SetHomeInfo> homeMap;
 
     public SetHome(VanillaTweaks plugin) {
@@ -32,6 +32,7 @@ public class SetHome extends BaseModule {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
         ConfigurationSection section = getConfig().getConfigurationSection("players");
         if (section != null) {

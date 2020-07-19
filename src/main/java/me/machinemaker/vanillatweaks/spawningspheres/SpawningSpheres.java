@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class SpawningSpheres extends BaseModule {
 
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
     public SpawningSpheres(VanillaTweaks plugin) {
         super(plugin, config -> config.spawningSpheres);
@@ -18,6 +18,7 @@ public class SpawningSpheres extends BaseModule {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
     }
 

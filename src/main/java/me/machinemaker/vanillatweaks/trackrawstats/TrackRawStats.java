@@ -19,7 +19,7 @@ public class TrackRawStats extends BaseModule {
 
     Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
     private final Set<IStat> statTypes = Sets.newHashSet();
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
     public TrackRawStats(VanillaTweaks plugin) {
         super(plugin, config -> config.trackRawStats);
@@ -42,6 +42,7 @@ public class TrackRawStats extends BaseModule {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
         for (StatType type : StatType.values()) {
             statTypes.addAll(type.stats);

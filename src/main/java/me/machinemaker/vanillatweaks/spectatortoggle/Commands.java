@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-class Commands extends BaseModuleCommand<SpectatorNightVision> {
+class Commands extends BaseModuleCommand<SpectatorToggleEffect> {
 
-    public Commands(SpectatorNightVision module) {
+    public Commands(SpectatorToggleEffect module) {
         super(module);
     }
 

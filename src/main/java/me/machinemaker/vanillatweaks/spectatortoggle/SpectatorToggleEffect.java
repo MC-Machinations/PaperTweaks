@@ -5,11 +5,11 @@ import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import org.bukkit.GameMode;
 
-public class SpectatorNightVision extends BaseModule {
+public class SpectatorToggleEffect extends BaseModule {
 
-    private final Commands commands = new Commands(this);
+    private Commands commands;
 
-    public SpectatorNightVision(VanillaTweaks plugin) {
+    public SpectatorToggleEffect(VanillaTweaks plugin) {
         super(plugin, config -> config.spectatorConduitPower || config.spectatorNightVision);
         this.plugin.commandManager.getCommandConditions().addCondition("gamemode", c -> {
             if (!c.getIssuer().isPlayer()) throw new ConditionFailedException("Must be run by a player");
@@ -20,6 +20,7 @@ public class SpectatorNightVision extends BaseModule {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
         this.registerCommands(commands);
     }
 
