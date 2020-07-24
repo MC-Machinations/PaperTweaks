@@ -116,17 +116,23 @@ public enum Lang {
 
     public static void init(YamlConfig config) {
         Lang.config = config;
+        loadValues();
+        config.save();
+    }
+
+    public static void reload() {
+        config.reload();
+        loadValues();
+        config.save();
+    }
+
+    private static void loadValues() {
         for (Lang m : Lang.values()) {
             if (!config.isSet(m.getPath()))
                 config.set(m.getPath(), m.getMsg());
             else if (!config.get().getString(m.getPath()).equals(m.getMsg()))
                 m.setMsg(config.get().getString(m.getPath()));
         }
-        config.save();
-    }
-
-    public static void reload() {
-        Lang.config.reload();
     }
 
     @Override
