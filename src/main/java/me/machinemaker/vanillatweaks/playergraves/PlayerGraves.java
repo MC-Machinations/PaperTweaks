@@ -27,7 +27,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static me.machinemaker.vanillatweaks.utils.VTUtils.nullUnionList;
 import static me.machinemaker.vanillatweaks.utils.VTUtils.toCachedMapCount;
@@ -42,9 +47,11 @@ public class PlayerGraves extends BaseModule implements Listener {
     private final NamespacedKey PLAYER_EXTRA_CONTENTS = new NamespacedKey(this.plugin, "player_extra_contents");
 
     private final List<Material> graves = Lists.newArrayList(Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL);
+    private final Config config = new Config();
 
     public PlayerGraves(VanillaTweaks plugin) {
         super(plugin, config -> config.playerGraves);
+        config.init(plugin, new File(plugin.getDataFolder(), "playergraves"));
     }
 
     @EventHandler
@@ -52,6 +59,7 @@ public class PlayerGraves extends BaseModule implements Listener {
         if (event.getKeepInventory()) return;
         if (!event.getEntity().hasPermission("vanillatweaks.playergraves")) return;
         if (event.getDrops().isEmpty()) return;
+        if (config.disabledWorlds.contains(event.getEntity().getWorld().getName())) return;
         
         Block spawnBlock = event.getEntity().getLocation().getBlock();
         while (spawnBlock.getType() == Material.AIR) {
