@@ -63,10 +63,25 @@ public class PlayerGraves extends BaseModule implements Listener {
         if (config.disabledWorlds.contains(event.getEntity().getWorld().getName())) return;
         
         Block spawnBlock = event.getEntity().getLocation().getBlock();
-        while (spawnBlock.getType() == Material.AIR) {
-            // TODO: What if you get killed in the void?
-            spawnBlock = spawnBlock.getRelative(BlockFace.DOWN);
+        if (event.getEntity().getLocation().getBlockY() <= 0) {
+            spawnBlock = event.getEntity().getLocation().add(0, -event.getEntity().getLocation().getBlockY(), 0).getBlock();
+            while (spawnBlock.getRelative(BlockFace.UP).getType() != Material.AIR) {
+                spawnBlock = spawnBlock.getRelative(BlockFace.UP);
+            }
+            if (spawnBlock.getType() == Material.AIR) {
+                spawnBlock.setType(Material.COBBLESTONE);
+            }
+        } else {
+            while (spawnBlock.getType() == Material.AIR) {
+                spawnBlock = spawnBlock.getRelative(BlockFace.DOWN);
+                if (spawnBlock.getLocation().getBlockY() < 0) {
+                    spawnBlock = event.getEntity().getLocation().getBlock().getRelative(BlockFace.DOWN);
+                    spawnBlock.setType(Material.COBBLESTONE);
+                    break;
+                }
+            }
         }
+
         Location location = spawnBlock.getRelative(BlockFace.UP).getLocation().add(0.5, 0, 0.5);
         PlayerInventory inventory = event.getEntity().getInventory();
         List<ItemStack> drops = event.getDrops();
@@ -108,7 +123,7 @@ public class PlayerGraves extends BaseModule implements Listener {
                 return;
             }
             for (ItemStack stack : event.getPlayer().getInventory().getContents()) {
-                if (stack != null) event.getPlayer().getLocation().getWorld().dropItemNaturally(event.getPlayer().getLocation(), stack);
+                if (stack != null) event.getPlayer().getLocation().getWorld().dropItem(event.getPlayer().getLocation(), stack).setPickupDelay(0);
             }
             PlayerInventory inventory = event.getPlayer().getInventory();
             ItemStack[] allContents = container.get(PLAYER_ALL_CONTENTS, DataType.ITEMSTACK_ARRAY);

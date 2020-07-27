@@ -28,6 +28,7 @@ public enum Lang {
 
     // PlayerGraves
     GRAVE_AT("playergraves.", "&eYour grave is at x=%x% y=%y%, z=%z%"),
+    RETRIEVED_ITEMS("playergraves.", "&eRetrieved items."),
 
     // SetHome
     HOME_LIMIT("sethome.", "&eYou have reached the limit for setting your home."),
