@@ -63,7 +63,7 @@ public enum Lang {
     PILLAGER_TOGGLE("pillagertools.", "&6%setting% &ehas been set to &6%val%&e."),
 
     // Workstation Highlights
-    NO_VILLAGER("workstationhightlights.", "&eNo villager found withing 3 blocks."),
+    NO_VILLAGER("workstationhightlights.", "&eNo villager found within 3 blocks."),
     NO_JOB_SITE("workstationhighlights.", "&eThis villager does not have a job site."),
     HIGHLIGHTED_SITE("workstationhighlights.", "&aHighlighted the workstation!"),
 

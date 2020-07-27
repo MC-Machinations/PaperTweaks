@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -95,6 +96,13 @@ public class PlayerGraves extends BaseModule implements Listener {
             event.getPlayer().sendMessage("Retrieved items");
             entity.remove();
         });
+    }
+
+    @EventHandler
+    public void onPlayerInteractEntity(PlayerInteractAtEntityEvent event) {
+        if (event.getRightClicked().getType() != EntityType.ARMOR_STAND) return;
+        if (!event.getRightClicked().getPersistentDataContainer().has(PLAYER_UUID, DataType.UUID)) return;
+        event.setCancelled(true);
     }
 
     private void setupStand(ArmorStand stand, Material head) {

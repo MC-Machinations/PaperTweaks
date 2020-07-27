@@ -147,9 +147,9 @@ permissions:
       vanillatweaks.thundershrine.remove: true
       vanillatweaks.thundershrine.create: true
       vanillatweaks.thundershrine.help: true
-  vanillatweaks.trackrawstats.toggle:
+  vanillatweaks.trackrawstats.clear:
     default: true
-    description: Toggles the scoreboard for Track Raw Stats
+    description: Clear a scoreboard slot
   vanillatweaks.trackrawstats.show:
     default: true
     description: Shows a specific stat to that player

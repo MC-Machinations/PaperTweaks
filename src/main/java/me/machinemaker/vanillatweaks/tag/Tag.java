@@ -61,7 +61,8 @@ public class Tag extends BaseModule implements Listener {
         }
         setAsIt(damagee);
         removeAsIt(damager);
-        Bukkit.broadcastMessage(Lang.PLAYER_IS_IT.toString().replace("%name%", damagee.getDisplayName()));
+        if (config.showMessages)
+            Bukkit.broadcastMessage(Lang.PLAYER_IS_IT.toString().replace("%name%", damagee.getDisplayName()));
     }
 
     void setAsIt(Player player) {
