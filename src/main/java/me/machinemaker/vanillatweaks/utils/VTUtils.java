@@ -8,7 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class VTUtils {
 
@@ -51,9 +56,9 @@ public class VTUtils {
         for (T item: unioned) {
             MutableInt x = with.get(new CachedHashObjectWrapper<>(item));
             if (x == null || x.intValue() <= 0) {
-                result.add(item);
-            } else {
                 result.add(null);
+            } else {
+                result.add(item);
                 x.decrement();
             }
         }
