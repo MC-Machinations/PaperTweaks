@@ -42,6 +42,7 @@ public class PlayerGraves extends BaseModule implements Listener {
     private final NamespacedKey PROTECTED = new NamespacedKey(this.plugin, "protected");
     private final NamespacedKey TIMESTAMP = new NamespacedKey(this.plugin, "timestamp");
     private final NamespacedKey PLAYER_UUID = new NamespacedKey(this.plugin, "player_uuid");
+    private final NamespacedKey PLAYER_ALL_CONTENTS = new NamespacedKey(this.plugin, "player_all_contents");
     private final NamespacedKey PLAYER_INV_CONTENTS = new NamespacedKey(this.plugin, "player_inventory_contents");
     private final NamespacedKey PLAYER_ARM_CONTENTS = new NamespacedKey(this.plugin, "player_armor_contents");
     private final NamespacedKey PLAYER_EXTRA_CONTENTS = new NamespacedKey(this.plugin, "player_extra_contents");
@@ -70,12 +71,8 @@ public class PlayerGraves extends BaseModule implements Listener {
         PlayerInventory inventory = event.getEntity().getInventory();
         List<ItemStack> drops = event.getDrops();
         @NotNull Map<CachedHashObjectWrapper<ItemStack>, MutableInt> cachedDrops = toCachedMapCount(drops);
-        List<ItemStack> armorContents = Arrays.asList(inventory.getArmorContents());
-        armorContents = nullUnionList(armorContents, cachedDrops);
-        List<ItemStack> inventoryContents = Arrays.asList(inventory.getStorageContents());
-        inventoryContents = nullUnionList(inventoryContents, cachedDrops);
-        List<ItemStack> extraContents = Arrays.asList(inventory.getExtraContents());
-        extraContents = nullUnionList(extraContents, cachedDrops);
+        List<ItemStack> allContents = Arrays.asList(inventory.getContents());
+        allContents = nullUnionList(allContents, cachedDrops);
         drops.clear();
         // If plugins add some drops - they should drop on the ground
         cachedDrops.forEach((wrapper, count) ->
@@ -91,9 +88,7 @@ public class PlayerGraves extends BaseModule implements Listener {
         ArmorStand headstone = (ArmorStand) location.getWorld().spawnEntity(location.clone().subtract(0.3, 1.37, 0), EntityType.ARMOR_STAND);
         PersistentDataContainer container = headstone.getPersistentDataContainer();
         container.set(PLAYER_UUID, DataType.UUID, event.getEntity().getUniqueId());
-        container.set(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY, inventoryContents.toArray(new ItemStack[0]));
-        container.set(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY, armorContents.toArray(new ItemStack[0]));
-        container.set(PLAYER_EXTRA_CONTENTS, DataType.ITEMSTACK_ARRAY, extraContents.toArray(new ItemStack[0]));
+        container.set(PLAYER_ALL_CONTENTS, DataType.ITEMSTACK_ARRAY, allContents.toArray(new ItemStack[0]));
         container.set(TIMESTAMP, PersistentDataType.LONG, timestamp);
         setupStand(headstone, graves.get(0));
         Collections.shuffle(graves);
@@ -107,7 +102,8 @@ public class PlayerGraves extends BaseModule implements Listener {
         Long timestamp = entities.stream().findAny().get().getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG);
         entities.stream().filter(entity -> entity.getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG).equals(timestamp)).forEach(entity -> {
             PersistentDataContainer container = entity.getPersistentDataContainer();
-            if (!container.has(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY)) {
+            if (!container.has(PLAYER_ALL_CONTENTS, DataType.ITEMSTACK_ARRAY)
+                    && !container.has(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY)) { // Legacy check
                 entity.remove();
                 return;
             }
@@ -115,12 +111,18 @@ public class PlayerGraves extends BaseModule implements Listener {
                 if (stack != null) event.getPlayer().getLocation().getWorld().dropItemNaturally(event.getPlayer().getLocation(), stack);
             }
             PlayerInventory inventory = event.getPlayer().getInventory();
-            ItemStack[] storage = container.get(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY);
-            ItemStack[] armor = container.get(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY);
-            ItemStack[] extra = container.get(PLAYER_EXTRA_CONTENTS, DataType.ITEMSTACK_ARRAY);
-            inventory.setStorageContents(storage);
-            inventory.setArmorContents(armor);
-            inventory.setExtraContents(extra);
+            ItemStack[] allContents = container.get(PLAYER_ALL_CONTENTS, DataType.ITEMSTACK_ARRAY);
+            if (allContents != null) {
+                inventory.setContents(allContents);
+            } else {
+                // Handle legacy graves
+                ItemStack[] storage = container.get(PLAYER_INV_CONTENTS, DataType.ITEMSTACK_ARRAY);
+                ItemStack[] armor = container.get(PLAYER_ARM_CONTENTS, DataType.ITEMSTACK_ARRAY);
+                ItemStack[] extra = container.get(PLAYER_EXTRA_CONTENTS, DataType.ITEMSTACK_ARRAY);
+                inventory.setStorageContents(storage);
+                inventory.setArmorContents(armor);
+                inventory.setExtraContents(extra);
+            }
             event.getPlayer().sendMessage("Retrieved items");
             entity.remove();
         });
