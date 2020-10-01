@@ -57,7 +57,8 @@ public class PersistentHeads extends BaseModule implements Listener {
     @EventHandler
     public void onBlockDropItemEvent(BlockDropItemEvent event) {
         @NotNull BlockState blockState = event.getBlockState();
-        if (blockState.getType() != Material.PLAYER_HEAD) return;
+        Material blockType = blockState.getType();
+        if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
         TileState skullState = (TileState) blockState;
         @NotNull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
         @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
