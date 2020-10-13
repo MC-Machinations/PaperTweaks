@@ -19,10 +19,10 @@ public class MobCounting extends BaseModule implements Listener {
     final Scoreboard board;
     final Objective objective;
     boolean isCounting = false;
+    private Commands commands;
 
     public MobCounting(VanillaTweaks vanillaTweaks) {
         super(vanillaTweaks, config -> config.countMobDeaths);
-        this.registerCommands(new Commands(this));
         board = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
         objective = board.registerNewObjective("mobDeathCount", "dummy", ChatColor.GOLD + "No. Mob Deaths");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -38,11 +38,14 @@ public class MobCounting extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
         this.registerEvents(this);
     }
 
     @Override
     public void unregister() {
+        this.unregisterCommands(commands);
         this.unregisterEvents(this);
     }
 }

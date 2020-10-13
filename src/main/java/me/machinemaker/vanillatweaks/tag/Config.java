@@ -10,4 +10,10 @@ class Config extends BaseConfig {
 
     @Path("show-messages")
     public Boolean showMessages = true;
+
+    @Path("play-sound")
+    public Boolean playSound = true;
+
+    @Path("tag-cooldown-in-seconds")
+    public Integer timeBetweenTags = 0;
 }

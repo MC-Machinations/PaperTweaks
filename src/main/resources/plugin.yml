@@ -4,3 +4,183 @@ main: me.machinemaker.vanillatweaks.VanillaTweaks
 api-version: 1.16
 authors: [Machine_Maker]
 description: A replacement for the VanillaTweaks datapack
+
+permissions:
+  vanillatweaks.afkdisplay:
+    default: true
+    description: Players will have afk status activated
+  vanillatweaks.coordinateshud.togglehud:
+    default: true
+    description: Toggle HUD
+  vanillatweaks.durabilityping.toggle:
+    default: true
+    description: Toggle durability ping notification
+  vanillatweaks.durabilityping:
+    default: true
+    description: Gets the durability notification
+    children:
+      vanillatweaks.durabilityping.toggle: true
+  vanillatweaks.killboats:
+    default: op
+    description: Use kill boats command
+  vanillatweaks.largerphantoms:
+    default: true
+    description: Phantoms spawned on these players will be affected
+  vanillatweaks.mobdeathcount.help:
+    default: true
+    description: Use /mdc help
+  vanillatweaks.mobdeathcount.start:
+    default: true
+    description: Use /mdc start
+  vanillatweaks.mobdeathcount.stop:
+    default: true
+    description: Use /mdc stop
+  vanillatweaks.mobdeathcount.reset:
+    default: true
+    description: Use /mdc reset
+  vanillatweaks.mobdeathcount.toggle:
+    default: true
+    description: Use /mdc toggle
+  vanillatweaks.mobdeathcount:
+    default: true
+    description: Use all /mdc commands
+    children:
+      vanillatweaks.mobdeathcount.help: true
+      vanillatweaks.mobdeathcount.start: true
+      vanillatweaks.mobdeathcount.stop: true
+      vanillatweaks.mobdeathcount.reset: true
+      vanillatweaks.mobdeathcount.toggle: true
+  vanillatweaks.mobdrops.doubleshulkershells:
+    default: true
+    description: Shulkers killed by this player will be affected
+  vanillatweaks.mobdrops.dragondrops:
+    default: true
+    description: Dragons killed by this player will be affected
+  vanillatweaks.mobdrops:
+    default: true
+    description: Entities killed by this player will be affected
+    children:
+      vanillatweaks.mobdrops.doubleshulkershells: true
+      vanillatweaks.mobdrops.dragondrops: true
+  vanillatweaks.moremobheads:
+    default: true
+    description: Mobs killed by this player will drop heads (if killed by a player)
+  vanillatweaks.multiplayersleep:
+    default: true
+    description: Players with this permission will count towards threshold
+  vanillatweaks.netherportalcoords:
+    default: true
+    description: Use /pcoords
+  vanillatweaks.pillagertools.toggle:
+    default: op
+    description: Toggle individual pillager tool settings
+  vanillatweaks.pillagertools.status:
+    default: true
+    description: View pillager tool settings
+  vanillatweaks.pillatertools:
+    default: op
+    description: Use both commands
+    children:
+      vanillatweaks.pillagertools.toggle: true
+      vanillatweaks.pillagertools.status: true
+  vanillatweaks.playergraves:
+    default: true
+    description: Player will have a grave created
+  vanillatweaks.playerheaddrops:
+    default: true
+    description: Players killed by this player will drop heads
+  vanillatweaks.sethome.sethome:
+    default: true
+    description: Allow /sethome
+  vanillatweaks.sethome.home:
+    default: true
+    description: Allow /home
+  vanillatweaks.admin:
+    default: op
+    description: Allow /sha reset <player>
+  vanillatweaks.silencemobs:
+    default: true
+    description: Allow player to silence mobs
+  vanillatweaks.spawningspheres.add:
+    default: op
+    description: Use /ss add
+  vanillatweaks.spawningspheres.remove:
+    default: op
+    description: Use /ss remove
+  vanillatweaks.spawningspheres:
+    default: op
+    description: Use SpawningSpheres commands
+    children:
+      vanillatweaks.spawningspheres.add: true
+      vanillatweaks.spawningspheres.remove: true
+  vanillatweaks.spectatortoggle.nightvision:
+    default: true
+    description: Spectators can toggle the Night Vision effect
+  vanillatweaks.spectatortoggle.conduitpower:
+    default: true
+    description: Spectators can toggle the Conduit Power effect
+  vanillatweaks.tag.givetag:
+    default: op
+    description: Gives you or a player a tag
+  vanillatweaks.tag.reset:
+    default: op
+    description: Resets a players it status
+  vanillatweaks.tag:
+    default: op
+    description: All tag commands
+    children:
+      vanillatweaks.tag.givetag: true
+      vanillatweaks.tag.reset: true
+  vanillatweaks.thundershrine.create:
+    default: true
+    description: Create a Thunder Shrine
+  vanillatweaks.thundershrine.remove:
+    default: true
+    description: Removes a Thunder Shrine
+  vanillatweaks.thundershrine.help:
+    default: true
+    description: Thunder Shrine help command
+  vanillatweaks.thundershrine:
+    default: true
+    description: Thunder shrine commands
+    children:
+      vanillatweaks.thundershrine.remove: true
+      vanillatweaks.thundershrine.create: true
+      vanillatweaks.thundershrine.help: true
+  vanillatweaks.trackrawstats.clear:
+    default: true
+    description: Clear a scoreboard slot
+  vanillatweaks.trackrawstats.show:
+    default: true
+    description: Shows a specific stat to that player
+  vanillatweaks.trackrawstats.help:
+    default: true
+    description: TRS help command
+  vanillatweaks.trackrawstats:
+    default: true
+    description: All TRS commands
+    chidlren:
+      vanillatweaks.trackrawstats.toggle: true
+      vanillatweaks.trackrawstats.show: true
+      vanillatweaks.trackrawstats.help: true
+  vanillatweaks.villagerdeathmessages.death:
+    default: true
+    description: Get a message when a villager dies
+  vanillatweaks.villagerdeathmessages.conversion:
+    default: true
+    description: Get a message when a villager converts
+  vanillatweaks.villagerdeathmessages:
+    default: true
+    description: Get a message for either reason
+    children:
+      vanillatweaks.villagerdeathmessages.death: true
+      vanillatweaks.villagerdeathmessages.conversion: true
+  vanillatweaks.workstationhighlights.findworkstation:
+    default: true
+    description: Allow /findworkstation
+  vanillatweaks.wrench.redstone:
+    default: true
+    description: Allows use of the Wrench for Redstone-related blocks
+  vanillatweaks.wrench.terracotta:
+    default: true
+    description: Allows use of the Wrench for Glazed terracotta blocks

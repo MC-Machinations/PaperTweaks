@@ -5,18 +5,20 @@ import me.machinemaker.vanillatweaks.VanillaTweaks;
 
 public class WorkstationHighlights extends BaseModule {
 
+    private Commands commands;
+
     public WorkstationHighlights(VanillaTweaks plugin) {
         super(plugin, config -> config.workstationHighlights);
-        this.registerCommands(new Commands(this));
     }
 
     @Override
     public void register() {
-
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
     }
 
     @Override
     public void unregister() {
-
+        this.unregisterCommands(commands);
     }
 }

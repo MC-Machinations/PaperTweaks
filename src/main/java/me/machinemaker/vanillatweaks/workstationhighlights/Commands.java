@@ -1,6 +1,8 @@
 package me.machinemaker.vanillatweaks.workstationhighlights;
 
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Description;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import me.machinemaker.vanillatweaks.Lang;
 import org.bukkit.Location;
@@ -20,6 +22,8 @@ class Commands extends BaseModuleCommand<WorkstationHighlights> {
     }
 
     @CommandAlias("findworkstation")
+    @Description("Finds the nearest villager's workstation")
+    @CommandPermission("vanillatweaks.workstationhighlights.findworkstation")
     public void findStation(Player player) {
         Optional<AbstractVillager> villagerOptional = player.getNearbyEntities(3, 3, 3).stream().filter(entity -> entity.getType() == EntityType.VILLAGER).map(entity -> (AbstractVillager) entity).findAny();
         if (!villagerOptional.isPresent()) {

@@ -27,6 +27,7 @@ public final class VanillaTweaks extends JavaPlugin {
     public void onEnable() {
         configManager = new YamlConfigManager(this);
         commandManager = new BukkitCommandManager(this);
+        commandManager.enableUnstableAPI("help");
         moduleManager = new ModuleManager();
         modules = new VanillaTweaksModules();
         configManager.createConfig("lang", "lang.yml");

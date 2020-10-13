@@ -6,29 +6,56 @@ import me.machinemaker.vanillatweaks.VanillaTweaks;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.List;
 
-public class CoordinatesHUD extends BaseModule {
+public class CoordinatesHUD extends BaseModule implements Listener {
 
     final List<Player> enabled = Lists.newArrayList();
+    final NamespacedKey coordinatesKey = new NamespacedKey(this.plugin, "coordinatesHUD");
     private HUDRunnable runnable;
+    private Commands commands;
+    private final Config config = new Config();
 
     public CoordinatesHUD(VanillaTweaks plugin) {
         super(plugin, config -> config.coordinatesHud);
-        this.registerCommands(new Commands(this));
+        config.init(plugin, new File(plugin.getDataFolder(), "coordinateshud"));
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().getPersistentDataContainer().has(this.coordinatesKey, PersistentDataType.BYTE)) {
+            enabled.add(event.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        enabled.remove(event.getPlayer());
     }
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
+        this.registerEvents(this);
         runnable = new HUDRunnable();
-        runnable.runTaskTimer(this.plugin, 1L, 2L);
+        runnable.runTaskTimer(this.plugin, 1L, config.ticks);
     }
 
     @Override
     public void unregister() {
+        this.unregisterCommands(commands);
+        this.unregisterEvents(this);
         runnable.cancel();
     }
 
@@ -55,15 +82,15 @@ public class CoordinatesHUD extends BaseModule {
 
     private Direction getDirection(float yaw) {
         int degrees = (Math.round(yaw) + 270) % 360;
-        if (degrees <= 22) return Direction.NORTH;
-        if (degrees <= 67) return Direction.NORTHEAST;
-        if (degrees <= 112) return Direction.EAST;
-        if (degrees <= 157) return Direction.SOUTHEAST;
-        if (degrees <= 202) return Direction.SOUTH;
-        if (degrees <= 247) return Direction.SOUTHWEST;
-        if (degrees <= 292) return Direction.WEST;
-        if (degrees <= 337) return Direction.NORTHWEST;
-        return Direction.NORTH;
+        if (degrees <= 22) return Direction.WEST;
+        if (degrees <= 67) return Direction.NORTHWEST;
+        if (degrees <= 112) return Direction.NORTH;
+        if (degrees <= 157) return Direction.NORTHEAST;
+        if (degrees <= 202) return Direction.EAST;
+        if (degrees <= 247) return Direction.SOUTHEAST;
+        if (degrees <= 292) return Direction.SOUTH;
+        if (degrees <= 337) return Direction.SOUTHWEST;
+        return Direction.WEST;
     }
 
     private enum Direction {

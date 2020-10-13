@@ -16,6 +16,7 @@ public class SilenceMobs extends BaseModule implements Listener {
 
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        if (!event.getPlayer().hasPermission("vanillatweaks.silencemobs")) return;
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         if (item.getType() == Material.NAME_TAG) {
             if (item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {

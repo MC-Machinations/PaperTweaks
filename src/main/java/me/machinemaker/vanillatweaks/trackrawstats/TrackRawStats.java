@@ -17,8 +17,9 @@ import java.util.stream.Collectors;
 
 public class TrackRawStats extends BaseModule {
 
-    Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+    Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
     private final Set<IStat> statTypes = Sets.newHashSet();
+    private Commands commands;
 
     public TrackRawStats(VanillaTweaks plugin) {
         super(plugin, config -> config.trackRawStats);
@@ -37,18 +38,12 @@ public class TrackRawStats extends BaseModule {
             if (type == null) return Sets.newHashSet();
             return type.objectiveMap.keySet();
         });
-
-        this.registerCommands(new Commands(this));
-
-    }
-
-    @Override
-    public void register() {
         for (StatType type : StatType.values()) {
             statTypes.addAll(type.stats);
             type.stats.forEach(stat -> {
                 try {
-                    Objective obj = board.registerNewObjective(stat.getName(), stat.getCriteria(), stat.getDisplayName());
+                    Objective obj = board.getObjective(stat.getName());
+                    if (obj == null) obj = board.registerNewObjective(stat.getName(), stat.getCriteria(), stat.getDisplayName());
                     type.addToMap(stat, obj);
                 } catch (IllegalArgumentException exception) {
                     this.plugin.getLogger().severe("Error loading objectives for TrackRawStats");
@@ -61,10 +56,13 @@ public class TrackRawStats extends BaseModule {
     }
 
     @Override
+    public void register() {
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
+    }
+
+    @Override
     public void unregister() {
-        for (StatType statType : StatType.values()) {
-            statType.objectiveMap.values().forEach(Objective::unregister);
-        }
-        statTypes.clear();
+        this.unregisterCommands(commands);
     }
 }

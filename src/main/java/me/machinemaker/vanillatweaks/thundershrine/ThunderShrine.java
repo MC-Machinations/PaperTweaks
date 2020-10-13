@@ -24,13 +24,16 @@ public class ThunderShrine extends BaseModule implements Listener {
 
     final Set<Entity> shrineLocations = Sets.newHashSet();
 
+    private Commands commands;
+
     public ThunderShrine(VanillaTweaks plugin) {
         super(plugin, config -> config.thunderShrine);
-        this.registerCommands(new Commands(this));
     }
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
         runnable = new ShrineRunnable(this);
         effectRunnable = new EffectRunnable(this);
         loadRunnable = new EntityLoadRunnable();
@@ -42,6 +45,7 @@ public class ThunderShrine extends BaseModule implements Listener {
 
     @Override
     public void unregister() {
+        this.unregisterCommands(commands);
         runnable.cancel();
         effectRunnable.cancel();
         loadRunnable.cancel();

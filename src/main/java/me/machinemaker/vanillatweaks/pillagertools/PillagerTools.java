@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 
 public class PillagerTools extends BaseModule implements Listener {
 
-    Config config = new Config();
+    final Config config = new Config();
+    private Commands commands;
 
     public PillagerTools(VanillaTweaks plugin) {
         super(plugin, config -> config.pillagerTools);
         config.init(plugin, new File(plugin.getDataFolder(), "pillagertools"));
         plugin.commandManager.getCommandCompletions().registerStaticCompletion("pillagertools/toggles", Arrays.stream(ToggleOption.values()).map(ToggleOption::name).map(String::toLowerCase).collect(Collectors.toSet()));
-        this.registerCommands(new Commands(this));
     }
 
     @EventHandler
@@ -46,11 +46,14 @@ public class PillagerTools extends BaseModule implements Listener {
 
     @Override
     public void register() {
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
         this.registerEvents(this);
     }
 
     @Override
     public void unregister() {
+        this.unregisterCommands(commands);
         this.unregisterEvents(this);
     }
 

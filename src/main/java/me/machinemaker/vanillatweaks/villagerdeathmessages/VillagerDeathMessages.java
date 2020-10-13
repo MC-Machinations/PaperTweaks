@@ -3,6 +3,7 @@ package me.machinemaker.vanillatweaks.villagerdeathmessages;
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.Lang;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -26,14 +27,14 @@ public class VillagerDeathMessages extends BaseModule implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntityType() == EntityType.VILLAGER && config.showMessageOnDeath) {
             Location loc = event.getEntity().getLocation();
-            event.getEntity().getWorld().getPlayers().forEach(player -> player.sendMessage(Lang.VILLAGER_DEATH.toString().replace("%x%", String.valueOf(loc.getBlockX())).replace("%y%", String.valueOf(loc.getBlockY())).replace("%z%", String.valueOf(loc.getBlockZ())).replace("%world%", loc.getWorld().getName())));
+            Bukkit.broadcast(Lang.VILLAGER_DEATH.toString().replace("%x%", String.valueOf(loc.getBlockX())).replace("%y%", String.valueOf(loc.getBlockY())).replace("%z%", String.valueOf(loc.getBlockZ())).replace("%world%", loc.getWorld().getName()), "vanillatweaks.villagerdeathmessages.death");
         }
     }
 
     @EventHandler
     public void onEntityConvert(EntityTransformEvent event) {
         if (event.getTransformReason() == TransformReason.INFECTION && config.showMessageOnConversion) {
-            event.getTransformedEntity().getWorld().getPlayers().forEach(player -> player.sendMessage(Lang.VILLAGER_CONVERSION.toString()));
+            Bukkit.broadcast(Lang.VILLAGER_CONVERSION.toString(), "vanillatweaks.villagerdeathmessages.conversion");
         }
     }
 

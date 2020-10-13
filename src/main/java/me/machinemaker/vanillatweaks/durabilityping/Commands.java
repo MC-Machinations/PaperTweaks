@@ -1,6 +1,7 @@
 package me.machinemaker.vanillatweaks.durabilityping;
 
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import me.machinemaker.vanillatweaks.Lang;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ class Commands extends BaseModuleCommand<DurabilityPing> {
     }
 
     @CommandAlias("durabilityping|dping")
+    @CommandPermission("vanillatweaks.durabilityping.toggle")
     public void toggle(Player player) {
         PersistentDataContainer container = player.getPersistentDataContainer();
         if (!container.has(this.module.PING, PersistentDataType.INTEGER)) {

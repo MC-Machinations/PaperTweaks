@@ -1,20 +1,22 @@
 package me.machinemaker.vanillatweaks.spectatortoggle;
 
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Conditions;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-class Commands extends BaseModuleCommand<SpectatorNightVision> {
+class Commands extends BaseModuleCommand<SpectatorToggleEffect> {
 
-    public Commands(SpectatorNightVision module) {
+    public Commands(SpectatorToggleEffect module) {
         super(module);
     }
 
     @CommandAlias("togglenightvision|togglenv|tnv")
     @Conditions("gamemode:SPECTATOR")
+    @CommandPermission("vanillatweaks.spectatortoggle.nightvision")
     public void toggleNightVision(Player player) {
         if (!this.module.plugin.modules.spectatorNightVision) {
             player.sendMessage("Not enabled");
@@ -27,6 +29,7 @@ class Commands extends BaseModuleCommand<SpectatorNightVision> {
 
     @CommandAlias("toggleconduitpower|togglecp|tcp")
     @Conditions("gamemode:SPECTATOR")
+    @CommandPermission("vanillatweaks.spectatortoggle.conduitpower")
     public void toggleConduitPowder(Player player) {
         if (!this.module.plugin.modules.spectatorConduitPower) {
             player.sendMessage("Not enabled");

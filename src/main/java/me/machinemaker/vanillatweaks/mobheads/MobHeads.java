@@ -18,6 +18,7 @@ public class MobHeads extends BaseModule implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        if (event.getEntity().getKiller() != null && !event.getEntity().getKiller().hasPermission("vanillatweaks.moremobheads")) return;
         int lootingLevel = 0;
         if (event.getEntity().getKiller() != null) {
             lootingLevel = event.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);

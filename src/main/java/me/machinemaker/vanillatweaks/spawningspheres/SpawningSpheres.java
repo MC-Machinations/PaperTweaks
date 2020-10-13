@@ -9,19 +9,21 @@ import java.util.stream.Collectors;
 
 public class SpawningSpheres extends BaseModule {
 
+    private Commands commands;
+
     public SpawningSpheres(VanillaTweaks plugin) {
         super(plugin, config -> config.spawningSpheres);
         plugin.commandManager.getCommandCompletions().registerStaticCompletion("ss/colors", Arrays.stream(Color.values()).map(Color::name).collect(Collectors.toSet()));
-        this.registerCommands(new Commands(this));
     }
 
     @Override
     public void register() {
-
+        this.commands = new Commands(this);
+        this.registerCommands(commands);
     }
 
     @Override
     public void unregister() {
-
+        this.unregisterCommands(commands);
     }
 }

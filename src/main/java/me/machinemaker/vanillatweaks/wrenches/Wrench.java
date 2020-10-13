@@ -28,6 +28,7 @@ import java.util.Objects;
 
 public class Wrench extends BaseModule implements Listener {
 
+    private final String resourcePackUrl = "https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip";
     private final byte[] hash = new BigInteger("1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147", 16).toByteArray();
     private final NamespacedKey RECIPE_KEY = new NamespacedKey(this.plugin, "redstone_wrench");
     private final List<BlockFace> faces = Lists.newArrayList(BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.NORTH, BlockFace.UP, BlockFace.DOWN);
@@ -55,7 +56,7 @@ public class Wrench extends BaseModule implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getItem() != null && event.getItem().equals(wrench)) {
             Block block = event.getClickedBlock();
-            if (((this.plugin.modules.redstoneRotationWrench && Tags.REDSTONE_COMPONENTS.isTagged(block.getType())) || (this.plugin.modules.terracottaRotationWrench && Tags.GLAZED_TERRACOTTA.isTagged(block.getType())))&& block.getBlockData() instanceof Directional) {
+            if (((this.plugin.modules.redstoneRotationWrench && Tags.REDSTONE_COMPONENTS.isTagged(block.getType()) && event.getPlayer().hasPermission("vanillatweaks.wrench.redstone")) || (this.plugin.modules.terracottaRotationWrench && Tags.GLAZED_TERRACOTTA.isTagged(block.getType())) && event.getPlayer().hasPermission("vanillatweaks.wrench.terracotta")) && block.getBlockData() instanceof Directional) {
                 Directional state = (Directional) block.getBlockData();
                 int facing = faces.indexOf(state.getFacing());
                 BlockFace nextFace = null;
@@ -75,14 +76,14 @@ public class Wrench extends BaseModule implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().setResourcePack("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip", hash);
+        event.getPlayer().setResourcePack(resourcePackUrl, hash);
     }
 
     @Override
     public void register() {
         Bukkit.addRecipe(recipe);
         this.registerEvents(this);
-        Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip0", hash));
+        Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack(resourcePackUrl, hash));
     }
 
     @Override

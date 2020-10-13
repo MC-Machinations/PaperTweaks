@@ -52,7 +52,9 @@ public class MultiplayerSleep extends BaseModule implements Listener {
 
             if ((double) currentWorldSleeping.size() / (double) world.getPlayers().size() >= config.sleepPercentage) {
                 event.getPlayer().getWorld().setTime(0);
-
+                event.getPlayer().getWorld().setThundering(false);
+                event.getPlayer().getWorld().setWeatherDuration(0);
+                event.getPlayer().getWorld().setStorm(false);
             }
         });
     }
