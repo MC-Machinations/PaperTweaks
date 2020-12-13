@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
@@ -35,8 +36,11 @@ public class Wrench extends BaseModule implements Listener {
     final ItemStack wrench = new ItemStack(Material.CARROT_ON_A_STICK, 1);
     final ShapedRecipe recipe;
 
+    Config config = new Config();
+
     public Wrench(VanillaTweaks plugin) {
         super(plugin, config -> config.redstoneRotationWrench || config.terracottaRotationWrench);
+        config.init(plugin, new File(plugin.getDataFolder(), "wrench"));
         ItemMeta meta = Objects.requireNonNull(wrench.getItemMeta());
         meta.setDisplayName(ChatColor.RESET + "Redstone Wrench");
         meta.setUnbreakable(true);
@@ -76,19 +80,28 @@ public class Wrench extends BaseModule implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().setResourcePack(resourcePackUrl, hash);
+        if (config.suggestResourcePack) {
+            event.getPlayer().setResourcePack(resourcePackUrl, hash);
+        }
     }
 
     @Override
     public void register() {
         Bukkit.addRecipe(recipe);
         this.registerEvents(this);
-        Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack(resourcePackUrl, hash));
+        if (config.suggestResourcePack) {
+            Bukkit.getOnlinePlayers().forEach(player -> player.setResourcePack(resourcePackUrl, hash));
+        }
     }
 
     @Override
     public void unregister() {
         Bukkit.removeRecipe(RECIPE_KEY);
         this.unregisterEvents(this);
+    }
+
+    @Override
+    public void reload() {
+        config.reload();
     }
 }
