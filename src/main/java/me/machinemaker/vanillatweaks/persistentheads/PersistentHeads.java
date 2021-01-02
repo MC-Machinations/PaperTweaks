@@ -76,6 +76,31 @@ public class PersistentHeads extends BaseModule implements Listener {
         }
 
     }
+    /** Prevents player from breaking playerhead by water logging them */
+	@EventHandler()
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
+    	Block block = event.getBlock();
+    	@Nonnull BlockState blockState = block.getState();
+        Material blockType = blockState.getType();
+        if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
+        
+        event.setCancelled(true);
+        blockState.update(true, true);
+    }
+	
+    /** Prevents player from breaking playerhead using running water */
+    @EventHandler
+    public void onLiquidFlow(BlockFromToEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        Block block = event.getToBlock();
+        if (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD) {
+        	event.setCancelled(true);
+        } else {
+        	return;
+        }
+    }
 
     @Override
     public void register() {
