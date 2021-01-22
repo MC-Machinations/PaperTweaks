@@ -76,18 +76,37 @@ public class PersistentHeads extends BaseModule implements Listener {
 
     }
     /** Prevents player from breaking playerhead by water logging them */
-	@EventHandler()
+    /** Retains name loses lore */
+    @EventHandler()
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
     	Block block = event.getBlock();
-    	@Nonnull BlockState blockState = block.getState();
+    	@Nonnull BlockState blockState2 = block.getState();
+        Material blockType2 = blockState2.getType();
+        if (blockType2 != Material.PLAYER_HEAD && blockType2 != Material.PLAYER_WALL_HEAD) return;
+        @Nonnull BlockState blockState = block.getState();
         Material blockType = blockState.getType();
         if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
-        
-        event.setCancelled(true);
+        TileState skullState = (TileState) blockState;
+        @Nonnull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
+        @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
+        @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
+        if (name == null) return;
+    	Collection<ItemStack> drops = block.getDrops();
+		ItemStack[] stackArray = drops.toArray(new ItemStack[0]);
+    	@Nonnull ItemStack itemstack = stackArray[0];
+        if (itemstack.getType() == Material.PLAYER_HEAD) {
+            @Nullable ItemMeta meta = itemstack.getItemMeta();
+            if (meta == null) return; // This shouldn't happen
+            meta.setDisplayName(name);
+            if (lore != null) meta.setLore(Arrays.asList(lore));
+            itemstack.setItemMeta(meta);
+        }
+        //event.setCancelled(true);
         blockState.update(true, true);
     }
 	
     /** Prevents player from breaking playerhead using running water */
+    /** Retains name loses lore */
     @EventHandler
     public void onLiquidFlow(BlockFromToEvent event) {
         if (event.isCancelled()) {
@@ -95,7 +114,25 @@ public class PersistentHeads extends BaseModule implements Listener {
         }
         Block block = event.getToBlock();
         if (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD) {
-        	event.setCancelled(true);
+        	@Nonnull BlockState blockState = block.getState();
+            Material blockType = blockState.getType();
+            if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
+            TileState skullState = (TileState) blockState;
+            @Nonnull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
+            @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
+            @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
+            if (name == null) return;
+        	Collection<ItemStack> drops = block.getDrops();
+    		ItemStack[] stackArray = drops.toArray(new ItemStack[0]);
+        	@Nonnull ItemStack itemstack = stackArray[0];
+            if (itemstack.getType() == Material.PLAYER_HEAD) {
+                @Nullable ItemMeta meta = itemstack.getItemMeta();
+                if (meta == null) return; // This shouldn't happen
+                meta.setDisplayName(name);
+                if (lore != null) meta.setLore(Arrays.asList(lore));
+                itemstack.setItemMeta(meta);
+            }
+        	//event.setCancelled(true);
         } else {
         	return;
         }
