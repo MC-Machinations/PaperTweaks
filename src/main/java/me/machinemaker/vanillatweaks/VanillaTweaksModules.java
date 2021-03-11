@@ -119,4 +119,7 @@ public class VanillaTweaksModules extends BaseConfig {
 
     @Path("villagers.wanderingtrades")
     public Boolean wanderingTrades = false;
+
+    @Path("survival.unlock-all-recipes")
+    public Boolean unlockAllRecipes = false;
 }
