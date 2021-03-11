@@ -76,6 +76,74 @@ public class PersistentHeads extends BaseModule implements Listener {
         }
 
     }
+    /** Prevents player from removing playerhead NBT by water logging them */
+    @EventHandler()
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
+    	Block block = event.getBlock();
+    	Location loc = block.getLocation();
+    	@Nonnull BlockState blockState = block.getState();
+        Material blockType = blockState.getType();
+        if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
+        TileState skullState = (TileState) blockState;
+        @Nonnull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
+        @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
+        @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
+        if (name == null) return;
+    	Collection<ItemStack> drops = block.getDrops();
+		ItemStack[] stackArray = drops.toArray(new ItemStack[0]);
+    	@Nonnull ItemStack itemstack = stackArray[0];
+        if (itemstack.getType() == Material.PLAYER_HEAD) {
+            @Nullable ItemMeta meta = itemstack.getItemMeta();
+            if (meta == null) {
+            	logWarn("meta=null");
+            	return; // This shouldn't happen
+            }
+            meta.setDisplayName(name);
+            if (lore != null) meta.setLore(Arrays.asList(lore));
+            itemstack.setItemMeta(meta);
+            
+        	block.getWorld().dropItemNaturally(block.getLocation(), itemstack);
+        	block.getDrops().clear();
+        	block.setType(Material.AIR);
+        }
+
+        BlockState blockS = block.getWorld().getBlockAt(loc).getState();
+        blockS.update(true, true);
+    }
+	
+    /** Prevents player from removing playerhead NBT using running water */
+    @EventHandler
+    public void onLiquidFlow(BlockFromToEvent event) {
+        Block block = event.getToBlock();
+        Location loc = block.getLocation();
+        
+        @Nonnull BlockState blockState = block.getState();
+        Material blockType = blockState.getType();
+        if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
+        TileState skullState = (TileState) blockState;
+        @Nonnull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
+        @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
+        @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
+        if (name == null) return;
+        Collection<ItemStack> drops = block.getDrops();
+        ItemStack[] stackArray = drops.toArray(new ItemStack[0]);
+        @Nonnull ItemStack itemstack = stackArray[0];
+        if (itemstack.getType() == Material.PLAYER_HEAD) {
+        	@Nullable ItemMeta meta = itemstack.getItemMeta();
+        	if (meta == null) return; // This shouldn't happen
+        	meta.setDisplayName(name);
+        	if (lore != null) meta.setLore(Arrays.asList(lore));
+        	itemstack.setItemMeta(meta);
+        	
+        	block.getWorld().dropItemNaturally(block.getLocation(), itemstack);
+        	block.getDrops().clear();
+        	block.setType(Material.AIR);
+        	event.setCancelled(true);
+        }
+
+        BlockState blockS = block.getWorld().getBlockAt(loc).getState();
+        blockS.update(true, true);
+    }
 
     @Override
     public void register() {
