@@ -9,13 +9,16 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Skull;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Item;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -25,6 +28,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class PersistentHeads extends BaseModule implements Listener {
 
@@ -76,73 +81,48 @@ public class PersistentHeads extends BaseModule implements Listener {
         }
 
     }
-    /** Prevents player from removing playerhead NBT by water logging them */
+    /** Prevents player from removing player-head NBT by water logging them */
     @EventHandler()
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
-    	Block block = event.getBlock();
-    	Location loc = block.getLocation();
-    	@Nonnull BlockState blockState = block.getState();
-        Material blockType = blockState.getType();
-        if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
-        TileState skullState = (TileState) blockState;
-        @Nonnull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
+        handleEvent(event::getBlock, event, false);
+    }
+
+    private void handleEvent(Supplier<Block> blockSupplier, Cancellable event, boolean cancelEvent) {
+        Block block = blockSupplier.get();
+        @NotNull BlockState blockState = block.getState();
+        if (blockState.getType() != Material.PLAYER_HEAD && blockState.getType() != Material.PLAYER_WALL_HEAD) return;
+        Skull skullState = (Skull) blockState;
+        @NotNull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
         @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
         @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
         if (name == null) return;
-    	Collection<ItemStack> drops = block.getDrops();
-		ItemStack[] stackArray = drops.toArray(new ItemStack[0]);
-    	@Nonnull ItemStack itemstack = stackArray[0];
-        if (itemstack.getType() == Material.PLAYER_HEAD) {
-            @Nullable ItemMeta meta = itemstack.getItemMeta();
-            if (meta == null) {
-            	logWarn("meta=null");
-            	return; // This shouldn't happen
-            }
-            meta.setDisplayName(name);
-            if (lore != null) meta.setLore(Arrays.asList(lore));
-            itemstack.setItemMeta(meta);
-            
-        	block.getWorld().dropItemNaturally(block.getLocation(), itemstack);
-        	block.getDrops().clear();
-        	block.setType(Material.AIR);
+        @NotNull Optional<ItemStack> skullStack = block.getDrops().stream().filter(is -> is.getType() == Material.PLAYER_HEAD).findAny();
+        if (skullStack.isPresent()) {
+            if (updateDrop(block, name, lore, skullStack.get())) return; // This shouldn't happen
+            if (cancelEvent) event.setCancelled(true);
         }
 
-        BlockState blockS = block.getWorld().getBlockAt(loc).getState();
-        blockS.update(true, true);
+        BlockState blockState1 = block.getWorld().getBlockAt(block.getLocation()).getState();
+        blockState1.update(true, true);
     }
-	
-    /** Prevents player from removing playerhead NBT using running water */
+
+    private boolean updateDrop(Block block, @Nullable String name, @Nullable String[] lore, @NotNull ItemStack itemstack) {
+        @Nullable ItemMeta meta = itemstack.getItemMeta();
+        if (meta == null) return true;
+        meta.setDisplayName(name);
+        if (lore != null) meta.setLore(Arrays.asList(lore));
+        itemstack.setItemMeta(meta);
+
+        block.getWorld().dropItemNaturally(block.getLocation(), itemstack);
+        block.getDrops().clear();
+        block.setType(Material.AIR);
+        return false;
+    }
+
+    /** Prevents player from removing player-head NBT using running water */
     @EventHandler
     public void onLiquidFlow(BlockFromToEvent event) {
-        Block block = event.getToBlock();
-        Location loc = block.getLocation();
-        
-        @Nonnull BlockState blockState = block.getState();
-        Material blockType = blockState.getType();
-        if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
-        TileState skullState = (TileState) blockState;
-        @Nonnull PersistentDataContainer skullPDC = skullState.getPersistentDataContainer();
-        @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
-        @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
-        if (name == null) return;
-        Collection<ItemStack> drops = block.getDrops();
-        ItemStack[] stackArray = drops.toArray(new ItemStack[0]);
-        @Nonnull ItemStack itemstack = stackArray[0];
-        if (itemstack.getType() == Material.PLAYER_HEAD) {
-        	@Nullable ItemMeta meta = itemstack.getItemMeta();
-        	if (meta == null) return; // This shouldn't happen
-        	meta.setDisplayName(name);
-        	if (lore != null) meta.setLore(Arrays.asList(lore));
-        	itemstack.setItemMeta(meta);
-        	
-        	block.getWorld().dropItemNaturally(block.getLocation(), itemstack);
-        	block.getDrops().clear();
-        	block.setType(Material.AIR);
-        	event.setCancelled(true);
-        }
-
-        BlockState blockS = block.getWorld().getBlockAt(loc).getState();
-        blockS.update(true, true);
+        handleEvent(event::getToBlock, event, true);
     }
 
     @Override
