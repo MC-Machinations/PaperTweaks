@@ -2,6 +2,7 @@ package me.machinemaker.vanillatweaks.silencemobs;
 
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +22,11 @@ public class SilenceMobs extends BaseModule implements Listener {
         if (item.getType() == Material.NAME_TAG) {
             if (item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
                 String name = item.getItemMeta().getDisplayName();
+                boolean toSilent = name.equalsIgnoreCase("silence me") || name.equalsIgnoreCase("silence_me");
+                if (toSilent) {
+                    event.getRightClicked().setSilent(true);
+                    Bukkit.getScheduler().runTaskLater(this.plugin, () -> event.getRightClicked().setCustomName("silenced"), 5L);
+                }
                 event.getRightClicked().setSilent(name.equalsIgnoreCase("silence me") || name.equalsIgnoreCase("silence_me"));
             }
         }

@@ -40,7 +40,6 @@ class Commands extends BaseModuleCommand<MobCounting> {
         module.isCounting = true;
         if (!player.getScoreboard().equals(module.board)) {
             player.setScoreboard(module.board);
-            System.out.println("set scoreboard");
         }
         player.sendMessage(Lang.STARTED_COUNT.p());
     }
