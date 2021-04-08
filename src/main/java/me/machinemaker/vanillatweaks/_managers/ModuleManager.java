@@ -26,6 +26,7 @@ import me.machinemaker.vanillatweaks.spectatortoggle.SpectatorToggleEffect;
 import me.machinemaker.vanillatweaks.tag.Tag;
 import me.machinemaker.vanillatweaks.thundershrine.ThunderShrine;
 import me.machinemaker.vanillatweaks.trackrawstats.TrackRawStats;
+import me.machinemaker.vanillatweaks.unlockallrecipes.UnlockAllRecipes;
 import me.machinemaker.vanillatweaks.villagerdeathmessages.VillagerDeathMessages;
 import me.machinemaker.vanillatweaks.wanderingtrades.WanderingTrades;
 import me.machinemaker.vanillatweaks.workstationhighlights.WorkstationHighlights;
@@ -99,7 +100,9 @@ public class ModuleManager {
                     new VillagerDeathMessages(plugin),
                     new PillagerTools(plugin),
                     new WorkstationHighlights(plugin),
-                    new WanderingTrades(plugin)
+                    new WanderingTrades(plugin),
+
+                    new UnlockAllRecipes(plugin)
             );
         }
         return this.allModules;
