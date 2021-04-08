@@ -3,6 +3,7 @@ package me.machinemaker.vanillatweaks.multiplayersleep;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import me.machinemaker.vanillatweaks.BaseModule;
+import me.machinemaker.vanillatweaks.Lang;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 public class MultiplayerSleep extends BaseModule implements Listener {
 
@@ -48,7 +50,8 @@ public class MultiplayerSleep extends BaseModule implements Listener {
         if (currentWorldSleeping.contains(event.getPlayer())) return;
         currentWorldSleeping.add(event.getPlayer());
         worlds.forEach(world -> {
-            world.getPlayers().forEach(player -> player.sendMessage(ChatColor.YELLOW + event.getPlayer().getDisplayName() + " is sleeping (" + currentWorldSleeping.size() + "/" + world.getPlayers().size() + ")."));
+            Function<Player, String> msg = player -> Lang.PLAYER_SLEEPING.toString().replace("%player%", player.getName()).replace("%sleeping%", String.valueOf(currentWorldSleeping.size())).replace("%total%", String.valueOf(world.getPlayers().size()));
+            world.getPlayers().forEach(player -> player.sendMessage(msg.apply(player)));
 
             if ((double) currentWorldSleeping.size() / (double) world.getPlayers().size() >= config.sleepPercentage) {
                 event.getPlayer().getWorld().setTime(0);

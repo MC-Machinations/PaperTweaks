@@ -77,7 +77,10 @@ public enum Lang {
     // Nether Portal Coords
     PLAYER_IN_OVERWORLD("portalcoords.", "&eNether: X:%x% | Y:%y% | Z:%z%"),
     PLAYER_IN_NETHER("portalcoords.", "&3eOverworld: X:%x% | Y:%y% | Z:%z%"),
-    INVALID_WORLD("portalcoords.", "&eThis world is not configured as an overworld or nether.")
+    INVALID_WORLD("portalcoords.", "&eThis world is not configured as an overworld or nether."),
+
+    // Multiplayer Sleep
+    PLAYER_SLEEPING("multiplayersleep.", "&e%player% is sleeping (%sleeping%/%total%)."),
     ;
 
     String path;
