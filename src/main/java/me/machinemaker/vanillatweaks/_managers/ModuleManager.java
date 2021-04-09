@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.afkdisplay.AFKDisplay;
+import me.machinemaker.vanillatweaks.confetticreepers.ConfettiCreepers;
 import me.machinemaker.vanillatweaks.coordinateshud.CoordinatesHUD;
 import me.machinemaker.vanillatweaks.durabilityping.DurabilityPing;
 import me.machinemaker.vanillatweaks.killemptyboats.KillEmptyBoats;
@@ -102,7 +103,9 @@ public class ModuleManager {
                     new WorkstationHighlights(plugin),
                     new WanderingTrades(plugin),
 
-                    new UnlockAllRecipes(plugin)
+                    new UnlockAllRecipes(plugin),
+
+                    new ConfettiCreepers(plugin)
             );
         }
         return this.allModules;
