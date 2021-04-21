@@ -122,4 +122,7 @@ public class VanillaTweaksModules extends BaseConfig {
 
     @Path("survival.unlock-all-recipes")
     public Boolean unlockAllRecipes = false;
+
+    @Path("experimental.confetti-creepers")
+    public Boolean confettiCreepers = false;
 }

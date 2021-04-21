@@ -59,6 +59,11 @@ public class CoordinatesHUD extends BaseModule implements Listener {
         runnable.cancel();
     }
 
+    @Override
+    public void reload() {
+        config.reload();
+    }
+
     private class HUDRunnable extends BukkitRunnable {
 
         @Override
