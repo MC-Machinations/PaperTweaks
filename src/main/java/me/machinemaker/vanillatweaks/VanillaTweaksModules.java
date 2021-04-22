@@ -125,4 +125,7 @@ public class VanillaTweaksModules extends BaseConfig {
 
     @Path("experimental.confetti-creepers")
     public Boolean confettiCreepers = false;
+
+    @Path("experimental.xp-management")
+    public Boolean xpManagement = false;
 }

@@ -17,7 +17,7 @@ public abstract class BaseModule {
         this.shouldEnable = shouldEnable;
     }
 
-    public boolean shouldEnable() {
+    public final boolean shouldEnable() {
         return shouldEnable.test(this.plugin.modules);
     }
 
