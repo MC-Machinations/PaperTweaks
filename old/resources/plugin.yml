@@ -1,5 +1,5 @@
 name: VanillaTweaks
-version: ${project.version}
+version: ${version}
 main: me.machinemaker.vanillatweaks.VanillaTweaks
 api-version: 1.16
 authors: [ Machine_Maker ]
