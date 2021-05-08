@@ -86,16 +86,16 @@ public class CoordinatesHUD extends BaseModule implements Listener {
     }
 
     private Direction getDirection(float yaw) {
-        int degrees = (Math.round(yaw) + 270) % 360;
-        if (degrees <= 22) return Direction.WEST;
-        if (degrees <= 67) return Direction.NORTHWEST;
-        if (degrees <= 112) return Direction.NORTH;
-        if (degrees <= 157) return Direction.NORTHEAST;
-        if (degrees <= 202) return Direction.EAST;
-        if (degrees <= 247) return Direction.SOUTHEAST;
-        if (degrees <= 292) return Direction.SOUTH;
-        if (degrees <= 337) return Direction.SOUTHWEST;
-        return Direction.WEST;
+        double degrees = yaw < 0 ? (yaw % -360.0) + 360 : yaw % 360.0;
+        if (degrees <= 22.5) return Direction.SOUTH;
+        if (degrees <= 67.5) return Direction.SOUTHWEST;
+        if (degrees <= 112.5) return Direction.WEST;
+        if (degrees <= 157.5) return Direction.NORTHWEST;
+        if (degrees <= 202.5) return Direction.NORTH;
+        if (degrees <= 247.5) return Direction.NORTHEAST;
+        if (degrees <= 292.5) return Direction.EAST;
+        if (degrees <= 337.5) return Direction.SOUTHEAST;
+        return Direction.SOUTH;
     }
 
     private enum Direction {
