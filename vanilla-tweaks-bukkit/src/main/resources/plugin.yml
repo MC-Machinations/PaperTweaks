@@ -1,0 +1,78 @@
+name: VanillaTweaks
+version: ${version}
+main: me.machinemaker.vanillatweaks.VanillaTweaks
+api-version: 1.17
+authors:
+  - Machine_Maker
+description: A replacement for the VanillaTweaks datapack
+
+permissions:
+  vanillatweaks.admin:
+    default: op
+    description: All of the admin commands for all modules
+    children:
+      vanillatweaks.admin.grave-key: true
+
+  vanillatweaks.afkdisplay:
+    default: true
+    description: Players will have afk status activated
+
+  vanillatweaks.coordinateshud.togglehud:
+    default: true
+    description: Toggle HUD
+
+  vanillatweaks.durabilityping.configure:
+    default: true
+    description: Ability to configure your personal durability ping
+  vanillatweaks.durabilityping.toggle:
+    default: true
+    description: "Toggle durability ping notification (OUTDATED! use: `vanillatweaks.durabilityping.configure`"
+    children:
+      vanillatweaks.durabilityping.configure: true
+  vanillatweaks.durabilityping:
+    default: true
+    description: Gets the durability notification
+    children:
+      vanillatweaks.durabilityping.toggle: true
+
+  vanillatweaks.multiplayersleep.configure:
+    default: true
+    description: Ability to configure your personal multiplayer sleep notification
+  vanillatweaks.multiplayersleep.list-sleeping:
+    default: true
+    description: List sleeping players
+
+  vanillatweaks.graves:
+    default: true
+    description: Player death will spawn a grave
+  vanillatweaks.graves.locate:
+    default: true
+    description: Use the graves locate command to find your last grave (requires grave locations to be toggled on in the configuration)
+  vanillatweaks.playergraves:
+    default: true
+    description: (use vanillatweaks.graves)
+    children:
+      vanillatweaks.graves: true
+  vanillatweaks.admin.grave-key:
+    default: false
+    description: Obtain and use a grave key to unlock any grave
+
+  vanillatweaks.netherportalcoords:
+    default: true
+    description: Use /pcoords
+
+  vanillatweaks.workstationhighlights.findworkstation:
+    default: true
+    description: Find villager workstations with /find-workstation
+
+  vanillatweaks.realtimeclock:
+    default: true
+    description: Show game time for the current world or a specific world
+
+  vanillatweaks.wrench.redstone:
+    default: true
+    description: Use a wrench to rotate redstone components
+  vanillatweaks.wrench.terracotta:
+    default: true
+    description: Use a wrench to rotate terracotta blocks
+

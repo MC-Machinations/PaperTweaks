@@ -1,5 +1,5 @@
 .idea
 .gradle
 *.iml
-build
+*/build
 venv

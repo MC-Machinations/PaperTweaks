@@ -31,7 +31,6 @@ import me.machinemaker.vanillatweaks.unlockallrecipes.UnlockAllRecipes;
 import me.machinemaker.vanillatweaks.villagerdeathmessages.VillagerDeathMessages;
 import me.machinemaker.vanillatweaks.wanderingtrades.WanderingTrades;
 import me.machinemaker.vanillatweaks.workstationhighlights.WorkstationHighlights;
-import me.machinemaker.vanillatweaks.wrenches.Wrench;
 import me.machinemaker.vanillatweaks.xpmanagement.XPManagement;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

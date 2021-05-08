@@ -6,20 +6,7 @@ authors: [ Machine_Maker ]
 description: A replacement for the VanillaTweaks datapack
 
 permissions:
-  vanillatweaks.afkdisplay:
-    default: true
-    description: Players will have afk status activated
-  vanillatweaks.coordinateshud.togglehud:
-    default: true
-    description: Toggle HUD
-  vanillatweaks.durabilityping.toggle:
-    default: true
-    description: Toggle durability ping notification
-  vanillatweaks.durabilityping:
-    default: true
-    description: Gets the durability notification
-    children:
-      vanillatweaks.durabilityping.toggle: true
+  
   vanillatweaks.killboats:
     default: op
     description: Use kill boats command
@@ -68,9 +55,6 @@ permissions:
   vanillatweaks.multiplayersleep:
     default: true
     description: Players with this permission will count towards threshold
-  vanillatweaks.netherportalcoords:
-    default: true
-    description: Use /pcoords
   vanillatweaks.pillagertools.toggle:
     default: op
     description: Toggle individual pillager tool settings
