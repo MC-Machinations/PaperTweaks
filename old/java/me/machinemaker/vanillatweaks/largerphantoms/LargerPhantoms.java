@@ -1,7 +1,23 @@
-package me.machinemaker.vanillatweaks.largerphantoms;
+/*
+ * VanillaTweaks, a performant replacement for the VanillaTweaks datapacks.
+ *
+ * Copyright (C) 2021 Machine_Maker
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+package me.machinemaker.vanillatweaks.modules.mobs.largerphantoms;
 
-import me.machinemaker.vanillatweaks.BaseModule;
-import me.machinemaker.vanillatweaks.VanillaTweaks;
+import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.apache.commons.lang3.Range;
 import org.bukkit.Statistic;
 import org.bukkit.attribute.Attribute;
@@ -9,16 +25,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
-public class LargerPhantoms extends BaseModule implements Listener {
+class SpawnListener implements ModuleListener {
 
-    public LargerPhantoms(VanillaTweaks plugin) {
-        super(plugin, config -> config.largerPhantoms);
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntitySpawn(EntitySpawnEvent event) {
         if (event.getEntityType() != EntityType.PHANTOM) return;
         Phantom phantom = (Phantom) event.getEntity();
@@ -35,6 +47,9 @@ public class LargerPhantoms extends BaseModule implements Listener {
                     player = tempPlayer;
                 }
             }
+        }
+        if (player == null) {
+            return;
         }
         if (closest != -1 && player.hasPermission("vanillatweaks.largerphantoms")) {
             int ticksSinceSleep = player.getStatistic(Statistic.TIME_SINCE_REST);
@@ -77,13 +92,4 @@ public class LargerPhantoms extends BaseModule implements Listener {
         }
     }
 
-    @Override
-    public void register() {
-        this.registerEvents(this);
-    }
-
-    @Override
-    public void unregister() {
-        this.unregisterEvents(this);
-    }
 }

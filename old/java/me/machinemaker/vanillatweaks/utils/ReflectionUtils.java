@@ -1,3 +1,20 @@
+/*
+ * VanillaTweaks, a performant replacement for the VanillaTweaks datapacks.
+ *
+ * Copyright (C) 2021 Machine_Maker
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 package me.machinemaker.vanillatweaks.utils;
 
 import org.bukkit.Bukkit;
@@ -12,14 +29,13 @@ import java.util.regex.Pattern;
 public final class ReflectionUtils {
 
     // Deduce the net.minecraft.server.v* package
-    private static final String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();
-    private static final String NMS_PREFIX = OBC_PREFIX.replace("org.bukkit.craftbukkit", "net.minecraft.server");
-    private static final String VERSION = OBC_PREFIX.replace("org.bukkit.craftbukkit", "").replace(".", "");
+    private static String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();
+    private static String NMS_PREFIX = "net.minecraft";
+    private static String VERSION = OBC_PREFIX.replace("org.bukkit.craftbukkit", "").replace(".", "");
     // Variable replacement
-    private static final Pattern MATCH_VARIABLE = Pattern.compile("\\{([^\\}]+)\\}");
+    private static Pattern MATCH_VARIABLE = Pattern.compile("\\{([^\\}]+)\\}");
 
-    private ReflectionUtils() {
-    }
+    private ReflectionUtils() { }
 
     /**
      * Expand variables such as "{nms}" and "{obc}" to their corresponding packages.
@@ -70,28 +86,6 @@ public final class ReflectionUtils {
 
     /**
      * Retrieve a class from its full name.
-     * <p/>
-     * Strings enclosed with curly brackets such as {TEXT} will be replaced according
-     * to the following table:
-     * <p/>
-     * <table border="1">
-     * <tr>
-     * <th>Variable</th>
-     * <th>Content</th>
-     * </tr>
-     * <tr>
-     * <td>{nms}</td>
-     * <td>Actual package name of net.minecraft.server.VERSION</td>
-     * </tr>
-     * <tr>
-     * <td>{obc}</td>
-     * <td>Actual pacakge name of org.bukkit.craftbukkit.VERSION</td>
-     * </tr>
-     * <tr>
-     * <td>{version}</td>
-     * <td>The current Minecraft package VERSION, if any.</td>
-     * </tr>
-     * </table>
      *
      * @param lookupName the class name with variables
      * @return the looked up class
@@ -287,12 +281,7 @@ public final class ReflectionUtils {
      * @throws IllegalArgumentException If the class doesn't exist
      */
     public static Class<?> getMinecraftClass(String name) {
-        if (OBC_PREFIX.contains("v1_17_R1")) {
-            return getCanonicalClass(name);
-        } else {
-            return getCanonicalClass(NMS_PREFIX + "." + name.substring(name.lastIndexOf(".") + 1));
-        }
-
+        return getCanonicalClass(NMS_PREFIX + "." + name);
     }
 
     /**
@@ -333,9 +322,9 @@ public final class ReflectionUtils {
 
     /**
      * Retrieve a class from its full name, without knowing its type on compile time.
-     * <p/>
+     * <p>
      * This is useful when looking up fields by a NMS or OBC type.
-     * <p/>
+     * <p>
      *
      * @param lookupName the class name with variables
      * @return the class
@@ -343,7 +332,7 @@ public final class ReflectionUtils {
      */
     public static Class<Object> getUntypedClass(String lookupName) {
         @SuppressWarnings({"rawtypes", "unchecked"})
-        Class<Object> clazz = (Class<Object>) getClass(lookupName);
+        Class<Object> clazz = (Class<Object>) (Class) getClass(lookupName);
         return clazz;
     }
 
@@ -366,7 +355,7 @@ public final class ReflectionUtils {
          * @param arguments the arguments to pass to the constructor.
          * @return the constructed object.
          */
-        Object invoke(Object... arguments);
+        public Object invoke(Object... arguments);
     }
 
     /**
@@ -380,7 +369,7 @@ public final class ReflectionUtils {
          * @param arguments the arguments to pass to the method.
          * @return the return value, or NULL if is void.
          */
-        Object invoke(Object target, Object... arguments);
+        public Object invoke(Object target, Object... arguments);
     }
 
     /**
@@ -395,7 +384,7 @@ public final class ReflectionUtils {
          * @param target the target object, or NULL for a static field
          * @return the value of the field
          */
-        T get(Object target);
+        public T get(Object target);
 
         /**
          * Set the content of a field.
@@ -403,7 +392,7 @@ public final class ReflectionUtils {
          * @param target the target object, or NULL for a static field
          * @param value  the new value of the field
          */
-        void set(Object target, Object value);
+        public void set(Object target, Object value);
 
         /**
          * Determine if the given object has this field.
@@ -411,7 +400,7 @@ public final class ReflectionUtils {
          * @param target the object to test
          * @return TRUE if it does, FALSE otherwise
          */
-        boolean hasField(Object target);
+        public boolean hasField(Object target);
     }
 
 }

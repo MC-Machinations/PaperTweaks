@@ -1,23 +1,37 @@
-package me.machinemaker.vanillatweaks.confetticreepers;
+/*
+ * VanillaTweaks, a performant replacement for the VanillaTweaks datapacks.
+ *
+ * Copyright (C) 2021 Machine_Maker
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+package me.machinemaker.vanillatweaks.modules.experimental.confetticreepers;
 
-import me.machinemaker.vanillatweaks.BaseModule;
-import me.machinemaker.vanillatweaks.VanillaTweaks;
+import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import java.io.File;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ConfettiCreepers extends BaseModule implements Listener {
+public class ExplosionListener implements ModuleListener {
 
-    private final Config config = new Config();
-    private final FireworkEffect fireworkEffect = FireworkEffect.builder()
+    private static final FireworkEffect fireworkEffect = FireworkEffect.builder()
             .flicker(false)
             .trail(false)
             .with(FireworkEffect.Type.BURST)
@@ -31,9 +45,11 @@ public class ConfettiCreepers extends BaseModule implements Listener {
                     Color.fromRGB(14188952)
             ).build();
 
-    public ConfettiCreepers(VanillaTweaks plugin) {
-        super(plugin, config -> config.confettiCreepers);
-        config.init(plugin, new File(plugin.getDataFolder(), "confetticreepers"));
+    private final Config config;
+
+    @Inject
+    public ExplosionListener(Config config) {
+        this.config = config;
     }
 
     @EventHandler
@@ -50,20 +66,5 @@ public class ConfettiCreepers extends BaseModule implements Listener {
                 firework.detonate();
             });
         }
-    }
-
-    @Override
-    public void reload() {
-        config.reload();
-    }
-
-    @Override
-    public void register() {
-        registerEvents(this);
-    }
-
-    @Override
-    public void unregister() {
-        unregisterEvents(this);
     }
 }

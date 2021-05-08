@@ -1,103 +1,110 @@
+import net.kyori.indra.repository.sonatypeSnapshots
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
-    id("java")
-    id("com.github.johnrengelman.shadow").version("6.1.0")
-}
-
-repositories {
-    mavenLocal()
-    maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    }
-
-    maven {
-        url = uri("https://libraries.minecraft.net/")
-    }
-
-    maven {
-        url = uri("https://repo.aikar.co/content/groups/aikar/")
-    }
-
-    maven {
-        url = uri("https://repo.codemc.org/repository/maven-public")
-    }
-
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
-
-    maven {
-        url = uri("https://repo.maven.apache.org/maven2/")
-    }
-}
-
-dependencies {
-    implementation("me.machinemaker:config-manager:1.0-SNAPSHOT")
-    implementation("com.google.inject:guice:4.0")
-    implementation("co.aikar:acf-bukkit:0.5.0-SNAPSHOT")
-    implementation("org.bstats:bstats-bukkit:1.7")
-    implementation("io.papermc:paperlib:1.0.4")
-
-    compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    compileOnly("com.mojang:authlib:1.5.25")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    id("vanilla-tweaks.parent-build-logic")
+    id("net.kyori.indra") version "2.0.6"
+    id("net.kyori.indra.license-header") version "2.0.6"
+    id("com.github.johnrengelman.shadow") version "7.0.0" apply false
 }
 
 group = "me.machinemaker"
-version = "1.0.0-SNAPSHOT"
+version = "0.2.0-SNAPSHOT"
 description = "A replacement for the VanillaTweaks datapack"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+allprojects {
+    apply(plugin="net.kyori.indra")
+    apply(plugin="net.kyori.indra.license-header")
+
+    configure<org.cadixdev.gradle.licenser.LicenseExtension>() {
+        header(rootProject.file("HEADER"))
+    }
+
+    tasks {
+        build {
+            dependsOn(named("checkLicenses"))
+        }
+    }
 }
 
+subprojects {
+    apply(plugin="net.kyori.indra")
+    apply(plugin="net.kyori.indra.license-header")
+    apply(plugin="com.github.johnrengelman.shadow")
 
-tasks {
+    group = rootProject.group;
+    version = rootProject.version;
 
-    jar {
-        enabled = false
+    repositories {
+        mavenLocal() // TODO remove
+        mavenCentral()
+        sonatypeSnapshots()
+        maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
+        maven("https://libraries.minecraft.net/")
+        maven("https://papermc.io/repo/repository/maven-public/")
     }
 
-    test {
-        useJUnitPlatform()
-    }
-
-    compileJava {
-        options.encoding = "UTF-8"
-        options.compilerArgs.add("-parameters")
-    }
-
-    processResources {
-        filesMatching("plugin.yml") {
-            expand("version" to project.version)
+    dependencies {
+        compileOnly("io.leangen.geantyref:geantyref:1.3.11")
+        implementation("me.machinemaker:lectern:0.1.1-SNAPSHOT") {
+            exclude("com.fasterxml.jackson.core", "jackson-databind")
         }
+        implementation("cloud.commandframework:cloud-paper:1.5.0") {
+            exclude("io.leangen.geantyref", "geantyref")
+        }
+        implementation("cloud.commandframework:cloud-minecraft-extras:1.5.0") {
+            exclude("net.kyori")
+            exclude("io.leangen.geantyref", "geantyref")
+        }
+        implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") {
+            exclude("net.kyori", "adventure-api")
+        }
+        implementation("org.bstats:bstats-bukkit:2.2.1")
+        implementation("io.papermc:paperlib:1.0.6")
+
+        // Loaded via plugin.yml libraries
+        compileOnly("io.github.classgraph:classgraph:4.8.114")
+        compileOnly("com.google.inject:guice:5.0.1")
+        compileOnly("me.lucko:adventure-platform-bukkit:4.8.1")
+
+        // Native to minecraft
+        compileOnly("com.mojang:authlib:1.5.25")
+        compileOnly("org.slf4j:slf4j-api:1.7.30")
+
+        testImplementation("me.lucko:adventure-platform-bukkit:4.8.1")
+        testImplementation("com.google.inject:guice:5.0.1")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     }
 
-    assemble {
-        dependsOn(shadowJar)
-    }
-
-    shadowJar {
-        archiveClassifier.set("")
-        archiveFileName.set(rootProject.name + ".jar")
-
-        dependencies {
-            exclude(dependency("org.jetbrains:annotations")) // TODO remove after removing config-manager dependency
+    configure<net.kyori.indra.IndraExtension> {
+        javaVersions {
+            testWith(16)
+            target(16)
         }
 
-        relocate("io.papermc.lib", "me.machinemaker.libs.paperlib")
-        relocate("org.bstats", "me.machinemaker.libs.bstats")
+        github("MC-Machinations", "VanillaTweaks")
 
-        // Guice
-        relocate("javax.inject", "me.machinemaker.libs.jsr330")
-        relocate("org.aopalliance", "me.machinemaker.libs.aopalliance")
+        gpl3OnlyLicense()
+    }
 
+    tasks {
+        compileJava {
+            options.compilerArgs.add("-parameters")
+        }
 
-        // TODO TO BE REMOVED
-        relocate("co.aikar.commands", "me.machinemaker.libs.commands")
-        relocate("co.aikar.locales", "me.machinemaker.libs.locales")
-        relocate("org.apache.commons.lang3", "me.machinemaker.libs.commons.lang3")
+        processResources {
+            filesMatching("plugin.yml") {
+                expand("version" to project.version)
+            }
+        }
+
+        assemble {
+            dependsOn("shadowJar")
+        }
+
+        test {
+            useJUnitPlatform()
+        }
     }
 }
