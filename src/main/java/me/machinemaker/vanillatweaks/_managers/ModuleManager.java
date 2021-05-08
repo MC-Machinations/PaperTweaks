@@ -32,6 +32,7 @@ import me.machinemaker.vanillatweaks.villagerdeathmessages.VillagerDeathMessages
 import me.machinemaker.vanillatweaks.wanderingtrades.WanderingTrades;
 import me.machinemaker.vanillatweaks.workstationhighlights.WorkstationHighlights;
 import me.machinemaker.vanillatweaks.wrenches.Wrench;
+import me.machinemaker.vanillatweaks.xpmanagement.XPManagement;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -105,7 +106,8 @@ public class ModuleManager {
 
                     new UnlockAllRecipes(plugin),
 
-                    new ConfettiCreepers(plugin)
+                    new ConfettiCreepers(plugin),
+                    new XPManagement(plugin)
             );
         }
         return this.allModules;
