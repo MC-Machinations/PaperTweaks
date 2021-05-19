@@ -4,20 +4,29 @@ import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
+import java.io.File;
 import java.util.List;
 
 public class MobHeads extends BaseModule implements Listener {
 
+    private final Config config = new Config();
+
     public MobHeads(VanillaTweaks vanillaTweaks) {
         super(vanillaTweaks, config -> config.moreMobHeads);
+        config.init(vanillaTweaks, new File(vanillaTweaks.getDataFolder(), "mobheads"));
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        if (config.requirePlayerKill && event.getEntity().getKiller() == null) {
+            return;
+        }
+
         if (event.getEntity().getKiller() != null && !event.getEntity().getKiller().hasPermission("vanillatweaks.moremobheads")) return;
         int lootingLevel = 0;
         if (event.getEntity().getKiller() != null) {
@@ -50,5 +59,10 @@ public class MobHeads extends BaseModule implements Listener {
     @Override
     public void unregister() {
         this.unregisterEvents(this);
+    }
+
+    @Override
+    public void reload() {
+        config.reload();
     }
 }
