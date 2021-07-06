@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.Piston;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,19 +62,22 @@ public class Wrench extends BaseModule implements Listener {
         if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getItem() != null && event.getItem().equals(wrench)) {
             Block block = event.getClickedBlock();
             if (((this.plugin.modules.redstoneRotationWrench && Tags.REDSTONE_COMPONENTS.isTagged(block.getType()) && event.getPlayer().hasPermission("vanillatweaks.wrench.redstone")) || (this.plugin.modules.terracottaRotationWrench && Tags.GLAZED_TERRACOTTA.isTagged(block.getType())) && event.getPlayer().hasPermission("vanillatweaks.wrench.terracotta")) && block.getBlockData() instanceof Directional) {
-                Directional state = (Directional) block.getBlockData();
-                int facing = faces.indexOf(state.getFacing());
+                Directional blockData = (Directional) block.getBlockData();
+                if (blockData instanceof Piston && ((Piston) blockData).isExtended()) {
+                    return;
+                }
+                int facing = faces.indexOf(blockData.getFacing());
                 BlockFace nextFace = null;
                 int i = 0;
-                while (nextFace == null || !state.getFaces().contains(nextFace)) {
+                while (nextFace == null || !blockData.getFaces().contains(nextFace)) {
                     if (i >= 6) throw new IllegalStateException("Infinite loop detected");
                     nextFace = event.getPlayer().isSneaking() ? facing - 1 < 0 ? faces.get(facing + 6 - 1) : faces.get(facing - 1) : faces.get((facing + 1) % 6);
                     facing = faces.indexOf(nextFace);
                     i++;
                 }
                 event.setUseInteractedBlock(Result.DENY);
-                state.setFacing(nextFace);
-                block.setBlockData(state);
+                blockData.setFacing(nextFace);
+                block.setBlockData(blockData);
             }
         }
     }
