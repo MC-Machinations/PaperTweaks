@@ -286,7 +286,12 @@ public final class ReflectionUtils {
      * @throws IllegalArgumentException If the class doesn't exist
      */
     public static Class<?> getMinecraftClass(String name) {
-        return getCanonicalClass(NMS_PREFIX + "." + name);
+        if (OBC_PREFIX.contains("v1_17_R1")) {
+            return getCanonicalClass(name);
+        } else {
+            return getCanonicalClass(NMS_PREFIX + "." + name.substring(name.lastIndexOf(".") + 1));
+        }
+
     }
 
     /**

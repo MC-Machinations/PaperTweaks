@@ -48,7 +48,7 @@ class Commands extends BaseModuleCommand<SpawningSpheres> {
         try {
             Class<?> paperWorldConfigClass = Class.forName("com.destroystokyo.paper.PaperWorldConfig");
             this.craftWorldClass = ReflectionUtils.getCraftBukkitClass("CraftWorld");
-            Class<?> worldServerClass = ReflectionUtils.getMinecraftClass("WorldServer");
+            Class<?> worldServerClass = ReflectionUtils.getMinecraftClass("net.minecraft.server.level.WorldServer");
             this.worldServerField = ReflectionUtils.getField(craftWorldClass, "world", worldServerClass);
             this.paperWorldConfigField = ReflectionUtils.getField(worldServerClass, "paperConfig", paperWorldConfigClass);
             this.softDespawnField = ReflectionUtils.getField(paperWorldConfigClass, "softDespawnDistance", int.class);

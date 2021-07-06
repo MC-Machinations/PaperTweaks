@@ -49,8 +49,8 @@ public class BlockMined implements IStat {
     public static Set<BlockMined> stats() {
         if (cached != null) return cached;
 
-        Class<?> localeLanguageClass = ReflectionUtils.getMinecraftClass("LocaleLanguage");
-        Class<?> nmsItemClass = ReflectionUtils.getMinecraftClass("Item");
+        Class<?> localeLanguageClass = ReflectionUtils.getMinecraftClass("net.minecraft.locale.LocaleLanguage");
+        Class<?> nmsItemClass = ReflectionUtils.getMinecraftClass("net.minecraft.world.item.Item");
         Class<?> craftMagicNumbersClass = ReflectionUtils.getCraftBukkitClass("util.CraftMagicNumbers");
         MethodInvoker getLocale = ReflectionUtils.getMethod(localeLanguageClass, "getInstance");
         MethodInvoker getItem = ReflectionUtils.getTypedMethod(craftMagicNumbersClass, "getItem", nmsItemClass, Material.class);
