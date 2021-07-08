@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 public class TrackRawStats extends BaseModule {
 
-    Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
     private final Set<IStat> statTypes = Sets.newHashSet();
+    Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
     private Commands commands;
 
     public TrackRawStats(VanillaTweaks plugin) {
@@ -38,12 +38,17 @@ public class TrackRawStats extends BaseModule {
             if (type == null) return Sets.newHashSet();
             return type.objectiveMap.keySet();
         });
+    }
+
+    @Override
+    public void register() {
         for (StatType type : StatType.values()) {
             statTypes.addAll(type.stats);
             type.stats.forEach(stat -> {
                 try {
                     Objective obj = board.getObjective(stat.getName());
-                    if (obj == null) obj = board.registerNewObjective(stat.getName(), stat.getCriteria(), stat.getDisplayName());
+                    if (obj == null)
+                        obj = board.registerNewObjective(stat.getName(), stat.getCriteria(), stat.getDisplayName());
                     type.addToMap(stat, obj);
                 } catch (IllegalArgumentException exception) {
                     this.plugin.getLogger().severe("Error loading objectives for TrackRawStats");
@@ -53,10 +58,6 @@ public class TrackRawStats extends BaseModule {
                 }
             });
         }
-    }
-
-    @Override
-    public void register() {
         this.commands = new Commands(this);
         this.registerCommands(commands);
     }
