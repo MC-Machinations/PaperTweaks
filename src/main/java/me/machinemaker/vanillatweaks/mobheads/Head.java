@@ -212,7 +212,7 @@ class Head<E extends LivingEntity> {
         this(type, addToMap, chance, lootingMult);
         SkullMeta meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
         if (meta == null) throw new IllegalArgumentException("Failed to configure a texture!");
-        BaseComponent[] displayName = new ComponentBuilder(name + " Head")
+        BaseComponent[] displayName = new ComponentBuilder(name + "'s Head")
                 .color(ChatColor.YELLOW)
                 .create();
         meta.setDisplayName(TextComponent.toLegacyText(displayName));
