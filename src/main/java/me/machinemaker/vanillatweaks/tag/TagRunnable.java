@@ -36,7 +36,8 @@ class TagRunnable extends BukkitRunnable {
             entry.getValue().teleport(entry.getKey());
             if (count % 4 == 0) {
                 count = 0;
-                if (this.module.config.playSound) entry.getKey().playSound(entry.getKey().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 0.5f, 0.5f);
+                if (this.module.config.playSound)
+                    entry.getKey().playSound(entry.getKey().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 0.5f, 0.5f);
             }
         }
         count++;

@@ -1,11 +1,7 @@
 package me.machinemaker.vanillatweaks.thundershrine;
 
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.HelpCommand;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import me.machinemaker.vanillatweaks.Lang;
 import me.machinemaker.vanillatweaks.utils.DataType;

@@ -4,7 +4,6 @@ import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -27,7 +26,8 @@ public class MobHeads extends BaseModule implements Listener {
             return;
         }
 
-        if (event.getEntity().getKiller() != null && !event.getEntity().getKiller().hasPermission("vanillatweaks.moremobheads")) return;
+        if (event.getEntity().getKiller() != null && !event.getEntity().getKiller().hasPermission("vanillatweaks.moremobheads"))
+            return;
         int lootingLevel = 0;
         if (event.getEntity().getKiller() != null) {
             lootingLevel = event.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);

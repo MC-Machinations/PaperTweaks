@@ -28,8 +28,7 @@ public class LargerPhantoms extends BaseModule implements Listener {
             if (closest == -1) {
                 closest = event.getLocation().distanceSquared(tempPlayer.getLocation());
                 player = tempPlayer;
-            }
-            else {
+            } else {
                 double tempDistance = event.getLocation().distanceSquared(tempPlayer.getLocation());
                 if (tempDistance < closest) {
                     closest = tempDistance;
@@ -51,22 +50,19 @@ public class LargerPhantoms extends BaseModule implements Listener {
                 movementSpeed = 1;
                 followRange = 20;
                 attackDamage = 15;
-            }
-            else if (Range.between(216000, 288000).contains(ticksSinceSleep)) {
+            } else if (Range.between(216000, 288000).contains(ticksSinceSleep)) {
                 size = 5;
                 maxHealth = 30;
                 movementSpeed = 1.3;
                 followRange = 24;
                 attackDamage = 17;
-            }
-            else if (Range.between(288000, 2400000).contains(ticksSinceSleep)) {
+            } else if (Range.between(288000, 2400000).contains(ticksSinceSleep)) {
                 size = 7;
                 maxHealth = 35;
                 movementSpeed = 1.6;
                 followRange = 28;
                 attackDamage = 20;
-            }
-            else {
+            } else {
                 size = 20;
                 maxHealth = 100;
                 movementSpeed = 2;

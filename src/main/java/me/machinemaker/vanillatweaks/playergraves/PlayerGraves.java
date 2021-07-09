@@ -28,11 +28,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static me.machinemaker.vanillatweaks.utils.VTUtils.nullUnionList;
 import static me.machinemaker.vanillatweaks.utils.VTUtils.toCachedMapCount;
@@ -61,7 +57,7 @@ public class PlayerGraves extends BaseModule implements Listener {
         if (event.getDrops().isEmpty()) return;
         if (!event.getEntity().hasPermission("vanillatweaks.playergraves")) return;
         if (config.disabledWorlds.contains(event.getEntity().getWorld().getName())) return;
-        
+
         Block spawnBlock = event.getEntity().getLocation().getBlock();
         if (event.getEntity().getLocation().getBlockY() <= 0) {
             spawnBlock = event.getEntity().getLocation().add(0, -event.getEntity().getLocation().getBlockY(), 0).getBlock();
@@ -123,7 +119,8 @@ public class PlayerGraves extends BaseModule implements Listener {
                 return;
             }
             for (ItemStack stack : event.getPlayer().getInventory().getContents()) {
-                if (stack != null) event.getPlayer().getLocation().getWorld().dropItem(event.getPlayer().getLocation(), stack).setPickupDelay(0);
+                if (stack != null)
+                    event.getPlayer().getLocation().getWorld().dropItem(event.getPlayer().getLocation(), stack).setPickupDelay(0);
             }
             PlayerInventory inventory = event.getPlayer().getInventory();
             ItemStack[] allContents = container.get(PLAYER_ALL_CONTENTS, DataType.ITEMSTACK_ARRAY);
@@ -156,7 +153,7 @@ public class PlayerGraves extends BaseModule implements Listener {
         stand.setVisible(false);
         stand.setArms(false);
         stand.setCollidable(false);
-        stand.getPersistentDataContainer().set(PROTECTED, PersistentDataType.BYTE, (byte)1);
+        stand.getPersistentDataContainer().set(PROTECTED, PersistentDataType.BYTE, (byte) 1);
         stand.getEquipment().setHelmet(new ItemStack(head));
     }
 

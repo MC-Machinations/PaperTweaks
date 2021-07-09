@@ -52,12 +52,12 @@ public class XPManagement extends BaseModule implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (
                 event.getHand() != EquipmentSlot.HAND ||
-                event.getAction() != Action.RIGHT_CLICK_BLOCK ||
-                event.getClickedBlock() == null ||
-                event.getClickedBlock().getType() != Material.ENCHANTING_TABLE ||
-                event.getItem() == null ||
-                event.getItem().getType() != Material.GLASS_BOTTLE ||
-                event.getPlayer().getTotalExperience() <= 11
+                        event.getAction() != Action.RIGHT_CLICK_BLOCK ||
+                        event.getClickedBlock() == null ||
+                        event.getClickedBlock().getType() != Material.ENCHANTING_TABLE ||
+                        event.getItem() == null ||
+                        event.getItem().getType() != Material.GLASS_BOTTLE ||
+                        event.getPlayer().getTotalExperience() <= 11
         ) {
             return;
         }

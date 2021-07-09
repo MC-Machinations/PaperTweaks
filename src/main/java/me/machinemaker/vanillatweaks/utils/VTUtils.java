@@ -8,12 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class VTUtils {
 
@@ -30,7 +25,7 @@ public class VTUtils {
 
     public static <T> T random(Collection<T> coll) {
         int num = (int) (Math.random() * coll.size());
-        for(T t: coll) if (--num < 0) return t;
+        for (T t : coll) if (--num < 0) return t;
         throw new AssertionError();
     }
 
@@ -53,7 +48,7 @@ public class VTUtils {
     public static <T> @NotNull List<T> nullUnionList(@NotNull List<T> unioned,
                                                      @NotNull Map<CachedHashObjectWrapper<T>, MutableInt> with) {
         List<T> result = new ArrayList<>();
-        for (T item: unioned) {
+        for (T item : unioned) {
             MutableInt x = with.get(new CachedHashObjectWrapper<>(item));
             if (x == null || x.intValue() <= 0) {
                 result.add(null);

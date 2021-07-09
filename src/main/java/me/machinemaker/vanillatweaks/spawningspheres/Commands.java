@@ -1,12 +1,7 @@
 package me.machinemaker.vanillatweaks.spawningspheres;
 
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.HelpCommand;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import com.google.common.collect.Sets;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import me.machinemaker.vanillatweaks.Lang;
@@ -107,10 +102,10 @@ class Commands extends BaseModuleCommand<SpawningSpheres> {
         enabledColors.remove(color);
     }
 
-    private void display(World world, Location center, double radius, double step,  Material head, String id) {
+    private void display(World world, Location center, double radius, double step, Material head, String id) {
         for (double x = -radius; x < radius; x += step) {
             for (double z = -radius; z < radius; z += step) {
-                double y = Math.sqrt(radius*radius - x*x - z*z);
+                double y = Math.sqrt(radius * radius - x * x - z * z);
                 ArmorStand stand1 = (ArmorStand) world.spawnEntity(center.clone().subtract(-x, y, -z), EntityType.ARMOR_STAND);
                 ArmorStand stand2 = (ArmorStand) world.spawnEntity(center.clone().add(-x, y, -z), EntityType.ARMOR_STAND);
                 configureStand(stand1, head, true, id);

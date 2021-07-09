@@ -28,7 +28,7 @@ public class PillagerTools extends BaseModule implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (event.getEntityType() == EntityType.PILLAGER &&  (!config.patrolLeaders || config.patrols) && event.getSpawnReason() == SpawnReason.PATROL) {
+        if (event.getEntityType() == EntityType.PILLAGER && (!config.patrolLeaders || config.patrols) && event.getSpawnReason() == SpawnReason.PATROL) {
             Pillager pillager = (Pillager) event.getEntity();
             if (!config.patrolLeaders && pillager.isPatrolLeader() && pillager.getPatrolTarget() != null) {
                 event.setCancelled(true);
