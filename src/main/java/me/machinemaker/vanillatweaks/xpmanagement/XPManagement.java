@@ -2,7 +2,11 @@ package me.machinemaker.vanillatweaks.xpmanagement;
 
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;

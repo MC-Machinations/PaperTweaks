@@ -1,7 +1,12 @@
 package me.machinemaker.vanillatweaks.spawningspheres;
 
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.HelpCommand;
+import co.aikar.commands.annotation.Subcommand;
 import com.google.common.collect.Sets;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import me.machinemaker.vanillatweaks.Lang;

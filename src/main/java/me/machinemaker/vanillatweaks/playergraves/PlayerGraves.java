@@ -28,7 +28,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static me.machinemaker.vanillatweaks.utils.VTUtils.nullUnionList;
 import static me.machinemaker.vanillatweaks.utils.VTUtils.toCachedMapCount;
@@ -119,8 +123,9 @@ public class PlayerGraves extends BaseModule implements Listener {
                 return;
             }
             for (ItemStack stack : event.getPlayer().getInventory().getContents()) {
-                if (stack != null)
+                if (stack != null) {
                     event.getPlayer().getLocation().getWorld().dropItem(event.getPlayer().getLocation(), stack).setPickupDelay(0);
+                }
             }
             PlayerInventory inventory = event.getPlayer().getInventory();
             ItemStack[] allContents = container.get(PLAYER_ALL_CONTENTS, DataType.ITEMSTACK_ARRAY);

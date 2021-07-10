@@ -1,6 +1,10 @@
 package me.machinemaker.vanillatweaks.tag;
 
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import me.machinemaker.vanillatweaks.BaseModuleCommand;
 import me.machinemaker.vanillatweaks.Lang;

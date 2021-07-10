@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.machinemaker</groupId>
-    <artifactId>VanillaTweaks</artifactId>
+    <artifactId>vanillatweaks</artifactId>
     <version>0.1.21</version>
     <packaging>jar</packaging>
 
