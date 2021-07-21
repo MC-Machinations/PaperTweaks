@@ -28,7 +28,7 @@ public class WanderingTrades extends BaseModule implements Listener {
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         if (event.getEntityType() != EntityType.WANDERING_TRADER) return;
         WanderingTrader trader = (WanderingTrader) event.getEntity();
-        int headTrades = config.hermitHeadTradesEnabled ?  ThreadLocalRandom.current().nextInt(config.headMin, config.headMax + 1) : 0;
+        int headTrades = config.hermitHeadTradesEnabled ? ThreadLocalRandom.current().nextInt(config.headMin, config.headMax + 1) : 0;
         int blockTrades = config.blockTradesEnabled ? ThreadLocalRandom.current().nextInt(config.blockMin, config.blockMax + 1) : 0;
         List<MerchantRecipe> recipes = new ArrayList<>(trader.getRecipes());
         for (int i = 0; i < headTrades; i++) {

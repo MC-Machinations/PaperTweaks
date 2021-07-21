@@ -56,7 +56,7 @@ public class Tag extends BaseModule implements Listener {
             return;
         }
         if (damager.getPersistentDataContainer().has(this.cooldownKey, PersistentDataType.LONG) && damager.getPersistentDataContainer().get(this.cooldownKey, PersistentDataType.LONG) > System.currentTimeMillis()) {
-            damager.sendMessage(Lang.COOLDOWN_ACTIVE.p().replace("%time%", String.valueOf((damager.getPersistentDataContainer().get(this.cooldownKey, PersistentDataType.LONG)-System.currentTimeMillis())/1000)));
+            damager.sendMessage(Lang.COOLDOWN_ACTIVE.p().replace("%time%", String.valueOf((damager.getPersistentDataContainer().get(this.cooldownKey, PersistentDataType.LONG) - System.currentTimeMillis()) / 1000)));
             return;
         }
         setAsIt(damagee);

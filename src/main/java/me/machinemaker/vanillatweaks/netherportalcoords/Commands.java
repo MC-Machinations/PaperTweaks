@@ -15,9 +15,9 @@ class Commands extends BaseModuleCommand<NetherPortalCoords> {
     @CommandPermission("vanillatweaks.netherportalcoords")
     public void portalCoords(Player player) {
         if (this.module.config.overworlds.contains(player.getWorld().getName())) {
-            player.sendMessage(replaceLocation(Lang.PLAYER_IN_OVERWORLD.toString(), player.getLocation().getBlockX()/8, player.getLocation().getBlockY(), player.getLocation().getBlockZ()/8));
+            player.sendMessage(replaceLocation(Lang.PLAYER_IN_OVERWORLD.toString(), player.getLocation().getBlockX() / 8, player.getLocation().getBlockY(), player.getLocation().getBlockZ() / 8));
         } else if (this.module.config.netherWorlds.contains(player.getWorld().getName())) {
-            player.sendMessage(replaceLocation(Lang.PLAYER_IN_NETHER.toString(), player.getLocation().getBlockX()*8, player.getLocation().getBlockY(), player.getLocation().getBlockZ()*8));
+            player.sendMessage(replaceLocation(Lang.PLAYER_IN_NETHER.toString(), player.getLocation().getBlockX() * 8, player.getLocation().getBlockY(), player.getLocation().getBlockZ() * 8));
         } else {
             player.sendMessage(Lang.INVALID_WORLD.p());
         }

@@ -2,7 +2,11 @@ package me.machinemaker.vanillatweaks.xpmanagement;
 
 import me.machinemaker.vanillatweaks.BaseModule;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -52,12 +56,12 @@ public class XPManagement extends BaseModule implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (
                 event.getHand() != EquipmentSlot.HAND ||
-                event.getAction() != Action.RIGHT_CLICK_BLOCK ||
-                event.getClickedBlock() == null ||
-                event.getClickedBlock().getType() != Material.ENCHANTING_TABLE ||
-                event.getItem() == null ||
-                event.getItem().getType() != Material.GLASS_BOTTLE ||
-                event.getPlayer().getTotalExperience() <= 11
+                        event.getAction() != Action.RIGHT_CLICK_BLOCK ||
+                        event.getClickedBlock() == null ||
+                        event.getClickedBlock().getType() != Material.ENCHANTING_TABLE ||
+                        event.getItem() == null ||
+                        event.getItem().getType() != Material.GLASS_BOTTLE ||
+                        event.getPlayer().getTotalExperience() <= 11
         ) {
             return;
         }

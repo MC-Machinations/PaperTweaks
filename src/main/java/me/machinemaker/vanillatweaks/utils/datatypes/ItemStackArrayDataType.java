@@ -59,6 +59,6 @@ public class ItemStackArrayDataType implements PersistentDataType<String, ItemSt
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-        return new ItemStack[]{ };
+        return new ItemStack[]{};
     }
 }

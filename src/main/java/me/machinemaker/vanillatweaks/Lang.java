@@ -109,11 +109,11 @@ public enum Lang {
     }
 
     public String p() {
-        return ChatColor.translateAlternateColorCodes('&', PREFIX.toString() + this.msg);
+        return ChatColor.translateAlternateColorCodes('&', PREFIX + this.msg);
     }
 
     public String err() {
-        return ChatColor.translateAlternateColorCodes('&', ERROR_PREFIX.toString() + this.msg);
+        return ChatColor.translateAlternateColorCodes('&', ERROR_PREFIX + this.msg);
     }
 
     private static YamlConfig config;

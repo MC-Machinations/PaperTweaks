@@ -10,8 +10,8 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Blaze;
@@ -100,7 +100,7 @@ class Head<E extends LivingEntity> {
 
     public static Head<Bat> BAT = new Head<>(EntityType.BAT, "Bat", "27653cdf-9109-481b-8f9f-468895a892a2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGEyOWM5ZWNlNDI4ZmEyMzM5NWFjMjAxOWJmMmQwMjc0NDA1MjlmMjUzM2ZjODIwMWU3YjNkYTBmNjBmMjAwNSJ9fX0=", 0.02, 0.02);
     public static Head<Bee> BEE_PLAIN = new Head<>(EntityType.BEE, "Bee", "77342662-8870-445a-869f-f0aef1406b3d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTlhYzE2ZjI5NmI0NjFkMDVlYTA3ODVkNDc3MDMzZTUyNzM1OGI0ZjMwYzI2NmFhMDJmMDIwMTU3ZmZjYTczNiJ9fX0=", bee -> !bee.hasNectar() && bee.getAnger() == 0);
-    public static Head<Bee> BEE_NECTAR = new Head<>(EntityType.BEE, "Pollinated Bee","7766f1ce-53ca-4557-80e3-0539d2f7d909", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyN2QwYWIwM2Y1Y2QwMjJmODcwNWQzZjdmMTMzY2E0OTIwZWFlOGUxZTQ3YjUwNzQ0MzNhMTM3ZTY5MWU0ZSJ9fX0=", bee -> bee.hasNectar() && bee.getAnger() == 0);
+    public static Head<Bee> BEE_NECTAR = new Head<>(EntityType.BEE, "Pollinated Bee", "7766f1ce-53ca-4557-80e3-0539d2f7d909", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyN2QwYWIwM2Y1Y2QwMjJmODcwNWQzZjdmMTMzY2E0OTIwZWFlOGUxZTQ3YjUwNzQ0MzNhMTM3ZTY5MWU0ZSJ9fX0=", bee -> bee.hasNectar() && bee.getAnger() == 0);
     public static Head<Bee> BEE_ANGRY = new Head<>(EntityType.BEE, "Angry Bee", "14feb823-becc-4799-a97d-e529110e11a0", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTQwMDIyM2YxZmE1NDc0MWQ0MjFkN2U4MDQ2NDA5ZDVmM2UxNWM3ZjQzNjRiMWI3Mzk5NDAyMDhmM2I2ODZkNCJ9fX0=", bee -> !bee.hasNectar() && bee.getAnger() != 0);
     public static Head<Bee> BEE_NECTAR_ANGRY = new Head<>(EntityType.BEE, "Angry Pollinated Bee", "a148a6aa-24ea-49b6-b2be-4e1d1d130757", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZiNzRlMDUyYjc0Mjg4Nzk5YmE2ZDlmMzVjNWQwMjIxY2Y4YjA0MzMxNTQ3ZWMyZjY4ZDczNTk3YWUyYzliIn19fQ==", bee -> bee.hasNectar() && bee.getAnger() != 0);
     public static Head<Blaze> BLAZE = new Head<>(EntityType.BLAZE, "Blaze", "093b9a11-152d-4a5f-9418-50bea849f7c2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGVlMjNkYzdhMTBjNmE4N2VmOTM3NDU0YzBlOTRlZDQyYzIzYWE2NDFhOTFlZDg0NzBhMzA0MmQwNWM1MmM1MiJ9fX0=", 0.001, 0.0005);
@@ -119,9 +119,9 @@ class Head<E extends LivingEntity> {
     public static Head<Chicken> CHICKEN = new Head<>(EntityType.CHICKEN, "Chicken", "c8430ed4-cb5e-4c52-94fe-55fd07f692e8", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDJhZjZlNTg0N2VlYTA5OWUxYjBhYjhjMjBhOWU1ZjNjNzE5MDE1OGJkYTU0ZTI4MTMzZDliMjcxZWMwY2I0YiJ9fX0=", 0.005, 0.001);
     public static Head<Cod> COD = new Head<>(EntityType.COD, "Cod", "7a77df37-8a6d-4dfc-8631-7a902e0d7791", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI0NmUxOWIzMmNmNzg0NTQ5NDQ3ZTA3Yjk2MDcyZTFmNjU2ZDc4ZTkzY2NjYTU2Mzc0ODVlNjc0OTczNDY1MiJ9fX0=", 0.1, 0.01);
     public static Head<Cow> COW = new Head<>(EntityType.COW, "Cow", "3603f051-3b2f-4428-bcdb-88fd633041bc", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNkNjIxMTAwZmVhNTg4MzkyMmU3OGJiNDQ4MDU2NDQ4Yzk4M2UzZjk3ODQxOTQ4YTJkYTc0N2Q2YjA4YjhhYiJ9fX0=", 0.005, 0.001);
-    public static Head<Creeper> CHARGED_CREEPER = new Head<>(EntityType.CREEPER, "Creeper", "3b9bdc01-c62c-42a9-af61-a25c9009c738", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUxMWU0YTNkNWFkZDZhNTQ0OTlhYmFkMTBkNzk5ZDA2Y2U0NWNiYTllNTIwYWZkMjAwODYwOGE2Mjg4YjdlNyJ9fX0=",Creeper::isPowered);
+    public static Head<Creeper> CHARGED_CREEPER = new Head<>(EntityType.CREEPER, "Creeper", "3b9bdc01-c62c-42a9-af61-a25c9009c738", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUxMWU0YTNkNWFkZDZhNTQ0OTlhYmFkMTBkNzk5ZDA2Y2U0NWNiYTllNTIwYWZkMjAwODYwOGE2Mjg4YjdlNyJ9fX0=", Creeper::isPowered);
     public static Head<Dolphin> DOLPHIN = new Head<>(EntityType.DOLPHIN, "Dolphin", "8b7ccd6d-36de-47e0-8d5a-6f6799c6feb8", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU5Njg4Yjk1MGQ4ODBiNTViN2FhMmNmY2Q3NmU1YTBmYTk0YWFjNmQxNmY3OGU4MzNmNzQ0M2VhMjlmZWQzIn19fQ=", 0.25, 0.02);
-    public static Head<Donkey> DONKEY = new Head<>(EntityType.DONKEY, "Donkey", "7e3bc228-5c91-4f9c-a8e7-71ea538ca455", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGUyNWVlOTI3M2FkNTc5ZDQ0YmY0MDZmNmY2Mjk1NTg2NDgxZWExOThmZDU3MjA3NmNkMGM1ODgyZGE3ZTZjYyJ9fX0=",0.09, 0.09);
+    public static Head<Donkey> DONKEY = new Head<>(EntityType.DONKEY, "Donkey", "7e3bc228-5c91-4f9c-a8e7-71ea538ca455", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGUyNWVlOTI3M2FkNTc5ZDQ0YmY0MDZmNmY2Mjk1NTg2NDgxZWExOThmZDU3MjA3NmNkMGM1ODgyZGE3ZTZjYyJ9fX0=", 0.09, 0.09);
     public static Head<Drowned> DROWNED = new Head<>(EntityType.DROWNED, "Drowned", "2f169660-61be-46bd-acb5-1abef9fe5731", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzNmN2NjZjYxZGJjM2Y5ZmU5YTYzMzNjZGUwYzBlMTQzOTllYjJlZWE3MWQzNGNmMjIzYjNhY2UyMjA1MSJ9fX0=", 0.04, 0.02);
     public static Head<ElderGuardian> ELDER_GUARDIAN = new Head<>(EntityType.ELDER_GUARDIAN, "Elder Guardian", "566bf310-f717-45d6-bac2-56325a9d55b3", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGEyZDY0ZjRhMDBlOWM4NWY2NzI2MmVkY2FjYjg0NTIzNTgxYWUwZjM3YmRhYjIyZGQ3MDQ1MjRmNjJlMTY5ZiJ9fX0=", 0.3, 0.5);
     public static Head<EnderDragon> ENDER_DRAGON = new Head<>(EntityType.ENDER_DRAGON, Material.DRAGON_HEAD);
@@ -254,9 +254,7 @@ class Head<E extends LivingEntity> {
     public static Head<ZombieVillager> ZOMBIE_TOOLSMITH = new Head<>(EntityType.ZOMBIE_VILLAGER, "Zombie Toolsmith", "87b57113-d8ca-4fa4-8214-ea6896e2ce4f", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI1NTJjOTBmMjEyZTg1NWQxMjI1NWQ1Y2Q2MmVkMzhiOWNkN2UzMGU3M2YwZWE3NzlkMTc2NDMzMGU2OTI2NCJ9fX0=", zombieVillager -> zombieVillager.getVillagerProfession() == Villager.Profession.TOOLSMITH, 0.09, 0.02);
     public static Head<ZombieVillager> ZOMBIE_WEAPONSMITH = new Head<>(EntityType.ZOMBIE_VILLAGER, "Zombie Weaponsmith", "920e0f3f-f4f4-4b99-8eac-509a974a1393", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM3MDg5NGI1Y2MzMDVkODdhYTA4YzNiNGIwODU4N2RiNjhmZjI5ZTdhM2VmMzU0Y2FkNmFiY2E1MGU1NTI4YiJ9fX0=", zombieVillager -> zombieVillager.getVillagerProfession() == Villager.Profession.WEAPONSMITH, 0.09, 0.02);
     public static Head<PigZombie> ZOMBIFIED_PIGLIN = new Head<>(EntityType.ZOMBIFIED_PIGLIN, "Zombified Piglin", "83ae2721-aa53-4604-b1d2-774cb23f3a21", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRmMDMxMjhiMDAyYTcwNzA4ZDY4MjVlZDZjZjU0ZGRmNjk0YjM3NjZkNzhkNTY0OTAzMGIxY2I4YjM0YzZmYSJ9fX0=", 0.001, 0.001);
-    
-    
-    
+
     ItemStack skull;
     Predicate<E> check;
     double chance;
@@ -280,9 +278,8 @@ class Head<E extends LivingEntity> {
         this(type, addToMap, chance, lootingMult);
         SkullMeta meta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
         if (meta == null) throw new IllegalArgumentException("Failed to configure a texture!");
-        BaseComponent[] displayName = new ComponentBuilder(name)
+        BaseComponent[] displayName = new ComponentBuilder(name + "'s Head")
                 .color(ChatColor.YELLOW)
-                .bold(true)
                 .create();
         meta.setDisplayName(TextComponent.toLegacyText(displayName));
         GameProfile profile = new GameProfile(UUID.fromString(uuid), null);

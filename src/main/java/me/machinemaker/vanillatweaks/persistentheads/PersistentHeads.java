@@ -35,7 +35,7 @@ public class PersistentHeads extends BaseModule implements Listener {
 
     private final NamespacedKey NAME_KEY = new NamespacedKey(plugin, "head_name");
     private final NamespacedKey LORE_KEY = new NamespacedKey(plugin, "head_lore");
-    private final PersistentDataType<String,String[]> LORE_PDT = new JsonDataType<>(String[].class);
+    private final PersistentDataType<String, String[]> LORE_PDT = new JsonDataType<>(String[].class);
 
     public PersistentHeads(VanillaTweaks plugin) {
         super(plugin, config -> config.persistHeadData);
@@ -69,7 +69,7 @@ public class PersistentHeads extends BaseModule implements Listener {
         @Nullable String name = skullPDC.get(NAME_KEY, PersistentDataType.STRING);
         @Nullable String[] lore = skullPDC.get(LORE_KEY, LORE_PDT);
         if (name == null) return;
-        for (Item item: event.getItems()) { // Ideally should only be one...
+        for (Item item : event.getItems()) { // Ideally should only be one...
             @NotNull ItemStack itemstack = item.getItemStack();
             if (itemstack.getType() == Material.PLAYER_HEAD) {
                 @Nullable ItemMeta meta = itemstack.getItemMeta();
@@ -81,7 +81,10 @@ public class PersistentHeads extends BaseModule implements Listener {
         }
 
     }
-    /** Prevents player from removing player-head NBT by water logging them */
+
+    /**
+     * Prevents player from removing player-head NBT by water logging them
+     */
     @EventHandler()
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         handleEvent(event::getBlock, event, false);
@@ -119,7 +122,9 @@ public class PersistentHeads extends BaseModule implements Listener {
         return false;
     }
 
-    /** Prevents player from removing player-head NBT using running water */
+    /**
+     * Prevents player from removing player-head NBT using running water
+     */
     @EventHandler
     public void onLiquidFlow(BlockFromToEvent event) {
         handleEvent(event::getToBlock, event, true);

@@ -65,7 +65,7 @@ public class BlockMined implements IStat {
             Object nmsItem = getItem.invoke(craftMagicNumbersClass, material);
             if (nmsItem == null) continue;
             String localizationName = (String) getName.invoke(nmsItem);
-            stats.add(new BlockMined(RandomStringUtils.randomAlphabetic(16), "minecraft.mined:minecraft." + key,   translate.invoke(locale, localizationName)+ " Mined", key));
+            stats.add(new BlockMined(RandomStringUtils.randomAlphabetic(16), "minecraft.mined:minecraft." + key, translate.invoke(locale, localizationName) + " Mined", key));
         }
         cached = stats;
         return cached;

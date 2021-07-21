@@ -2,7 +2,7 @@ name: VanillaTweaks
 version: ${project.version}
 main: me.machinemaker.vanillatweaks.VanillaTweaks
 api-version: 1.16
-authors: [Machine_Maker]
+authors: [ Machine_Maker ]
 description: A replacement for the VanillaTweaks datapack
 
 permissions:

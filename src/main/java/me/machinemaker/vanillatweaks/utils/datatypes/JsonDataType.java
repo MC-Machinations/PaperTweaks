@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Lets you store arbitrary data in PDC.
+ *
  * @param <T>
  */
 public class JsonDataType<T> implements PersistentDataType<String, T> {

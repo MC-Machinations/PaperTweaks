@@ -41,5 +41,6 @@ public abstract class BaseModule {
 
     abstract public void unregister();
 
-    public void reload() { }
+    public void reload() {
+    }
 }

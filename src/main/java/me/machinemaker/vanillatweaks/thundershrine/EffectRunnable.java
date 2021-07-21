@@ -21,7 +21,8 @@ public class EffectRunnable extends BukkitRunnable {
         module.shrineLocations.forEach(entity -> {
             if (entity.isDead()) {
                 toBeRemoved.add(entity);
-            } else entity.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, entity.getLocation().add(0, 1, 0), 1, 0.1, 0.1, 0.1, 1);
+            } else
+                entity.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, entity.getLocation().add(0, 1, 0), 1, 0.1, 0.1, 0.1, 1);
         });
         if (toBeRemoved.size() > 0) {
             module.shrineLocations.removeAll(toBeRemoved);

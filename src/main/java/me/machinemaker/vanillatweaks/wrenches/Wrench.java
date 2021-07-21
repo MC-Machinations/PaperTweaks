@@ -49,9 +49,9 @@ public class Wrench extends BaseModule implements Listener {
         wrench.setItemMeta(meta);
         recipe = new ShapedRecipe(RECIPE_KEY, wrench)
                 .shape(
-                    " # ",
-                    " ##",
-                    "$  "
+                        " # ",
+                        " ##",
+                        "$  "
                 )
                 .setIngredient('#', Material.GOLD_INGOT)
                 .setIngredient('$', Material.IRON_INGOT);

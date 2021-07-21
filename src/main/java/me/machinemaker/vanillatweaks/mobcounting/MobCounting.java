@@ -30,7 +30,8 @@ public class MobCounting extends BaseModule implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER || event.getEntity().getCustomName() != null || !isCounting) return;
+        if (event.getEntityType() == EntityType.PLAYER || event.getEntity().getCustomName() != null || !isCounting)
+            return;
         String entry = ChatColor.YELLOW + event.getEntity().getName();
         int currentScore = objective.getScore(entry).getScore();
         objective.getScore(entry).setScore(currentScore + 1);

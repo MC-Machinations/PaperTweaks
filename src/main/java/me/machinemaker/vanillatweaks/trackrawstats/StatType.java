@@ -16,11 +16,10 @@ import java.util.Set;
 public enum StatType {
     SIMPLE(Sets.newHashSet(Simple.values())),
     CUSTOM(Sets.newHashSet(Custom.values())),
-//    BLOCKS_MINED(BlockMined.stats()),
+    //    BLOCKS_MINED(BlockMined.stats()),
     KILL_ENTITY(Sets.newHashSet(KillEntity.values())),
     KILLED_BY_ENTITY(Sets.newHashSet(KilledByEntity.values())),
-    MISC(Sets.newHashSet(Misc.values()))
-    ;
+    MISC(Sets.newHashSet(Misc.values()));
 
     final Set<? extends IStat> stats;
     final Map<String, Objective> objectiveMap = Maps.newHashMap();

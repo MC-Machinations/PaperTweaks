@@ -73,7 +73,7 @@ public class CoordinatesHUD extends BaseModule implements Listener {
                 long hours = time / 1000;
                 Long extra = (time - (hours * 1000)) * 60 / 1000;
 
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.format(ChatColor.GOLD + "XYZ: "+ ChatColor.RESET + "%d %d %d  " + ChatColor.GOLD + "%2s      %02d:%02d",
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.format(ChatColor.GOLD + "XYZ: " + ChatColor.RESET + "%d %d %d  " + ChatColor.GOLD + "%2s      %02d:%02d",
                         player.getLocation().getBlockX(),
                         player.getLocation().getBlockY(),
                         player.getLocation().getBlockZ(),
@@ -109,6 +109,7 @@ public class CoordinatesHUD extends BaseModule implements Listener {
         NORTHWEST("NW");
 
         final String c;
+
         Direction(String c) {
             this.c = c;
         }
