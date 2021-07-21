@@ -13,4 +13,7 @@ public class Config extends BaseConfig {
 
     @Path("notification-cooldown-seconds")
     public Integer notificationCooldown = 10;
+
+    @Path("enabled-by-default")
+    public Boolean enabledByDefault = true;
 }

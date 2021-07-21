@@ -17,6 +17,8 @@ import java.util.UUID;
 
 public class VTUtils {
 
+    private VTUtils() { }
+
     public static ItemStack getSkull(String name, String uuid, String texture, int count) {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD, count);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
