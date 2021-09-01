@@ -22,6 +22,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -35,8 +36,8 @@ class Lifecycle extends ModuleLifecycle {
     private BukkitTask task;
 
     @Inject
-    public Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config, HUDRunnable hudRunnable) {
-        super(plugin, commands, listeners, configs);
+    public Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config, HUDRunnable hudRunnable, Set<ModuleRecipe<?>> moduleRecipes) {
+        super(plugin, commands, listeners, configs, moduleRecipes);
         this.config = config;
         this.hudRunnable = hudRunnable;
     }

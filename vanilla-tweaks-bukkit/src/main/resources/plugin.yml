@@ -76,3 +76,29 @@ permissions:
     default: true
     description: Use a wrench to rotate terracotta blocks
 
+  vanillatweaks.spawn.current:
+    default: true
+    description: Use /spawn command (for current world)
+  vanillatweaks.spawn.other:
+    default: true
+    description: Use /spawn command (for any world)
+    children:
+      vanillatweaks.spawn.current: true
+  vanillatweaks.spawn:
+    default: true
+    description: Use /spawn command (both for current world and other worlds)
+    children:
+      vanillatweaks.spawn.current: true
+      vanillatweaks.spawn.other: true
+
+  vanillatweaks.killboats:
+    default: op
+    description: Use kill boats command
+
+  vanillatweaks.largerphantoms:
+    default: true
+    description: Phantoms spawned on these players will be affected
+
+  vanillatweaks.silencemobs:
+    default: true
+    description: Allow player to silence mobs

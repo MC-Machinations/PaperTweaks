@@ -19,11 +19,16 @@ package me.machinemaker.vanillatweaks.cloud;
 
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.command.ConsoleCommandSender;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 /**
  * Represents the console command sender
  */
 public class ConsoleCommandDispatcher extends CommandDispatcher {
+
+    private static final UUID CONSOLE_UUID = UUID.randomUUID(); // For tracking cooldowns
 
     private final ConsoleCommandSender console;
 
@@ -35,5 +40,10 @@ public class ConsoleCommandDispatcher extends CommandDispatcher {
     @Override
     public ConsoleCommandSender sender() {
         return console;
+    }
+
+    @Override
+    public @Nullable UUID getUUID() {
+        return CONSOLE_UUID;
     }
 }

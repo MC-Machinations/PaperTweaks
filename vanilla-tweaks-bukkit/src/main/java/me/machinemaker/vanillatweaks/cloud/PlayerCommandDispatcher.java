@@ -23,6 +23,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 /**
  * Represents a player command sender
@@ -52,5 +55,10 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     @Override
     public PersistentDataContainer getPersistentDataContainer() {
         return this.sender().getPersistentDataContainer();
+    }
+
+    @Override
+    public @Nullable UUID getUUID() {
+        return player.getUniqueId();
     }
 }

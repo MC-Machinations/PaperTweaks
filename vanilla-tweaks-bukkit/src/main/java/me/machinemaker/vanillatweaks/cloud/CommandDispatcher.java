@@ -21,6 +21,10 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Base class for representing command senders.
@@ -55,4 +59,18 @@ public abstract class CommandDispatcher implements Audience, ForwardingAudience.
         return audience;
     }
 
+    public abstract @Nullable UUID getUUID();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommandDispatcher that = (CommandDispatcher) o;
+        return bukkitCommandSender.equals(that.bukkitCommandSender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bukkitCommandSender);
+    }
 }

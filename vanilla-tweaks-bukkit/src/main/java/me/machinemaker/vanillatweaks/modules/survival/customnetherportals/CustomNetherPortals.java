@@ -24,6 +24,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,8 +62,8 @@ public class CustomNetherPortals extends ModuleBase {
         private final Config config;
 
         @Inject
-        protected Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config) {
-            super(plugin, commands, listeners, configs);
+        protected Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config, Set<ModuleRecipe<?>> moduleRecipes) {
+            super(plugin, commands, listeners, configs, moduleRecipes);
             this.config = config;
         }
 

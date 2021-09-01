@@ -6,13 +6,7 @@ authors: [ Machine_Maker ]
 description: A replacement for the VanillaTweaks datapack
 
 permissions:
-  
-  vanillatweaks.killboats:
-    default: op
-    description: Use kill boats command
-  vanillatweaks.largerphantoms:
-    default: true
-    description: Phantoms spawned on these players will be affected
+
   vanillatweaks.mobdeathcount.help:
     default: true
     description: Use /mdc help
@@ -52,9 +46,6 @@ permissions:
   vanillatweaks.moremobheads:
     default: true
     description: Mobs killed by this player will drop heads (if killed by a player)
-  vanillatweaks.multiplayersleep:
-    default: true
-    description: Players with this permission will count towards threshold
   vanillatweaks.pillagertools.toggle:
     default: op
     description: Toggle individual pillager tool settings
@@ -67,9 +58,6 @@ permissions:
     children:
       vanillatweaks.pillagertools.toggle: true
       vanillatweaks.pillagertools.status: true
-  vanillatweaks.playergraves:
-    default: true
-    description: Player will have a grave created
   vanillatweaks.playerheaddrops:
     default: true
     description: Players killed by this player will drop heads
@@ -82,9 +70,6 @@ permissions:
   vanillatweaks.admin:
     default: op
     description: Allow /sha reset <player>
-  vanillatweaks.silencemobs:
-    default: true
-    description: Allow player to silence mobs
   vanillatweaks.spawningspheres.add:
     default: op
     description: Use /ss add
@@ -159,12 +144,3 @@ permissions:
     children:
       vanillatweaks.villagerdeathmessages.death: true
       vanillatweaks.villagerdeathmessages.conversion: true
-  vanillatweaks.workstationhighlights.findworkstation:
-    default: true
-    description: Allow /findworkstation
-  vanillatweaks.wrench.redstone:
-    default: true
-    description: Allows use of the Wrench for Redstone-related blocks
-  vanillatweaks.wrench.terracotta:
-    default: true
-    description: Allows use of the Wrench for Glazed terracotta blocks

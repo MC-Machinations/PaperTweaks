@@ -18,8 +18,12 @@
 package me.machinemaker.vanillatweaks.modules;
 
 import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Names;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
+import org.bukkit.Keyed;
+import org.bukkit.inventory.Recipe;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,18 +35,19 @@ public abstract class ModuleBase extends ConfigModule {
 
     private final ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
 
-    @NotNull
-    protected Collection<Class<? extends ModuleListener>> listeners() {
+    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
         return Collections.emptySet();
     }
 
-    @NotNull
-    protected Collection<Class<? extends ModuleCommand>> commands() {
+    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
         return Collections.emptySet();
     }
 
-    @NotNull
-    protected abstract Class<? extends ModuleLifecycle> lifecycle();
+    protected abstract @NotNull Class<? extends ModuleLifecycle> lifecycle();
+
+    protected @NotNull Collection<ModuleRecipe<?>> recipes() {
+        return Collections.emptySet();
+    }
 
     @Override
     @MustBeInvokedByOverriders
@@ -53,6 +58,9 @@ public abstract class ModuleBase extends ConfigModule {
 
         bindModuleParts(listeners(), ModuleListener.class);
         bindModuleParts(commands(), ModuleCommand.class);
+
+        final Multibinder<ModuleRecipe<?>> binder = Multibinder.newSetBinder(binder(), new TypeLiteral<ModuleRecipe<?>>() {});
+        recipes().forEach(r -> bindRecipe(binder, r));
     }
 
     private <T> void bindModuleParts(Collection<Class<? extends T>> parts, Class<T> partClass) {
@@ -61,6 +69,11 @@ public abstract class ModuleBase extends ConfigModule {
             bind(part).in(Scopes.SINGLETON);
             binder.addBinding().to(part).in(Scopes.SINGLETON);
         }
+    }
+
+    private <R extends Recipe & Keyed> void bindRecipe(Multibinder<ModuleRecipe<?>> binder, ModuleRecipe<R> moduleRecipe) {
+        binder.addBinding().toInstance(moduleRecipe);
+        this.bind(moduleRecipe.recipeType()).annotatedWith(Names.named(moduleRecipe.key().getKey())).toInstance(moduleRecipe.recipe());
     }
 
     public String getName() {
@@ -76,7 +89,7 @@ public abstract class ModuleBase extends ConfigModule {
     }
 
     @Override
-    protected String getConfigDataFolder() {
+    protected @NotNull String getConfigDataFolder() {
         return this.moduleInfo.name().toLowerCase(Locale.ENGLISH);
     }
 

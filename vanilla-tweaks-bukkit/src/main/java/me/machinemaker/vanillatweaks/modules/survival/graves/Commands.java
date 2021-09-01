@@ -19,7 +19,7 @@ package me.machinemaker.vanillatweaks.modules.survival.graves;
 
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.DataTypes;
+import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.cloud.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;

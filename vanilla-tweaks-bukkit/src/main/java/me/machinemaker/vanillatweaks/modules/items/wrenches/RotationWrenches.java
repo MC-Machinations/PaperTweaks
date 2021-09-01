@@ -22,6 +22,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -43,5 +44,10 @@ public class RotationWrenches extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class, WrenchListener.class);
+    }
+
+    @Override
+    protected @NotNull Collection<ModuleRecipe<?>> recipes() {
+        return Set.of(new ModuleRecipe<>(Lifecycle.WRENCH_RECIPE));
     }
 }

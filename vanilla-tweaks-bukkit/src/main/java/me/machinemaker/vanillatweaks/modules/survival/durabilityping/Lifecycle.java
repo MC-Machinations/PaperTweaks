@@ -23,6 +23,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,8 +37,8 @@ class Lifecycle extends ModuleLifecycle {
     private final PlayerListener listener;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, DurabilityPing durabilityPing, Config config, PlayerListener listener) {
-        super(plugin, commands, listeners, configs);
+    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, DurabilityPing durabilityPing, Config config, PlayerListener listener, Set<ModuleRecipe<?>> moduleRecipes) {
+        super(plugin, commands, listeners, configs, moduleRecipes);
         this.durabilityPing = durabilityPing;
         this.config = config;
         this.listener = listener;

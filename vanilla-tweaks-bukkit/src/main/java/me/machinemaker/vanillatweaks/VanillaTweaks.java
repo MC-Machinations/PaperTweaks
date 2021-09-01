@@ -32,7 +32,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
 import me.machinemaker.vanillatweaks.translations.MappedTranslatableComponentRenderer;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.TranslationRegistry;
 import net.kyori.adventure.util.UTF8ResourceBundleControl;
@@ -50,12 +50,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.TextComponent.ofChildren;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class VanillaTweaks extends JavaPlugin {
 
+    public static final Component PLUGIN_PREFIX = text("[VanillaTweaks] ", WHITE);
     public static final Map<Locale, ResourceBundle> BUNDLE_MAP = Maps.newHashMap();
 
     static {
@@ -69,6 +74,7 @@ public class VanillaTweaks extends JavaPlugin {
     }
 
     private static final Key LANG_KEY = Key.key("vanillatweaks", "lang");
+    private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
 
     private Injector pluginInjector;
     @Inject
@@ -93,7 +99,7 @@ public class VanillaTweaks extends JavaPlugin {
                     bind(BukkitAudiences.class).toInstance(BukkitAudiences.create(VanillaTweaks.this));
                     bind(Path.class).annotatedWith(Names.named("data")).toInstance(VanillaTweaks.this.getDataFolder().toPath());
                 }
-            }, new ModuleRegistry(this), new CloudModule(this));
+            }, new ModuleRegistry(this), new CloudModule(this, EXECUTOR_SERVICE));
             pluginInjector.injectMembers(this);
         } catch (CreationException e) {
             throw new RuntimeException("Could not create injector!", e);
@@ -106,16 +112,19 @@ public class VanillaTweaks extends JavaPlugin {
         });
         GlobalTranslator.get().addSource(translationRegistry);
 
-        audiences.console().sendMessage(translatable("plugin-lifecycle.on-enable.loaded-modules", NamedTextColor.GOLD, text(moduleManager.loadModules(), NamedTextColor.GRAY)));
-        audiences.console().sendMessage(translatable("plugin-lifecycle.on-enable.enabled-modules", NamedTextColor.GREEN, text(moduleManager.enableModules(), NamedTextColor.GRAY)));
+        audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.loaded-modules", GOLD, text(moduleManager.loadModules(), GRAY))));
+        audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.enabled-modules", GREEN, text(moduleManager.enableModules(), GRAY))));
 
         pluginInjector.getInstance(RootCommand.class).registerCommands();
+        this.getServer().getPluginManager().registerEvents(pluginInjector.getInstance(GlobalListener.class), this);
     }
 
     @Override
     public void onDisable() {
+        moduleManager.disableModules();
+        EXECUTOR_SERVICE.shutdown();
         if (this.audiences != null) {
-            audiences.console().sendMessage(translatable("plugin-lifecycle.on-disable.disabled-modules", NamedTextColor.YELLOW, text(moduleManager.disableModules(), NamedTextColor.GRAY)));
+            audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(moduleManager.disableModules(), GRAY))));
         }
     }
 

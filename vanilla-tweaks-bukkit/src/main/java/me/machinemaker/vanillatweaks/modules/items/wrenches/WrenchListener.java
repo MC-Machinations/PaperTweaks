@@ -20,12 +20,13 @@ package me.machinemaker.vanillatweaks.modules.items.wrenches;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.Tags;
-import me.machinemaker.vanillatweaks.utils.tags.MaterialTag;
+import me.machinemaker.vanillatweaks.tags.Tags;
+import me.machinemaker.vanillatweaks.tags.types.MaterialTag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.Piston;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -60,6 +61,7 @@ class WrenchListener implements ModuleListener {
             if (blockData instanceof Directional directional
                     && (isValid(block, event.getPlayer(), config.redstoneWrench, Tags.REDSTONE_COMPONENTS, "vanillatweaks.wrench.redstone")
                     || isValid(block, event.getPlayer(), config.terracottaWrench, Tags.GLAZED_TERRACOTTA, "vanillatweaks.wrench.terracotta"))) {
+                if (directional instanceof Piston piston && piston.isExtended()) return;
                 List<BlockFace> applicableFaces = Lists.newArrayList();
                 for (BlockFace face : FACES) {
                     if (directional.getFaces().contains(face)) {

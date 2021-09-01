@@ -17,18 +17,19 @@
  */
 package me.machinemaker.vanillatweaks.cloud;
 
+import com.google.common.cache.CacheLoader;
 import com.google.inject.Inject;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory for creating implementations of {@link CommandDispatcher}.
  */
-public class CommandDispatcherFactory {
+public class CommandDispatcherFactory extends CacheLoader<CommandSender, CommandDispatcher> {
 
     private final BukkitAudiences audiences;
 
@@ -43,14 +44,19 @@ public class CommandDispatcherFactory {
      * @param sender the bukkit sender
      * @return the created dispatcher
      */
-    @NonNull
+    @NotNull
     public CommandDispatcher from(CommandSender sender) {
-        if (sender instanceof ConsoleCommandSender) {
-            return new ConsoleCommandDispatcher((ConsoleCommandSender) sender, audiences.console());
-        } else if (sender instanceof Player) {
-            Audience audience = audiences.player((Player) sender);
-            return new PlayerCommandDispatcher((Player) sender, audience);
+        if (sender instanceof ConsoleCommandSender consoleCommandSender) {
+            return new ConsoleCommandDispatcher(consoleCommandSender, audiences.console());
+        } else if (sender instanceof Player player) {
+            Audience audience = audiences.player(player);
+            return new PlayerCommandDispatcher(player, audience);
         }
         throw new IllegalArgumentException(sender + " is unknown");
+    }
+
+    @Override
+    public CommandDispatcher load(@NotNull CommandSender key) throws Exception {
+        return from(key);
     }
 }

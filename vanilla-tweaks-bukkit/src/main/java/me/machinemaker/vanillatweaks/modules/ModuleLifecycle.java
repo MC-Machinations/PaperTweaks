@@ -22,12 +22,18 @@ import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public abstract class ModuleLifecycle {
 
@@ -35,6 +41,7 @@ public abstract class ModuleLifecycle {
     private final Set<ModuleCommand> commands;
     private final Set<ModuleListener> listeners;
     private final Set<ModuleConfig> configs;
+    private final Map<NamespacedKey, Recipe> moduleRecipes;
     private ModuleState state = ModuleState.DISABLED;
     @Inject
     private PaperCommandManager<CommandDispatcher> commandManager;
@@ -42,11 +49,12 @@ public abstract class ModuleLifecycle {
     private ModuleInfo moduleInfo;
 
     @Inject
-    protected ModuleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs) {
+    protected ModuleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
         this.plugin = plugin;
         this.commands = commands;
         this.listeners = listeners;
         this.configs = configs;
+        this.moduleRecipes = moduleRecipes.stream().collect(Collectors.toMap(ModuleRecipe::key, ModuleRecipe::recipe));
     }
 
     public void onEnable() { }
@@ -68,6 +76,7 @@ public abstract class ModuleLifecycle {
             enableCommands();
             registerListeners();
             configs.forEach(ModuleConfig::reloadOrSaveAndSave);
+            registerRecipes();
             onEnable();
             state = ModuleState.ENABLED;
         } catch (Exception e) {
@@ -89,6 +98,7 @@ public abstract class ModuleLifecycle {
             // TODO disable commands
             unregisterListeners();
             configs.forEach(ModuleConfig::save);
+            unregisterRecipes();
             onDisable();
             if (changeState) state = ModuleState.DISABLED;
         } catch (Exception e) {
@@ -101,6 +111,7 @@ public abstract class ModuleLifecycle {
         try {
             if (state.isRunning()) {
                 configs.forEach(ModuleConfig::reloadOrSaveAndSave);
+                registerRecipes();
                 onReload();
             }
         } catch (Exception e) {
@@ -123,11 +134,27 @@ public abstract class ModuleLifecycle {
         listeners.forEach(HandlerList::unregisterAll);
     }
 
+    private void registerRecipes() {
+        moduleRecipes.forEach((key, recipe) -> {
+            if (Bukkit.getRecipe(key) == null) {
+                Bukkit.addRecipe(recipe);
+            }
+        });
+        Bukkit.getOnlinePlayers().forEach(p -> p.discoverRecipes(moduleRecipes.keySet()));
+    }
+
+    private void unregisterRecipes() {
+        moduleRecipes.forEach((key, recipe) -> {
+            Bukkit.removeRecipe(key);
+        });
+        Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(moduleRecipes.keySet()));
+    }
+
     public static class SimpleLifecycle extends ModuleLifecycle {
 
         @Inject
-        protected SimpleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs) {
-            super(plugin, commands, listeners, configs);
+        protected SimpleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
+            super(plugin, commands, listeners, configs, moduleRecipes);
         }
     }
 }

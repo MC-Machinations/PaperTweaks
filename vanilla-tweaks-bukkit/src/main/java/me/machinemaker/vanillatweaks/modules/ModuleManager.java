@@ -93,8 +93,11 @@ public class ModuleManager {
         int count = 0;
         for (var entry : moduleMap.entrySet()) {
             if (isTrue(modulesConfig.get(entry.getValue().getConfigPath()))) {
-                moduleInjectors.get(entry.getValue().getName()).getInstance(ModuleLifecycle.class).disable();
-                count++;
+                Injector injector = moduleInjectors.get(entry.getValue().getName());
+                if (injector != null) {
+                    injector.getInstance(ModuleLifecycle.class).disable();
+                    count++;
+                }
             }
         }
         return count;

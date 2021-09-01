@@ -35,8 +35,7 @@ public abstract class ConfigModule extends AbstractModule {
 
     @Inject @Named("data") private Path dataFolder;
 
-    @NotNull
-    protected Collection<Class<? extends ModuleConfig>> configs() {
+    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
         return Collections.emptySet();
     }
 
@@ -59,6 +58,6 @@ public abstract class ConfigModule extends AbstractModule {
         binder.addBinding().toInstance(config);
     }
 
-    protected abstract String getConfigDataFolder();
+    protected abstract @NotNull String getConfigDataFolder();
 
 }

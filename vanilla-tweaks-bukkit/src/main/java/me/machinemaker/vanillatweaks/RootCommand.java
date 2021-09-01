@@ -30,10 +30,11 @@ import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleManager.ReloadResult;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class RootCommand {
 
@@ -74,26 +75,25 @@ public class RootCommand {
         this.commandManager.taskRecipe().begin(begin).synchronous(taskConsumer).execute();
     }
 
-    private void reloadEverything(CommandDispatcher dispatcher) {
-        Audience sender = dispatcher.audience();
+    private void reloadEverything(@NotNull Audience audience) {
         this.modulesConfig.reloadOrSave();
         // TODO reload more stuff
         ReloadResult result = moduleManager.reloadModules();
         boolean noModuleChange = true;
         if (result.disableCount() > 0) {
-            sender.sendMessage(translatable("commands.reload.all.disabled.success", NamedTextColor.RED, text(result.disableCount(), NamedTextColor.GRAY)));
+            audience.sendMessage(translatable("commands.reload.all.disabled.success", RED, text(result.disableCount(), GRAY)));
             noModuleChange = false;
         }
         if (result.reloadCount() > 0) {
-            sender.sendMessage(translatable("commands.reload.all.reloaded.success", NamedTextColor.YELLOW, text(result.reloadCount(), NamedTextColor.GRAY)));
+            audience.sendMessage(translatable("commands.reload.all.reloaded.success", YELLOW, text(result.reloadCount(), GRAY)));
             noModuleChange = false;
         }
         if (result.enableCount() > 0) {
-            sender.sendMessage(translatable("commands.reload.all.enabled.success", NamedTextColor.GREEN, text(result.enableCount(), NamedTextColor.GRAY)));
+            audience.sendMessage(translatable("commands.reload.all.enabled.success", GREEN, text(result.enableCount(), GRAY)));
             noModuleChange = false;
         }
         if (noModuleChange) {
-            sender.sendMessage(translatable("commands.reload.all.no-module-change", NamedTextColor.GRAY));
+            audience.sendMessage(translatable("commands.reload.all.no-module-change", GRAY));
         }
     }
 

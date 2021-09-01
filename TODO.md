@@ -10,42 +10,64 @@
 - [x] Graves
 - [x] Custom Nether Portals
 - [x] Durability Ping
-- [x] Cauldron Concrete **(Paper Only)**
+- [x] Cauldron Concrete **(Paper ONLY)**
 - [ ] Track Raw Statistics
 - [ ] Track Statistics
 - [x] Nether Portal Coords
 - [x] Coordinates HUD
-- [x] ~~Classic Fishing Loot~~ (way better to just use the datapack)
+- [x] ~~Classic Fishing Loot~~ **USE DATAPACK**
 - [x] Real Time Clock
 - [x] Workstation Highlights
 - [ ] Pillager Tools
 
 ### Items
-- [ ] Redstone Rotation Wrench
-- [ ] Terracotta Rotation Wrench
-- [ ] Armored Elytra
+- [x] Redstone Rotation Wrench
+- [x] Terracotta Rotation Wrench
+- [x] Armored Elytra **(Paper ONLY)**
 - [ ] Player Head Drops
 
 ### Mobs
 
-TODO
+- [x] Anti Creeper Grief
+- [x] Anti Enderman Grief
+- [x] Anti Ghast Grief
+- [x] ~~Double Shulker Shells~~ **USE DATAPACK**
+- [x] ~~Dragon Drops~~ **USE DATAPACK**
+- [x] Larger Phantoms
+- [x] ~~More Mob Heads~~ **USE DATAPACK**
+- [x] Silence Mobs
+- [ ] Count Mob Deaths
+- [ ] Villager Death Messages
 
 ### Teleportation
 
-TODO
+- [x] Spawn
+- [ ] Homes
+- [ ] TPA
+- [ ] Back
 
 ### Utilities
 
-TODO
+- [ ] Custom Villager Shops
+- [ ] Spawning Spheres
+- [ ] Spectator Night Vision
+- [ ] Spectator Conduit Power
+- [ ] Item Averages
+- [x] Kill Empty Boats
 
 ### Hermitcraft
 
-TODO
+- [ ] Gem Villagers
+- [ ] Treasure Gems
+- [ ] Wandering Trades
+- [ ] Wandering Trades (Hermit Edition)
+- [ ] Tag
+- [ ] Thunder Shrine
 
 ### Experimental
 
 - [ ] Timber
-- [ ] XP Management
+- [x] XP Management
 - [ ] Chunk Loaders
 - [x] Confetti Creepers
 - [ ] Elevators

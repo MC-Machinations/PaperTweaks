@@ -22,6 +22,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import me.machinemaker.vanillatweaks.utils.Keys;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,8 +52,8 @@ class Lifecycle extends ModuleLifecycle {
         WRENCH.setItemMeta(meta);
     }
 
-    static final NamespacedKey RECIPE_KEY = Keys.key("redstone_wrench");
-    static final ShapedRecipe WRENCH_RECIPE = new ShapedRecipe(RECIPE_KEY, WRENCH)
+    static final NamespacedKey WRENCH_RECIPE_KEY = Keys.key("redstone_wrench");
+    static final ShapedRecipe WRENCH_RECIPE = new ShapedRecipe(WRENCH_RECIPE_KEY, WRENCH)
             .shape(
                     " # ",
                     " ##",
@@ -63,24 +64,27 @@ class Lifecycle extends ModuleLifecycle {
     private final Config config;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config) {
-        super(plugin, commands, listeners, configs);
+    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config, Set<ModuleRecipe<?>> moduleRecipes) {
+        super(plugin, commands, listeners, configs, moduleRecipes);
         this.config = config;
     }
 
     @Override
     public void onEnable() {
-        Bukkit.addRecipe(WRENCH_RECIPE);
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            player.discoverRecipe(RECIPE_KEY);
-            if (this.config.suggestResourcePack) {
+        if (this.config.suggestResourcePack) {
+            Bukkit.getOnlinePlayers().forEach(player -> {
                 player.setResourcePack(RESOURCE_PACK_URL, RESOURCE_PACK_HASH);
-            }
-        });
+            });
+        }
+
     }
 
     @Override
-    public void onDisable() {
-        Bukkit.removeRecipe(RECIPE_KEY);
+    public void onReload() {
+        if (this.config.suggestResourcePack) {
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                player.setResourcePack(RESOURCE_PACK_URL, RESOURCE_PACK_HASH);
+            });
+        }
     }
 }

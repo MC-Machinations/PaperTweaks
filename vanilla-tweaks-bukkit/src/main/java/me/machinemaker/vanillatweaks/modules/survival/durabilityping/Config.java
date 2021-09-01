@@ -49,7 +49,6 @@ class Config extends ModuleConfig {
     @Description("Default setting for displaying the notification to the player. Can be one of: TITLE, SUBTITLE, CHAT, ACTION_BAR, HIDDEN")
     public Settings.DisplaySetting defaultDisplaySetting = Settings.DisplaySetting.SUBTITLE;
 
-
     @Key("enabled-by-default")
-    public Boolean enabledByDefault = true;
+    public boolean enabledByDefault = true;
 }

@@ -19,7 +19,7 @@ package me.machinemaker.vanillatweaks.modules.survival.graves;
 
 import cloud.commandframework.types.tuples.Pair;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.DataTypes;
+import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.utils.CachedHashObjectWrapper;
 import me.machinemaker.vanillatweaks.utils.Keys;

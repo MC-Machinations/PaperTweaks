@@ -21,8 +21,8 @@ import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.parsers.BooleanParser;
-import me.machinemaker.vanillatweaks.DataTypes;
-import me.machinemaker.vanillatweaks.datatypes.EnumDataType;
+import me.machinemaker.vanillatweaks.pdc.DataTypes;
+import me.machinemaker.vanillatweaks.pdc.types.EnumDataType;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import me.machinemaker.vanillatweaks.settings.SettingWrapper;
 import org.bukkit.NamespacedKey;
@@ -32,7 +32,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull PersistentDataType<?, T> dataType, @NotNull Supplier<T> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, PersistentDataHolder> {

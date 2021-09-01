@@ -106,6 +106,16 @@ public final class VTUtils {
         return entities.stream().findAny().orElse(null);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <E extends Entity> Collection<E> getNearbyEntitiesOfType(E entity, double dx, double dy, double dz) {
+        return getNearbyEntitiesOfType((Class<E>) entity.getClass(), entity.getLocation(), dx, dy, dz);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E extends Entity> Collection<E> getNearbyEntitiesOfType(E entity, double dx, double dy, double dz, Predicate<E> predicate) {
+        return getNearbyEntitiesOfType((Class<E>) entity.getClass(), entity.getLocation(), dx, dy, dz, predicate);
+    }
+
     public static <E extends Entity> Collection<E> getNearbyEntitiesOfType(Class<E> classOfE, @NotNull Location location, double dx, double dy, double dz) {
         return getNearbyEntitiesOfType(classOfE, location, dx, dy, dz, e -> true);
     }

@@ -23,6 +23,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
@@ -41,14 +42,12 @@ class Lifecycle extends ModuleLifecycle {
 
     private final BukkitAudiences audiences;
     private final Config config;
-    private final PlayerListener listener;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, BukkitAudiences audiences, Config config, PlayerListener listener) {
-        super(plugin, commands, listeners, configs);
+    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, BukkitAudiences audiences, Config config, Set<ModuleRecipe<?>> moduleRecipes) {
+        super(plugin, commands, listeners, configs, moduleRecipes);
         this.audiences = audiences;
         this.config = config;
-        this.listener = listener;
     }
 
     @Override
