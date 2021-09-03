@@ -1,3 +1,20 @@
+/*
+ * VanillaTweaks, a performant replacement for the VanillaTweaks datapacks.
+ *
+ * Copyright (C) 2021 Machine_Maker
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 package me.machinemaker.vanillatweaks.pdc;
 
 import org.bukkit.NamespacedKey;
@@ -12,15 +29,19 @@ import java.util.UUID;
 
 public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, Z> dataType) {
 
-    public static @NotNull PDCKey<Boolean> forBool(@NotNull NamespacedKey key) {
+    public static @NotNull PDCKey<Boolean> bool(@NotNull NamespacedKey key) {
         return new PDCKey<>(key, DataTypes.BOOLEAN);
     }
 
-    public static @NotNull PDCKey<UUID> forUUID(@NotNull NamespacedKey key) {
+    public static @NotNull PDCKey<String> string(@NotNull NamespacedKey key) {
+        return new PDCKey<>(key, PersistentDataType.STRING);
+    }
+
+    public static @NotNull PDCKey<UUID> uuid(@NotNull NamespacedKey key) {
         return new PDCKey<>(key, DataTypes.UUID);
     }
 
-    public static @NotNull PDCKey<ItemStack> forItemStack(@NotNull NamespacedKey key) {
+    public static @NotNull PDCKey<ItemStack> itemStack(@NotNull NamespacedKey key) {
         return new PDCKey<>(key, DataTypes.ITEMSTACK);
     }
 
@@ -28,17 +49,17 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return holder.getPersistentDataContainer().has(this.key, this.dataType);
     }
 
-    public @Nullable Z get(@NotNull PersistentDataHolder holder) {
+    public @Nullable Z getFrom(@NotNull PersistentDataHolder holder) {
         return holder.getPersistentDataContainer().get(this.key, this.dataType);
     }
 
-    public void set(@NotNull PersistentDataHolder holder, Z object) {
+    public void setFrom(@NotNull PersistentDataHolder holder, Z object) {
         holder.getPersistentDataContainer().set(this.key, this.dataType, object);
     }
 
-    public @Nullable Z get(@NotNull ItemStack stack) {
+    public @Nullable Z getFrom(@NotNull ItemStack stack) {
         if (stack.getItemMeta() != null) {
-            return get(stack.getItemMeta());
+            return getFrom(stack.getItemMeta());
         }
         return null;
     }
@@ -51,7 +72,7 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
     }
 
     @Contract("_, null -> null; _, !null -> !null")
-    public Z getOrDefault(@NotNull PersistentDataHolder holder, Z defaultValue) {
+    public Z getFromOrDefault(@NotNull PersistentDataHolder holder, Z defaultValue) {
         return holder.getPersistentDataContainer().getOrDefault(this.key, this.dataType, defaultValue);
     }
 }

@@ -21,7 +21,7 @@ import cloud.commandframework.arguments.parser.ArgumentParseResult;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.arguments.standard.BooleanArgument;
 import cloud.commandframework.context.CommandContext;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;

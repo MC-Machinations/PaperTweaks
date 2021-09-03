@@ -31,6 +31,10 @@ import com.google.inject.Singleton;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
+import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcherFactory;
+import me.machinemaker.vanillatweaks.cloud.processors.post.GamemodePostprocessor;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,6 +46,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class CloudModule extends AbstractModule {
 
@@ -75,9 +80,8 @@ public class CloudModule extends AbstractModule {
     CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager() {
         return new CommandCooldownManager<>(
                 CommandDispatcher::getUUID,
-                (context, cooldown, secondsLeft) -> {
-                    context.getCommandContext().getSender().sendMessage(text("Cooling down"));
-                }, executorService);
+                (context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(text("Cooling down", RED)),
+                executorService);
     }
 
     @Provides
@@ -108,6 +112,8 @@ public class CloudModule extends AbstractModule {
             commandManager.parameterInjectorRegistry().registerInjector(ModuleManager.class, (context, annotationAccessor) -> moduleManager);
 
             commandCooldownManager.registerCooldownManager(commandManager);
+
+            commandManager.registerCommandPostProcessor(new GamemodePostprocessor());
 
             return commandManager;
         } catch (Exception e) {

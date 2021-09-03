@@ -21,7 +21,7 @@ import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.PlayerCommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
@@ -84,9 +84,11 @@ class Commands extends ModuleCommand {
         ).command(
                 builder.permission(ModulePermission.of(lifecycle, "vanillatweaks.admin.grave-key"))
                         .literal("grave-key", RichDescription.translatable("modules.graves.commands.admin.grave-key"))
-                        .handler(context -> {
-                            Player player = PlayerCommandDispatcher.from(context);
-                            player.getInventory().addItem(GRAVE_KEY);
+                        .handler(commandContext -> {
+                            manager.taskRecipe().begin(commandContext).synchronous(context -> {
+                                Player player = PlayerCommandDispatcher.from(context);
+                                player.getInventory().addItem(GRAVE_KEY);
+                            }).execute();
                         })
         );
     }

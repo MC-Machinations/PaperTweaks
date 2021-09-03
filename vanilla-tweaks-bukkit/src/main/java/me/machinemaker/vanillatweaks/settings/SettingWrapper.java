@@ -18,7 +18,7 @@
 package me.machinemaker.vanillatweaks.settings;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.jetbrains.annotations.NotNull;

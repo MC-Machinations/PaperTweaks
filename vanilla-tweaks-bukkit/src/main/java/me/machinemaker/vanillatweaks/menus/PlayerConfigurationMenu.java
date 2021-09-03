@@ -18,8 +18,8 @@
 package me.machinemaker.vanillatweaks.menus;
 
 import cloud.commandframework.context.CommandContext;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
-import me.machinemaker.vanillatweaks.cloud.PlayerCommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;

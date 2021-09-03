@@ -11,7 +11,6 @@ import me.machinemaker.vanillatweaks.durabilityping.DurabilityPing;
 import me.machinemaker.vanillatweaks.killemptyboats.KillEmptyBoats;
 import me.machinemaker.vanillatweaks.largerphantoms.LargerPhantoms;
 import me.machinemaker.vanillatweaks.mobcounting.MobCounting;
-import me.machinemaker.vanillatweaks.mobdrops.MobDrops;
 import me.machinemaker.vanillatweaks.mobgriefing.MobGriefing;
 import me.machinemaker.vanillatweaks.mobheads.MobHeads;
 import me.machinemaker.vanillatweaks.multiplayersleep.MultiplayerSleep;

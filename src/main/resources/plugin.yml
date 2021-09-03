@@ -52,7 +52,7 @@ permissions:
   vanillatweaks.pillagertools.status:
     default: true
     description: View pillager tool settings
-  vanillatweaks.pillatertools:
+  vanillatweaks.pillagertools:
     default: op
     description: Use both commands
     children:
@@ -82,12 +82,6 @@ permissions:
     children:
       vanillatweaks.spawningspheres.add: true
       vanillatweaks.spawningspheres.remove: true
-  vanillatweaks.spectatortoggle.nightvision:
-    default: true
-    description: Spectators can toggle the Night Vision effect
-  vanillatweaks.spectatortoggle.conduitpower:
-    default: true
-    description: Spectators can toggle the Conduit Power effect
   vanillatweaks.tag.givetag:
     default: op
     description: Gives you or a player a tag
@@ -132,15 +126,3 @@ permissions:
       vanillatweaks.trackrawstats.toggle: true
       vanillatweaks.trackrawstats.show: true
       vanillatweaks.trackrawstats.help: true
-  vanillatweaks.villagerdeathmessages.death:
-    default: true
-    description: Get a message when a villager dies
-  vanillatweaks.villagerdeathmessages.conversion:
-    default: true
-    description: Get a message when a villager converts
-  vanillatweaks.villagerdeathmessages:
-    default: true
-    description: Get a message for either reason
-    children:
-      vanillatweaks.villagerdeathmessages.death: true
-      vanillatweaks.villagerdeathmessages.conversion: true

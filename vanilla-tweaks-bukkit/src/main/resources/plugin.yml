@@ -65,9 +65,18 @@ permissions:
     default: true
     description: Find villager workstations with /find-workstation
 
+  vanillatweaks.realtimeclock.local:
+    default: true
+    description: Show game time for the current world
+  vanillatweaks.realtimeclock.other:
+    default: true
+    description: Show game time for other worlds
   vanillatweaks.realtimeclock:
     default: true
     description: Show game time for the current world or a specific world
+    children:
+      vanillatweaks.realtimeclock.local: true
+      vanillatweaks.realtimeclock.other: true
 
   vanillatweaks.wrench.redstone:
     default: true
@@ -102,3 +111,46 @@ permissions:
   vanillatweaks.silencemobs:
     default: true
     description: Allow player to silence mobs
+
+  vanillatweaks.villagerdeathmessages.death:
+    default: true
+    description: Get a message when a villager dies
+  vanillatweaks.villagerdeathmessages.conversion:
+    default: true
+    description: Get a message when a villager converts
+  vanillatweaks.villagerdeathmessages:
+    default: true
+    description: Get a message for either reason
+    children:
+      vanillatweaks.villagerdeathmessages.death: true
+      vanillatweaks.villagerdeathmessages.conversion: true
+
+  vanillatweaks.spectatortoggle:
+    default: true
+    description: Spectators can toggle both the Night Vision and Conduit Power effects
+    children:
+      vanillatweaks.spectatortoggle.nightvision: true
+      vanillatweaks.spectatortoggle.conduitpower: true
+  vanillatweaks.spectatortoggle.nightvision:
+    default: true
+    description: Spectators can toggle the Night Vision effect
+  vanillatweaks.spectatortoggle.conduitpower:
+    default: true
+    description: Spectators can toggle the Conduit Power effect
+
+  vanillatweaks.elevators.create:
+    default: true
+    description: Create elevators
+  vanillatweaks.elevators.use:
+    default: true
+    description: Use elevators
+
+
+libraries:
+  - com.google.inject:guice:5.0.1
+  - me.lucko:adventure-platform-bukkit:4.8.1
+  - io.github.classgraph:classgraph:4.8.114
+  - com.fasterxml.jackson.core:jackson-databind:2.12.4
+  - io.leangen.geantyref:geantyref:1.3.11
+  - net.kyori:adventure-text-serializer-plain:4.8.1
+  - net.kyori:adventure-api:4.8.1

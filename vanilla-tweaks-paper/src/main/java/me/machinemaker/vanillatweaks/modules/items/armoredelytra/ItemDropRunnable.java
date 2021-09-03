@@ -55,8 +55,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class ItemDropRunnable extends BukkitRunnable {
 
-    static final PDCKey<ItemStack> ELYTRA_ITEM = PDCKey.forItemStack(Keys.key("ae.elytra_item"));
-    static final PDCKey<ItemStack> CHESTPLATE_ITEM = PDCKey.forItemStack(Keys.key("ae.chestplate_item"));
+    static final PDCKey<ItemStack> ELYTRA_ITEM = PDCKey.itemStack(Keys.key("ae.elytra_item"));
+    static final PDCKey<ItemStack> CHESTPLATE_ITEM = PDCKey.itemStack(Keys.key("ae.chestplate_item"));
 
     private final Item item;
     private final LookingFor lookingFor;
@@ -120,9 +120,9 @@ class ItemDropRunnable extends BukkitRunnable {
         Material chestplateMaterial = chestStack.getType();
         armoredMeta.lore(List.of(ofChildren(text("+ "), translatable(chestplateMaterial)).color(GOLD).decoration(TextDecoration.ITALIC, false)));
 
-        ItemListener.IS_ARMORED_ELYTRA.set(armoredMeta, true);
-        ELYTRA_ITEM.set(armoredMeta, elytraStack);
-        CHESTPLATE_ITEM.set(armoredMeta, chestStack);
+        ItemListener.IS_ARMORED_ELYTRA.setFrom(armoredMeta, true);
+        ELYTRA_ITEM.setFrom(armoredMeta, elytraStack);
+        CHESTPLATE_ITEM.setFrom(armoredMeta, chestStack);
 
         Map<Enchantment, Integer> enchants = Maps.newHashMap(chestplate.getItemStack().getEnchantments());
         elytraStack.getEnchantments().forEach((enchantment, level) -> {
@@ -172,11 +172,11 @@ class ItemDropRunnable extends BukkitRunnable {
         ItemStack elytraStack = elytra.getItemStack();
         if (elytraStack.getItemMeta() == null) return;
 
-        ItemStack elytraItem = ELYTRA_ITEM.get(elytraStack);
+        ItemStack elytraItem = ELYTRA_ITEM.getFrom(elytraStack);
         if (elytraItem != null) {
             world.dropItem(location.add(0, 1.1, 0), elytraItem);
         }
-        ItemStack chestItem = CHESTPLATE_ITEM.get(elytraStack);
+        ItemStack chestItem = CHESTPLATE_ITEM.getFrom(elytraStack);
         if (chestItem != null) {
             world.dropItem(location.add(0, 1.1, 0), chestItem);
         }

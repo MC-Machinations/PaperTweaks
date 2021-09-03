@@ -19,7 +19,7 @@ package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.PlayerCommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import net.kyori.adventure.text.format.NamedTextColor;

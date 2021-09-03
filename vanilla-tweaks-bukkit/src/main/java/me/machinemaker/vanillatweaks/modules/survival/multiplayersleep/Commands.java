@@ -19,11 +19,9 @@ package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
-import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.PlayerCommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;

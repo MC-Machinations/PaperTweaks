@@ -25,6 +25,8 @@ import me.machinemaker.lectern.LecternConfig;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
 import java.util.Optional;
@@ -58,13 +60,15 @@ public class ModuleManager {
         SYNC_COMMANDS_METHOD.invoke(Bukkit.getServer());
     }
 
+    private final JavaPlugin plugin;
     private final Map<String, ModuleBase> moduleMap;
     private final Injector baseInjector;
     private final Map<String, Injector> moduleInjectors = Maps.newHashMap();
     private final LecternConfig modulesConfig;
 
     @Inject
-    public ModuleManager(Map<String, ModuleBase> moduleMap, Injector baseInjector, @Named("modules") LecternConfig modulesConfig) {
+    public ModuleManager(JavaPlugin plugin, Map<String, ModuleBase> moduleMap, Injector baseInjector, @Named("modules") LecternConfig modulesConfig) {
+        this.plugin = plugin;
         this.moduleMap = moduleMap;
         this.baseInjector = baseInjector;
         this.modulesConfig = modulesConfig;
@@ -121,6 +125,12 @@ public class ModuleManager {
                 enableCount++;
             }
         }
+        if (enableCount > 0) {
+            reSyncCommands();
+        }
+        if (enableCount > 0 || disableCount > 0) {
+            resendData();
+        }
         return new ReloadResult(disableCount, reloadCount, enableCount);
     }
 
@@ -145,7 +155,11 @@ public class ModuleManager {
             return translatable("commands.enable.fail.error", RED, text(moduleName, GOLD));
         }
         this.modulesConfig.set(this.moduleMap.get(moduleName).getConfigPath(), true);
-        this.modulesConfig.save();
+        if (Bukkit.isPrimaryThread()) {
+            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, this.modulesConfig::save);
+        } else {
+            this.modulesConfig.save();
+        }
         return translatable("commands.enable.success", GREEN, text(moduleName, GOLD));
     }
 
@@ -155,12 +169,16 @@ public class ModuleManager {
             return translatable("commands.disable.fail.already-disabled", YELLOW, text(moduleName, GOLD));
         }
         lifecycle.disable();
-        resendData();
         if (lifecycle.getState() == ModuleState.DISABLE_FAILED) {
             return translatable("commands.disable.fail.error", RED, text(moduleName, GOLD));
         }
+        Bukkit.getOnlinePlayers().forEach(Player::updateCommands);
         this.modulesConfig.set(this.moduleMap.get(moduleName).getConfigPath(), false);
-        this.modulesConfig.save();
+        if (Bukkit.isPrimaryThread()) {
+            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, this.modulesConfig::save);
+        } else {
+            this.modulesConfig.save();
+        }
         return translatable("commands.disable.success", GREEN, text(moduleName, GOLD));
     }
 
@@ -171,6 +189,7 @@ public class ModuleManager {
             if (lifecycle.getState() == ModuleState.RELOAD_FAILED) {
                 return translatable("commands.reload.module.fail.error", RED, text(moduleName, GOLD));
             }
+            resendData();
             return translatable("commands.reload.module.success", GREEN, text(moduleName, GOLD));
         } else {
             return translatable("commands.reload.module.fail.not-enabled", RED, text(moduleName, GOLD));

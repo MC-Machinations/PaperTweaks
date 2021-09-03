@@ -10,7 +10,7 @@
 - [x] Graves
 - [x] Custom Nether Portals
 - [x] Durability Ping
-- [x] Cauldron Concrete **(Paper ONLY)**
+- [x] Cauldron Concrete **PAPER ONLY**
 - [ ] Track Raw Statistics
 - [ ] Track Statistics
 - [x] Nether Portal Coords
@@ -23,7 +23,7 @@
 ### Items
 - [x] Redstone Rotation Wrench
 - [x] Terracotta Rotation Wrench
-- [x] Armored Elytra **(Paper ONLY)**
+- [x] Armored Elytra **PAPER ONLY**
 - [ ] Player Head Drops
 
 ### Mobs
@@ -34,10 +34,10 @@
 - [x] ~~Double Shulker Shells~~ **USE DATAPACK**
 - [x] ~~Dragon Drops~~ **USE DATAPACK**
 - [x] Larger Phantoms
-- [x] ~~More Mob Heads~~ **USE DATAPACK**
+- [ ] More Mob Heads~~ **USE DATAPACK** (or maybe not, still deciding)
 - [x] Silence Mobs
 - [ ] Count Mob Deaths
-- [ ] Villager Death Messages
+- [x] Villager Death Messages **PAPER ONLY**
 
 ### Teleportation
 
@@ -50,8 +50,8 @@
 
 - [ ] Custom Villager Shops
 - [ ] Spawning Spheres
-- [ ] Spectator Night Vision
-- [ ] Spectator Conduit Power
+- [x] Spectator Night Vision
+- [x] Spectator Conduit Power
 - [ ] Item Averages
 - [x] Kill Empty Boats
 
@@ -70,4 +70,7 @@
 - [x] XP Management
 - [ ] Chunk Loaders
 - [x] Confetti Creepers
-- [ ] Elevators
+- [x] Elevators
+
+### Other
+- [x] Persistent Heads

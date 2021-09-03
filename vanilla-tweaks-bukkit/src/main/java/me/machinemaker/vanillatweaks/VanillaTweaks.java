@@ -26,15 +26,16 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import io.papermc.lib.PaperLib;
+import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
-import me.machinemaker.vanillatweaks.translations.MappedTranslatableComponentRenderer;
+import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
-import net.kyori.adventure.translation.TranslationRegistry;
 import net.kyori.adventure.util.UTF8ResourceBundleControl;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -73,8 +74,7 @@ public class VanillaTweaks extends JavaPlugin {
         }
     }
 
-    private static final Key LANG_KEY = Key.key("vanillatweaks", "lang");
-    private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
+    private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(0);
 
     private Injector pluginInjector;
     @Inject
@@ -89,6 +89,7 @@ public class VanillaTweaks extends JavaPlugin {
         tryBackupOldModulesYml();
         migrateModuleConfigs();
 
+        BukkitAudiences bukkitAudiences = BukkitAudiences.create(this);
         try {
             pluginInjector = Guice.createInjector(new AbstractModule() {
                 @Override
@@ -96,7 +97,9 @@ public class VanillaTweaks extends JavaPlugin {
                     bind(VanillaTweaks.class).toInstance(VanillaTweaks.this);
                     bind(JavaPlugin.class).toInstance(VanillaTweaks.this);
                     bind(Plugin.class).toInstance(VanillaTweaks.this);
-                    bind(BukkitAudiences.class).toInstance(BukkitAudiences.create(VanillaTweaks.this));
+                    bind(BukkitAudiences.class).toInstance(bukkitAudiences);
+                    bind(Audience.class).annotatedWith(Names.named("server")).toInstance(bukkitAudiences.all());
+                    bind(Audience.class).annotatedWith(Names.named("players")).toInstance(bukkitAudiences.players());
                     bind(Path.class).annotatedWith(Names.named("data")).toInstance(VanillaTweaks.this.getDataFolder().toPath());
                 }
             }, new ModuleRegistry(this), new CloudModule(this, EXECUTOR_SERVICE));
@@ -105,12 +108,13 @@ public class VanillaTweaks extends JavaPlugin {
             throw new RuntimeException("Could not create injector!", e);
         }
 
-        TranslationRegistry translationRegistry = TranslationRegistry.create(LANG_KEY);
-        registerBundles().forEach(bundle -> {
-            translationRegistry.registerAll(bundle.getLocale(), bundle, false);
-            BUNDLE_MAP.put(bundle.getLocale(), bundle);
-        });
-        GlobalTranslator.get().addSource(translationRegistry);
+        registerBundles().forEach(TranslationRegistry::registerAll);
+        // TranslationRegistry translationRegistry = TranslationRegistry.create(LANG_KEY);
+        // registerBundles().forEach(bundle -> {
+        //     translationRegistry.registerAll(bundle.getLocale(), bundle, false);
+        //     BUNDLE_MAP.put(bundle.getLocale(), bundle);
+        // });
+        // GlobalTranslator.get().addSource(translationRegistry);
 
         audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.loaded-modules", GOLD, text(moduleManager.loadModules(), GRAY))));
         audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.enabled-modules", GREEN, text(moduleManager.enableModules(), GRAY))));
@@ -125,6 +129,7 @@ public class VanillaTweaks extends JavaPlugin {
         EXECUTOR_SERVICE.shutdown();
         if (this.audiences != null) {
             audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(moduleManager.disableModules(), GRAY))));
+            audiences.close();
         }
     }
 
@@ -167,7 +172,7 @@ public class VanillaTweaks extends JavaPlugin {
 
     private List<ResourceBundle> registerBundles() {
         var builder = ImmutableList.<ResourceBundle>builder();
-        builder.add(ResourceBundle.getBundle("lang", Locale.US, UTF8ResourceBundleControl.get()));
+        builder.add(ResourceBundle.getBundle("lang", Locale.ENGLISH, UTF8ResourceBundleControl.get()));
 
         return builder.build();
     }

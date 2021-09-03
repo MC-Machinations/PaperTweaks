@@ -17,7 +17,7 @@
  */
 package me.machinemaker.vanillatweaks.modules.items.armoredelytra;
 
-import me.machinemaker.libs.google.inject.Inject;
+import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.utils.Keys;
@@ -31,7 +31,7 @@ import org.bukkit.plugin.Plugin;
 
 class ItemListener implements ModuleListener {
 
-    static final PDCKey<Boolean> IS_ARMORED_ELYTRA = PDCKey.forBool(Keys.key("ae.is_armored_elytra"));
+    static final PDCKey<Boolean> IS_ARMORED_ELYTRA = PDCKey.bool(Keys.key("ae.is_armored_elytra"));
 
     private final Plugin plugin;
 

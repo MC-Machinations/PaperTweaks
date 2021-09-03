@@ -25,7 +25,7 @@ import cloud.commandframework.tasks.TaskConsumer;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import me.machinemaker.lectern.LecternConfig;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleManager.ReloadResult;

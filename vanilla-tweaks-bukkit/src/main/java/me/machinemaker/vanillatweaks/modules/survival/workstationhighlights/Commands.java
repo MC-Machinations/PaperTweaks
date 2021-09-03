@@ -19,7 +19,7 @@ package me.machinemaker.vanillatweaks.modules.survival.workstationhighlights;
 
 import cloud.commandframework.minecraft.extras.RichDescription;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.PlayerCommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
@@ -33,8 +33,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.MappedTranslatableComponent.mapped;
-import static net.kyori.adventure.text.MappedTranslatableComponent.mappedBuilder;
+import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mapped;
+import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class Commands extends ModuleCommand {

@@ -19,7 +19,7 @@ package me.machinemaker.vanillatweaks.modules;
 
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 
 public abstract class ModuleCommand {
 

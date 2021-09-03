@@ -38,7 +38,7 @@ public class Graves extends ModuleBase {
 
     @Override
     protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.SimpleLifecycle.class;
+        return ModuleLifecycle.Empty.class;
     }
 
     @Override

@@ -21,7 +21,7 @@ import cloud.commandframework.CommandManager.ManagerSettings;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -150,10 +149,10 @@ public abstract class ModuleLifecycle {
         Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(moduleRecipes.keySet()));
     }
 
-    public static class SimpleLifecycle extends ModuleLifecycle {
+    public static class Empty extends ModuleLifecycle {
 
         @Inject
-        protected SimpleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
+        protected Empty(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
             super(plugin, commands, listeners, configs, moduleRecipes);
         }
     }

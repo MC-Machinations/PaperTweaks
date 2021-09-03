@@ -19,7 +19,7 @@ package me.machinemaker.vanillatweaks.settings.types;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.arguments.standard.EnumArgument;
-import me.machinemaker.vanillatweaks.cloud.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.parsers.BooleanParser;
 import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.pdc.types.EnumDataType;
