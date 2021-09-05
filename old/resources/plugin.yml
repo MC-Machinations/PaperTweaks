@@ -58,9 +58,6 @@ permissions:
     children:
       vanillatweaks.pillagertools.toggle: true
       vanillatweaks.pillagertools.status: true
-  vanillatweaks.playerheaddrops:
-    default: true
-    description: Players killed by this player will drop heads
   vanillatweaks.sethome.sethome:
     default: true
     description: Allow /sethome

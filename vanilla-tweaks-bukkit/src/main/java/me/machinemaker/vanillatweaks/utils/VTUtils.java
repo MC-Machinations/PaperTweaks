@@ -23,9 +23,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.mutable.MutableInt;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -49,6 +47,14 @@ public final class VTUtils {
     private VTUtils() {
     }
 
+    private static final Class<?> CRAFT_PLAYER_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftPlayer");
+    private static final ReflectionUtils.MethodInvoker CRAFT_PLAYER_GET_HANDLE_METHOD = ReflectionUtils.getMethod(CRAFT_PLAYER_CLASS, "getHandle");
+    private static final Class<?> NMS_PLAYER_CLASS = ReflectionUtils.getMinecraftClass("world.entity.player.EntityHuman");
+    private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.getTypedMethod(NMS_PLAYER_CLASS, "getProfile", GameProfile.class);
+
+    public static GameProfile getGameProfile(Player player) {
+        return (GameProfile) NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE_METHOD.invoke(player));
+    }
 
     public static ItemStack getSkull(String name, String texture) {
         return getSkull(name, null, texture, 1);
@@ -60,9 +66,13 @@ public final class VTUtils {
         meta.setDisplayName(name);
         GameProfile profile = new GameProfile(uuid == null ? UUID.randomUUID() : uuid, null);
         profile.getProperties().put("textures", new Property("textures", texture));
-        ReflectionUtils.getField(meta.getClass(), "profile", GameProfile.class).set(meta, profile);
+        loadMeta(meta, profile);
         skull.setItemMeta(meta);
         return skull;
+    }
+
+    public static void loadMeta(SkullMeta meta, GameProfile profile) {
+        ReflectionUtils.getField(meta.getClass(), "profile", GameProfile.class).set(meta, profile);
     }
 
     public static <T> T random(Collection<T> coll) {

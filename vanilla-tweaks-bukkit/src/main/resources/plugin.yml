@@ -145,6 +145,9 @@ permissions:
     default: true
     description: Use elevators
 
+  vanillatweaks.playerheaddrops:
+    default: true
+    description: Players killed by this player will drop heads
 
 libraries:
   - com.google.inject:guice:5.0.1

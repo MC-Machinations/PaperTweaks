@@ -24,7 +24,7 @@
 - [x] Redstone Rotation Wrench
 - [x] Terracotta Rotation Wrench
 - [x] Armored Elytra **PAPER ONLY**
-- [ ] Player Head Drops
+- [x] Player Head Drops
 
 ### Mobs
 
