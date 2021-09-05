@@ -1,0 +1,36 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: build-${{ github.sha }}
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download previous build artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ci.yml
+          branch: master
+          event: push
+          name: VanillaTweaks
+
+      - name: Parse tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
+      - name: auto-release-changelog
+        uses: MC-Machinations/auto-release-changelog@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Vanilla Tweaks ${{ steps.vars.outputs.tag }}
+          pre-release: ${{ endsWith(steps.vars.outputs.tag, '-dev') }}
+          files: |
+            VanillaTweaks-Bukkit.jar
+            VanillaTweaks-Paper.jar
+            LICENSE

@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+      - dev/*
+
+concurrency:
+  group: build-${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.3.0
+        with:
+          distribution: adopt
+          java-version: 16
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.4
+
+      - name: Build artifacts
+        run: ./gradlew build
+
+      - name: Copy artifacts before uploading
+        run: cp vanilla-tweaks-bukkit/build/libs/VanillaTweaks-Bukkit.jar . && cp vanilla-tweaks-paper/build/libs/VanillaTweaks-Paper.jar .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: VanillaTweaks
+          path: |
+            VanillaTweaks-Bukkit.jar
+            VanillaTweaks-Paper.jar
+            LICENSE

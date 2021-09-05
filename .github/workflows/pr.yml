@@ -1,0 +1,35 @@
+name: valid-pr
+
+on:
+  pull_request_target:
+
+concurrency:
+  group: pr-${{ github.base_ref }}-${{ github.target_ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        uses: amannn/action-semantic-pull-request@v3.4.2
+        with:
+          requireScope: false
+          validateSingleCommit: true
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.3.0
+        with:
+          distribution: adopt
+          java-version: 16
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.4
+
+      - name: Build artifacts
+        run: ./gradlew build
