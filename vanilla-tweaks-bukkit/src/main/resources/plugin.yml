@@ -149,6 +149,31 @@ permissions:
     default: true
     description: Players killed by this player will drop heads
 
+  vanillatweaks.mobdeathcount.help:
+    default: false
+    description: Use /mdc help
+  vanillatweaks.mobdeathcount.start:
+    default: false
+    description: Use /mdc start
+  vanillatweaks.mobdeathcount.stop:
+    default: false
+    description: Use /mdc stop
+  vanillatweaks.mobdeathcount.reset:
+    default: false
+    description: Use /mdc reset
+  vanillatweaks.mobdeathcount.toggle:
+    default: false
+    description: Use /mdc toggle
+  vanillatweaks.mobdeathcount:
+    default: true
+    description: Use all /mdc commands
+    children:
+      vanillatweaks.mobdeathcount.help: true
+      vanillatweaks.mobdeathcount.start: true
+      vanillatweaks.mobdeathcount.stop: true
+      vanillatweaks.mobdeathcount.reset: true
+      vanillatweaks.mobdeathcount.toggle: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - me.lucko:adventure-platform-bukkit:4.8.1

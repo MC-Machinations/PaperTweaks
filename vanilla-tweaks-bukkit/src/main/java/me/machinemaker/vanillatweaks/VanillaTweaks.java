@@ -28,13 +28,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import io.papermc.lib.PaperLib;
+import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
 import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
-import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
+import me.machinemaker.vanillatweaks.utils.PlayerMapFactory;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
@@ -92,6 +92,7 @@ public class VanillaTweaks extends JavaPlugin {
         migrateModuleConfigs();
 
         BukkitAudiences bukkitAudiences = BukkitAudiences.create(this);
+        PlayerMapFactory mapFactory = new PlayerMapFactory();
         try {
             pluginInjector = Guice.createInjector(new AbstractModule() {
                 @Override
@@ -99,6 +100,7 @@ public class VanillaTweaks extends JavaPlugin {
                     bind(VanillaTweaks.class).toInstance(VanillaTweaks.this);
                     bind(JavaPlugin.class).toInstance(VanillaTweaks.this);
                     bind(Plugin.class).toInstance(VanillaTweaks.this);
+                    bind(PlayerMapFactory.class).toInstance(mapFactory);
                     bind(BukkitAudiences.class).toInstance(bukkitAudiences);
                     bind(Audience.class).annotatedWith(Names.named("server")).toInstance(bukkitAudiences.all());
                     bind(Audience.class).annotatedWith(Names.named("players")).toInstance(bukkitAudiences.players());
@@ -123,6 +125,7 @@ public class VanillaTweaks extends JavaPlugin {
 
         pluginInjector.getInstance(RootCommand.class).registerCommands();
         this.getServer().getPluginManager().registerEvents(pluginInjector.getInstance(GlobalListener.class), this);
+        this.getServer().getPluginManager().registerEvents(mapFactory, this);
     }
 
     @Override

@@ -36,7 +36,7 @@
 - [x] Larger Phantoms
 - [ ] More Mob Heads~~ **USE DATAPACK** (or maybe not, still deciding)
 - [x] Silence Mobs
-- [ ] Count Mob Deaths
+- [x] Count Mob Deaths
 - [x] Villager Death Messages **PAPER ONLY**
 
 ### Teleportation

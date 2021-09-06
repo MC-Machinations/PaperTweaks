@@ -38,4 +38,8 @@ public final class ModulePermission {
                 (PredicatePermission<?>) ignored -> lifecycle.getState().isRunning()
         ));
     }
+
+    public static CommandPermission of(ModuleLifecycle lifecycle) {
+        return (PredicatePermission<?>) ignored -> lifecycle.getState().isRunning();
+    }
 }
