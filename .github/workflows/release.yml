@@ -25,7 +25,7 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Create release and changelog
-        uses: MC-Machinations/auto-release-changelog@v1
+        uses: MC-Machinations/auto-release-changelog@v1.1.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: Vanilla Tweaks ${{ steps.vars.outputs.tag }}
