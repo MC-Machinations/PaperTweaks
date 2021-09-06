@@ -10,7 +10,7 @@ fun ShadowJar.configureStandard(platform: String) {
         "cloud.commandframework",
         "io.papermc.lib",
         "net.kyori.adventure.text.minimessage",
-        "me.machinemaker.lectern"
+        "me.machinemaker.lectern",
     ).forEach { pack ->
         relocate(pack, "$prefix.$pack")
     }

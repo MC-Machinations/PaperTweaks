@@ -1,5 +1,4 @@
 import net.kyori.indra.repository.sonatypeSnapshots
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("vanilla-tweaks.parent-build-logic")
@@ -66,11 +65,14 @@ subprojects {
         compileOnly("io.github.classgraph:classgraph:4.8.114")
         compileOnly("com.google.inject:guice:5.0.1")
         compileOnly("me.lucko:adventure-platform-bukkit:4.8.1")
+        compileOnly("org.apache.commons:commons-configuration2:2.7")
 
         // Native to minecraft
         compileOnly("com.mojang:authlib:1.5.25")
         compileOnly("org.slf4j:slf4j-api:1.7.30")
 
+        testImplementation("org.apache.commons:commons-configuration2:2.7")
+        testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
         testImplementation("me.lucko:adventure-platform-bukkit:4.8.1")
         testImplementation("com.google.inject:guice:5.0.1")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")

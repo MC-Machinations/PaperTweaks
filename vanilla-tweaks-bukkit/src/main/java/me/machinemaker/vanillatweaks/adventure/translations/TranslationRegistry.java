@@ -41,8 +41,8 @@ public final class TranslationRegistry {
     private TranslationRegistry() {
     }
 
-    public static void registerAll(ResourceBundle bundle) {
-        ADVENTURE_REGISTRY.registerAll(bundle.getLocale(), bundle, false);
+    public static void registerAll(Locale locale, ResourceBundle bundle) {
+        ADVENTURE_REGISTRY.registerAll(locale, bundle, false);
         bundle.keySet().forEach(key -> {
             TRANSLATIONS.computeIfAbsent(key, Translation::new).register(bundle.getLocale(), bundle.getString(key));
         });

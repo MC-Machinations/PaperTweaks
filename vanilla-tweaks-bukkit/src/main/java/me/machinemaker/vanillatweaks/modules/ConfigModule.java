@@ -28,7 +28,6 @@ import me.machinemaker.vanillatweaks.annotations.ConfigureModuleConfig;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
@@ -55,7 +54,7 @@ public abstract class ConfigModule extends AbstractModule {
         } else {
             folder = this.getConfigDataFolder();
         }
-        C config = Lectern.registerConfig(configClass, new File(this.dataFolder.toFile(), folder));
+        C config = Lectern.registerConfig(configClass, this.dataFolder.resolve("modules").resolve(folder).toFile());
         bind(configClass).toInstance(config);
         binder.addBinding().toInstance(config);
     }

@@ -53,7 +53,7 @@ class MappedTranslationTest {
             e.printStackTrace();
         }
 
-        TranslationRegistry.registerAll(ResourceBundle.getBundle("test_lang", Locale.ENGLISH, UTF8ResourceBundleControl.get()));
+        TranslationRegistry.registerAll(Locale.ENGLISH, ResourceBundle.getBundle("test_lang", Locale.ENGLISH, UTF8ResourceBundleControl.get()));
     }
 
     @Test

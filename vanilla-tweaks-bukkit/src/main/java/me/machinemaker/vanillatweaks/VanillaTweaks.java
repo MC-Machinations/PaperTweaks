@@ -19,8 +19,6 @@
  */
 package me.machinemaker.vanillatweaks;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -38,7 +36,9 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
-import net.kyori.adventure.util.UTF8ResourceBundleControl;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -46,15 +46,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -64,7 +66,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class VanillaTweaks extends JavaPlugin {
 
     public static final Component PLUGIN_PREFIX = text("[VanillaTweaks] ", WHITE);
-    public static final Map<Locale, ResourceBundle> BUNDLE_MAP = Maps.newHashMap();
+    private static final Configurations CONFIGS = new Configurations();
 
     static {
         try {
@@ -75,8 +77,11 @@ public class VanillaTweaks extends JavaPlugin {
             e.printStackTrace();
         }
     }
-
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(0);
+
+    private static final Set<Locale> SUPPORTED_LOCALES = Set.of(
+            Locale.ENGLISH
+    );
 
     private Injector pluginInjector;
     @Inject
@@ -90,6 +95,7 @@ public class VanillaTweaks extends JavaPlugin {
 
         tryBackupOldModulesYml();
         migrateModuleConfigs();
+        setupI18n();
 
         BukkitAudiences bukkitAudiences = BukkitAudiences.create(this);
         PlayerMapFactory mapFactory = new PlayerMapFactory();
@@ -112,14 +118,6 @@ public class VanillaTweaks extends JavaPlugin {
             throw new RuntimeException("Could not create injector!", e);
         }
 
-        registerBundles().forEach(TranslationRegistry::registerAll);
-        // TranslationRegistry translationRegistry = TranslationRegistry.create(LANG_KEY);
-        // registerBundles().forEach(bundle -> {
-        //     translationRegistry.registerAll(bundle.getLocale(), bundle, false);
-        //     BUNDLE_MAP.put(bundle.getLocale(), bundle);
-        // });
-        // GlobalTranslator.get().addSource(translationRegistry);
-
         audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.loaded-modules", GOLD, text(moduleManager.loadModules(), GRAY))));
         audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.enabled-modules", GREEN, text(moduleManager.enableModules(), GRAY))));
 
@@ -130,7 +128,9 @@ public class VanillaTweaks extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        moduleManager.disableModules();
+        if (this.moduleManager != null) {
+            moduleManager.disableModules();
+        }
         EXECUTOR_SERVICE.shutdown();
         if (this.audiences != null) {
             audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(moduleManager.disableModules(), GRAY))));
@@ -175,10 +175,69 @@ public class VanillaTweaks extends JavaPlugin {
         }
     }
 
-    private List<ResourceBundle> registerBundles() {
-        var builder = ImmutableList.<ResourceBundle>builder();
-        builder.add(ResourceBundle.getBundle("lang", Locale.ENGLISH, UTF8ResourceBundleControl.get()));
+    private void setupI18n() {
+        ClassLoader previousLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(this.getClassLoader());
+            SUPPORTED_LOCALES.forEach(locale -> {
+                this.updateI18nFile(locale);
+                TranslationRegistry.registerAll(locale, createBundle(locale));
+            });
+        } finally {
+            Thread.currentThread().setContextClassLoader(previousLoader);
+        }
+    }
 
-        return builder.build();
+    private void updateI18nFile(Locale locale) {
+        Path localeFile = this.getDataFolder().toPath().resolve("i18n").resolve(locale + ".properties");
+        if (Files.notExists(localeFile)) {
+            InputStream inputStream = this.getClassLoader().getResourceAsStream("i18n/lang_" + locale + ".properties");
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Couldn't find a resource for " + locale);
+            }
+            try {
+                Files.createDirectories(localeFile.getParent());
+                Files.copy(inputStream, localeFile);
+            } catch (IOException exception) {
+                this.getLogger().log(Level.SEVERE, exception, () -> "Could not copy the locale file for " + locale + " to " + localeFile);
+            }
+        } else {
+            try {
+                var localeFileBuilder = CONFIGS.propertiesBuilder(localeFile.toFile());
+                PropertiesConfiguration localeConfig = localeFileBuilder.getConfiguration();
+                PropertiesConfiguration inJarLocaleConfig = CONFIGS.properties(this.getClassLoader().getResource(getInJarResourceName(locale)));
+                if (!inJarLocaleConfig.getLayout().getKeys().containsAll(localeConfig.getLayout().getKeys())) {
+                    for (String key : localeConfig.getLayout().getKeys()) {
+                        if (!inJarLocaleConfig.containsKey(key)) {
+                            this.getLogger().log(Level.WARNING, "{0} is not a recognized key. It should be removed from {1}.", new Object[]{key, localeFile});
+                        }
+                    }
+                }
+                if (!localeConfig.getLayout().getKeys().containsAll(inJarLocaleConfig.getLayout().getKeys())) {
+                    this.getLogger().log(Level.INFO, "Found new additions to {0}, updating that file with latest changes. This will not overwrite changes you have made.", localeFile);
+                    for (String key : inJarLocaleConfig.getLayout().getKeys()) {
+                        if (!localeConfig.containsKey(key)) {
+                            localeConfig.setProperty(key, inJarLocaleConfig.getProperty(key));
+                        }
+                    }
+                    localeFileBuilder.save();
+                }
+            } catch (ConfigurationException exception) {
+                this.getLogger().log(Level.SEVERE, exception, () -> "Error reading/writing to " + localeFile);
+            }
+        }
+    }
+
+    private ResourceBundle createBundle(Locale locale) {
+        Path localeFile = this.getDataFolder().toPath().resolve("i18n").resolve(locale + ".properties");
+        try (InputStream inputStream = Files.newInputStream(localeFile)) {
+            return new PropertyResourceBundle(inputStream);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Could not load language from " + getInJarResourceName(locale), e);
+        }
+    }
+
+    private static String getInJarResourceName(Locale locale) {
+        return "i18n/lang_" + locale + ".properties";
     }
 }
