@@ -34,7 +34,7 @@ import java.util.Collections;
 
 public abstract class ConfigModule extends AbstractModule {
 
-    @Inject @Named("data") private Path dataFolder;
+    @Inject @Named("modules") private Path modulesConfigFolder;
 
     protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
         return Collections.emptySet();
@@ -54,7 +54,7 @@ public abstract class ConfigModule extends AbstractModule {
         } else {
             folder = this.getConfigDataFolder();
         }
-        C config = Lectern.registerConfig(configClass, this.dataFolder.resolve("modules").resolve(folder).toFile());
+        C config = Lectern.registerConfig(configClass, this.modulesConfigFolder.resolve(folder).toFile());
         bind(configClass).toInstance(config);
         binder.addBinding().toInstance(config);
     }

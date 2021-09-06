@@ -20,8 +20,8 @@
 package me.machinemaker.vanillatweaks.modules.mobs.countmobdeaths;
 
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
-import me.machinemaker.vanillatweaks.logging.ModuleLoggerFactory;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
@@ -43,7 +43,7 @@ import java.util.Set;
 @ModuleInfo(name = "CountMobDeaths", configPath = "mobs.count-mob-deaths", description = "Toggleable scoreboard for counting mob deaths")
 public class CountMobDeaths extends ModuleBase {
 
-    static final Logger LOGGER = ModuleLoggerFactory.module(CountMobDeaths.class);
+    static final Logger LOGGER = LoggerFactory.getModuleLogger(CountMobDeaths.class);
     static final String DEATH_COUNT_OBJECTIVE = "mobDeathCount";
 
     final PlayerMapFactory.PlayerMap<CountingBoard> scoreboardPlayerMap;

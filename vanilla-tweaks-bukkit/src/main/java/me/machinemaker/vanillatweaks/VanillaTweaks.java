@@ -27,7 +27,6 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
-import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
@@ -36,27 +35,22 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.logging.Level;
+import java.util.stream.Stream;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -66,7 +60,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class VanillaTweaks extends JavaPlugin {
 
     public static final Component PLUGIN_PREFIX = text("[VanillaTweaks] ", WHITE);
-    private static final Configurations CONFIGS = new Configurations();
+    public static final Logger LOGGER = LoggerFactory.getLogger();
 
     static {
         try {
@@ -79,23 +73,30 @@ public class VanillaTweaks extends JavaPlugin {
     }
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(0);
 
-    private static final Set<Locale> SUPPORTED_LOCALES = Set.of(
+    static final Set<Locale> SUPPORTED_LOCALES = Set.of(
             Locale.ENGLISH
     );
 
     private Injector pluginInjector;
-    @Inject
-    private ModuleManager moduleManager;
-    @Inject
-    private BukkitAudiences audiences;
+    @Inject private ModuleManager moduleManager;
+    @Inject private BukkitAudiences audiences;
+    private final Path dataPath = this.getDataFolder().toPath();
+    private final Path modulesPath = dataPath.resolve("modules");
+    private final Path i18nPath = dataPath.resolve("i18n");
 
     @Override
     public void onEnable() {
         PaperLib.suggestPaper(this);
 
         tryBackupOldModulesYml();
-        migrateModuleConfigs();
-        setupI18n();
+        try {
+            migrateModuleConfigs();
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.getPluginLoader().disablePlugin(this);
+            return;
+        }
+        I18n.create(this.i18nPath, this.getClassLoader()).setupI18n();
 
         BukkitAudiences bukkitAudiences = BukkitAudiences.create(this);
         PlayerMapFactory mapFactory = new PlayerMapFactory();
@@ -110,7 +111,10 @@ public class VanillaTweaks extends JavaPlugin {
                     bind(BukkitAudiences.class).toInstance(bukkitAudiences);
                     bind(Audience.class).annotatedWith(Names.named("server")).toInstance(bukkitAudiences.all());
                     bind(Audience.class).annotatedWith(Names.named("players")).toInstance(bukkitAudiences.players());
-                    bind(Path.class).annotatedWith(Names.named("data")).toInstance(VanillaTweaks.this.getDataFolder().toPath());
+                    bind(Path.class).annotatedWith(Names.named("data")).toInstance(VanillaTweaks.this.dataPath);
+                    bind(Path.class).annotatedWith(Names.named("modules")).toInstance(VanillaTweaks.this.modulesPath);
+                    bind(Path.class).annotatedWith(Names.named("i18n")).toInstance(VanillaTweaks.this.i18nPath);
+                    bind(ClassLoader.class).annotatedWith(Names.named("plugin")).toInstance(VanillaTweaks.this.getClassLoader());
                 }
             }, new ModuleRegistry(this), new CloudModule(this, EXECUTOR_SERVICE));
             pluginInjector.injectMembers(this);
@@ -144,10 +148,10 @@ public class VanillaTweaks extends JavaPlugin {
             FileConfiguration oldModulesConfig = YamlConfiguration.loadConfiguration(oldFile);
             if (oldModulesConfig.contains("item-tools")) { // is old
                 if (oldFile.renameTo(new File(this.getDataFolder(), "OLD_modules.yml"))) {
-                    this.getLogger().warning("OLD modules.yml detected. It has been backed up to OLD_modules.yml");
-                    this.getLogger().warning("You can re-configure your enabled packs with the new modules.yml");
+                    LOGGER.warn("OLD modules.yml detected. It has been backed up to OLD_modules.yml");
+                    LOGGER.warn("You can re-configure your enabled packs with the new modules.yml");
                 } else {
-                    this.getLogger().severe("Could not rename modules.yml to back it up! Please rename VanillaTweaks/modules.yml to something else so the plugin can create a new one");
+                    LOGGER.error("Could not rename modules.yml to back it up! Please rename VanillaTweaks/modules.yml to something else so the plugin can create a new one");
                     this.getPluginLoader().disablePlugin(this);
                     return;
                 }
@@ -156,88 +160,33 @@ public class VanillaTweaks extends JavaPlugin {
         }
     }
 
-    private void migrateModuleConfigs() {
-        Path pluginDir = this.getDataFolder().toPath();
+    private void migrateModuleConfigs() throws IOException {
+        if (Files.notExists(this.modulesPath)) {
+            Files.createDirectories(this.modulesPath);
+            LOGGER.info("Moving module configurations to their new location");
+            try (Stream<Path> files = Files.list(this.dataPath)) {
+                for (Path path : files.toList()) {
+                    if (Files.isDirectory(path) && !Files.isSameFile(path, this.modulesPath)) {
+                        Files.move(path, this.modulesPath.resolve(path.getFileName()));
+                    }
+                }
+            }
+        }
+
         String current = "none";
         try {
             current = "playergraves";
-            if (Files.exists(pluginDir.resolve(current)) && !Files.exists(pluginDir.resolve("graves"))) {
-                Files.move(pluginDir.resolve(current), pluginDir.resolve("graves"));
-                this.getLogger().info("Moved '" + current + "' config to 'graves' folder");
+            if (Files.exists(this.modulesPath.resolve(current)) && !Files.exists(this.modulesPath.resolve("graves"))) {
+                Files.move(this.modulesPath.resolve(current), this.modulesPath.resolve("graves"));
+                LOGGER.info("Moved '{}' config to 'graves' folder", current);
             }
             current = "wrench";
-            if (Files.exists(pluginDir.resolve(current)) && !Files.exists(pluginDir.resolve("wrenches"))) {
-                Files.move(pluginDir.resolve(current), pluginDir.resolve("wrenches"));
-                this.getLogger().info("Moved '" + current + "' config to 'wrenches' folder");
+            if (Files.exists(this.modulesPath.resolve(current)) && !Files.exists(this.modulesPath.resolve("wrenches"))) {
+                Files.move(this.modulesPath.resolve(current), this.modulesPath.resolve("wrenches"));
+                LOGGER.info("Moved '{}' config to 'wrenches' folder", current);
             }
         } catch (IOException e) {
-            this.getLogger().severe("Failed to migrate " + current + " configuration!");
+            LOGGER.error("Failed to migrate {} configuration!", current, e);
         }
-    }
-
-    private void setupI18n() {
-        ClassLoader previousLoader = Thread.currentThread().getContextClassLoader();
-        try {
-            Thread.currentThread().setContextClassLoader(this.getClassLoader());
-            SUPPORTED_LOCALES.forEach(locale -> {
-                this.updateI18nFile(locale);
-                TranslationRegistry.registerAll(locale, createBundle(locale));
-            });
-        } finally {
-            Thread.currentThread().setContextClassLoader(previousLoader);
-        }
-    }
-
-    private void updateI18nFile(Locale locale) {
-        Path localeFile = this.getDataFolder().toPath().resolve("i18n").resolve(locale + ".properties");
-        if (Files.notExists(localeFile)) {
-            InputStream inputStream = this.getClassLoader().getResourceAsStream("i18n/lang_" + locale + ".properties");
-            if (inputStream == null) {
-                throw new IllegalArgumentException("Couldn't find a resource for " + locale);
-            }
-            try {
-                Files.createDirectories(localeFile.getParent());
-                Files.copy(inputStream, localeFile);
-            } catch (IOException exception) {
-                this.getLogger().log(Level.SEVERE, exception, () -> "Could not copy the locale file for " + locale + " to " + localeFile);
-            }
-        } else {
-            try {
-                var localeFileBuilder = CONFIGS.propertiesBuilder(localeFile.toFile());
-                PropertiesConfiguration localeConfig = localeFileBuilder.getConfiguration();
-                PropertiesConfiguration inJarLocaleConfig = CONFIGS.properties(this.getClassLoader().getResource(getInJarResourceName(locale)));
-                if (!inJarLocaleConfig.getLayout().getKeys().containsAll(localeConfig.getLayout().getKeys())) {
-                    for (String key : localeConfig.getLayout().getKeys()) {
-                        if (!inJarLocaleConfig.containsKey(key)) {
-                            this.getLogger().log(Level.WARNING, "{0} is not a recognized key. It should be removed from {1}.", new Object[]{key, localeFile});
-                        }
-                    }
-                }
-                if (!localeConfig.getLayout().getKeys().containsAll(inJarLocaleConfig.getLayout().getKeys())) {
-                    this.getLogger().log(Level.INFO, "Found new additions to {0}, updating that file with latest changes. This will not overwrite changes you have made.", localeFile);
-                    for (String key : inJarLocaleConfig.getLayout().getKeys()) {
-                        if (!localeConfig.containsKey(key)) {
-                            localeConfig.setProperty(key, inJarLocaleConfig.getProperty(key));
-                        }
-                    }
-                    localeFileBuilder.save();
-                }
-            } catch (ConfigurationException exception) {
-                this.getLogger().log(Level.SEVERE, exception, () -> "Error reading/writing to " + localeFile);
-            }
-        }
-    }
-
-    private ResourceBundle createBundle(Locale locale) {
-        Path localeFile = this.getDataFolder().toPath().resolve("i18n").resolve(locale + ".properties");
-        try (InputStream inputStream = Files.newInputStream(localeFile)) {
-            return new PropertyResourceBundle(inputStream);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Could not load language from " + getInJarResourceName(locale), e);
-        }
-    }
-
-    private static String getInJarResourceName(Locale locale) {
-        return "i18n/lang_" + locale + ".properties";
     }
 }

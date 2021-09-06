@@ -17,23 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.logging;
+package me.machinemaker.vanillatweaks;
 
-import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
+import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public final class ModuleLoggerFactory {
+public final class LoggerFactory {
 
-    private ModuleLoggerFactory() {
+    private static final String GLOBAL_PREFIX = "VanillaTweaks";
+    private static final Logger PLUGIN_LOGGER = org.slf4j.LoggerFactory.getLogger(GLOBAL_PREFIX);
+
+    private LoggerFactory() {
     }
 
-    public static Logger module(Class<? extends ModuleBase> moduleClass) {
-        ModuleInfo moduleInfo = moduleClass.getAnnotation(ModuleInfo.class);
-        if (moduleInfo == null) {
-            throw new IllegalArgumentException(moduleClass.getName() + " isn't annotated with " + ModuleInfo.class.getName());
-        }
-        return LoggerFactory.getLogger("[VanillaTweaks] [module: " + moduleInfo.name() + "]");
+    public static Logger getLogger() {
+        return PLUGIN_LOGGER;
+    }
+
+    public static Logger getModuleLogger(Class<? extends ModuleBase> moduleClass) {
+        return getLogger(moduleClass.getAnnotation(ModuleInfo.class).name());
+    }
+
+    public static Logger getLogger(Class<?> clazz) {
+        return getLogger(clazz.getName());
+    }
+
+    public static Logger getLogger(String name) {
+        return org.slf4j.LoggerFactory.getLogger(PLUGIN_LOGGER.getName() + ": " + name);
     }
 }

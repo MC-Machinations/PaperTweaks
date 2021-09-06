@@ -19,11 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.netherportalcoords;
 
-import me.machinemaker.vanillatweaks.logging.ModuleLoggerFactory;
+import me.machinemaker.vanillatweaks.LoggerFactory;
+import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
-import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ import java.util.Set;
 @ModuleInfo(name = "NetherPortalCoords", configPath = "survival.nether-portal-coords", description = "Helper for determining portal locations in other dimensions")
 public class NetherPortalCoords extends ModuleBase {
 
-    static final Logger LOGGER = ModuleLoggerFactory.module(NetherPortalCoords.class);
+    static final Logger LOGGER = LoggerFactory.getModuleLogger(NetherPortalCoords.class);
 
     @Override
     protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
