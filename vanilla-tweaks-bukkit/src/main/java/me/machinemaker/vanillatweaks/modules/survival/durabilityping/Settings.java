@@ -20,11 +20,11 @@
 package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.utils.Keys;
 import me.machinemaker.vanillatweaks.menus.parts.enums.PreviewableMenuEnum;
 import me.machinemaker.vanillatweaks.settings.ModuleSettings;
-import me.machinemaker.vanillatweaks.settings.types.PlayerSetting;
 import me.machinemaker.vanillatweaks.settings.SettingWrapper;
+import me.machinemaker.vanillatweaks.settings.types.PlayerSetting;
+import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -63,8 +63,8 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
             }
 
             @Override
-            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String commandPrefix) {
-                return super.buildWithoutPreview(selected, commandPrefix);
+            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String commandPrefix, @NotNull String optionKey) {
+                return super.buildWithoutPreview(selected, commandPrefix, optionKey);
             }
         },
         SUBTITLE("Display: Subtitle") {

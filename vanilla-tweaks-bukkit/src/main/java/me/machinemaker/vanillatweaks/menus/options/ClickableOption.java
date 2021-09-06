@@ -27,11 +27,17 @@ public interface ClickableOption<T> extends Option {
 
     @NotNull Component extendedDescription();
 
+    @NotNull Component defaultValueDescription();
+
     @NotNull Component createClickComponent(T selected, String commandPrefix);
 
     @NotNull Component createClickHoverComponent(T selected);
 
     default @NotNull ClickEvent createRunCommand(@NotNull String commandPrefix, @NotNull Object value) {
-        return ClickEvent.runCommand(String.join(" ", commandPrefix, optionKey(), value.toString()));
+        return createRunCommand(commandPrefix, optionKey(), value);
+    }
+
+    static @NotNull ClickEvent createRunCommand(@NotNull String commandPrefix, @NotNull String optionKey, @NotNull Object value) {
+        return ClickEvent.runCommand(String.join(" ", commandPrefix, optionKey, value.toString()));
     }
 }

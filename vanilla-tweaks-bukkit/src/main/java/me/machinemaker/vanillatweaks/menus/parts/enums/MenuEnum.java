@@ -19,25 +19,29 @@
  */
 package me.machinemaker.vanillatweaks.menus.parts.enums;
 
+import me.machinemaker.vanillatweaks.menus.options.ClickableOption;
 import me.machinemaker.vanillatweaks.menus.parts.clicks.ToggleOption;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.space;
-import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.TextComponent.ofChildren;
 
 public interface MenuEnum<E extends Enum<E> & MenuEnum<E>> extends ToggleOption<E> {
 
     @NotNull
-    default Component build(@NotNull E selected, @NotNull String commandPrefix) {
+    default Component build(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
         return ofChildren(
-                createClickComponent(selected, commandPrefix),
+                createClickComponent(selected, commandPrefix, optionKey),
                 space(),
                 label(),
                 newline()
         );
+    }
+
+    default @NotNull Component createClickComponent(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
+        return createClickComponent(selected, ClickableOption.createRunCommand(commandPrefix, optionKey, name()), false);
     }
 
     @Override
@@ -54,8 +58,14 @@ public interface MenuEnum<E extends Enum<E> & MenuEnum<E>> extends ToggleOption<
 
     @Override
     @NotNull
+    default Component defaultValueDescription() {
+        return Component.empty();
+    }
+
+    @Override
+    @NotNull
     default String optionKey() {
-        return this.name();
+        throw new UnsupportedOperationException("MenuEnums can't have option keys");
     }
 
     @Override

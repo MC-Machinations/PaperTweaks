@@ -75,6 +75,11 @@ public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements Togg
         return selected;
     }
 
+    @Override
+    public @NotNull Component defaultValueDescription() {
+        return translatable("commands.config.default-value.bool." + this.setting().defaultValue());
+    }
+
     public static <S> BooleanMenuOption<S> of(@NotNull String labelKey, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
         return new Builder<>(translatable(labelKey), typeMapper, setting).build();
     }

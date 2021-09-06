@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.menus.parts.clicks;
 import me.machinemaker.vanillatweaks.menus.options.ClickableOption;
 import me.machinemaker.vanillatweaks.menus.parts.Labelled;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,23 +40,26 @@ public interface ToggleOption<T> extends Labelled, ClickableOption<T> {
     boolean isSelected(@NotNull T selected);
 
     @NotNull String clickCommandValue(@NotNull T selected);
+
     @Override
     default @NotNull Component createClickComponent(T selected, String commandPrefix) {
-        return (isSelected(selected) ? ON : OFF)
-                .hoverEvent(showText(createClickHoverComponent(selected)))
-                .clickEvent(createRunCommand(commandPrefix, clickCommandValue(selected)));
+        return createClickComponent(selected, createRunCommand(commandPrefix, clickCommandValue(selected)), true);
+    }
+
+    default @NotNull Component createClickComponent(@NotNull T selected, @NotNull ClickEvent clickEvent, boolean actionIfSelected) {
+        Component component = isSelected(selected) ? ON : OFF;
+        if (!isSelected(selected) || (isSelected(selected) && actionIfSelected)) {
+            component = component.hoverEvent(showText(createClickHoverComponent(selected))).clickEvent(clickEvent);
+        }
+        return component;
     }
 
     @Override
     default @NotNull Component createClickHoverComponent(T selected) {
-        Component component = translatable("commands.config.bool-toggle." + selected, isSelected(selected) ? RED : GREEN, this.label().color(WHITE));
+        Component component = translatable("commands.config.bool-toggle." + isSelected(selected), isSelected(selected) ? RED : GREEN, this.label().color(WHITE));
         if (extendedDescription() != Component.empty()) {
-            component = component.append(newline()).append(extendedDescription().color(GRAY));
+            component = component.append(newline()).append(extendedDescription().color(GRAY)).append(newline()).append(translatable("commands.config.default-value", DARK_GRAY, defaultValueDescription()));
         }
         return component;
     }
-    //
-    // static @NotNull Component createClickComponent(@NotNull ToggleOption<Boolean> booleanToggleOption, boolean enabled, @NotNull Component extendedDescription, @NotNull Function<String, ClickEvent> clickEventFunction) {
-    //     return booleanToggleOption.createClickComponent(enabled, extendedDescription, clickEventFunction);
-    // }
 }

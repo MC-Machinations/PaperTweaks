@@ -43,7 +43,7 @@ public class EnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extends MenuOpti
     public @NotNull Component build(@NotNull S object, @NotNull String commandPrefix) {
         Component[] components = new Component[this.options.size()];
         for (int i = 0; i < options.size(); i++) {
-            components[i] = this.options.get(i).build(this.selected(object), commandPrefix);
+            components[i] = this.options.get(i).build(this.selected(object), commandPrefix, this.optionKey());
         }
         return ofChildren(components);
     }

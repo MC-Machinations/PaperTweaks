@@ -31,9 +31,9 @@ public interface PreviewableMenuEnum<E extends Enum<E> & PreviewableMenuEnum<E>>
 
     @Override
     @NotNull
-    default Component build(@NotNull E selected, @NotNull String commandPrefix) {
+    default Component build(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
         return ofChildren(
-                createClickComponent(selected, commandPrefix),
+                createClickComponent(selected, commandPrefix, optionKey),
                 text(' '),
                 Previewable.createPreviewComponent(label(), previewCommandPrefix(), this.name()),
                 text(' '),
@@ -42,8 +42,8 @@ public interface PreviewableMenuEnum<E extends Enum<E> & PreviewableMenuEnum<E>>
         );
     }
 
-    default @NotNull Component buildWithoutPreview(@NotNull E selected, @NotNull String commandPrefix) {
-        return MenuEnum.super.build(selected, commandPrefix);
+    default @NotNull Component buildWithoutPreview(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
+        return MenuEnum.super.build(selected, commandPrefix, optionKey);
     }
 
     @NotNull String previewCommandPrefix();
