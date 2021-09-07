@@ -80,10 +80,10 @@ class BlockListener implements ModuleListener {
         BlockStateSnapshotResult blockStateSnapshotResult = PaperLib.getBlockState(block, true);
         TileState skullState = (TileState) blockStateSnapshotResult.getState();
         if (name != null) {
-            HEAD_NAME.setFrom(skullState, name);
+            HEAD_NAME.setTo(skullState, name);
         }
         if (lore != null) {
-            HEAD_LORE.setFrom(skullState, lore);
+            HEAD_LORE.setTo(skullState, lore);
         }
         if (blockStateSnapshotResult.isSnapshot()) skullState.update();
     }

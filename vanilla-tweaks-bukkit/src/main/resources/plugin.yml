@@ -174,6 +174,19 @@ permissions:
       vanillatweaks.mobdeathcount.reset: true
       vanillatweaks.mobdeathcount.toggle: true
 
+  vanillatweaks.spawningspheres.add:
+    default: false
+    description: Use /ss add
+  vanillatweaks.spawningspheres.remove:
+    default: false
+    description: Use /ss remove
+  vanillatweaks.spawningspheres:
+    default: op
+    description: Use SpawningSpheres commands
+    children:
+      vanillatweaks.spawningspheres.add: true
+      vanillatweaks.spawningspheres.remove: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - me.lucko:adventure-platform-bukkit:4.8.1

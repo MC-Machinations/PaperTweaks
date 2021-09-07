@@ -31,7 +31,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class Commands extends ModuleCommand {
+class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands(ModuleLifecycle lifecycle) {

@@ -122,9 +122,9 @@ class ItemDropRunnable extends BukkitRunnable {
         Material chestplateMaterial = chestStack.getType();
         armoredMeta.lore(List.of(ofChildren(text("+ "), translatable(chestplateMaterial)).color(GOLD).decoration(TextDecoration.ITALIC, false)));
 
-        ItemListener.IS_ARMORED_ELYTRA.setFrom(armoredMeta, true);
-        ELYTRA_ITEM.setFrom(armoredMeta, elytraStack);
-        CHESTPLATE_ITEM.setFrom(armoredMeta, chestStack);
+        ItemListener.IS_ARMORED_ELYTRA.setTo(armoredMeta, true);
+        ELYTRA_ITEM.setTo(armoredMeta, elytraStack);
+        CHESTPLATE_ITEM.setTo(armoredMeta, chestStack);
 
         Map<Enchantment, Integer> enchants = Maps.newHashMap(chestplate.getItemStack().getEnchantments());
         elytraStack.getEnchantments().forEach((enchantment, level) -> {

@@ -22,7 +22,6 @@ package me.machinemaker.vanillatweaks.modules.experimental.elevators;
 import me.machinemaker.vanillatweaks.utils.ItemDropFinder;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
@@ -58,7 +57,7 @@ class ElevatorItemFinder extends ItemDropFinder {
         block.getWorld().spawn(middle, Marker.class, m -> {
             m.setInvulnerable(true);
             m.setGravity(false);
-            Elevators.IS_ELEVATOR.setFrom(m, true);
+            Elevators.IS_ELEVATOR.setTo(m, true);
         });
         item.getItemStack().setAmount(0);
         item.remove();

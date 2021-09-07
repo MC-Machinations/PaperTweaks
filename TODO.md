@@ -49,7 +49,7 @@
 ### Utilities
 
 - [ ] Custom Villager Shops
-- [ ] Spawning Spheres
+- [x] Spawning Spheres
 - [x] Spectator Night Vision
 - [x] Spectator Conduit Power
 - [ ] Item Averages

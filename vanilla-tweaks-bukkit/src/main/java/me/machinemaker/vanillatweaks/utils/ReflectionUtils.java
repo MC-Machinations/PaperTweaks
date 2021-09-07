@@ -149,6 +149,22 @@ public final class ReflectionUtils {
     }
 
     /**
+     * Retrieve a class in the org.bukkit.craftbukkit.VERSION.* package.
+     *
+     * @param names the names of classes to check for
+     * @throws IllegalArgumentException If the class doesn't exist
+     */
+    public static Class<?> findCraftBukkitClass(String ...names) {
+        for (String name : names) {
+            try {
+                return getCraftBukkitClass(name);
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+        throw new IllegalArgumentException("None of " + Arrays.toString(names) + " could be matched to a class");
+    }
+
+    /**
      * Retrieve a field accessor for a specific field type and name.
      *
      * @param target    the target type
@@ -279,11 +295,27 @@ public final class ReflectionUtils {
     /**
      * Retrieve a class in the net.minecraft.server.VERSION.* package.
      *
-     * @param name the name of the class, excluding the package
+     * @param name the name of the class
      * @throws IllegalArgumentException If the class doesn't exist
      */
     public static Class<?> getMinecraftClass(String name) {
         return getCanonicalClass(NMS_PREFIX + "." + name);
+    }
+
+    /**
+     * Retrieve a class in the net.minecraft.server.VERSION.* package.
+     *
+     * @param names the names of the class
+     * @throws IllegalArgumentException If the none of the names match a class
+     */
+    public static Class<?> findMinecraftClass(String...names) {
+        for (String name : names) {
+            try {
+                return getMinecraftClass(name);
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+        throw new IllegalArgumentException("None of " + Arrays.toString(names) + " could be matched to a minecraft class");
     }
 
     /**

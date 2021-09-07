@@ -75,6 +75,10 @@ public final class VTUtils {
         ReflectionUtils.getField(meta.getClass(), "profile", GameProfile.class).set(meta, profile);
     }
 
+    public static @NotNull Location toBlockLoc(@NotNull Location location) {
+        return new Location(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+    }
+
     public static <T> T random(Collection<T> coll) {
         int num = (int) (Math.random() * coll.size());
         for(T t: coll) if (--num < 0) return t;
@@ -110,6 +114,10 @@ public final class VTUtils {
             }
         }
         return result;
+    }
+
+    public static <E extends Entity> @NotNull Collection<E> getEntitiesOfType(Class<E> classOfE, @NotNull World world, Predicate<E> predicate) {
+        return world.getEntitiesByClass(classOfE).stream().filter(predicate).toList();
     }
 
     public static <E extends Entity> @Nullable E getSingleNearbyEntityOfType(Class<E> classOfE, @NotNull Location location, double dx, double dy, double dz) {

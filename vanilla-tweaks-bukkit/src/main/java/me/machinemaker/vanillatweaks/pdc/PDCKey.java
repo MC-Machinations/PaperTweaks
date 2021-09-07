@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.pdc;
 
+import me.machinemaker.vanillatweaks.pdc.types.EnumDataType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
@@ -47,6 +48,10 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return new PDCKey<>(key, DataTypes.ITEMSTACK);
     }
 
+    public static <E extends Enum<E>> @NotNull PDCKey<E> enums(@NotNull NamespacedKey key, Class<E> classOfE) {
+        return new PDCKey<>(key, EnumDataType.of(classOfE));
+    }
+
     public boolean has(@NotNull PersistentDataHolder holder) {
         return holder.getPersistentDataContainer().has(this.key, this.dataType);
     }
@@ -55,7 +60,7 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return holder.getPersistentDataContainer().get(this.key, this.dataType);
     }
 
-    public void setFrom(@NotNull PersistentDataHolder holder, Z object) {
+    public void setTo(@NotNull PersistentDataHolder holder, Z object) {
         holder.getPersistentDataContainer().set(this.key, this.dataType, object);
     }
 

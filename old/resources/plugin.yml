@@ -43,18 +43,6 @@ permissions:
   vanillatweaks.admin:
     default: op
     description: Allow /sha reset <player>
-  vanillatweaks.spawningspheres.add:
-    default: op
-    description: Use /ss add
-  vanillatweaks.spawningspheres.remove:
-    default: op
-    description: Use /ss remove
-  vanillatweaks.spawningspheres:
-    default: op
-    description: Use SpawningSpheres commands
-    children:
-      vanillatweaks.spawningspheres.add: true
-      vanillatweaks.spawningspheres.remove: true
   vanillatweaks.tag.givetag:
     default: op
     description: Gives you or a player a tag
