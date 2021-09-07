@@ -21,11 +21,12 @@ package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Range;
 import com.google.common.util.concurrent.Callables;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.Keys;
 import me.machinemaker.vanillatweaks.tags.Tags;
+import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.sound.Sound;
@@ -86,9 +87,8 @@ class PlayerListener implements ModuleListener {
                         && this.cooldownCache.getIfPresent(event.getPlayer().getUniqueId()) == null
                         && event.getItem().hasItemMeta()
                         && event.getItem().getItemMeta() instanceof Damageable damageable
-                        && 1 - damageable.getDamage() / (double) event.getItem().getType().getMaxDurability() < config.threshold
                         && event.getPlayer().hasPermission("vanillatweaks.durabilityping")
-                        && event.getItem().getType().getMaxDurability() - damageable.getDamage() > 1
+                        && Range.openClosed(1, config.usesLeft + 1).contains(event.getItem().getType().getMaxDurability() - damageable.getDamage())
         ) {
             Settings.Instance playerSettings = settingsCache.get(event.getPlayer().getUniqueId(), Callables.returning(Settings.from(event.getPlayer())));
             Material type = event.getItem().getType();

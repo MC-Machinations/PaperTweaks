@@ -28,8 +28,13 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 class Config extends ModuleConfig {
 
     @Key("notification-threshold-percent")
-    @Description("Value between 0 (inclusive) and 1 (exclusive) for the percentage at which to start notifying the player")
+    @Description("Value between 0 (inclusive) and 1 (exclusive) for the percentage at which to start notifying the player. THIS IS UNUSED, look for `uses-left`")
+    @Deprecated
     public double threshold = 0.02d;
+
+    @Key("uses-left")
+    @Description("How many uses left a tool should have to start notifying the player. Replaces `notification-threshold-percent`")
+    public int usesLeft = 10;
 
     @Key("notification-cooldown-seconds")
     @Description("Cooldown in seconds between notifications to limit spam")

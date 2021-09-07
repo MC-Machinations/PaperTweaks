@@ -23,13 +23,13 @@ import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.options.BooleanMenuOption;
 import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
@@ -97,6 +97,7 @@ class Commands extends ModuleCommand {
                             var change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
                             Player player = PlayerCommandDispatcher.from(context);
                             change.apply(player);
+                            this.listener.settingsCache.invalidate(player.getUniqueId());
                             MENU.send(context);
                         })
                 ).command(SettingArgument.reset(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
