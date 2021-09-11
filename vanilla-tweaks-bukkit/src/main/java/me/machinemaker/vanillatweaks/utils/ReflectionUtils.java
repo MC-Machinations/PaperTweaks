@@ -372,7 +372,9 @@ public final class ReflectionUtils {
 
     public static <T> T newInstance(Class<T> type) {
         try {
-            return type.newInstance();
+            var ctor = type.getDeclaredConstructor();
+            ctor.trySetAccessible();
+            return ctor.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

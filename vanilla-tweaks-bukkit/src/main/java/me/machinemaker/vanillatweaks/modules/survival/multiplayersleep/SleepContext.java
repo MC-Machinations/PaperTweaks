@@ -162,6 +162,7 @@ final class SleepContext {
                 this.world.setThunderDuration(0);
                 this.world.setThundering(false);
             }
+            this.reset(false);
         } else {
             this.world.getPlayers().forEach(player -> {
                 Settings.DISPLAY.getOrDefault(player).notify(player, this, isRemoval);

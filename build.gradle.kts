@@ -11,6 +11,10 @@ group = "me.machinemaker"
 version = "0.2.0-SNAPSHOT"
 description = "A replacement for the VanillaTweaks datapack"
 
+gradle.buildFinished {
+    rootProject.buildDir.deleteRecursively()
+}
+
 allprojects {
     apply(plugin="net.kyori.indra")
     apply(plugin="net.kyori.indra.license-header")
@@ -79,7 +83,7 @@ subprojects {
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     }
 
-    configure<net.kyori.indra.IndraExtension> {
+    indra {
         javaVersions {
             testWith(16)
             target(16)
@@ -107,6 +111,15 @@ subprojects {
 
         test {
             useJUnitPlatform()
+        }
+
+        jar {
+            manifest {
+                attributes(
+                    "Implementation-Title" to "VanillaTweaks",
+                    "Implementation-Version" to rootProject.version
+                )
+            }
         }
     }
 }
