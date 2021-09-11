@@ -50,14 +50,14 @@ class MobListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (config.antiCreeperGrief && event.getEntity() instanceof Creeper creeper) {
+        if (config.antiCreeperGrief && config.disableEntityDamage && event.getEntity() instanceof Creeper creeper) {
             creeper.setExplosionRadius(0);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onExplosionPrime(ExplosionPrimeEvent event) {
-        if (config.antiCreeperGrief && event.getEntity() instanceof Creeper creeper) {
+        if (config.antiCreeperGrief && config.disableEntityDamage && event.getEntity() instanceof Creeper creeper) {
             creeper.setExplosionRadius(0);
         }
     }
@@ -65,7 +65,14 @@ class MobListener implements ModuleListener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent event) {
         if (config.antiGhastGrief && event.getEntity() instanceof Fireball fireball && fireball.getShooter() instanceof Ghast) {
-            event.setCancelled(true);
+            if (config.disableEntityDamage) {
+                event.setCancelled(true);
+            } else {
+                event.blockList().clear();
+            }
+        }
+        if (event.getEntity() instanceof Creeper && config.antiCreeperGrief && !config.disableEntityDamage) {
+            event.blockList().clear();
         }
     }
 

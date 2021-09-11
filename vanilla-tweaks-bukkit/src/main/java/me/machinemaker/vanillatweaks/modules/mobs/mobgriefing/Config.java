@@ -37,4 +37,7 @@ class Config extends ModuleConfig {
     @Key("anti-creeper-grief")
     public boolean antiCreeperGrief = false;
 
+    @Key("disable-entity-damage")
+    @Description("When enabled both block and entity damage will be cancelled for creeper and ghast fireball explosions. Disable to turn on entity damage for those explosions")
+    public boolean disableEntityDamage = true;
 }
