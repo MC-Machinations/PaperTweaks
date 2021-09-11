@@ -19,36 +19,23 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.lectern.annotations.LecternConfiguration;
+import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.format.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 
 import java.util.List;
 
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.Component.translatable;
-
-@LecternConfiguration
+@VTConfig
 class Config extends ModuleConfig {
-
-    @Inject private static BukkitAudiences audiences;
-
-    @Key("sleep-percentage")
-    @Description("Percentage of eligible players required to sleep (UNUSED, use the vanilla gamerule)")
-    public Double sleepPercentage = 0.5;
 
     @Key("included-worlds")
     @Description("Worlds to count player's from")
-    public List<String> includedWorlds = Lists.newArrayList("world");
+    private List<World> includedWorlds = List.of(Bukkit.getWorlds().get(0));
 
     @Key("defaults.display")
     @Description("Default display for new players")
@@ -62,25 +49,15 @@ class Config extends ModuleConfig {
     @Description("When the night is skipped, always reset the weather cycle even if there is not storm presently")
     public boolean alwaysResetWeatherCycle = false;
 
-    public List<World> worlds(boolean firstLoad) {
-        List<World> worlds = Lists.newArrayList();
-        includedWorlds.forEach(levelName -> {
-            World world = Bukkit.getWorld(levelName);
-            if (world == null) {
-                audiences.console().sendMessage(translatable("modules.multiplayer-sleep.failure.level-name", NamedTextColor.RED, text(levelName, NamedTextColor.GOLD)));
-                if (levelName.equals("world")) {
-                    audiences.console().sendMessage(translatable("modules.multiplayer-sleep.failure.level-name.world", NamedTextColor.RED));
-                }
-                return;
+    public List<World> worlds(boolean log) {
+        for (World world : this.includedWorlds) {
+            if (log && !Boolean.TRUE.equals(world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE))) {
+                MultiplayerSleep.LOGGER.warn("{} does not have the gamerule doDaylightCycle set to true, passing the night will have no effect there.", world.getName());
             }
-            if (firstLoad && !Boolean.TRUE.equals(world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE))) {
-                audiences.console().sendMessage(translatable("modules.multiplayer-sleep.failure.no-daylight-cycle", text(world.getName())));
-            }
-            worlds.add(world);
-        });
-        if (worlds.isEmpty()) {
-            audiences.console().sendMessage(translatable("modules.multiplayer-sleep.failure.zero-worlds", NamedTextColor.YELLOW));
         }
-        return worlds;
+        if (this.includedWorlds.isEmpty()) {
+            MultiplayerSleep.LOGGER.warn("You haven't enabled any worlds to be tracked by the MultiplayerSleep module");
+        }
+        return this.includedWorlds;
     }
 }

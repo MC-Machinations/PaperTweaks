@@ -39,7 +39,6 @@ subprojects {
     version = rootProject.version;
 
     repositories {
-        mavenLocal() // TODO remove
         mavenCentral()
         sonatypeSnapshots()
         maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
@@ -49,8 +48,10 @@ subprojects {
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
-        implementation("me.machinemaker:lectern:0.1.1-SNAPSHOT") {
-            exclude("com.fasterxml.jackson.core", "jackson-databind")
+        implementation("me.machinemaker.lectern:lectern-yaml:0.2.0-SNAPSHOT") {
+            exclude(group="com.fasterxml.jackson")
+            exclude(group="com.fasterxml.jackson.core")
+            exclude(group="com.fasterxml.jackson.dataformat")
         }
         implementation("cloud.commandframework:cloud-paper:1.5.0") {
             exclude("io.leangen.geantyref", "geantyref")
@@ -70,6 +71,7 @@ subprojects {
         compileOnly("com.google.inject:guice:5.0.1")
         compileOnly("me.lucko:adventure-platform-bukkit:4.8.1")
         compileOnly("org.apache.commons:commons-configuration2:2.7")
+        compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5")
 
         // Native to minecraft
         compileOnly("com.mojang:authlib:1.5.25")
@@ -77,9 +79,11 @@ subprojects {
 
         testImplementation("org.apache.commons:commons-configuration2:2.7")
         testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
+        testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5")
         testImplementation("me.lucko:adventure-platform-bukkit:4.8.1")
         testImplementation("com.google.inject:guice:5.0.1")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+        testImplementation("org.mockito:mockito-core:3.12.4")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     }
 

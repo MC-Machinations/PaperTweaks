@@ -22,7 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.netherportalcoords;
 import com.google.common.collect.Lists;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.lectern.annotations.LecternConfiguration;
+import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -32,7 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@LecternConfiguration
+@VTConfig
 class Config extends ModuleConfig {
 
     @Key("overworld-type-worlds")

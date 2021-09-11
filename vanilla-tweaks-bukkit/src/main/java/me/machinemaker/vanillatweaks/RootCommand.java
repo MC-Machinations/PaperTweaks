@@ -26,9 +26,9 @@ import cloud.commandframework.paper.PaperCommandManager;
 import cloud.commandframework.tasks.TaskConsumer;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import me.machinemaker.lectern.LecternConfig;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleManager.ReloadResult;
 import net.kyori.adventure.audience.Audience;
@@ -42,10 +42,10 @@ public class RootCommand {
 
     private final PaperCommandManager<CommandDispatcher> commandManager;
     private final ModuleManager moduleManager;
-    private final LecternConfig modulesConfig;
+    private final ConfigurationNode modulesConfig;
 
     @Inject
-    public RootCommand(PaperCommandManager<CommandDispatcher> commandManager, ModuleManager moduleManager, @Named("modules") LecternConfig modulesConfig) {
+    public RootCommand(PaperCommandManager<CommandDispatcher> commandManager, ModuleManager moduleManager, @Named("modules") ConfigurationNode modulesConfig) {
         this.commandManager = commandManager;
         this.moduleManager = moduleManager;
         this.modulesConfig = modulesConfig;

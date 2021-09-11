@@ -21,10 +21,10 @@ package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.lectern.annotations.LecternConfiguration;
+import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 
-@LecternConfiguration
+@VTConfig
 class Config extends ModuleConfig {
 
     @Key("spawn-cooldown")

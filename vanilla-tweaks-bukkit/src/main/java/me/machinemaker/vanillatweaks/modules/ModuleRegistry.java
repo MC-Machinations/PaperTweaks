@@ -28,11 +28,10 @@ import io.github.classgraph.AnnotationInfo;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
-import me.machinemaker.lectern.Lectern;
-import me.machinemaker.lectern.LecternConfig;
+import me.machinemaker.lectern.ConfigurationNode;
+import me.machinemaker.lectern.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Map;
 
 public class ModuleRegistry extends AbstractModule {
@@ -40,12 +39,12 @@ public class ModuleRegistry extends AbstractModule {
     private static final String MODULE_PKG = "me.machinemaker.vanillatweaks.modules";
     private static final String MODULE_INFO_ANNOTATION = "me.machinemaker.vanillatweaks.annotations.ModuleInfo";
 
-    private final LecternConfig moduleConfig;
+    private final ConfigurationNode moduleConfig;
     private final Map<String, Class<? extends ModuleBase>> modules = Maps.newHashMap();
 
     @SuppressWarnings("unchecked")
     public ModuleRegistry(JavaPlugin plugin) {
-        this.moduleConfig = Lectern.createConfig(new File(plugin.getDataFolder(), "modules.yml"));
+        this.moduleConfig = YamlConfiguration.builder(plugin.getDataFolder().toPath().resolve("modules.yml")).build();
         try (ScanResult scanResult = new ClassGraph().enableAnnotationInfo().acceptPackages(MODULE_PKG).scan()) {
             for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(MODULE_INFO_ANNOTATION)) {
                 AnnotationInfo annotationInfo = classInfo.getAnnotationInfo(MODULE_INFO_ANNOTATION);
@@ -55,15 +54,14 @@ public class ModuleRegistry extends AbstractModule {
                 moduleConfig.set(configPath, false);
             }
         }
-        moduleConfig.reloadOrSave();
-        moduleConfig.save();
+        moduleConfig.reloadAndSave();
     }
 
     @Override
     protected void configure() {
         MapBinder<String, ModuleBase> moduleMapBinder = MapBinder.newMapBinder(binder(), String.class, ModuleBase.class);
         modules.forEach((name, moduleClass) -> moduleMapBinder.addBinding(name).to(moduleClass).in(Scopes.SINGLETON));
-        bind(LecternConfig.class).annotatedWith(Names.named("modules")).toInstance(moduleConfig);
+        bind(ConfigurationNode.class).annotatedWith(Names.named("modules")).toInstance(moduleConfig);
         bind(ModuleManager.class).in(Scopes.SINGLETON);
     }
 }

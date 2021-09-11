@@ -36,20 +36,13 @@ import static net.kyori.adventure.text.Component.translatable;
 final class Lifecycle extends ModuleLifecycle {
 
     private final CountMobDeaths countMobDeaths;
-    private final Config config;
     private final BukkitAudiences audiences;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, CountMobDeaths countMobDeaths, Config config, BukkitAudiences audiences) {
+    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, CountMobDeaths countMobDeaths, BukkitAudiences audiences) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.countMobDeaths = countMobDeaths;
-        this.config = config;
         this.audiences = audiences;
-    }
-
-    @Override
-    public void onEnable() {
-        config.countedMobs(true);
     }
 
     @Override

@@ -23,7 +23,7 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
-import me.machinemaker.lectern.LecternConfig;
+import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -66,10 +66,10 @@ public class ModuleManager {
     private final Map<String, ModuleBase> moduleMap;
     private final Injector baseInjector;
     private final Map<String, Injector> moduleInjectors = Maps.newHashMap();
-    private final LecternConfig modulesConfig;
+    private final ConfigurationNode modulesConfig;
 
     @Inject
-    public ModuleManager(JavaPlugin plugin, Map<String, ModuleBase> moduleMap, Injector baseInjector, @Named("modules") LecternConfig modulesConfig) {
+    public ModuleManager(JavaPlugin plugin, Map<String, ModuleBase> moduleMap, Injector baseInjector, @Named("modules") ConfigurationNode modulesConfig) {
         this.plugin = plugin;
         this.moduleMap = moduleMap;
         this.baseInjector = baseInjector;

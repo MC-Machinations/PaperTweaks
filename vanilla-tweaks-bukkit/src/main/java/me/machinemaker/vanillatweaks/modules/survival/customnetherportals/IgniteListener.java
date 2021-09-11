@@ -21,7 +21,6 @@ package me.machinemaker.vanillatweaks.modules.survival.customnetherportals;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import org.bukkit.Axis;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -69,7 +68,7 @@ class IgniteListener implements ModuleListener {
 
     static boolean isPortalFrame(@Nullable Block block) {
         if (block == null) return false;
-        return config.portalFrameMaterials(false).contains(block.getType());
+        return config.portalFrameMaterials.contains(block.getType());
     }
 
     static boolean isInValidDimension(World world) {

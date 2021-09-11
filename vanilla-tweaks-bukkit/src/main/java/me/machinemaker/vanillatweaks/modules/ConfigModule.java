@@ -23,7 +23,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Named;
-import me.machinemaker.lectern.Lectern;
+import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.annotations.ConfigureModuleConfig;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ public abstract class ConfigModule extends AbstractModule {
         } else {
             folder = this.getConfigDataFolder();
         }
-        C config = Lectern.registerConfig(configClass, this.modulesConfigFolder.resolve(folder).toFile());
+        C config = BaseConfig.create(configClass, this.modulesConfigFolder.resolve(folder));
         bind(configClass).toInstance(config);
         binder.addBinding().toInstance(config);
     }

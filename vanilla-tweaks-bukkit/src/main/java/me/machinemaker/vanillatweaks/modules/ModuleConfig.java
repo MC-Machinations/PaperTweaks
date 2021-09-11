@@ -19,16 +19,8 @@
  */
 package me.machinemaker.vanillatweaks.modules;
 
-import me.machinemaker.lectern.LecternBaseConfig;
+import me.machinemaker.lectern.BaseConfig;
 
-public abstract class ModuleConfig extends LecternBaseConfig {
+public abstract class ModuleConfig extends BaseConfig {
 
-    final void reloadOrSaveAndSave() {
-        if (this.getFile().exists()) {
-            this.reload();
-            this.save();
-        } else {
-            this.save();
-        }
-    }
 }

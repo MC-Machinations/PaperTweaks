@@ -132,12 +132,13 @@ public class VanillaTweaks extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        String disabled = "N/A";
         if (this.moduleManager != null) {
-            moduleManager.disableModules();
+            disabled = String.valueOf(moduleManager.disableModules());
         }
         EXECUTOR_SERVICE.shutdown();
         if (this.audiences != null) {
-            audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(moduleManager.disableModules(), GRAY))));
+            audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(disabled, GRAY))));
             audiences.close();
         }
     }

@@ -19,15 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.customnetherportals;
 
-import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.modules.ModuleBase;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
+import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -40,7 +36,6 @@ public class CustomNetherPortals extends ModuleBase {
     protected void configure() {
         super.configure();
         requestStaticInjection(PortalShapeFinder.class);
-        requestStaticInjection(Config.class);
         requestStaticInjection(IgniteListener.class);
     }
 
@@ -57,26 +52,5 @@ public class CustomNetherPortals extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(IgniteListener.class);
-    }
-
-    static class Lifecycle extends ModuleLifecycle {
-
-        private final Config config;
-
-        @Inject
-        protected Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config, Set<ModuleRecipe<?>> moduleRecipes) {
-            super(plugin, commands, listeners, configs, moduleRecipes);
-            this.config = config;
-        }
-
-        @Override
-        public void onEnable() {
-            this.config.portalFrameMaterials(true);
-        }
-
-        @Override
-        public void onReload() {
-            this.config.portalFrameMaterials(true);
-        }
     }
 }

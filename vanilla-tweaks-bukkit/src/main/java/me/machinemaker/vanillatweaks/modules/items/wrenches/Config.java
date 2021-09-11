@@ -21,11 +21,11 @@ package me.machinemaker.vanillatweaks.modules.items.wrenches;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.lectern.annotations.LecternConfiguration;
 import me.machinemaker.vanillatweaks.annotations.ConfigureModuleConfig;
+import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 
-@LecternConfiguration
+@VTConfig
 @ConfigureModuleConfig(folder = "wrenches")
 class Config extends ModuleConfig {
 

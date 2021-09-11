@@ -76,7 +76,7 @@ public abstract class ModuleLifecycle {
         try {
             enableCommands();
             registerListeners();
-            configs.forEach(ModuleConfig::reloadOrSaveAndSave);
+            configs.forEach(ModuleConfig::reloadAndSave);
             registerRecipes();
             onEnable();
             state = ModuleState.ENABLED;
@@ -98,7 +98,9 @@ public abstract class ModuleLifecycle {
         try {
             // TODO disable commands
             unregisterListeners();
-            configs.forEach(ModuleConfig::save);
+            if (!this.state.isErrored()) {
+                configs.forEach(ModuleConfig::save);
+            }
             unregisterRecipes();
             onDisable();
             if (changeState) state = ModuleState.DISABLED;
@@ -111,9 +113,10 @@ public abstract class ModuleLifecycle {
     final void reload() {
         try {
             if (state.isRunning()) {
-                configs.forEach(ModuleConfig::reloadOrSaveAndSave);
+                configs.forEach(ModuleConfig::reloadAndSave);
                 registerRecipes();
                 onReload();
+                state = ModuleState.ENABLED;
             }
         } catch (Exception e) {
             this.plugin.getLogger().log(Level.SEVERE, e, () -> "Failed to reload " + this.moduleInfo.name());

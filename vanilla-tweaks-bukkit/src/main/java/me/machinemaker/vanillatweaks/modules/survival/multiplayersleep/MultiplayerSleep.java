@@ -20,13 +20,15 @@
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import com.google.common.collect.Maps;
+import me.machinemaker.vanillatweaks.LoggerFactory;
+import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
-import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.Map;
@@ -36,6 +38,7 @@ import java.util.UUID;
 @ModuleInfo(name = "MultiplayerSleep", configPath = "survival.multiplayer-sleep", description = "Enables passing the night/weather without everyone in the overworld sleeping")
 public class MultiplayerSleep extends ModuleBase {
 
+    static final Logger LOGGER = LoggerFactory.getModuleLogger(MultiplayerSleep.class);
     static final Map<UUID, SleepContext> SLEEP_CONTEXT_MAP = Maps.newHashMap();
 
     @Override

@@ -54,12 +54,12 @@ class Lifecycle extends ModuleLifecycle {
 
     @Override
     public void onEnable() {
-        this.validateWorldList(true);
+        this.validateWorldList();
     }
 
     @Override
     public void onReload() {
-        this.validateWorldList(false);
+        this.validateWorldList();
         this.resetSleepContexts(true);
     }
 
@@ -68,14 +68,14 @@ class Lifecycle extends ModuleLifecycle {
         resetSleepContexts(false);
     }
 
-    private void validateWorldList(boolean firstLoad) {
+    private void validateWorldList() {
         Bukkit.getOnlinePlayers().forEach(player -> {
             BOSS_BARS.values().forEach(bossBar -> {
                 audiences.player(player).hideBossBar(bossBar);
             });
         });
         BOSS_BARS.clear();
-        this.config.worlds(firstLoad).forEach(world -> {
+        this.config.worlds(true).forEach(world -> {
             BOSS_BARS.put(world.getUID(), BossBar.bossBar(translatable("modules.multiplayer-sleep.display.boss-bar.title", text(0), text(0)), 0.0f, this.config.bossBarColor, BossBar.Overlay.PROGRESS));
         });
 

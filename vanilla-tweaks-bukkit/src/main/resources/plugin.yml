@@ -191,7 +191,7 @@ libraries:
   - com.google.inject:guice:5.0.1
   - me.lucko:adventure-platform-bukkit:4.8.1
   - io.github.classgraph:classgraph:4.8.114
-  - com.fasterxml.jackson.core:jackson-databind:2.12.4
+  - com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5
   - io.leangen.geantyref:geantyref:1.3.11
   - net.kyori:adventure-text-serializer-plain:4.8.1
   - net.kyori:adventure-api:4.8.1

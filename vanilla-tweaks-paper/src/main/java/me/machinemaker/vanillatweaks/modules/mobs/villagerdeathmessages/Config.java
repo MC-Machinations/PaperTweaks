@@ -20,10 +20,10 @@
 package me.machinemaker.vanillatweaks.modules.mobs.villagerdeathmessages;
 
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.lectern.annotations.LecternConfiguration;
+import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 
-@LecternConfiguration
+@VTConfig
 class Config extends ModuleConfig {
 
     @Key("show-message-on-death")

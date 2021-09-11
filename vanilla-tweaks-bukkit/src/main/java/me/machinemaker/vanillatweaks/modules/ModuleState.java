@@ -21,19 +21,25 @@ package me.machinemaker.vanillatweaks.modules;
 
 public enum ModuleState {
 
-    ENABLED(true),
-    DISABLED(false),
-    ENABLED_FAILED(false),
-    DISABLE_FAILED(false),
-    RELOAD_FAILED(false);
+    ENABLED(true, false),
+    DISABLED(false, false),
+    ENABLED_FAILED(false, true),
+    DISABLE_FAILED(false, true),
+    RELOAD_FAILED(true, true);
 
     private final boolean running;
+    private final boolean error;
 
-    ModuleState(boolean running) {
+    ModuleState(boolean running, boolean error) {
         this.running = running;
+        this.error = error;
     }
 
     public boolean isRunning() {
         return running;
+    }
+
+    public boolean isErrored() {
+        return this.error;
     }
 }

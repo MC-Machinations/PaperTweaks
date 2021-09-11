@@ -40,7 +40,7 @@ class EntityListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDeath(EntityDeathEvent event) {
-        if (this.config.countedMobs(false).contains(event.getEntityType()) && event.getEntity().getCustomName() == null) {
+        if (this.config.countedMobs.contains(event.getEntityType()) && event.getEntity().getCustomName() == null) {
             final String entry = ChatColor.YELLOW + event.getEntity().getName();
             for (CountMobDeaths.CountingBoard countingBoard : this.countMobDeaths.scoreboardPlayerMap.values()) {
                 if (countingBoard.isCounting()) {

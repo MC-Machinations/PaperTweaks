@@ -21,12 +21,12 @@ package me.machinemaker.vanillatweaks.modules.survival.graves;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.lectern.annotations.LecternConfiguration;
+import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 
 import java.util.List;
 
-@LecternConfiguration
+@VTConfig
 class Config extends ModuleConfig {
 
     @Key("legacy-shift-behavior")

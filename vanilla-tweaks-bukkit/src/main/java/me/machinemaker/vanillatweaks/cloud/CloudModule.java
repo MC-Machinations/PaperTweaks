@@ -22,6 +22,8 @@ package me.machinemaker.vanillatweaks.cloud;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.bukkit.CloudBukkitCapabilities;
 import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
+import cloud.commandframework.minecraft.extras.AudienceProvider;
+import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
@@ -48,6 +50,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.TextComponent.ofChildren;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class CloudModule extends AbstractModule {
@@ -88,7 +91,7 @@ public class CloudModule extends AbstractModule {
 
     @Provides
     @Singleton
-    PaperCommandManager<CommandDispatcher> paperCommandManager(CommandDispatcherFactory commandDispatcherFactory, ModuleManager moduleManager, CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager) {
+    PaperCommandManager<CommandDispatcher> paperCommandManager(CommandDispatcherFactory commandDispatcherFactory, ModuleManager moduleManager, CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager, MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
         final LoadingCache<CommandSender, CommandDispatcher> senderCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build(commandDispatcherFactory);
         try {
             PaperCommandManager<CommandDispatcher> commandManager = new PaperCommandManager<>(
@@ -117,9 +120,28 @@ public class CloudModule extends AbstractModule {
 
             commandManager.registerCommandPostProcessor(new GamemodePostprocessor());
 
+            minecraftExceptionHandler.apply(commandManager, AudienceProvider.nativeAudience());
+
             return commandManager;
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize cloud!", e);
         }
+    }
+
+    @Provides
+    @Singleton
+    private MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler() {
+        return new MinecraftExceptionHandler<CommandDispatcher>()
+                .withArgumentParsingHandler()
+                .withCommandExecutionHandler()
+                .withInvalidSenderHandler()
+                .withInvalidSyntaxHandler()
+                .withNoPermissionHandler()
+                .withDecorator(component -> ofChildren(
+                        text("[", DARK_GRAY),
+                        text("VanillaTweaks", BLUE),
+                        text("] ", DARK_GRAY),
+                        component
+                ));
     }
 }
