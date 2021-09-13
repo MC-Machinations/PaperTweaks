@@ -21,6 +21,7 @@ allprojects {
 
     configure<org.cadixdev.gradle.licenser.LicenseExtension>() {
         header(rootProject.file("HEADER"))
+        exclude("**/AbstractComponentBuilder.java")
     }
 
     tasks {
