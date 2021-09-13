@@ -200,6 +200,19 @@ permissions:
       vanillatweaks.trackrawstats.clear: true
       vanillatweaks.trackrawstats.show: true
 
+  vanillatweaks.trackstats.show:
+    default: false
+    description: Display a specific processed stat
+  vanillatweaks.trackstats.clear:
+    default: false
+    description: Clears the shown processed stat
+  vanillatweaks.trackstats:
+    default: op
+    description: All TrackStats commands
+    children:
+      vanillatweaks.trackstats.show: true
+      vanillatweaks.trackstats.clear: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - me.lucko:adventure-platform-bukkit:4.8.1

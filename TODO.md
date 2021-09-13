@@ -12,7 +12,7 @@
 - [x] Durability Ping
 - [x] Cauldron Concrete **PAPER ONLY**
 - [x] Track Raw Statistics
-- [ ] Track Statistics
+- [x] Track Statistics
 - [x] Nether Portal Coords
 - [x] Coordinates HUD
 - [x] ~~Classic Fishing Loot~~ **USE DATAPACK**
