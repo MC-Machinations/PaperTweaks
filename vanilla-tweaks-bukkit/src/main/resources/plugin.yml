@@ -187,6 +187,19 @@ permissions:
       vanillatweaks.spawningspheres.add: true
       vanillatweaks.spawningspheres.remove: true
 
+  vanillatweaks.trackrawstats.show:
+    default: false
+    description: Display a specific stat
+  vanillatweaks.trackrawstats.clear:
+    default: false
+    description: Clear the sidebar
+  vanillatweaks.trackrawstats:
+    default: op
+    description: All TrackRawStats commands
+    children:
+      vanillatweaks.trackrawstats.clear: true
+      vanillatweaks.trackrawstats.show: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - me.lucko:adventure-platform-bukkit:4.8.1

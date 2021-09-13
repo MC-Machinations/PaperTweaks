@@ -11,7 +11,7 @@
 - [x] Custom Nether Portals
 - [x] Durability Ping
 - [x] Cauldron Concrete **PAPER ONLY**
-- [ ] Track Raw Statistics
+- [x] Track Raw Statistics
 - [ ] Track Statistics
 - [x] Nether Portal Coords
 - [x] Coordinates HUD

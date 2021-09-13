@@ -71,19 +71,3 @@ permissions:
       vanillatweaks.thundershrine.remove: true
       vanillatweaks.thundershrine.create: true
       vanillatweaks.thundershrine.help: true
-  vanillatweaks.trackrawstats.clear:
-    default: true
-    description: Clear a scoreboard slot
-  vanillatweaks.trackrawstats.show:
-    default: true
-    description: Shows a specific stat to that player
-  vanillatweaks.trackrawstats.help:
-    default: true
-    description: TRS help command
-  vanillatweaks.trackrawstats:
-    default: true
-    description: All TRS commands
-    chidlren:
-      vanillatweaks.trackrawstats.toggle: true
-      vanillatweaks.trackrawstats.show: true
-      vanillatweaks.trackrawstats.help: true
