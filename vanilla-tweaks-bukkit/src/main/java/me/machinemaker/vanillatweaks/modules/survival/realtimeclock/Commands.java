@@ -21,11 +21,8 @@ package me.machinemaker.vanillatweaks.modules.survival.realtimeclock;
 
 import cloud.commandframework.bukkit.parsers.WorldArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -34,20 +31,19 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-import static net.kyori.adventure.text.Component.text;
 import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mapped;
 import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
+import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class Commands extends ModuleCommand {
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        var builder = manager
-                .commandBuilder("gametime", RichDescription.of(mapped("modules.real-time-clock.commands.root")), "gtime", "gt");
+    protected void registerCommands() {
+        var builder = cmd("gametime", RichDescription.of(mapped("modules.real-time-clock.commands.root")), "gtime", "gt");
 
         manager.command(builder
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.realtimeclock.local"))
+                .permission(modulePermission("vanillatweaks.realtimeclock.local"))
                 .senderType(PlayerCommandDispatcher.class)
                 .handler(context -> {
                     Player player = PlayerCommandDispatcher.from(context);
@@ -55,8 +51,8 @@ class Commands extends ModuleCommand {
                     context.getSender().sendMessage(buildRuntimeComponent(duration, player.getWorld().getName()));
                 })
         ).command(builder
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.realtimeclock.other"))
-                .argument(WorldArgument.<CommandDispatcher>newBuilder("world").withDefaultDescription(RichDescription.translatable("modules.real-time-clock.commands.specific-world")).build())
+                .permission(modulePermission("vanillatweaks.realtimeclock.other"))
+                .argument(WorldArgument.of("world"), RichDescription.translatable("modules.real-time-clock.commands.specific-world"))
                 .handler(context -> {
                     World world = context.get("world");
                     Duration duration = Duration.of(world.getGameTime() / 20, ChronoUnit.SECONDS);

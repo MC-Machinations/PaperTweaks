@@ -21,46 +21,47 @@ package me.machinemaker.vanillatweaks.modules.survival.netherportalcoords;
 
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.function.IntUnaryOperator;
 
-import static net.kyori.adventure.text.Component.text;
 import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mapped;
 import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
+import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class Commands extends ModuleCommand {
 
     private final Config config;
 
-    @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        var builder = this.manager.commandBuilder("portalcoords", RichDescription.of(mapped("modules.nether-portal-coords.commands.root")), "pcoords");
+    @Inject
+    Commands(Config config) {
+        this.config = config;
+    }
 
-        this.manager
-                .command(builder
-                        .permission(ModulePermission.of(lifecycle, "vanillatweaks.netherportalcoords"))
-                        .senderType(PlayerCommandDispatcher.class)
-                        .handler(context -> {
-                            Player player = PlayerCommandDispatcher.from(context);
-                            Location loc = player.getLocation();
-                            if (this.config.overWorlds().contains(player.getWorld())) {
-                                Component coords = coords(loc, i -> i / 8);
-                                context.getSender().sendMessage(msg(coords, "Nether"));
-                            } else if (this.config.netherWorlds().contains(player.getWorld())) {
-                                Component coords = coords(loc, i -> i * 8);
-                                context.getSender().sendMessage(msg(coords, "Overworld"));
-                            } else {
-                                context.getSender().sendMessage(mapped("modules.nether-portal-coords.invalid-world", RED));
-                            }
-                        })
+    @Override
+    protected void registerCommands() {
+        var builder = playerCmd("portalcoords", RichDescription.of(mapped("modules.nether-portal-coords.commands.root")), "pcoords");
+
+        this.manager.command(builder
+                .permission(modulePermission("vanillatweaks.netherportalcoords"))
+                .handler(context -> {
+                    Player player = PlayerCommandDispatcher.from(context);
+                    Location loc = player.getLocation();
+                    if (this.config.overWorlds().contains(player.getWorld())) {
+                        Component coords = coords(loc, i -> i / 8);
+                        context.getSender().sendMessage(msg(coords, "Nether"));
+                    } else if (this.config.netherWorlds().contains(player.getWorld())) {
+                        Component coords = coords(loc, i -> i * 8);
+                        context.getSender().sendMessage(msg(coords, "Overworld"));
+                    } else {
+                        context.getSender().sendMessage(mapped("modules.nether-portal-coords.invalid-world", RED));
+                    }
+                })
         );
     }
 
@@ -70,10 +71,5 @@ class Commands extends ModuleCommand {
 
     private Component msg(Component coords, String world) {
         return mappedBuilder("modules.nether-portal-coords.msg-format").arg("world", text(world, YELLOW)).arg("coords", coords).build();
-    }
-
-    @Inject
-    Commands(Config config) {
-        this.config = config;
     }
 }

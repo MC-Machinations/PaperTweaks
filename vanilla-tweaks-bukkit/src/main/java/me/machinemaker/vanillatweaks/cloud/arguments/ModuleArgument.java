@@ -36,14 +36,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-import static net.kyori.adventure.text.Component.text;
-
 public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBase> {
 
     private static final String ARGUMENT_NAME = "module";
 
     private ModuleArgument(@Nullable Boolean enabled) {
-        super(true, ARGUMENT_NAME, new Parser(enabled), "", ModuleBase.class, null, RichDescription.of(text("TODO"))); // TODO - description
+        super(true, ARGUMENT_NAME, new Parser(enabled), "", ModuleBase.class, null, RichDescription.translatable("commands.arguments.module"));
     }
 
     public static ModuleArgument enabled() {

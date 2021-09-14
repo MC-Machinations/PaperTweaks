@@ -40,9 +40,10 @@ subprojects {
     version = rootProject.version;
 
     repositories {
+        mavenLocal()  // TODO At the moment, my personal fork of cloud fixes 2 issues
         mavenCentral()
         sonatypeSnapshots()
-        maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
+//        maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds  // TODO At the moment, my personal fork of cloud fixes 2 issues
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
     }
@@ -54,7 +55,7 @@ subprojects {
             exclude(group="com.fasterxml.jackson.core")
             exclude(group="com.fasterxml.jackson.dataformat")
         }
-        implementation("cloud.commandframework:cloud-paper:1.5.0") {
+        implementation("cloud.commandframework:cloud-paper:1.6.0-SNAPSHOT") { // TODO At the moment, my personal fork of cloud fixes 2 issues
             exclude("io.leangen.geantyref", "geantyref")
         }
         implementation("cloud.commandframework:cloud-minecraft-extras:1.5.0") {

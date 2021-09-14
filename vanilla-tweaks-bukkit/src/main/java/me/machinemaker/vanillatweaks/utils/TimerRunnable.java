@@ -46,8 +46,11 @@ public abstract class TimerRunnable implements Runnable {
         return this.currentTask;
     }
 
-    public synchronized void cancel() throws IllegalStateException{
-        Bukkit.getScheduler().cancelTask(getTaskId());
+    public synchronized void cancel() {
+        try {
+            Bukkit.getScheduler().cancelTask(getTaskId());
+        } catch (IllegalStateException ignored) {
+        }
     }
 
     public synchronized int getTaskId() throws IllegalStateException {

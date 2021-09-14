@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.cloud;
 
+import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.permission.AndPermission;
 import cloud.commandframework.permission.CommandPermission;
 import cloud.commandframework.permission.Permission;
@@ -35,11 +36,7 @@ public final class ModulePermission {
     public static CommandPermission of(ModuleLifecycle lifecycle, String permission) {
         return AndPermission.of(Set.of(
                 Permission.of(permission),
-                (PredicatePermission<?>) ignored -> lifecycle.getState().isRunning()
+                PredicatePermission.of(SimpleCloudKey.of(lifecycle.moduleInfo().name() + "-lifecycle"), ignored -> lifecycle.getState().isRunning())
         ));
-    }
-
-    public static CommandPermission of(ModuleLifecycle lifecycle) {
-        return (PredicatePermission<?>) ignored -> lifecycle.getState().isRunning();
     }
 }

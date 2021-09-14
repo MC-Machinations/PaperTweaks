@@ -22,13 +22,11 @@ package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -59,17 +57,15 @@ class Commands extends ModuleCommand {
     }
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        final var builder = manager.commandBuilder("multiplayersleep", RichDescription.translatable("modules.multiplayer-sleep.commands.root"), "mpsleep", "mps");
+    protected void registerCommands() {
+        var builder = playerCmd("multiplayersleep", "modules.multiplayer-sleep.commands.root", "mpsleep", "mps");
         final var configBuilder = builder
-                .senderType(PlayerCommandDispatcher.class)
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.multiplayersleep.configure"))
+                .permission(modulePermission("vanillatweaks.multiplayersleep.configure"))
                 .literal("config", RichDescription.translatable("modules.multiplayer-sleep.commands.config"));
 
         manager
                 .command(builder
-                        .senderType(PlayerCommandDispatcher.class)
-                        .permission(ModulePermission.of(lifecycle, "vanillatweaks.multiplayersleep.list-sleeping"))
+                        .permission(modulePermission("vanillatweaks.multiplayersleep.list-sleeping"))
                         .literal("sleeping", RichDescription.translatable("modules.multiplayer-sleep.commands.players-sleeping"))
                         .handler(context -> {
                             World world = PlayerCommandDispatcher.from(context).getWorld();

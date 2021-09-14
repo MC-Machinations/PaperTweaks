@@ -20,8 +20,11 @@
 package me.machinemaker.vanillatweaks.cloud.cooldown;
 
 import cloud.commandframework.Command;
+import cloud.commandframework.keys.CloudKey;
+import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.meta.CommandMeta;
 import io.leangen.geantyref.TypeToken;
+import org.apache.commons.lang.RandomStringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -33,6 +36,7 @@ public class CooldownBuilder<C> {
     private final CooldownDuration<C> cooldownDuration;
     private final CommandMeta.Key<@NonNull CommandCooldownNotifier<C>> notifierKey = CommandMeta.Key.of(new TypeToken<CommandCooldownNotifier<C>>() {}, CommandCooldownManager.COOLDOWN_NOTIFIER_KEY);
     private @Nullable CommandCooldownNotifier<C> notifier;
+    private @Nullable CloudKey<Void> cooldownKey;
 
     private CooldownBuilder(@NonNull CooldownDuration<C> cooldownDuration)  {
         this.cooldownDuration = cooldownDuration;
@@ -51,8 +55,17 @@ public class CooldownBuilder<C> {
         return this;
     }
 
+    public CooldownBuilder<C> withKey(CloudKey<Void> cooldownKey) {
+        this.cooldownKey = cooldownKey;
+        return this;
+    }
+
     public Command.@NonNull Builder<C> applyTo(Command.@NonNull Builder<C> builder) {
-        builder = builder.meta(this.cooldownDurationKey, this.cooldownDuration);
+        CloudKey<Void> key = this.cooldownKey;
+        if (key == null) {
+            key = SimpleCloudKey.of(RandomStringUtils.randomAlphabetic(32));
+        }
+        builder = builder.meta(this.cooldownDurationKey, this.cooldownDuration).meta(CommandCooldownManager.COMMAND_COOLDOWN_KEY, key);
         if (this.notifier != null) {
             builder = builder.meta(this.notifierKey, this.notifier);
         }

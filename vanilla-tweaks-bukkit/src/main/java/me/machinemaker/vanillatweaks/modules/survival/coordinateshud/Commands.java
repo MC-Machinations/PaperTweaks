@@ -20,12 +20,9 @@
 package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 
 import static net.kyori.adventure.text.Component.translatable;
@@ -40,21 +37,20 @@ class Commands extends ModuleCommand {
     }
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        manager.command(manager
-                .commandBuilder("togglehud", "thud")
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.coordinateshud.togglehud"))
-                .senderType(PlayerCommandDispatcher.class)
-                .handler(context -> {
-                    Player player = (Player) context.getSender().sender();
+    protected void registerCommands() {
+        manager.command(playerCmd("togglehud", "modules.coordinates-hud.commands", "thud")
+                .permission(modulePermission("vanillatweaks.coordinateshud.togglehud"))
+                .handler(sync((context, player) -> {
                     if (this.hudRunnable.getPlayers().remove(player)) {
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", NamedTextColor.GREEN));
+                        context.getSender().sendActionBar(Component.empty());
                         player.getPersistentDataContainer().remove(this.hudRunnable.coordinatesHUDKey);
                     } else {
                         this.hudRunnable.getPlayers().add(player);
                         player.getPersistentDataContainer().set(this.hudRunnable.coordinatesHUDKey, PersistentDataType.BYTE, (byte) 1);
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", NamedTextColor.GREEN));
                     }
-        }));
+                }))
+        );
     }
 }

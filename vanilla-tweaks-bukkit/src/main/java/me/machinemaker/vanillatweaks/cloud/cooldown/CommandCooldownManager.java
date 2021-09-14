@@ -23,6 +23,7 @@ import cloud.commandframework.Command;
 import cloud.commandframework.CommandManager;
 import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
 import cloud.commandframework.execution.postprocessor.CommandPostprocessor;
+import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.services.types.ConsumerService;
 import io.leangen.geantyref.TypeToken;
@@ -48,11 +49,12 @@ public final class CommandCooldownManager<C, I> {
 
     static final String COOLDOWN_DURATION_KEY = "vanillatweaks:command_cooldown";
     static final String COOLDOWN_NOTIFIER_KEY = "vanillatweaks:command_cooldown_notifier";
+    static final CommandMeta.Key<CloudKey<Void>> COMMAND_COOLDOWN_KEY = CommandMeta.Key.of(new TypeToken<CloudKey<Void>>() {}, "vanillatweaks:command_cooldown_key");
 
 
     private final Function<@NonNull C, @Nullable I> identificationMapper;
     private final CommandCooldownNotifier<C> defaultNotifier;
-    private final Map<I, Map<Command<C>, Long>> commandsOnCooldown;
+    private final Map<I, Map<CloudKey<Void>, Long>> commandsOnCooldown;
     private final ScheduledExecutorService executorService;
 
     public final CommandMeta.Key<@NonNull CooldownDuration<C>> cooldownKey = CommandMeta.Key.of(new TypeToken<CooldownDuration<C>>() {}, COOLDOWN_DURATION_KEY);
@@ -83,9 +85,14 @@ public final class CommandCooldownManager<C, I> {
     }
 
     public synchronized void invalidate(final @NonNull I id, final @NonNull Command<C> command) {
-        Map<Command<C>, Long> identifiedMap = this.commandsOnCooldown.get(id);
+        Optional<CloudKey<Void>> cloudKey = command.getCommandMeta().get(COMMAND_COOLDOWN_KEY);
+        cloudKey.ifPresent(key -> invalidate(id, key));
+    }
+
+    public synchronized void invalidate(final @NonNull I id, final @NonNull CloudKey<Void> cloudKey) {
+        Map<CloudKey<Void>, Long> identifiedMap = this.commandsOnCooldown.get(id);
         if (identifiedMap != null) {
-            identifiedMap.remove(command);
+            identifiedMap.remove(cloudKey);
             if (identifiedMap.isEmpty()) {
                 this.commandsOnCooldown.remove(id);
             }
@@ -100,23 +107,24 @@ public final class CommandCooldownManager<C, I> {
             if (id == null) return;
             final Optional<Duration> cooldown = getCommandCooldown(context);
             if (cooldown.isPresent() && !cooldown.get().isZero()) {
+                CloudKey<Void> commandCooldownKey = context.getCommand().getCommandMeta().get(COMMAND_COOLDOWN_KEY).orElseThrow();
                 final long cooldownMillis = cooldown.get().toMillis();
                 final long currentMillis = System.currentTimeMillis();
                 if (CommandCooldownManager.this.commandsOnCooldown.containsKey(id)) {
-                    final Map<Command<C>, Long> senderCooldownMap = CommandCooldownManager.this.commandsOnCooldown.getOrDefault(id, Collections.emptyMap());
-                    if (senderCooldownMap.containsKey(context.getCommand())) {
-                        final Long blockedUntil = senderCooldownMap.get(context.getCommand());
+                    final Map<CloudKey<Void>, Long> senderCooldownMap = CommandCooldownManager.this.commandsOnCooldown.getOrDefault(id, Collections.emptyMap());
+                    if (senderCooldownMap.containsKey(commandCooldownKey)) {
+                        final Long blockedUntil = senderCooldownMap.get(commandCooldownKey);
                         if (currentMillis < blockedUntil) {
                             var notifier = context.getCommand().getCommandMeta().getOrDefault(CommandCooldownManager.this.notifierKey, CommandCooldownManager.this.defaultNotifier);
                             notifier.notify(context, cooldown.get(), (blockedUntil - currentMillis) / 1000);
                             ConsumerService.interrupt();
                         }
                     } else {
-                        senderCooldownMap.put(context.getCommand(), currentMillis + cooldownMillis);
+                        senderCooldownMap.put(commandCooldownKey, currentMillis + cooldownMillis);
                         setupEntryRemoval(id, context.getCommand(), cooldownMillis);
                     }
                 } else {
-                    Map<Command<C>, Long> map = new ConcurrentHashMap<>(Map.of(context.getCommand(), currentMillis + cooldownMillis));
+                    Map<CloudKey<Void>, Long> map = new ConcurrentHashMap<>(Map.of(commandCooldownKey, currentMillis + cooldownMillis));
                     CommandCooldownManager.this.commandsOnCooldown.put(id, map);
                     setupEntryRemoval(id, context.getCommand(), cooldownMillis);
                 }

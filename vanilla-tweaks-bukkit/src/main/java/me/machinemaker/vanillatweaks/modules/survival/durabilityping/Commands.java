@@ -22,18 +22,15 @@ package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.options.BooleanMenuOption;
 import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -69,37 +66,34 @@ class Commands extends ModuleCommand {
     }
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        final var builder = manager.commandBuilder("durabilityping", RichDescription.translatable("modules.durability-ping.commands.root"), "dping", "dp");
+    protected void registerCommands() {
+        var builder = playerCmd("durabilityping", "modules.durability-ping.commands.root", "dping", "dp");
         final var configBuilder = builder
-                .senderType(PlayerCommandDispatcher.class)
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.durabilityping.configure"))
+                .permission(modulePermission("vanillatweaks.durabilityping.configure"))
                 .literal("config", RichDescription.translatable("modules.durability-ping.commands.config"));
 
-        manager
-                .command(configBuilder
-                        .handler(context -> {
-                            Settings.Instance instance = Settings.from(PlayerCommandDispatcher.from(context));
-                            context.getSender().sendMessage(MENU.build(instance));
-                        })
-                ).command(configBuilder.hidden()
-                        .literal("preview_display")
-                        .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
-                        .handler(context -> {
-                            context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.getSender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2));
-                        })
-                ).command(configBuilder.hidden()
-                        .literal("preview_sound")
-                        .handler((context -> context.getSender().playSound(DurabilityPing.SOUND, Sound.Emitter.self())))
-                ).command(configBuilder.hidden()
-                        .argument(SettingArgument.playerSettings(this.settings.index()))
-                        .handler(context -> {
-                            var change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
-                            Player player = PlayerCommandDispatcher.from(context);
-                            change.apply(player);
-                            this.listener.settingsCache.invalidate(player.getUniqueId());
-                            MENU.send(context);
-                        })
-                ).command(SettingArgument.reset(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
+        manager.command(configBuilder
+                .handler(context -> {
+                    Settings.Instance instance = Settings.from(PlayerCommandDispatcher.from(context));
+                    context.getSender().sendMessage(MENU.build(instance));
+                })
+        ).command(configBuilder.hidden()
+                .literal("preview_display")
+                .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
+                .handler(context -> {
+                    context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.getSender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2));
+                })
+        ).command(configBuilder.hidden()
+                .literal("preview_sound")
+                .handler((context -> context.getSender().playSound(DurabilityPing.SOUND, Sound.Emitter.self())))
+        ).command(configBuilder.hidden()
+                .argument(SettingArgument.playerSettings(this.settings.index()))
+                .handler(sync((context, player) -> {
+                    var change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
+                    change.apply(player);
+                    this.listener.settingsCache.invalidate(player.getUniqueId());
+                    MENU.send(context);
+                }))
+        ).command(SettingArgument.reset(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
     }
 }

@@ -19,43 +19,35 @@
  */
 package me.machinemaker.vanillatweaks.modules;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.execution.CommandExecutionHandler;
-import cloud.commandframework.paper.PaperCommandManager;
-import cloud.commandframework.tasks.TaskConsumer;
-import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import org.bukkit.entity.Player;
+import cloud.commandframework.permission.CommandPermission;
+import me.machinemaker.vanillatweaks.cloud.ModulePermission;
+import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.function.BiConsumer;
+public abstract class ModuleCommand extends VanillaTweaksCommand {
 
-public abstract class ModuleCommand {
-
-    @Inject
-    protected PaperCommandManager<CommandDispatcher> manager;
+    private @MonotonicNonNull ModuleLifecycle lifecycle;
     private boolean registered;
 
     final void registerCommands0(ModuleLifecycle lifecycle) {
-        this.registerCommands(lifecycle);
+        this.lifecycle = lifecycle;
+        this.registerCommands();
         this.registered = true;
     }
 
-    protected abstract void registerCommands(ModuleLifecycle lifecycle);
+    protected abstract void registerCommands();
 
-    protected final <C> CommandExecutionHandler<C> sync(TaskConsumer<CommandContext<C>> taskConsumer) {
-        return commandContext -> {
-            manager.taskRecipe().begin(commandContext).synchronous(taskConsumer).execute();
-        };
+
+    protected final @NotNull ModuleLifecycle lifecycle() {
+        if (this.lifecycle == null) {
+            throw new IllegalStateException("lifecycle hasn't been set on this command yet!");
+        }
+        return this.lifecycle;
     }
 
-    protected final <C> CommandExecutionHandler<C> sync(BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
-        return commandContext -> {
-            manager.taskRecipe().begin(commandContext).synchronous(context -> {
-                Player player = PlayerCommandDispatcher.from(context);
-                playerTaskConsumer.accept(context, player);
-            }).execute();
-        };
+    protected final @NotNull CommandPermission modulePermission(@NotNull String permission) {
+        return ModulePermission.of(lifecycle(), permission);
     }
 
     boolean isRegistered() {

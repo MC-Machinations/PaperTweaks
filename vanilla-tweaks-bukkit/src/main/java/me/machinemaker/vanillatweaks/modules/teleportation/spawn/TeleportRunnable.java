@@ -19,8 +19,6 @@
  */
 package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
 
-import cloud.commandframework.Command;
-import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
@@ -41,7 +39,6 @@ public class TeleportRunnable extends BukkitRunnable {
     @Inject
     private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
 
-    private final Command<CommandDispatcher> command;
     private final Player player;
     private final Audience audience;
     private final Location playerLoc;
@@ -49,9 +46,7 @@ public class TeleportRunnable extends BukkitRunnable {
     private long tickDelay;
     private final Consumer<Player> callback;
 
-    public TeleportRunnable(Command<CommandDispatcher> command, Player player, Audience audience, Location teleportLoc, long tickDelay, Consumer<Player> callback) {
-        Preconditions.checkNotNull(command, "command cannot be null");
-        this.command = command;
+    public TeleportRunnable(Player player, Audience audience, Location teleportLoc, long tickDelay, Consumer<Player> callback) {
         this.player = player;
         this.playerLoc = player.getLocation();
         this.audience = audience;
@@ -75,7 +70,7 @@ public class TeleportRunnable extends BukkitRunnable {
         }
         if (playerLoc.distanceSquared(player.getLocation()) >= 0.01) {
             audience.sendMessage(translatable("modules.spawn.teleporting.moved", RED));
-            cooldownManager.invalidate(player.getUniqueId(), this.command);
+            cooldownManager.invalidate(player.getUniqueId(), Commands.SPAWN_CMD_COOLDOWN_KEY);
             this.callback.accept(this.player);
             this.cancel();
             return;

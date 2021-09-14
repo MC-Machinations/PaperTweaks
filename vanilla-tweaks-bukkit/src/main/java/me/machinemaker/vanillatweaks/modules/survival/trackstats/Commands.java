@@ -22,11 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-import org.bukkit.Bukkit;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -36,24 +32,21 @@ import java.util.Objects;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Commands extends ModuleCommand {
+class Commands extends ConfiguredModuleCommand {
 
     private final Scoreboard board;
 
     @Inject
     Commands(Scoreboard board) {
+        super("track-stats", "trackstats");
         this.board = board;
     }
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        var builder = manager.commandBuilder("trackstats", RichDescription.translatable("modules.track-stats.commands.root"), "tstats", "ts")
-                .permission(ModulePermission.of(lifecycle))
-                .senderType(PlayerCommandDispatcher.class);
+    protected void registerCommands() {
+        var builder = playerCmd("trackstats", "modules.track-stats.commands.root", "tstats", "ts");
 
-        manager.command(builder
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.trackstats.show"))
-                .literal("display", RichDescription.translatable("modules.track-stats.commands.show"))
+        manager.command(literal(builder, "show")
                 .argument(EnumArgument.of(Stat.class, "stat"), RichDescription.translatable("modules.track-stats.commands.arguments.stat"))
                 .handler(sync((context, player) -> {
                     player.setScoreboard(this.board);
@@ -65,11 +58,9 @@ class Commands extends ModuleCommand {
                         context.getSender().sendMessage(translatable("modules.track-stats.commands.show.success", GREEN, translatable(stat, GOLD)));
                     }
                 }))
-        ).command(builder
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.trackstats.clear"))
-                .literal("clear", RichDescription.translatable("modules.track-stats.commands.clear"))
+        ).command(literal(builder, "clear")
                 .handler(sync((context, player) -> {
-                    Objective currentlyDisplayed = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(DisplaySlot.SIDEBAR);
+                    Objective currentlyDisplayed = this.board.getObjective(DisplaySlot.SIDEBAR);
                     if (currentlyDisplayed == null) {
                         context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.no-display", YELLOW));
                     } else {

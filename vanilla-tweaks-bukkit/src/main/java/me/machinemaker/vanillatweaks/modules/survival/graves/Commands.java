@@ -19,18 +19,13 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.graves;
 
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.pdc.DataTypes;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -40,7 +35,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Commands extends ModuleCommand {
+class Commands extends ConfiguredModuleCommand {
 
     private static final ItemStack GRAVE_KEY = VTUtils.getSkull(ChatColor.YELLOW + "Grave Key", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVjNzA3NjllMzYzN2E3ZWRiNTcwMmJjYzQzM2NjMjQyYzJmMjIzNWNiNzNiOTQwODBmYjVmYWZmNDdiNzU0ZSJ9fX0=");
 
@@ -58,40 +53,29 @@ class Commands extends ModuleCommand {
 
     @Inject
     Commands(Config config) {
+        super("graves");
         this.config = config;
     }
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        var builder = manager.commandBuilder("graves", RichDescription.translatable("modules.graves.commands.root")).senderType(PlayerCommandDispatcher.class);
+    protected void registerCommands() {
+        var builder = playerCmd("graves", "modules.graves.commands.root");
 
-        manager.command(
-                builder.permission(ModulePermission.of(lifecycle, "vanillatweaks.graves.locate"))
-                        .literal("locate", RichDescription.translatable("modules.graves.commands.locate"))
-                        .handler(context -> {
-                            if (!this.config.graveLocating) {
-                                context.getSender().sendMessage(translatable("modules.graves.commands.locate.disabled", RED));
-                                return;
-                            }
-                            Player player = PlayerCommandDispatcher.from(context);
-                            Location location = player.getPersistentDataContainer().get(PlayerListener.LAST_GRAVE_LOCATION, DataTypes.LOCATION);
-                            if (location == null) {
-                                context.getSender().sendMessage(translatable("modules.graves.commands.locate.none-found", RED));
-                            } else {
-                                Component loc = translatable("modules.graves.location-format", YELLOW, text(location.getBlockX()), text(location.getBlockY()), text(location.getBlockZ()));
-                                Component world = location.getWorld() != null ? text(location.getWorld().getName(), YELLOW) : text("unknown world");
-                                context.getSender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
-                            }
-                        })
-        ).command(
-                builder.permission(ModulePermission.of(lifecycle, "vanillatweaks.admin.grave-key"))
-                        .literal("grave-key", RichDescription.translatable("modules.graves.commands.admin.grave-key"))
-                        .handler(commandContext -> {
-                            manager.taskRecipe().begin(commandContext).synchronous(context -> {
-                                Player player = PlayerCommandDispatcher.from(context);
-                                player.getInventory().addItem(GRAVE_KEY);
-                            }).execute();
-                        })
-        );
+        manager.command(literal(builder, "locate")
+                .handler(sync((context, player) -> {
+                    if (!this.config.graveLocating) {
+                        context.getSender().sendMessage(translatable("modules.graves.commands.locate.disabled", RED));
+                        return;
+                    }
+                    Location location = player.getPersistentDataContainer().get(PlayerListener.LAST_GRAVE_LOCATION, DataTypes.LOCATION);
+                    if (location == null) {
+                        context.getSender().sendMessage(translatable("modules.graves.commands.locate.none-found", RED));
+                    } else {
+                        Component loc = translatable("modules.graves.location-format", YELLOW, text(location.getBlockX()), text(location.getBlockY()), text(location.getBlockZ()));
+                        Component world = location.getWorld() != null ? text(location.getWorld().getName(), YELLOW) : text("unknown world");
+                        context.getSender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
+                    }
+                }))
+        ).command(literal(builder, "grave-key").handler(sync((context, player) -> player.getInventory().addItem(GRAVE_KEY))));
     }
 }

@@ -51,6 +51,8 @@ public class ModuleManager {
 
     private static final Class<?> CRAFT_SERVER_CLASS = Bukkit.getServer().getClass();
     private static final ReflectionUtils.MethodInvoker SYNC_COMMANDS_METHOD = ReflectionUtils.getMethod(CRAFT_SERVER_CLASS, "syncCommands");
+    private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeGeneralTopics");
+    private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeCommands");
 
     private static final ReflectionUtils.MethodInvoker RESEND_DATA_METHOD = ReflectionUtils.getMethod(PLAYER_LIST_CLASS, "reload");
 
@@ -59,7 +61,10 @@ public class ModuleManager {
     }
 
     private static void reSyncCommands() {
+        Bukkit.getServer().getHelpMap().clear();
+        SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD.invoke(Bukkit.getHelpMap());
         SYNC_COMMANDS_METHOD.invoke(Bukkit.getServer());
+        SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD.invoke(Bukkit.getHelpMap());
     }
 
     private final JavaPlugin plugin;

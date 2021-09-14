@@ -86,10 +86,10 @@ permissions:
     description: Use a wrench to rotate terracotta blocks
 
   vanillatweaks.spawn.current:
-    default: true
+    default: false
     description: Use /spawn command (for current world)
   vanillatweaks.spawn.other:
-    default: true
+    default: false
     description: Use /spawn command (for any world)
     children:
       vanillatweaks.spawn.current: true

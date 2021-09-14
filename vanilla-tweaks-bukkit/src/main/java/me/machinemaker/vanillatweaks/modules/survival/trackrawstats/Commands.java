@@ -20,9 +20,7 @@
 package me.machinemaker.vanillatweaks.modules.survival.trackrawstats;
 
 import cloud.commandframework.minecraft.extras.RichDescription;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -33,12 +31,11 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 class Commands extends ModuleCommand {
 
     @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        var builder = manager.commandBuilder("trackrawstats", RichDescription.translatable("modules.track-raw-stats.commands.root"), "trackrs", "trs")
-                .permission(ModulePermission.of(lifecycle));
+    protected void registerCommands() {
+        var builder = playerCmd("trackrawstats", "modules.track-raw-stats.commands.root", "trackrs", "trs");
 
         manager.command(builder
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.trackrawstats.show"))
+                .permission(modulePermission("vanillatweaks.trackrawstats.show"))
                 .literal("display", RichDescription.translatable("modules.track-raw-stats.commands.show"))
                 .argument(ObjectiveArgument.of("objective"), RichDescription.translatable("modules.track-raw-stats.commands.show"))
                 .handler(sync((context, player) -> {
@@ -52,7 +49,7 @@ class Commands extends ModuleCommand {
                     }
                 }))
         ).command(builder
-                .permission(ModulePermission.of(lifecycle, "vanillatweaks.trackrawstats.clear"))
+                .permission(modulePermission("vanillatweaks.trackrawstats.clear"))
                 .literal("clear", RichDescription.translatable("modules.track-raw-stats.commands.clear"))
                 .handler(sync(context -> {
                     Objective currentlyDisplayed = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(DisplaySlot.SIDEBAR);

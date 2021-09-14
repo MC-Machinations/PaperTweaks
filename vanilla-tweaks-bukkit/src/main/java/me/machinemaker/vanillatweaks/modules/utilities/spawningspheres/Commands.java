@@ -20,13 +20,9 @@
 package me.machinemaker.vanillatweaks.modules.utilities.spawningspheres;
 
 import cloud.commandframework.arguments.standard.EnumArgument;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.common.math.IntMath;
 import io.papermc.lib.PaperLib;
-import me.machinemaker.vanillatweaks.cloud.ModulePermission;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.utils.Keys;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
@@ -51,7 +47,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Commands extends ModuleCommand {
+class Commands extends ConfiguredModuleCommand {
 
     private static final PDCKey<Color> COLOR_KEY = PDCKey.enums(Keys.key("color"), Color.class);
 
@@ -91,14 +87,15 @@ class Commands extends ModuleCommand {
         return new DespawnDistances(24, IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.get(paperWorldConfig), RoundingMode.DOWN));
     }
 
-    @Override
-    protected void registerCommands(ModuleLifecycle lifecycle) {
-        var builder = manager
-                .commandBuilder("spawningspheres", RichDescription.translatable("modules.spawning-spheres.commands.root"), "spawnsphere", "ss")
-                .senderType(PlayerCommandDispatcher.class);
+    Commands() {
+        super("spawning-spheres", "spawningspheres");
+    }
 
-        manager.command(builder.permission(ModulePermission.of(lifecycle, "vanillatweaks.spawningspheres.add"))
-                .literal("add", RichDescription.translatable("modules.spawning-spheres.commands.add"))
+    @Override
+    protected void registerCommands() {
+        var builder = playerCmd("spawningspheres", "modules.spawning-spheres.commands.root", "spawnsphere", "ss");
+
+        manager.command(literal(builder, "add")
                 .argument(EnumArgument.of(Color.class, "color"))
                 .handler(sync((context, player) -> {
                     Color color = context.get("color");
@@ -118,8 +115,7 @@ class Commands extends ModuleCommand {
                     display(player.getWorld(), center, distances.soft, 4, color, color.inner);
                     context.getSender().sendMessage(translatable("modules.spawning-spheres.commands.add.succeed", GREEN, color));
                 }))
-        ).command(builder.permission(ModulePermission.of(lifecycle, "vanillatweaks.spawningspheres.remove"))
-                .literal("remove", RichDescription.translatable("modules.spawning-spheres.commands.remove"))
+        ).command(literal(builder, "remove")
                 .argument(EnumArgument.of(Color.class, "color"))
                 .handler(sync((context, player) -> {
                     Color color = context.get("color");
