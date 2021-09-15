@@ -23,16 +23,16 @@ import me.machinemaker.vanillatweaks.menus.parts.Previewable;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 
 public interface PreviewableMenuEnum<E extends Enum<E> & PreviewableMenuEnum<E>> extends MenuEnum<E>, Previewable {
 
     @Override
     @NotNull
     default Component build(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
-        return ofChildren(
+        return join(
                 createClickComponent(selected, commandPrefix, optionKey),
                 text(' '),
                 Previewable.createPreviewComponent(label(), previewCommandPrefix(), this.name()),

@@ -34,8 +34,8 @@ import org.bukkit.Material;
 
 import java.util.List;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class Commands extends ModuleCommand {
@@ -43,7 +43,7 @@ class Commands extends ModuleCommand {
     private final PlayerListener listener;
     private final Settings settings;
     private static final PlayerConfigurationMenu<Settings.Instance> MENU = new PlayerConfigurationMenu<>(
-            ofChildren(text(" ".repeat(18) + "DurabilityPing"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(18) + "\n")),
+            join(text(" ".repeat(18) + "DurabilityPing"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(18) + "\n")),
             "/durabilityping config",
             List.of(
                     BooleanMenuOption

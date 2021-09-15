@@ -17,18 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.cloud;
+package me.machinemaker.vanillatweaks.adventure;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
+import org.jetbrains.annotations.NotNull;
 
-@Inherited
-@Documented
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface CloudParser {
+import static net.kyori.adventure.text.JoinConfiguration.noSeparators;
+
+public final class Components {
+
+    private Components() {
+    }
+
+    public static @NotNull Component join(@NotNull ComponentLike @NotNull...components) {
+        return Component.join(noSeparators(), components);
+    }
+
+    public static @NotNull Component join(@NotNull Iterable<? extends ComponentLike> components) {
+        return Component.join(noSeparators(), components);
+    }
 }

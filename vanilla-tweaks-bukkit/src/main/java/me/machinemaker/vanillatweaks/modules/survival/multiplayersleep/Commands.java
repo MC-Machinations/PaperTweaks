@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
@@ -37,13 +38,13 @@ import java.util.function.Function;
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
+import static net.kyori.adventure.text.JoinConfiguration.separator;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class Commands extends ModuleCommand {
 
     private static final PlayerConfigurationMenu<Settings.DisplaySetting> MENU = new PlayerConfigurationMenu<>(
-            ofChildren(text(" ".repeat(16) + "MultiplayerSleep"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(16) + "\n")),
+            Components.join(text(" ".repeat(16) + "MultiplayerSleep"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(16) + "\n")),
             "/multiplayersleep config",
             List.of(EnumMenuOption.of(Settings.DisplaySetting.class, Function.identity(), Settings.DISPLAY)),
             Settings.DISPLAY::getOrDefault
@@ -72,13 +73,13 @@ class Commands extends ModuleCommand {
                             SleepContext sleepContext = MultiplayerSleep.SLEEP_CONTEXT_MAP.computeIfAbsent(world.getUID(), uuid -> SleepContext.from(world));
                             Component fullyAsleep;
                             if (!sleepContext.sleepingPlayers().isEmpty()) {
-                                fullyAsleep = join(text(", ", WHITE), sleepContext.sleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
+                                fullyAsleep = join(separator(text(", ", WHITE)), sleepContext.sleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
                             } else {
                                 fullyAsleep = translatable("modules.multiplayer-sleep.commands.players-sleeping.fully-asleep.empty", RED);
                             }
                             Component almostAsleep;
                             if (!sleepContext.almostSleepingPlayers().isEmpty()) {
-                                almostAsleep = join(text(", ", WHITE), sleepContext.almostSleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
+                                almostAsleep = join(separator(text(", ", WHITE)), sleepContext.almostSleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
                             } else {
                                 almostAsleep = translatable("modules.multiplayer-sleep.commands.players-sleeping.almost-asleep.empty", RED);
                             }

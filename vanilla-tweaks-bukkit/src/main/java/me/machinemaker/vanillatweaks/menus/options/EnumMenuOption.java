@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.menus.options;
 
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.menus.parts.enums.MenuEnum;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
@@ -27,8 +28,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 
 public class EnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extends MenuOption<E, S> {
 
@@ -45,7 +44,7 @@ public class EnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extends MenuOpti
         for (int i = 0; i < options.size(); i++) {
             components[i] = this.options.get(i).build(this.selected(object), commandPrefix, this.optionKey());
         }
-        return ofChildren(components);
+        return Components.join(components);
     }
 
     public static <E extends Enum<E> & MenuEnum<E>, S> EnumMenuOption<E, S> of(Class<E> classOfE, @NotNull Function<S, E> typeMapper, @NotNull Setting<E, ?> setting) {

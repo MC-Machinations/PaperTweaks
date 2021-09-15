@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.menus;
 
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -28,7 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class ConfigurationMenu<S> {
@@ -56,8 +56,6 @@ public class ConfigurationMenu<S> {
             children[i + 3] = this.parts.get(i).asMenuPart().build(object, this.commandPrefix);
         }
         children[children.length - 1] = END_LINE;
-        return ofChildren(
-                children
-        );
+        return Components.join(children);
     }
 }

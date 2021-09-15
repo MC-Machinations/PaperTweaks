@@ -50,9 +50,9 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class ItemDropRunnable extends BukkitRunnable {
@@ -120,7 +120,7 @@ class ItemDropRunnable extends BukkitRunnable {
         if (armoredMeta == null) return;
 
         Material chestplateMaterial = chestStack.getType();
-        armoredMeta.lore(List.of(ofChildren(text("+ "), translatable(chestplateMaterial)).color(GOLD).decoration(TextDecoration.ITALIC, false)));
+        armoredMeta.lore(List.of(join(text("+ "), translatable(chestplateMaterial)).color(GOLD).decoration(TextDecoration.ITALIC, false)));
 
         ItemListener.IS_ARMORED_ELYTRA.setTo(armoredMeta, true);
         ELYTRA_ITEM.setTo(armoredMeta, elytraStack);

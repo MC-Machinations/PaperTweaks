@@ -23,7 +23,7 @@ import cloud.commandframework.permission.CommandPermission;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public abstract class ModuleCommand extends VanillaTweaksCommand {
 
@@ -38,15 +38,14 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
 
     protected abstract void registerCommands();
 
-
-    protected final @NotNull ModuleLifecycle lifecycle() {
+    protected final @NonNull ModuleLifecycle lifecycle() {
         if (this.lifecycle == null) {
             throw new IllegalStateException("lifecycle hasn't been set on this command yet!");
         }
         return this.lifecycle;
     }
 
-    protected final @NotNull CommandPermission modulePermission(@NotNull String permission) {
+    protected final @NonNull CommandPermission modulePermission(@NonNull String permission) {
         return ModulePermission.of(lifecycle(), permission);
     }
 

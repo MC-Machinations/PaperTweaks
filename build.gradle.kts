@@ -40,38 +40,31 @@ subprojects {
     version = rootProject.version;
 
     repositories {
-        mavenLocal()  // TODO At the moment, my personal fork of cloud fixes 2 issues
         mavenCentral()
         sonatypeSnapshots()
-//        maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds  // TODO At the moment, my personal fork of cloud fixes 2 issues
+        maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
     }
 
+    val adventureVersion = "4.9.1"
+    val cloudVersion = "1.6.0-SNAPSHOT"
+
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
-        implementation("me.machinemaker.lectern:lectern-yaml:0.2.0-SNAPSHOT") {
-            exclude(group="com.fasterxml.jackson")
-            exclude(group="com.fasterxml.jackson.core")
-            exclude(group="com.fasterxml.jackson.dataformat")
-        }
-        implementation("cloud.commandframework:cloud-paper:1.6.0-SNAPSHOT") { // TODO At the moment, my personal fork of cloud fixes 2 issues
-            exclude("io.leangen.geantyref", "geantyref")
-        }
-        implementation("cloud.commandframework:cloud-minecraft-extras:1.5.0") {
-            exclude("net.kyori")
-            exclude("io.leangen.geantyref", "geantyref")
-        }
-        implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") {
-            exclude("net.kyori", "adventure-api")
-        }
+        implementation("me.machinemaker.lectern:lectern-yaml:0.2.0-SNAPSHOT")
+        implementation("net.kyori:adventure-text-serializer-plain:$adventureVersion")
+        implementation("net.kyori:adventure-api:$adventureVersion")
+        implementation("net.kyori:adventure-platform-bukkit:4.0.0")
+        implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
+        implementation("cloud.commandframework:cloud-paper:$cloudVersion")
+        implementation("cloud.commandframework:cloud-minecraft-extras:$cloudVersion")
         implementation("org.bstats:bstats-bukkit:2.2.1")
         implementation("io.papermc:paperlib:1.0.6")
 
         // Loaded via plugin.yml libraries
         compileOnly("io.github.classgraph:classgraph:4.8.114")
         compileOnly("com.google.inject:guice:5.0.1")
-        compileOnly("me.lucko:adventure-platform-bukkit:4.8.1")
         compileOnly("org.apache.commons:commons-configuration2:2.7")
         compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5")
 
@@ -82,7 +75,6 @@ subprojects {
         testImplementation("org.apache.commons:commons-configuration2:2.7")
         testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
         testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5")
-        testImplementation("me.lucko:adventure-platform-bukkit:4.8.1")
         testImplementation("com.google.inject:guice:5.0.1")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
         testImplementation("org.mockito:mockito-core:3.12.4")

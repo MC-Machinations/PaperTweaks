@@ -73,25 +73,6 @@ public abstract class MenuOption<T, S> implements MenuPart<S>, Option {
         return Optional.ofNullable(this.previewAction);
     }
 
-    // protected final @NotNull ClickEvent createRunCommand(@NotNull String commandPrefix, @NotNull Object value) {
-    //     return ClickEvent.runCommand(createCommand(commandPrefix, value));
-    // }
-
-    // protected @NotNull String createCommand(@NotNull String commandPrefix, @NotNull Object value) {
-    //     return String.join(" ", commandPrefix, this.setting.indexKey(), value.toString());
-    // }
-
-    // @SuppressWarnings("unchecked")
-    // protected Component createClickComponent(@NotNull T state, @NotNull String commandPrefix) {
-    //
-    //
-    //
-    //     if (this instanceof ToggleOption<?> toggleOption) {
-    //         return ToggleOption.createClickComponent((ToggleOption<Boolean>) toggleOption, (boolean) state, this.extendedDescription.append(newline()).append(translatable("commands.config.default-value", DARK_GRAY, translatable("commands.config.default-value.bool." + this.setting.defaultValue()))), s -> createRunCommand(commandPrefix, s));
-    //     }
-    //     throw new UnsupportedOperationException("Not supported yet :(");
-    // }
-
     public abstract static class Builder<T, O extends MenuOption<T, S>, S, B extends Builder<T, O, S, B>> implements MenuPartLike<S> {
 
         private final Component label;

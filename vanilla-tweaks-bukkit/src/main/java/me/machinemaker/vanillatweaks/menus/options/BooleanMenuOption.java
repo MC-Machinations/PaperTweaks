@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.menus.options;
 
 import com.google.common.collect.Lists;
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.menus.parts.Previewable;
 import me.machinemaker.vanillatweaks.menus.parts.clicks.ToggleOption;
 import me.machinemaker.vanillatweaks.settings.Setting;
@@ -35,7 +36,6 @@ import java.util.function.Function;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 
 public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements ToggleOption<Boolean> {
 
@@ -57,7 +57,7 @@ public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements Togg
 
         components.add(this.label());
         components.add(newline());
-        return ofChildren(components.toArray(new ComponentLike[0]));
+        return Components.join(components.toArray(new ComponentLike[0]));
     }
 
     @Override

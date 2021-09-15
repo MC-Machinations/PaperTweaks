@@ -52,14 +52,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Stream;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class VanillaTweaks extends JavaPlugin {
 
-    public static final Component PLUGIN_PREFIX = text("[VanillaTweaks] ", WHITE);
+    public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text("VanillaTweaks", BLUE)).append(text("] ", DARK_GRAY)).build();
     public static final Logger LOGGER = LoggerFactory.getLogger();
 
     static {
@@ -122,8 +122,8 @@ public class VanillaTweaks extends JavaPlugin {
             throw new RuntimeException("Could not create injector!", e);
         }
 
-        audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.loaded-modules", GOLD, text(moduleManager.loadModules(), GRAY))));
-        audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.enabled-modules", GREEN, text(moduleManager.enableModules(), GRAY))));
+        audiences.console().sendMessage(join(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.loaded-modules", GOLD, text(moduleManager.loadModules(), GRAY))));
+        audiences.console().sendMessage(join(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-enable.enabled-modules", GREEN, text(moduleManager.enableModules(), GRAY))));
 
         pluginInjector.getInstance(RootCommand.class).registerCommands();
         this.getServer().getPluginManager().registerEvents(pluginInjector.getInstance(GlobalListener.class), this);
@@ -138,7 +138,7 @@ public class VanillaTweaks extends JavaPlugin {
         }
         EXECUTOR_SERVICE.shutdown();
         if (this.audiences != null) {
-            audiences.console().sendMessage(ofChildren(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(disabled, GRAY))));
+            audiences.console().sendMessage(join(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(disabled, GRAY))));
             audiences.close();
         }
     }

@@ -24,15 +24,15 @@ import me.machinemaker.vanillatweaks.menus.parts.clicks.ToggleOption;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.space;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 
 public interface MenuEnum<E extends Enum<E> & MenuEnum<E>> extends ToggleOption<E> {
 
     @NotNull
     default Component build(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
-        return ofChildren(
+        return join(
                 createClickComponent(selected, commandPrefix, optionKey),
                 space(),
                 label(),

@@ -32,9 +32,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.TextComponent.ofChildren;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 abstract class Tracked implements ComponentLike {
@@ -160,7 +160,7 @@ abstract class Tracked implements ComponentLike {
                     default -> throw new IllegalArgumentException();
                 };
 
-                return ofChildren(
+                return join(
                         translatable(typeKey.getFirst()),
                         text(": "),
                         translatable(typeKey.getSecond() + this.value)

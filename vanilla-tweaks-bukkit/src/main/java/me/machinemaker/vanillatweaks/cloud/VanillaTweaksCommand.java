@@ -46,39 +46,39 @@ public abstract class VanillaTweaksCommand {
     @Inject
     protected PaperCommandManager<CommandDispatcher> manager;
 
-    protected final Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
+    protected Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
         return cmd(name, RichDescription.translatable(descriptionKey), aliases);
     }
 
-    protected final Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull ArgumentDescription description, @NonNull String @NonNull...aliases) {
+    protected Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull ArgumentDescription description, @NonNull String @NonNull...aliases) {
         return this.manager
                 .commandBuilder(name, description, aliases)
                 .meta(CommandMeta.DESCRIPTION, ChatColor.RED + "Use /" + name + " help");
     }
 
-    protected final Command.@NonNull Builder<CommandDispatcher> playerCmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
+    protected Command.@NonNull Builder<CommandDispatcher> playerCmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
         return playerCmd(name, RichDescription.translatable(descriptionKey), aliases);
     }
 
-    protected final Command.@NonNull Builder<CommandDispatcher> playerCmd(@NonNull String name, @NonNull ArgumentDescription description, @NonNull String @NonNull...aliases) {
+    protected Command.@NonNull Builder<CommandDispatcher> playerCmd(@NonNull String name, @NonNull ArgumentDescription description, @NonNull String @NonNull...aliases) {
         return cmd(name, description, aliases)
                 .senderType(PlayerCommandDispatcher.class);
     }
 
-    protected final <C> Command.@NotNull Builder<C> literal(Command.@NonNull Builder<C> builder, ModuleLifecycle lifecycle, @NonNull String i18nPrefix, @NonNull String permPrefix, @NonNull String name) {
+    protected <C> Command.@NotNull Builder<C> literal(Command.@NonNull Builder<C> builder, ModuleLifecycle lifecycle, @NonNull String i18nPrefix, @NonNull String permPrefix, @NonNull String name) {
         return builder
                 .literal(name, RichDescription.translatable(i18nPrefix + "." + name))
                 .permission(ModulePermission.of(lifecycle, permPrefix + "." + name));
     }
 
-    protected final <C> CommandExecutionHandler<C> sync(BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
+    protected <C> CommandExecutionHandler<C> sync(BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
         return commandContext -> manager.taskRecipe().begin(commandContext).synchronous(context -> {
             Player player = PlayerCommandDispatcher.from(context);
             playerTaskConsumer.accept(context, player);
         }).execute();
     }
 
-    protected final <C> CommandExecutionHandler<C> sync(TaskConsumer<CommandContext<C>> taskConsumer) {
+    protected <C> CommandExecutionHandler<C> sync(TaskConsumer<CommandContext<C>> taskConsumer) {
         return commandContext -> manager.taskRecipe().begin(commandContext).synchronous(taskConsumer).execute();
     }
 }
