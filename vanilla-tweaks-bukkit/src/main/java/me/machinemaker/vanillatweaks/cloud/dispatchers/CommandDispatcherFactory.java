@@ -56,7 +56,7 @@ public class CommandDispatcherFactory extends CacheLoader<CommandSender, Command
     }
 
     @Override
-    public CommandDispatcher load(@NotNull CommandSender key) throws Exception {
+    public CommandDispatcher load(@NotNull CommandSender key) {
         return from(key);
     }
 }

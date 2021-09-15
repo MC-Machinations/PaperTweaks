@@ -45,7 +45,6 @@ public class MultiplayerSleep extends ModuleBase {
     protected void configure() {
         bind(Settings.class).asEagerSingleton();
         requestStaticInjection(Settings.class);
-        requestStaticInjection(Config.class);
         requestStaticInjection(SleepContext.class);
         super.configure();
     }

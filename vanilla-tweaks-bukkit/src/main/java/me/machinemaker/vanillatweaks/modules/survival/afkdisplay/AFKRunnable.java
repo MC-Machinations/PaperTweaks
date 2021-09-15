@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.afkdisplay;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.machinemaker.vanillatweaks.utils.Keys;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -29,7 +30,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
 import java.util.UUID;
@@ -37,14 +37,13 @@ import java.util.UUID;
 @Singleton
 class AFKRunnable implements Runnable {
 
-    NamespacedKey afkDisplayKey;
+    static final NamespacedKey afkDisplayKey = Keys.key("afk");
 
     private final Map<UUID, LocationTime> locationMap = Maps.newConcurrentMap();
     private final Config config;
 
     @Inject
-    AFKRunnable(JavaPlugin plugin, Config config) {
-        this.afkDisplayKey = new NamespacedKey(plugin, "afk");
+    AFKRunnable(Config config) {
         this.config = config;
     }
 

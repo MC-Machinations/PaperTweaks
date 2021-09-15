@@ -98,8 +98,8 @@ class ItemDropRunnable extends BukkitRunnable {
         } else {
             if (Tag.ANVIL.isTagged(block.getType())) {
                 for (Item nearbyItem : VTUtils.getNearbyEntitiesOfType(item, 0.5, 0.1, 0.5, i -> this.itemPredicate.test(i, block) && !i.isDead())) {
-                    switch (lookingFor) {
-                        case CHESTPLATE -> constructArmoredElytra(block, nearbyItem, item);
+                    if (lookingFor == LookingFor.CHESTPLATE) {
+                        constructArmoredElytra(block, nearbyItem, item);
                     }
                     this.cancel();
                     return;
@@ -114,7 +114,7 @@ class ItemDropRunnable extends BukkitRunnable {
         ItemStack chestStack = chestplate.getItemStack();
         if (chestStack.getItemMeta() == null) return;
         ItemStack elytraStack = elytra.getItemStack();
-        if (elytraStack.getItemMeta() == null) return;;
+        if (elytraStack.getItemMeta() == null) return;
         ItemStack armoredElytra = new ItemStack(Material.ELYTRA);
         ItemMeta armoredMeta = armoredElytra.getItemMeta();
         if (armoredMeta == null) return;

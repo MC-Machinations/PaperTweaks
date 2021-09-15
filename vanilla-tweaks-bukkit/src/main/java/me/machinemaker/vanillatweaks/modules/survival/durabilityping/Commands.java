@@ -80,9 +80,7 @@ class Commands extends ModuleCommand {
         ).command(configBuilder.hidden()
                 .literal("preview_display")
                 .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
-                .handler(context -> {
-                    context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.getSender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2));
-                })
+                .handler(context -> context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.getSender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2)))
         ).command(configBuilder.hidden()
                 .literal("preview_sound")
                 .handler((context -> context.getSender().playSound(DurabilityPing.SOUND, Sound.Emitter.self())))

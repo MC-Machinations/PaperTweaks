@@ -24,8 +24,6 @@ import cloud.commandframework.arguments.parser.ArgumentParseResult;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.minecraft.extras.RichDescription;
-import cloud.commandframework.types.tuples.Pair;
-import io.leangen.geantyref.TypeToken;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.DisplaySlot;

@@ -20,27 +20,20 @@
 package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
 import com.google.common.collect.Sets;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.machinemaker.vanillatweaks.utils.Keys;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
 @Singleton
 class HUDRunnable implements Runnable {
 
-    NamespacedKey coordinatesHUDKey;
-
-    @Inject
-    HUDRunnable(JavaPlugin plugin) {
-        this.coordinatesHUDKey = new NamespacedKey(plugin, "coordinatesHUD");
-    }
+    static final NamespacedKey coordinatesHUDKey = Keys.key("coordinateshud");
 
     private final Set<Player> enabled = Sets.newHashSet();
 
