@@ -213,10 +213,39 @@ permissions:
       vanillatweaks.trackstats.show: true
       vanillatweaks.trackstats.clear: true
 
+  vanillatweaks.homes.sethome:
+    default: false
+    description: Allow players to set homes
+  vanillatweaks.homes.delhome:
+    default: false
+    description: Allow players to delete a home
+  vanillatweaks.homes.list:
+    default: false
+    description: Allow players to list their homes
+  vanillatweaks.homes.rename:
+    default: false
+    description: Allow players to rename their homes
+  vanillatweaks.homes.home:
+    default: false
+    description: Allow players to teleport to their homes
+  vanillatweaks.homes:
+    default: true
+    description: Allows all non-admin commands for the Homes module
+    children:
+      vanillatweaks.homes.sethome: true
+      vanillatweaks.homes.delhome: true
+      vanillatweaks.homes.list: true
+      vanillatweaks.homes.rename: true
+      vanillatweaks.homes.home: true
+
 libraries:
   - com.google.inject:guice:5.0.1
+  - com.google.inject.extensions:guice-assistedinject:5.0.1
   - io.github.classgraph:classgraph:4.8.114
   - com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5
   - io.leangen.geantyref:geantyref:1.3.11
   - org.apache.commons:commons-configuration2:2.7
   - commons-beanutils:commons-beanutils:1.9.4
+  - org.jdbi:jdbi3-core:3.22.0
+  - org.jdbi:jdbi3-sqlobject:3.22.0
+  - com.h2database:h2:1.4.200

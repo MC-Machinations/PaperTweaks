@@ -28,6 +28,7 @@ import cloud.commandframework.minecraft.extras.RichDescription;
 import cloud.commandframework.paper.PaperCommandManager;
 import cloud.commandframework.tasks.TaskConsumer;
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
@@ -43,8 +44,8 @@ import java.util.function.BiConsumer;
  */
 public abstract class VanillaTweaksCommand {
 
-    @Inject
-    protected PaperCommandManager<CommandDispatcher> manager;
+    @Inject protected PaperCommandManager<CommandDispatcher> manager;
+    @Inject protected ArgumentFactory argumentFactory;
 
     protected Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
         return cmd(name, RichDescription.translatable(descriptionKey), aliases);

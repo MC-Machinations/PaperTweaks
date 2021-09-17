@@ -19,8 +19,8 @@
  */
 package me.machinemaker.vanillatweaks.modules.experimental.elevators;
 
-import me.machinemaker.vanillatweaks.utils.ItemDropFinder;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.runnables.ItemDropFinder;
 import org.bukkit.Location;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;

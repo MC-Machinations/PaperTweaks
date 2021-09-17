@@ -17,25 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
+package me.machinemaker.vanillatweaks.modules.teleportation.homes;
 
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
+import me.machinemaker.vanillatweaks.db.dao.teleportation.homes.HomesDAO;
+import me.machinemaker.vanillatweaks.db.model.teleportation.homes.Home;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.jdbi.v3.core.Jdbi;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
-@ModuleInfo(name = "Spawn", configPath = "teleportation.spawn", description = "Adds a /spawn command to teleport to the world spawnpoint")
-public class Spawn extends ModuleBase {
+@ModuleInfo(name = "Homes", configPath = "teleportation.homes", description = "Players can set home locations they can teleport to")
+public class Homes extends ModuleBase {
 
     @Override
     protected void configure() {
         super.configure();
-        requestStaticInjection(SpawnTeleportRunnable.class);
+        requestStaticInjection(HomeTeleportRunnable.class);
     }
 
     @Override
@@ -51,5 +59,20 @@ public class Spawn extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
+    }
+
+    public static void migrateHomesYmlConfig(Jdbi jdbi, Path configFile) {
+        final HomesDAO homesDAO = jdbi.onDemand(HomesDAO.class);
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile.toFile());
+        ConfigurationSection players = config.getConfigurationSection("players");
+        if (players != null) {
+            players.getKeys(false).forEach(uuid -> {
+                Location location = players.getLocation(uuid + ".location");
+                if (location == null || !location.isWorldLoaded()) {
+                    return;
+                }
+                homesDAO.insertHome(new Home(UUID.fromString(uuid), "home", location));
+            });
+        }
     }
 }

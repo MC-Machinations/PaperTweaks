@@ -29,7 +29,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
+import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcherFactory;
@@ -55,6 +57,11 @@ public class CloudModule extends AbstractModule {
     public CloudModule(JavaPlugin plugin, ScheduledExecutorService executorService) {
         this.plugin = plugin;
         this.executorService = executorService;
+    }
+
+    @Override
+    protected void configure() {
+        this.install(new FactoryModuleBuilder().build(ArgumentFactory.class));
     }
 
     @Provides

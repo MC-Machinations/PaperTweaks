@@ -34,15 +34,6 @@ permissions:
     children:
       vanillatweaks.pillagertools.toggle: true
       vanillatweaks.pillagertools.status: true
-  vanillatweaks.sethome.sethome:
-    default: true
-    description: Allow /sethome
-  vanillatweaks.sethome.home:
-    default: true
-    description: Allow /home
-  vanillatweaks.admin:
-    default: op
-    description: Allow /sha reset <player>
   vanillatweaks.tag.givetag:
     default: op
     description: Gives you or a player a tag

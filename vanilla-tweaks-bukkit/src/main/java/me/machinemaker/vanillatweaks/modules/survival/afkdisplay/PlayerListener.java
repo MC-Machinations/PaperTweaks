@@ -37,10 +37,10 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (event.getPlayer().getPersistentDataContainer().has(this.afkRunnable.afkDisplayKey, PersistentDataType.BYTE)) {
+        if (event.getPlayer().getPersistentDataContainer().has(AFKRunnable.AFK_DISPLAY_KEY, PersistentDataType.BYTE)) {
             event.getPlayer().setDisplayName(event.getPlayer().getName());
             event.getPlayer().setPlayerListName(event.getPlayer().getName());
-            event.getPlayer().getPersistentDataContainer().remove(this.afkRunnable.afkDisplayKey);
+            event.getPlayer().getPersistentDataContainer().remove(AFKRunnable.AFK_DISPLAY_KEY);
             this.afkRunnable.addPlayer(event.getPlayer());
         }
     }

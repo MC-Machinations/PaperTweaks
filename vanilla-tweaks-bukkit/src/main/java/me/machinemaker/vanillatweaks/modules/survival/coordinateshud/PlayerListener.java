@@ -38,7 +38,7 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (event.getPlayer().getPersistentDataContainer().has(this.hudRunnable.coordinatesHUDKey, PersistentDataType.BYTE)) {
+        if (event.getPlayer().getPersistentDataContainer().has(HUDRunnable.COORDINATES_HUD_KEY, PersistentDataType.BYTE)) {
             this.hudRunnable.addPlayer(event.getPlayer());
         }
     }

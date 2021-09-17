@@ -37,7 +37,7 @@ import java.util.UUID;
 @Singleton
 class AFKRunnable implements Runnable {
 
-    static final NamespacedKey afkDisplayKey = Keys.key("afk");
+    static final NamespacedKey AFK_DISPLAY_KEY = Keys.key("afk");
 
     private final Map<UUID, LocationTime> locationMap = Maps.newConcurrentMap();
     private final Config config;
@@ -69,7 +69,7 @@ class AFKRunnable implements Runnable {
             } else if (entry.getValue().time < System.currentTimeMillis() - (1000L * config.secondsBeforeAFK)) {
                 player.getPlayer().setDisplayName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
                 player.getPlayer().setPlayerListName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
-                player.getPlayer().getPersistentDataContainer().set(afkDisplayKey, PersistentDataType.BYTE, (byte) 1);
+                player.getPlayer().getPersistentDataContainer().set(AFK_DISPLAY_KEY, PersistentDataType.BYTE, (byte) 1);
                 locationMap.remove(entry.getKey());
             }
         }

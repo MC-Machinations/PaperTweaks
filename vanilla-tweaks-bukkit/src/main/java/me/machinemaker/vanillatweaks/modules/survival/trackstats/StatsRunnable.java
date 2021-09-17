@@ -22,7 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.machinemaker.vanillatweaks.utils.TimerRunnable;
+import me.machinemaker.vanillatweaks.utils.runnables.TimerRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

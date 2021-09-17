@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks;
 
+import com.google.common.io.Resources;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -26,10 +27,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import io.papermc.lib.PaperLib;
+import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
+import me.machinemaker.vanillatweaks.db.DatabaseModule;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
+import me.machinemaker.vanillatweaks.modules.teleportation.homes.Homes;
 import me.machinemaker.vanillatweaks.utils.PlayerMapFactory;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -39,11 +43,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.h2.jdbcx.JdbcConnectionPool;
+import org.jdbi.v3.core.Handle;
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -77,16 +86,23 @@ public class VanillaTweaks extends JavaPlugin {
             Locale.ENGLISH
     );
 
-    private Injector pluginInjector;
     @Inject private ModuleManager moduleManager;
     @Inject private BukkitAudiences audiences;
     private final Path dataPath = this.getDataFolder().toPath();
     private final Path modulesPath = dataPath.resolve("modules");
     private final Path i18nPath = dataPath.resolve("i18n");
+    private final VanillaTweaksConfig config = BaseConfig.create(VanillaTweaksConfig.class, this.dataPath);
+    private final Jdbi jdbi = Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + this.dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;AUTO_SERVER=TRUE", this.config.database.user, this.config.database.password)).installPlugin(new SqlObjectPlugin());
 
     @Override
     public void onEnable() {
         PaperLib.suggestPaper(this);
+        try (Handle handle = this.jdbi.open()) {
+            handle.execute(Resources.toString(this.getClassLoader().getResource("db/schema/h2.sql"), StandardCharsets.UTF_8));
+        } catch (IOException exception) {
+            this.getPluginLoader().disablePlugin(this);
+            throw new RuntimeException("Could not create database and load schema", exception);
+        }
 
         tryBackupOldModulesYml();
         try {
@@ -100,10 +116,12 @@ public class VanillaTweaks extends JavaPlugin {
 
         BukkitAudiences bukkitAudiences = BukkitAudiences.create(this);
         PlayerMapFactory mapFactory = new PlayerMapFactory();
+        Injector pluginInjector;
         try {
-            pluginInjector = Guice.createInjector(new AbstractModule() {
+            pluginInjector = Guice.createInjector(new DatabaseModule(this.jdbi), new AbstractModule() {
                 @Override
                 protected void configure() {
+                    bind(VanillaTweaksConfig.class).toInstance(VanillaTweaks.this.config);
                     bind(VanillaTweaks.class).toInstance(VanillaTweaks.this);
                     bind(JavaPlugin.class).toInstance(VanillaTweaks.this);
                     bind(Plugin.class).toInstance(VanillaTweaks.this);
@@ -136,7 +154,7 @@ public class VanillaTweaks extends JavaPlugin {
         if (this.moduleManager != null) {
             disabled = String.valueOf(moduleManager.disableModules());
         }
-        EXECUTOR_SERVICE.shutdown();
+        EXECUTOR_SERVICE.shutdownNow();
         if (this.audiences != null) {
             audiences.console().sendMessage(join(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(disabled, GRAY))));
             audiences.close();
@@ -185,6 +203,17 @@ public class VanillaTweaks extends JavaPlugin {
             if (Files.exists(this.modulesPath.resolve(current)) && !Files.exists(this.modulesPath.resolve("wrenches"))) {
                 Files.move(this.modulesPath.resolve(current), this.modulesPath.resolve("wrenches"));
                 LOGGER.info("Moved '{}' config to 'wrenches' folder", current);
+            }
+            current = "sethome";
+            if (Files.exists(this.modulesPath.resolve(current)) && !Files.exists(this.modulesPath.resolve("homes"))) {
+                Files.move(this.modulesPath.resolve(current), this.modulesPath.resolve("homes"));
+                LOGGER.info("Moved '{}' config to 'homes' folder", current);
+            }
+            current = "homes.yml";
+            if (Files.exists(this.modulesPath.resolve("homes").resolve("homes.yml"))) {
+                Homes.migrateHomesYmlConfig(this.jdbi, this.modulesPath.resolve("homes").resolve("homes.yml"));
+                Files.deleteIfExists(this.modulesPath.resolve("homes").resolve("homes.yml"));
+                LOGGER.info("Migrated '{}' config to h2 database", "homes/" + current);
             }
         } catch (IOException e) {
             LOGGER.error("Failed to migrate {} configuration!", current, e);

@@ -20,13 +20,12 @@
 package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
 
 import com.google.inject.Inject;
-import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.utils.runnables.TeleportRunnable;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -34,48 +33,28 @@ import java.util.function.Consumer;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class TeleportRunnable extends BukkitRunnable {
+class SpawnTeleportRunnable extends TeleportRunnable {
 
     @Inject
     private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
 
-    private final Player player;
     private final Audience audience;
-    private final Location playerLoc;
-    private final Location teleportLoc;
-    private long tickDelay;
     private final Consumer<Player> callback;
 
-    public TeleportRunnable(Player player, Audience audience, Location teleportLoc, long tickDelay, Consumer<Player> callback) {
-        this.player = player;
-        this.playerLoc = player.getLocation();
+    public SpawnTeleportRunnable(Player player, Audience audience, Location teleportLoc, long tickDelay, Consumer<Player> callback) {
+        super(player, teleportLoc, tickDelay);
         this.audience = audience;
-        this.teleportLoc = teleportLoc;
-        this.tickDelay = tickDelay;
         this.callback = callback;
     }
 
     @Override
-    public void run() {
-        if (player.isDead()) {
-            this.cancel();
-            this.callback.accept(this.player);
-            return;
-        }
-        if (tickDelay <= 0) {
-            PaperLib.teleportAsync(this.player, this.teleportLoc);
-            this.cancel();
-            this.callback.accept(this.player);
-            return;
-        }
-        if (playerLoc.distanceSquared(player.getLocation()) >= 0.01) {
-            audience.sendMessage(translatable("modules.spawn.teleporting.moved", RED));
-            cooldownManager.invalidate(player.getUniqueId(), Commands.SPAWN_CMD_COOLDOWN_KEY);
-            this.callback.accept(this.player);
-            this.cancel();
-            return;
-        }
+    public void onMove() {
+        audience.sendMessage(translatable("modules.spawn.teleporting.moved", RED));
+        cooldownManager.invalidate(player.getUniqueId(), Commands.SPAWN_CMD_COOLDOWN_KEY);
+    }
 
-        tickDelay--;
+    @Override
+    public void onEnd() {
+        this.callback.accept(this.player);
     }
 }

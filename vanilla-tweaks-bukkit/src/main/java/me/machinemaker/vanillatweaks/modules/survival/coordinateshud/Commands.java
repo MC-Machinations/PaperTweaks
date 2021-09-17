@@ -44,10 +44,10 @@ class Commands extends ModuleCommand {
                     if (this.hudRunnable.getPlayers().remove(player)) {
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", NamedTextColor.GREEN));
                         context.getSender().sendActionBar(Component.empty());
-                        player.getPersistentDataContainer().remove(this.hudRunnable.coordinatesHUDKey);
+                        player.getPersistentDataContainer().remove(HUDRunnable.COORDINATES_HUD_KEY);
                     } else {
                         this.hudRunnable.getPlayers().add(player);
-                        player.getPersistentDataContainer().set(this.hudRunnable.coordinatesHUDKey, PersistentDataType.BYTE, (byte) 1);
+                        player.getPersistentDataContainer().set(HUDRunnable.COORDINATES_HUD_KEY, PersistentDataType.BYTE, (byte) 1);
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", NamedTextColor.GREEN));
                     }
                 }))

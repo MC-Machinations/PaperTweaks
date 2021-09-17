@@ -42,7 +42,7 @@
 ### Teleportation
 
 - [x] Spawn
-- [ ] Homes
+- [x] Homes
 - [ ] TPA
 - [ ] Back
 

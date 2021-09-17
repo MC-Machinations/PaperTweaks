@@ -30,7 +30,6 @@ import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -50,13 +49,10 @@ class Commands extends ModuleCommand {
 
     private final JavaPlugin plugin;
     private final Config config;
-    private final BukkitAudiences audiences;
-
     @Inject
-    Commands(JavaPlugin plugin, Config config, BukkitAudiences audiences) {
+    Commands(JavaPlugin plugin, Config config) {
         this.plugin = plugin;
         this.config = config;
-        this.audiences = audiences;
     }
 
     @Override
@@ -86,7 +82,7 @@ class Commands extends ModuleCommand {
             World world = context.getOrDefault("world", player.getWorld());
             context.getSender().sendMessage(translatable("modules.spawn.teleporting", GOLD));
             if (this.config.delay > 0) {
-                AWAITING_TELEPORT.put(player.getUniqueId(), new TeleportRunnable(player, audiences.player(player), world.getSpawnLocation(), this.config.delay * 20, (p) -> AWAITING_TELEPORT.remove(p.getUniqueId())).runTaskTimer(this.plugin, 1L, 1L));
+                AWAITING_TELEPORT.put(player.getUniqueId(), new SpawnTeleportRunnable(player, context.getSender(), world.getSpawnLocation(), this.config.delay * 20, (p) -> AWAITING_TELEPORT.remove(p.getUniqueId())).runTaskTimer(this.plugin, 1L, 1L));
             } else {
                 PaperLib.teleportAsync(player, world.getSpawnLocation());
             }

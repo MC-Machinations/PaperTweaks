@@ -33,7 +33,7 @@ import java.util.Set;
 @Singleton
 class HUDRunnable implements Runnable {
 
-    static final NamespacedKey coordinatesHUDKey = Keys.key("coordinateshud");
+    static final NamespacedKey COORDINATES_HUD_KEY = Keys.key("coordinateshud");
 
     private final Set<Player> enabled = Sets.newHashSet();
 

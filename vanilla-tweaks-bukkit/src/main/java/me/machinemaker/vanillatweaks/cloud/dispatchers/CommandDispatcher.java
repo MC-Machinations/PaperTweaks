@@ -47,6 +47,10 @@ public abstract class CommandDispatcher implements Audience, ForwardingAudience.
         return bukkitCommandSender;
     }
 
+    public boolean isPlayer() {
+        return this instanceof PlayerCommandDispatcher;
+    }
+
     public abstract @Nullable UUID getUUID();
 
     @Override
