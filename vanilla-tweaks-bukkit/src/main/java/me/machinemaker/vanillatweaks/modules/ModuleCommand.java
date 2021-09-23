@@ -19,9 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.modules;
 
+import cloud.commandframework.paper.PaperCommandManager;
 import cloud.commandframework.permission.CommandPermission;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -51,5 +53,9 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
 
     boolean isRegistered() {
         return this.registered;
+    }
+
+    @NonNull PaperCommandManager<CommandDispatcher> manager() {
+        return this.manager;
     }
 }

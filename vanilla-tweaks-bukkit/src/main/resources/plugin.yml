@@ -237,6 +237,12 @@ permissions:
       vanillatweaks.homes.list: true
       vanillatweaks.homes.rename: true
       vanillatweaks.homes.home: true
+  vanillatweaks.pillagertools.config:
+    default: op
+    description: Configure PillagerTools in-game
+  vanillatweaks.pillagertools.status:
+    default: true
+    description: View pillager tool settings
 
 libraries:
   - com.google.inject:guice:5.0.1

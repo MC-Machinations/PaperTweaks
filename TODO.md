@@ -18,7 +18,7 @@
 - [x] ~~Classic Fishing Loot~~ **USE DATAPACK**
 - [x] Real Time Clock
 - [x] Workstation Highlights
-- [ ] Pillager Tools
+- [x] Pillager Tools
 
 ### Items
 - [x] Redstone Rotation Wrench

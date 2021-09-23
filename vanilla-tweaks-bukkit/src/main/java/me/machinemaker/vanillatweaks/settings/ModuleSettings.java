@@ -20,14 +20,16 @@
 package me.machinemaker.vanillatweaks.settings;
 
 import com.google.common.collect.Lists;
-import net.kyori.adventure.util.Index;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class ModuleSettings<S extends Setting<?, ?>> {
 
-    private @MonotonicNonNull Index<String, S> index;
+    private @MonotonicNonNull Map<String, S> index;
     private final List<S> settings = Lists.newArrayList();
     private boolean acceptingRegistrations = true;
 
@@ -38,9 +40,9 @@ public abstract class ModuleSettings<S extends Setting<?, ?>> {
         settings.add(setting);
     }
 
-    public Index<String, S> index() {
+    public Map<String, S> index() {
         if (this.index == null) {
-            this.index = Index.create(Setting::indexKey, this.settings);
+            this.index = this.settings.stream().collect(Collectors.toMap(Setting::indexKey, Function.identity()));
             this.acceptingRegistrations = false;
         }
         return this.index;

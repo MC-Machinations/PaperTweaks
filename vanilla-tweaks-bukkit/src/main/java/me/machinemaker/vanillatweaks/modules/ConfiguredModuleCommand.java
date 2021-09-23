@@ -24,19 +24,19 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public abstract class ConfiguredModuleCommand extends ModuleCommand {
 
-    private final String i18nName;
-    private final String permName;
+    final String i18nPrefix;
+    final String permPrefix;
 
     protected ConfiguredModuleCommand(@NonNull String name) {
         this(name, name);
     }
 
     protected ConfiguredModuleCommand(@NonNull String i18nName, @NonNull String permName) {
-        this.i18nName = "modules." + i18nName + ".commands";
-        this.permName = "vanillatweaks." + permName;
+        this.i18nPrefix = "modules." + i18nName + ".commands";
+        this.permPrefix = "vanillatweaks." + permName;
     }
 
     protected final <C> Command.@NonNull Builder<C> literal(Command.@NonNull Builder<C> builder, @NonNull String name) {
-        return this.literal(builder, this.lifecycle(), this.i18nName, this.permName, name);
+        return this.literal(builder, this.lifecycle(), this.i18nPrefix, this.permPrefix, name);
     }
 }

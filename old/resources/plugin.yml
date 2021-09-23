@@ -22,12 +22,6 @@ permissions:
   vanillatweaks.moremobheads:
     default: true
     description: Mobs killed by this player will drop heads (if killed by a player)
-  vanillatweaks.pillagertools.toggle:
-    default: op
-    description: Toggle individual pillager tool settings
-  vanillatweaks.pillagertools.status:
-    default: true
-    description: View pillager tool settings
   vanillatweaks.pillagertools:
     default: op
     description: Use both commands

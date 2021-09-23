@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull PersistentDataType<?, T> dataType, @NotNull Supplier<T> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, PersistentDataHolder> {
+public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull PersistentDataType<?, T> dataType, @NotNull Supplier<@NotNull T> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, PersistentDataHolder> {
 
     public static PlayerSetting<Boolean> ofBoolean(@NotNull SettingWrapper.PDC<Boolean> wrapper, @NotNull Supplier<Boolean> supplier) {
         return of(wrapper, DataTypes.BOOLEAN, supplier, new BooleanParser());
@@ -51,8 +51,7 @@ public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull Persi
     }
 
     @Override
-    public @Nullable
-    T get(@NotNull PersistentDataHolder holder) {
+    public @Nullable T get(@NotNull PersistentDataHolder holder) {
         PersistentDataContainer pdc = holder.getPersistentDataContainer();
         return pdc.get(this.settingKey, this.dataType);
     }

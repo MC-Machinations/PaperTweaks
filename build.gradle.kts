@@ -52,7 +52,7 @@ subprojects {
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
-        implementation("me.machinemaker.lectern:lectern-yaml:0.2.0-SNAPSHOT")
+        implementation("me.machinemaker.lectern:lectern-yaml:0.2.1-SNAPSHOT")
         implementation("net.kyori:adventure-text-serializer-plain:$adventureVersion")
         implementation("net.kyori:adventure-api:$adventureVersion")
         implementation("net.kyori:adventure-platform-bukkit:4.0.0")
