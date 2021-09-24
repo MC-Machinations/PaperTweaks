@@ -24,7 +24,6 @@ import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.persistence.PersistentDataType;
 
 class PlayerListener implements ModuleListener {
 
@@ -37,10 +36,10 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (event.getPlayer().getPersistentDataContainer().has(AFKRunnable.AFK_DISPLAY_KEY, PersistentDataType.BYTE)) {
+        if (AFKDisplay.AFK_DISPLAY.has(event.getPlayer())) {
             event.getPlayer().setDisplayName(event.getPlayer().getName());
             event.getPlayer().setPlayerListName(event.getPlayer().getName());
-            event.getPlayer().getPersistentDataContainer().remove(AFKRunnable.AFK_DISPLAY_KEY);
+            AFKDisplay.AFK_DISPLAY.remove(event.getPlayer());
             this.afkRunnable.addPlayer(event.getPlayer());
         }
     }

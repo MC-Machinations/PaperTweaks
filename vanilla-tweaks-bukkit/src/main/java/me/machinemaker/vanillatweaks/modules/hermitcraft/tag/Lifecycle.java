@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
+package me.machinemaker.vanillatweaks.modules.hermitcraft.tag;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
@@ -25,24 +25,32 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
+import me.machinemaker.vanillatweaks.utils.boards.DisplaySlot;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 
 class Lifecycle extends ModuleLifecycle {
 
+    private final TagManager tagManager;
+
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, Spawn spawn) {
+    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, TagManager tagManager) {
         super(plugin, commands, listeners, configs, moduleRecipes);
+        this.tagManager = tagManager;
     }
 
     @Override
     public void onDisable(boolean isShutdown) {
-        Commands.AWAITING_TELEPORT.forEach((uuid, bukkitTask) -> {
-            if (!bukkitTask.isCancelled()) {
-                bukkitTask.cancel();
+        if (!isShutdown) {
+            DisplaySlot.NONE.changeFor(this.tagManager.tagCounter);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (Tag.IT.has(player)) {
+                    this.tagManager.removeAsIt(player);
+                }
             }
-        });
-        Commands.AWAITING_TELEPORT.clear();
+        }
     }
 }

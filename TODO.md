@@ -61,7 +61,7 @@
 - [ ] Treasure Gems
 - [ ] Wandering Trades
 - [ ] Wandering Trades (Hermit Edition)
-- [ ] Tag
+- [x] Tag
 - [ ] Thunder Shrine
 
 ### Experimental

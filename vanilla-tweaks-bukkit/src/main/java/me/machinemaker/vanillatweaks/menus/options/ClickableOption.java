@@ -37,7 +37,15 @@ public interface ClickableOption<T> extends Option {
         return createRunCommand(commandPrefix, optionKey(), value);
     }
 
+    default @NotNull ClickEvent createSuggestCommand(@NotNull String commandPrefix) {
+        return createSuggestCommand(commandPrefix, optionKey());
+    }
+
     static @NotNull ClickEvent createRunCommand(@NotNull String commandPrefix, @NotNull String optionKey, @NotNull Object value) {
         return ClickEvent.runCommand(String.join(" ", commandPrefix, optionKey, value.toString()));
+    }
+
+    static @NotNull ClickEvent createSuggestCommand(@NotNull String commandPrefix, @NotNull String optionKey) {
+        return ClickEvent.suggestCommand(String.join(" ", commandPrefix, optionKey) + " ");
     }
 }

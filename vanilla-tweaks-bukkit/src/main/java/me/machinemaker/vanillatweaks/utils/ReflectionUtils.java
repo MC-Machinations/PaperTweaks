@@ -19,6 +19,8 @@
  */
 package me.machinemaker.vanillatweaks.utils;
 
+import io.leangen.geantyref.GenericTypeReflector;
+import io.leangen.geantyref.TypeToken;
 import org.bukkit.Bukkit;
 
 import java.lang.reflect.Constructor;
@@ -173,6 +175,18 @@ public final class ReflectionUtils {
      * @return the field accessor
      */
     public static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType) {
+        return getField(target, name, TypeToken.get(fieldType), 0);
+    }
+
+    /**
+     * Retrieve a field accessor for a specific field type and name.
+     *
+     * @param target    the target type
+     * @param name      the name of the field, or NULL to ignore
+     * @param fieldType a compatible field type
+     * @return the field accessor
+     */
+    public static <T> FieldAccessor<T> getField(Class<?> target, String name, TypeToken<T> fieldType) {
         return getField(target, name, fieldType, 0);
     }
 
@@ -185,7 +199,7 @@ public final class ReflectionUtils {
      * @return the field accessor
      */
     public static <T> FieldAccessor<T> getField(String className, String name, Class<T> fieldType) {
-        return getField(getClass(className), name, fieldType, 0);
+        return getField(getClass(className), name, TypeToken.get(fieldType), 0);
     }
 
     /**
@@ -197,7 +211,7 @@ public final class ReflectionUtils {
      * @return the field accessor
      */
     public static <T> FieldAccessor<T> getField(Class<?> target, Class<T> fieldType, int index) {
-        return getField(target, null, fieldType, index);
+        return getField(target, null, TypeToken.get(fieldType), index);
     }
 
     /**
@@ -213,9 +227,9 @@ public final class ReflectionUtils {
     }
 
     // Common method
-    private static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType, int index) {
+    private static <T> FieldAccessor<T> getField(Class<?> target, String name, TypeToken<T> fieldType, int index) {
         for (final Field field : target.getDeclaredFields()) {
-            if ((name == null || field.getName().equals(name)) && fieldType.isAssignableFrom(field.getType()) && index-- <= 0) {
+            if ((name == null || field.getName().equals(name)) && GenericTypeReflector.erase(fieldType.getType()).isAssignableFrom(field.getType()) && index-- <= 0) {
                 field.setAccessible(true);
 
                 // A function for retrieving a specific field value

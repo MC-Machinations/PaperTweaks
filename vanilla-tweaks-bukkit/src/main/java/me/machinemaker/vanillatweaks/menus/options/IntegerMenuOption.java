@@ -20,9 +20,7 @@
 package me.machinemaker.vanillatweaks.menus.options;
 
 import com.google.common.collect.Lists;
-import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.menus.parts.Previewable;
-import me.machinemaker.vanillatweaks.menus.parts.clicks.ToggleOption;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -33,31 +31,36 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
+import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
+import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements ToggleOption<Boolean> {
+public class IntegerMenuOption<S> extends MenuOption<Integer, S> implements EditableOption<Integer> {
 
-    private BooleanMenuOption(@NotNull Component label, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting, @NotNull Component extendedDescription, @Nullable Function<Boolean, ClickEvent> previewAction) {
+    protected IntegerMenuOption(@NotNull Component label, @NotNull Function<S, Integer> typeMapper, Setting<Integer, ?> setting, @NotNull Component extendedDescription, @Nullable Function<Integer, ClickEvent> previewAction) {
         super(label, typeMapper, setting, extendedDescription, previewAction);
     }
 
     @Override
     public @NotNull Component build(@NotNull S object, @NotNull String commandPrefix) {
-        final List<Component> components = Lists.newArrayList(
-                createClickComponent(Boolean.TRUE.equals(this.selected(object)), commandPrefix),
-                text(' ')
-        );
+        final List<Component> components = Lists.newArrayList(createClickComponent(this.selected(object), commandPrefix), space());
 
         this.previewAction().ifPresent(previewAction -> {
             components.add(Previewable.createPreviewComponent(this.label(), previewAction.apply(this.selected(object))));
-            components.add(text(' '));
+            components.add(space());
         });
 
-        components.add(this.label());
-        components.add(newline());
-        return Components.join(components.toArray(new ComponentLike[0]));
+        components.addAll(List.of(
+                this.label(),
+                space(),
+                translatable("commands.config.current-value", GRAY, text(this.selected(object))),
+                newline()
+        ));
+
+        return join(components.toArray(new ComponentLike[0]));
     }
 
     @Override
@@ -66,41 +69,32 @@ public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements Togg
     }
 
     @Override
-    public @NotNull String clickCommandValue(@NotNull Boolean selected) {
-        return Boolean.toString(!selected);
-    }
-
-    @Override
-    public boolean isSelected(@NotNull Boolean selected) {
-        return selected;
-    }
-
-    @Override
     public @NotNull Component defaultValueDescription() {
-        return translatable("commands.config.default-value.bool." + this.setting().defaultValue());
+        return text(this.setting().defaultValue());
     }
 
-    public static <S> @NotNull BooleanMenuOption<S> of(@NotNull String labelKey, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
+    @Override
+    public Component validations() {
+        return this.setting().validations();
+    }
+
+    public static <S> @NotNull IntegerMenuOption<S> of(@NotNull String labelKey, @NotNull Function<S, Integer> typeMapper, @NotNull Setting<Integer, ?> setting) {
         return new Builder<>(translatable(labelKey), typeMapper, setting).build();
     }
 
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull Component label, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
-        return new Builder<>(label, typeMapper, setting);
-    }
-
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
+    public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Function<S, Integer> typeMapper, @NotNull Setting<Integer, ?> setting) {
         return new Builder<>(translatable(labelKey), typeMapper, setting);
     }
 
-    public static class Builder<S> extends MenuOption.Builder<Boolean, BooleanMenuOption<S>, S, Builder<S>> {
+    public static class Builder<S> extends MenuOption.Builder<Integer, IntegerMenuOption<S>, S, Builder<S>> {
 
-        protected Builder(@NotNull Component label, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
+        protected Builder(@NotNull Component label, @NotNull Function<S, Integer> typeMapper, @NotNull Setting<Integer, ?> setting) {
             super(label, typeMapper, setting);
         }
 
         @Override
-        public @NotNull BooleanMenuOption<S> build() {
-            return new BooleanMenuOption<>(
+        public @NotNull IntegerMenuOption<S> build() {
+            return new IntegerMenuOption<>(
                     this.getLabel(),
                     this.getTypeMapper(),
                     this.getSetting(),

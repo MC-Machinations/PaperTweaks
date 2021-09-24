@@ -237,12 +237,34 @@ permissions:
       vanillatweaks.homes.list: true
       vanillatweaks.homes.rename: true
       vanillatweaks.homes.home: true
+
   vanillatweaks.pillagertools.config:
     default: op
     description: Configure PillagerTools in-game
   vanillatweaks.pillagertools.status:
     default: true
     description: View pillager tool settings
+
+  vanillatweaks.tag.givetag:
+    default: false
+    description: Gives you or a player a tag
+  vanillatweaks.tag.reset:
+    default: false
+    description: Resets a players it status
+  vanillatweaks.tag.counter:
+    default: false
+    description: Sets the display slot for the tag counter
+  vanillatweaks.tag.config:
+    default: false
+    description: Configure Tag in-game
+  vanillatweaks.tag:
+    default: op
+    description: All tag commands
+    children:
+      vanillatweaks.tag.givetag: true
+      vanillatweaks.tag.reset: true
+      vanillatweaks.tag.counter: true
+      vanillatweaks.tag.config: true
 
 libraries:
   - com.google.inject:guice:5.0.1

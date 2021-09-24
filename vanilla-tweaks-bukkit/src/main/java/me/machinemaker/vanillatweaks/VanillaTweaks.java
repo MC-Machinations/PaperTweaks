@@ -152,7 +152,7 @@ public class VanillaTweaks extends JavaPlugin {
     public void onDisable() {
         String disabled = "N/A";
         if (this.moduleManager != null) {
-            disabled = String.valueOf(moduleManager.disableModules());
+            disabled = String.valueOf(moduleManager.disableModules(true));
         }
         EXECUTOR_SERVICE.shutdownNow();
         if (this.audiences != null) {

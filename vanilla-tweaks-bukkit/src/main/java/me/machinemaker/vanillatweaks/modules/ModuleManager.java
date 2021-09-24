@@ -100,13 +100,13 @@ public class ModuleManager {
         return count;
     }
 
-    public int disableModules() {
+    public int disableModules(boolean isShutdown) {
         int count = 0;
         for (var entry : moduleMap.entrySet()) {
             if (isTrue(modulesConfig.get(entry.getValue().getConfigPath()))) {
                 Injector injector = moduleInjectors.get(entry.getValue().getName());
                 if (injector != null) {
-                    injector.getInstance(ModuleLifecycle.class).disable();
+                    injector.getInstance(ModuleLifecycle.class).disable(isShutdown);
                     count++;
                 }
             }
@@ -122,7 +122,7 @@ public class ModuleManager {
             ModuleLifecycle moduleLifecycle = this.moduleInjectors.get(entry.getKey()).getInstance(ModuleLifecycle.class);
             String configPath = entry.getValue().getConfigPath();
             if (moduleLifecycle.getState().isRunning() && isFalse(this.modulesConfig.get(configPath))) {
-                moduleLifecycle.disable();
+                moduleLifecycle.disable(false);
                 disableCount++;
             } else if (moduleLifecycle.getState().isRunning() && isTrue(this.modulesConfig.get(configPath))) {
                 moduleLifecycle.reload();
@@ -175,7 +175,7 @@ public class ModuleManager {
         if (!lifecycle.getState().isRunning()) {
             return translatable("commands.disable.fail.already-disabled", YELLOW, text(moduleName, GOLD));
         }
-        lifecycle.disable();
+        lifecycle.disable(false);
         if (lifecycle.getState() == ModuleState.DISABLE_FAILED) {
             return translatable("commands.disable.fail.error", RED, text(moduleName, GOLD));
         }

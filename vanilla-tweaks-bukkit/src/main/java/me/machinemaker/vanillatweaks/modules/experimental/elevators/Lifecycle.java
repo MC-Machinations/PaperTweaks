@@ -46,7 +46,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(boolean isShutdown) {
         if (this.particlesTask != null && !this.particlesTask.isCancelled()) {
             this.particlesTask.cancel();
         }

@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.settings;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,4 +71,8 @@ public interface Setting<T, C> {
     @NotNull String indexKey();
 
     @NotNull ArgumentParser<CommandDispatcher, T> argumentParser();
+
+    default @NotNull Component validations() {
+        return Component.empty();
+    }
 }

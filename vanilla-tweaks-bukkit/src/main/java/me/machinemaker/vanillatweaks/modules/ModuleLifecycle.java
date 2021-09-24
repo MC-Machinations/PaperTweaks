@@ -61,7 +61,7 @@ public abstract class ModuleLifecycle {
 
     public void onEnable() { }
 
-    public void onDisable() { }
+    public void onDisable(boolean isShutdown) { }
 
     public void onReload() { }
 
@@ -91,15 +91,15 @@ public abstract class ModuleLifecycle {
             state = ModuleState.ENABLED_FAILED;
             // TODO disable commands
             unregisterListeners();
-            onDisable();
+            onDisable(false);
         }
     }
 
-    final void disable() {
-        disable(true);
+    final void disable(boolean isShutdown) {
+        this.disable(true, isShutdown);
     }
 
-    final void disable(boolean changeState) {
+    final void disable(boolean changeState, boolean isShutdown) {
         try {
             // TODO disable commands
             unregisterListeners();
@@ -107,7 +107,7 @@ public abstract class ModuleLifecycle {
                 configs.forEach(ModuleConfig::save);
             }
             unregisterRecipes();
-            onDisable();
+            onDisable(isShutdown);
             if (changeState) state = ModuleState.DISABLED;
         } catch (Exception e) {
             this.plugin.getLogger().log(Level.SEVERE, e, () -> "Failed to disable " + this.moduleInfo.name());

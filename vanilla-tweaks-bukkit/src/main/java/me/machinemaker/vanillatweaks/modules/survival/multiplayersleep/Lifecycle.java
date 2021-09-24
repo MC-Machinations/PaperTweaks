@@ -64,7 +64,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(boolean isShutdown) {
         resetSleepContexts(false);
     }
 

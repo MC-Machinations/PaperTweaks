@@ -22,17 +22,24 @@ package me.machinemaker.vanillatweaks.modules;
 import cloud.commandframework.Command;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
+import cloud.commandframework.minecraft.extras.RichDescription;
 import io.leangen.geantyref.TypeToken;
 import me.machinemaker.lectern.SectionNode;
 import me.machinemaker.lectern.ValueNode;
+import me.machinemaker.lectern.annotations.validations.numbers.Max;
+import me.machinemaker.lectern.annotations.validations.numbers.Min;
 import me.machinemaker.lectern.collection.ConfigField;
 import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.config.I18nKey;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.LecternConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.Menu;
-import me.machinemaker.vanillatweaks.menus.options.BooleanMenuOption;
+import me.machinemaker.vanillatweaks.menus.config.ConfigMenuOptionBuilder;
+import me.machinemaker.vanillatweaks.menus.config.OptionBuilder;
+import me.machinemaker.vanillatweaks.menus.config.types.BooleanOptionBuilder;
+import me.machinemaker.vanillatweaks.menus.config.types.EnumOptionBuilder;
+import me.machinemaker.vanillatweaks.menus.config.types.IntegerOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
 import net.kyori.adventure.text.Component;
@@ -45,16 +52,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
+
+import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends ModuleConfig {
+
+    private static final Map<Class<?>, ConfigMenuOptionBuilder<?>> OPTION_BUILDERS = new HashMap<>();
+    private static final List<OptionBuilder> FACTORIES = new ArrayList<>();
+
+    static {
+        registerOptionBuilder(new BooleanOptionBuilder());
+        registerOptionBuilder(new IntegerOptionBuilder());
+        FACTORIES.add(new EnumOptionBuilder.Factory());
+    }
+
+    private static void registerOptionBuilder(ConfigMenuOptionBuilder<?> builder) {
+        OPTION_BUILDERS.put(builder.typeClass(), builder);
+    }
 
     private @MonotonicNonNull LecternConfigurationMenu<C> menu;
     private final Map<String, ConfigSetting<?, C>> settings = new HashMap<>();
     private final CloudKey<SettingArgument.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = SimpleCloudKey.of(SettingArgument.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgument.SettingChange<C, ConfigSetting<?, C>>>() {});
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void init(Path parentDir) {
+    public final void init(Path parentDir) {
         if (!getClass().isAnnotationPresent(Menu.class)) {
             throw new IllegalArgumentException(getClass().getSimpleName() + " is missing the " + Menu.class.getSimpleName() + " annotation");
         }
@@ -62,12 +85,18 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
         List<MenuPartLike<C>> menuParts = new ArrayList<>();
         this.rootNode().children().forEach((key, node) -> {
             if (node instanceof ValueNode<?> valueNode) {
-                if (valueNode.type().getRawClass().equals(boolean.class)) {
-                    var builder = BooleanMenuOption.<C>newBuilder(((I18nKey)valueNode.meta().get("i18n")).value(), toBoolean(valueNode), add(ConfigSetting.ofBoolean(valueNode)));
-                    if (valueNode.meta().containsKey("desc")) {
-                        builder.extendedDescription((String) valueNode.meta().get("desc"));
+                for (var entry : OPTION_BUILDERS.entrySet()) {
+                    if (valueNode.type().getRawClass().equals(entry.getKey())) {
+                        menuParts.add(entry.getValue().buildOption(valueNode, this.settings));
+                        return;
                     }
-                    menuParts.add(builder);
+                }
+                for (OptionBuilder factory : FACTORIES) {
+                    var menuPart = factory.buildOption(valueNode, this.settings);
+                    if (menuPart != null) {
+                        menuParts.add(menuPart);
+                        return;
+                    }
                 }
             } else if (node instanceof SectionNode sectionNode) {
                 // TODO
@@ -84,13 +113,20 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
             valueNode.description(TranslationRegistry.translate(desc, Locale.US));
             valueNode.meta().put("desc", desc);
         }
+        if (field.field().isAnnotationPresent(Min.class)) {
+            valueNode.meta().put("min", field.field().getAnnotation(Min.class).value());
+        }
+        if (field.field().isAnnotationPresent(Max.class)) {
+            valueNode.meta().put("max", field.field().getAnnotation(Max.class).value());
+        }
         return valueNode;
     }
 
     public abstract @NotNull Component title();
 
+    @SuppressWarnings("unchecked")
     public void createCommands(@NotNull ConfiguredModuleCommand command, Command.@NotNull Builder<CommandDispatcher> builder) {
-        var configBuilder = command.literal(builder, "config");
+        var configBuilder = command.literal(builder, "config").senderType(PlayerCommandDispatcher.class);
         command.manager()
                 .command(configBuilder.handler(context -> this.menu.send(context.getSender())))
                 .command(configBuilder.hidden()
@@ -100,15 +136,15 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
                             this.save();
                             this.menu.send(context.getSender());
                         })
+                ).command(configBuilder
+                        .senderType(CommandDispatcher.class)
+                        .literal("reset", RichDescription.translatable(command.i18nPrefix + ".config.reset"))
+                        .handler(context -> {
+                            this.settings.values().forEach(setting -> setting.reset((C) this));
+                            this.save();
+                            context.getSender().sendMessage(translatable(command.i18nPrefix + ".config.reset.success", GREEN));
+                        })
                 );
     }
 
-    private static <C extends MenuModuleConfig<C>> Function<C, Boolean> toBoolean(ValueNode<?> valueNode) {
-        return c -> c.rootNode().get(valueNode.path());
-    }
-
-    private <T> ConfigSetting<T, C> add(ConfigSetting<T, C> setting) {
-        this.settings.put(setting.indexKey(), setting);
-        return setting;
-    }
 }

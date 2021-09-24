@@ -59,7 +59,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(boolean isShutdown) {
         if (this.task != null) {
             this.task.cancel();
         }

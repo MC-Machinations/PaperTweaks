@@ -20,6 +20,8 @@
 package me.machinemaker.vanillatweaks.settings.types;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
+import cloud.commandframework.arguments.standard.EnumArgument;
+import cloud.commandframework.arguments.standard.IntegerArgument;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.leangen.geantyref.GenericTypeReflector;
 import me.machinemaker.lectern.ValueNode;
@@ -27,13 +29,31 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.parsers.BooleanParser;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.Setting;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public record ConfigSetting<T, C extends MenuModuleConfig<C>>(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, C> {
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+
+@SuppressWarnings("unchecked")
+public record ConfigSetting<T, C extends MenuModuleConfig<C>>(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser, @NotNull Component validations) implements Setting<T, C> {
 
     public static <C extends MenuModuleConfig<C>> ConfigSetting<Boolean, C> ofBoolean(@NotNull ValueNode<?> valueNode) {
         return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanParser());
+    }
+
+    public static <E extends Enum<E>, C extends MenuModuleConfig<C>> ConfigSetting<E, C> ofEnum(@NotNull ValueNode<?> valueNode, @NotNull Class<E> classOfE) {
+        return new ConfigSetting<>((ValueNode<E>) valueNode, new EnumArgument.EnumParser<>(classOfE));
+    }
+
+    public static <C extends MenuModuleConfig<C>> ConfigSetting<Integer, C> ofInt(@NotNull ValueNode<?> valueNode) {
+        return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerArgument.IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerArgument.IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerArgument.IntegerParser.DEFAULT_MAXIMUM).toString())));
+    }
+
+    public ConfigSetting(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) {
+        this(node, argumentParser, createValidations(node));
     }
 
     @Override
@@ -46,7 +66,6 @@ public record ConfigSetting<T, C extends MenuModuleConfig<C>>(@NotNull ValueNode
         holder.rootNode().set(this.indexKey(), value);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Class<T> valueType() {
         return (Class<T>) GenericTypeReflector.box(TypeFactory.rawClass(node.type()));
@@ -63,5 +82,21 @@ public record ConfigSetting<T, C extends MenuModuleConfig<C>>(@NotNull ValueNode
     @Override
     public @NotNull String indexKey() {
         return this.node.path();
+    }
+
+    private static @NotNull Component createValidations(ValueNode<?> valueNode) {
+        var builder = text();
+        if (valueNode.meta().containsKey("min") && valueNode.meta().containsKey("max")) {
+            builder.append(translatable("commands.config.validation.between", text(valueNode.meta().get("min").toString(), GRAY), text(valueNode.meta().get("max").toString(), GRAY)));
+        } else if (valueNode.meta().containsKey("min")) {
+            builder.append(translatable("commands.config.validation.min", text(valueNode.meta().get("min").toString(), GRAY)));
+        } else if (valueNode.meta().containsKey("max")) {
+            builder.append(translatable("commands.config.validation.max", text(valueNode.meta().get("max").toString(), GRAY)));
+        }
+
+        if (builder.children().isEmpty()) {
+            return Component.empty();
+        }
+        return builder.build();
     }
 }

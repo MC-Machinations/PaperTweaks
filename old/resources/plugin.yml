@@ -28,18 +28,6 @@ permissions:
     children:
       vanillatweaks.pillagertools.toggle: true
       vanillatweaks.pillagertools.status: true
-  vanillatweaks.tag.givetag:
-    default: op
-    description: Gives you or a player a tag
-  vanillatweaks.tag.reset:
-    default: op
-    description: Resets a players it status
-  vanillatweaks.tag:
-    default: op
-    description: All tag commands
-    children:
-      vanillatweaks.tag.givetag: true
-      vanillatweaks.tag.reset: true
   vanillatweaks.thundershrine.create:
     default: true
     description: Create a Thunder Shrine

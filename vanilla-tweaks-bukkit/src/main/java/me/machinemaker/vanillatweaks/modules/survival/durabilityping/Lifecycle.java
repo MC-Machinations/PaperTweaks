@@ -63,7 +63,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(boolean isShutdown) {
         this.listener.cooldownCache.invalidateAll();
         this.listener.settingsCache.invalidateAll();
     }

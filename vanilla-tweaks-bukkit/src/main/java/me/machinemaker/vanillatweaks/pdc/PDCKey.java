@@ -36,6 +36,10 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return new PDCKey<>(key, DataTypes.BOOLEAN);
     }
 
+    public static @NotNull PDCKey<Long> forLong(@NotNull NamespacedKey key) {
+        return new PDCKey<>(key, PersistentDataType.LONG);
+    }
+
     public static @NotNull PDCKey<String> string(@NotNull NamespacedKey key) {
         return new PDCKey<>(key, PersistentDataType.STRING);
     }
@@ -52,10 +56,12 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return new PDCKey<>(key, EnumDataType.of(classOfE));
     }
 
+    @Contract(pure = true)
     public boolean has(@NotNull PersistentDataHolder holder) {
         return holder.getPersistentDataContainer().has(this.key, this.dataType);
     }
 
+    @Contract(pure = true)
     public @Nullable Z getFrom(@NotNull PersistentDataHolder holder) {
         return holder.getPersistentDataContainer().get(this.key, this.dataType);
     }
@@ -64,6 +70,7 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         holder.getPersistentDataContainer().set(this.key, this.dataType, object);
     }
 
+    @Contract(pure = true)
     public @Nullable Z getFrom(@NotNull ItemStack stack) {
         if (stack.getItemMeta() != null) {
             return getFrom(stack.getItemMeta());
@@ -71,6 +78,7 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return null;
     }
 
+    @Contract(pure = true)
     public boolean has(@NotNull ItemStack stack) {
         if (stack.getItemMeta() != null) {
             return has(stack.getItemMeta());
@@ -78,7 +86,11 @@ public record PDCKey<Z>(@NotNull NamespacedKey key, @NotNull PersistentDataType<
         return false;
     }
 
-    @Contract("_, null -> null; _, !null -> !null")
+    public void remove(@NotNull PersistentDataHolder holder) {
+        holder.getPersistentDataContainer().remove(this.key);
+    }
+
+    @Contract(value = "_, null -> null; _, !null -> !null", pure = true)
     public Z getFromOrDefault(@NotNull PersistentDataHolder holder, Z defaultValue) {
         return holder.getPersistentDataContainer().getOrDefault(this.key, this.dataType, defaultValue);
     }

@@ -19,6 +19,9 @@
  */
 package me.machinemaker.vanillatweaks.cloud;
 
+import cloud.commandframework.Command;
+import cloud.commandframework.CommandManager;
+import cloud.commandframework.arguments.StaticArgument;
 import cloud.commandframework.bukkit.CloudBukkitCapabilities;
 import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
 import cloud.commandframework.minecraft.extras.AudienceProvider;
@@ -30,6 +33,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import io.leangen.geantyref.TypeToken;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
@@ -37,9 +41,14 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcherFactory;
 import me.machinemaker.vanillatweaks.cloud.processors.post.GamemodePostprocessor;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
+import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -50,6 +59,14 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class CloudModule extends AbstractModule {
+
+    private static final Class<?> VANILLA_COMMAND_WRAPPER_CLASS = ReflectionUtils.getCraftBukkitClass("command.VanillaCommandWrapper");
+    private static final ReflectionUtils.MethodInvoker CRAFT_SERVER_GET_COMMAND_MAP = ReflectionUtils.getTypedMethod(Bukkit.getServer().getClass(), "getCommandMap", SimpleCommandMap.class);
+    private static final ReflectionUtils.FieldAccessor<Map<String, org.bukkit.command.Command>> COMMAND_MAP_KNOWN_COMMANDS_FIELD = ReflectionUtils.getField(SimpleCommandMap.class, "knownCommands", new TypeToken<Map<String, org.bukkit.command.Command>>() {});
+
+    private static Map<String, org.bukkit.command.Command> getCommandMap() {
+        return COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer()));
+    }
 
     private final JavaPlugin plugin;
     private final ScheduledExecutorService executorService;
@@ -92,7 +109,18 @@ public class CloudModule extends AbstractModule {
                         }
                     },
                     CommandDispatcher::sender
-            );
+            ) {
+                @Override
+                public @NonNull CommandManager<CommandDispatcher> command(@NonNull Command<CommandDispatcher> command) {
+                    if (command.getArguments().get(0) instanceof StaticArgument<?> staticArgument) {
+                        String main = staticArgument.getName();
+                        if (VANILLA_COMMAND_WRAPPER_CLASS.isInstance(getCommandMap().get(main))) {
+                            getCommandMap().remove(main);
+                        }
+                    }
+                    return super.command(command);
+                }
+            };
             if (manager.queryCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
                 manager.registerAsynchronousCompletions();
             }
