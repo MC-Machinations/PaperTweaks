@@ -78,7 +78,8 @@ class LeafListener implements ModuleListener {
                 LeavesDecayEvent decayEvent = new LeavesDecayEvent(b);
                 Bukkit.getPluginManager().callEvent(decayEvent);
                 if (decayEvent.isCancelled()) return;
-                block.breakNaturally();
+                b.breakNaturally();
+                SCHEDULED.remove(b);
             }, ThreadLocalRandom.current().nextLong(2, 9));
 
         }
