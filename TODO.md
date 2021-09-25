@@ -62,7 +62,7 @@
 - [ ] Wandering Trades
 - [ ] Wandering Trades (Hermit Edition)
 - [x] Tag
-- [ ] Thunder Shrine
+- [x] Thunder Shrine
 
 ### Experimental
 

@@ -28,19 +28,3 @@ permissions:
     children:
       vanillatweaks.pillagertools.toggle: true
       vanillatweaks.pillagertools.status: true
-  vanillatweaks.thundershrine.create:
-    default: true
-    description: Create a Thunder Shrine
-  vanillatweaks.thundershrine.remove:
-    default: true
-    description: Removes a Thunder Shrine
-  vanillatweaks.thundershrine.help:
-    default: true
-    description: Thunder Shrine help command
-  vanillatweaks.thundershrine:
-    default: true
-    description: Thunder shrine commands
-    children:
-      vanillatweaks.thundershrine.remove: true
-      vanillatweaks.thundershrine.create: true
-      vanillatweaks.thundershrine.help: true

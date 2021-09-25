@@ -266,6 +266,19 @@ permissions:
       vanillatweaks.tag.counter: true
       vanillatweaks.tag.config: true
 
+  vanillatweaks.thundershrine.create:
+    default: false
+    description: Create a Thunder Shrine
+  vanillatweaks.thundershrine.remove:
+    default: false
+    description: Removes a Thunder Shrine
+  vanillatweaks.thundershrine:
+    default: true
+    description: Thunder shrine commands
+    children:
+      vanillatweaks.thundershrine.remove: true
+      vanillatweaks.thundershrine.create: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1
