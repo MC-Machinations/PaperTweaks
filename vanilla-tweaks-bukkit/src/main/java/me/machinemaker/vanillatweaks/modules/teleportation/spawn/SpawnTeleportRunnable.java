@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import me.machinemaker.vanillatweaks.utils.runnables.TeleportRunnable;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Location;
@@ -45,6 +46,11 @@ class SpawnTeleportRunnable extends TeleportRunnable {
         super(player, teleportLoc, tickDelay);
         this.audience = audience;
         this.callback = callback;
+    }
+
+    @Override
+    public void onTeleport() {
+        Back.setBackLocation(this.player, this.player.getLocation()); // Set back location
     }
 
     @Override

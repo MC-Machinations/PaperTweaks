@@ -17,13 +17,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.modules.teleportation.homes;
+package me.machinemaker.vanillatweaks.modules.teleportation.back;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import me.machinemaker.vanillatweaks.utils.runnables.TeleportRunnable;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Location;
@@ -38,15 +37,15 @@ import java.util.UUID;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class HomeTeleportRunnable extends TeleportRunnable {
+public class BackTeleportRunnable extends TeleportRunnable {
 
     @Inject private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
     @Inject private static Plugin plugin;
-    static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
+    private static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
 
     private final Audience audience;
 
-    HomeTeleportRunnable(@NotNull Player player, @NotNull Location teleportLoc, long tickDelay, Audience audience) {
+    protected BackTeleportRunnable(@NotNull Player player, @NotNull Location teleportLoc, long tickDelay, Audience audience) {
         super(player, teleportLoc, tickDelay);
         this.audience = audience;
     }
@@ -56,14 +55,10 @@ class HomeTeleportRunnable extends TeleportRunnable {
     }
 
     @Override
-    public void onTeleport() {
-        Back.setBackLocation(this.player, this.player.getLocation()); // Set back location
-    }
-
-    @Override
     public void onMove() {
-        this.audience.sendMessage(translatable("modules.homes.commands.home.moved", RED));
-        cooldownManager.invalidate(this.player.getUniqueId(), Commands.HOME_COMMAND_COOLDOWN_KEY);
+        this.audience.sendMessage(translatable("modules.back.commands.root.moved", RED));
+        cooldownManager.invalidate(this.player.getUniqueId(), Commands.BACK_COMMAND_COOLDOWN_KEY);
+        super.onMove();
     }
 
     @Override

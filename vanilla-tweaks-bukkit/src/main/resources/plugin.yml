@@ -279,6 +279,13 @@ permissions:
       vanillatweaks.thundershrine.remove: true
       vanillatweaks.thundershrine.create: true
 
+  vanillatweaks.back:
+    default: true
+    description: Use the back command to return to previous locations
+  vanillatweaks.back.config:
+    default: op
+    description: Configure Back in-game
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1

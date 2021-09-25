@@ -30,6 +30,7 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.db.dao.teleportation.homes.HomesDAO;
 import me.machinemaker.vanillatweaks.db.model.teleportation.homes.Home;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -147,6 +148,7 @@ class Commands extends ConfiguredModuleCommand {
                     if (this.config.sethomeDelay > 0) {
                         new HomeTeleportRunnable(player, home.getLocation(), this.config.sethomeDelay * 20, context.getSender()).start();
                     } else {
+                        Back.setBackLocation(player, player.getLocation()); // Store back location
                         PaperLib.teleportAsync(player, home.getLocation());
                     }
                 }))

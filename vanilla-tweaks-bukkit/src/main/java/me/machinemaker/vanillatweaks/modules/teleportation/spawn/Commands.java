@@ -30,6 +30,7 @@ import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
+import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -84,6 +85,7 @@ class Commands extends ModuleCommand {
             if (this.config.delay > 0) {
                 AWAITING_TELEPORT.put(player.getUniqueId(), new SpawnTeleportRunnable(player, context.getSender(), world.getSpawnLocation(), this.config.delay * 20, (p) -> AWAITING_TELEPORT.remove(p.getUniqueId())).runTaskTimer(this.plugin, 1L, 1L));
             } else {
+                Back.setBackLocation(player, player.getLocation()); // Set back location
                 PaperLib.teleportAsync(player, world.getSpawnLocation());
             }
         });
