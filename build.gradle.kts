@@ -68,6 +68,7 @@ subprojects {
         compileOnly("com.google.inject.extensions:guice-assistedinject:5.0.1")
         compileOnly("org.apache.commons:commons-configuration2:2.7")
         compileOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5")
+        compileOnly("com.fasterxml.jackson.module:jackson-module-parameter-names:2.12.5")
         compileOnly(platform("org.jdbi:jdbi3-bom:3.22.0"))
         compileOnly("org.jdbi:jdbi3-core")
         compileOnly("org.jdbi:jdbi3-sqlobject")

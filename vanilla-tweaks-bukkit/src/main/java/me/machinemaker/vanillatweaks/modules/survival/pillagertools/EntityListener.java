@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.entity.Pillager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 
@@ -35,7 +36,7 @@ class EntityListener implements ModuleListener {
         this.config = config;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL && event.getEntity() instanceof Pillager pillager) {
             if (!config.patrolLeaders && pillager.isPatrolLeader() && pillager.getPatrolTarget() != null) {
@@ -47,7 +48,7 @@ class EntityListener implements ModuleListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onStatusEffectChange(EntityPotionEffectEvent event) {
         if (!config.badOmen && event.getCause() == EntityPotionEffectEvent.Cause.PATROL_CAPTAIN) event.setCancelled(true);
     }

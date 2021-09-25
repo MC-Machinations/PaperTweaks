@@ -83,7 +83,12 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
         }
         super.init(parentDir);
         List<MenuPartLike<C>> menuParts = new ArrayList<>();
-        this.rootNode().children().forEach((key, node) -> {
+        this.collectMenuParts(this.rootNode(), menuParts);
+        this.menu = new LecternConfigurationMenu<>(this.title(), getClass().getAnnotation(Menu.class).commandPrefix(), menuParts, (C) this);
+    }
+
+    private void collectMenuParts(SectionNode section, List<MenuPartLike<C>> menuParts) {
+        section.children().forEach((key, node) -> {
             if (node instanceof ValueNode<?> valueNode) {
                 for (var entry : OPTION_BUILDERS.entrySet()) {
                     if (valueNode.type().getRawClass().equals(entry.getKey())) {
@@ -99,10 +104,9 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
                     }
                 }
             } else if (node instanceof SectionNode sectionNode) {
-                // TODO
+                collectMenuParts(sectionNode, menuParts);
             }
         });
-        this.menu = new LecternConfigurationMenu<>(this.title(), getClass().getAnnotation(Menu.class).commandPrefix(), menuParts, (C) this);
     }
 
     @Override

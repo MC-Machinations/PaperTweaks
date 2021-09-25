@@ -17,25 +17,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.modules.survival.unlockallrecipes;
+package me.machinemaker.vanillatweaks.modules.hermitcraft.wanderingtrades;
 
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerJoinEvent;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 
-class PlayerListener implements ModuleListener {
+class Commands extends ConfiguredModuleCommand {
 
-    private final UnlockAllRecipes unlockAllRecipes;
+    private final Config config;
 
     @Inject
-    PlayerListener(UnlockAllRecipes unlockAllRecipes) {
-        this.unlockAllRecipes = unlockAllRecipes;
+    Commands(Config config) {
+        super("wandering-trades", "wanderingtrades");
+        this.config = config;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        unlockAllRecipes.discoverAllRecipes(event.getPlayer());
+    @Override
+    protected void registerCommands() {
+        var builder = playerCmd("wanderingtrades", "modules.wandering-trades.commands.root", "wtrades", "wt");
+
+        this.config.createCommands(this, builder);
     }
 }

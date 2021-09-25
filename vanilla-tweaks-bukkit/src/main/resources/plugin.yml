@@ -309,11 +309,16 @@ permissions:
       vanillatweaks.tpa.accept: true
       vanillatweaks.tpa.deny: true
 
+  vanillatweaks.wanderingtrades.config:
+    default: op
+    description: Configure WanderingTrades in-game
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1
   - io.github.classgraph:classgraph:4.8.114
   - com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5
+  - com.fasterxml.jackson.module:jackson-module-parameter-names:2.12.5
   - io.leangen.geantyref:geantyref:1.3.11
   - org.apache.commons:commons-configuration2:2.7
   - commons-beanutils:commons-beanutils:1.9.4

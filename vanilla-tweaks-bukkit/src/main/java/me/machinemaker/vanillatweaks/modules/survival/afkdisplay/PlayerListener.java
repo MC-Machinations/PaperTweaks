@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.afkdisplay;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -34,7 +35,7 @@ class PlayerListener implements ModuleListener {
         this.afkRunnable = afkRunnable;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
         if (AFKDisplay.AFK_DISPLAY.has(event.getPlayer())) {
             event.getPlayer().setDisplayName(event.getPlayer().getName());
@@ -44,7 +45,7 @@ class PlayerListener implements ModuleListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
         this.afkRunnable.addPlayer(event.getPlayer());
     }

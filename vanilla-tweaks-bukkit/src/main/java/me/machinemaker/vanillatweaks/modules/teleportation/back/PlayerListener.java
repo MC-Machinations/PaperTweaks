@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.teleportation.back;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 class PlayerListener implements ModuleListener {
@@ -33,7 +34,7 @@ class PlayerListener implements ModuleListener {
         this.config = config;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (this.config.saveDeathLocation) {
             Back.setBackLocation(event.getEntity(), event.getEntity().getLocation());

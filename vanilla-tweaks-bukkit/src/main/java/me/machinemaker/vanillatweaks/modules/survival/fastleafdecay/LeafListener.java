@@ -30,6 +30,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Leaves;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +52,7 @@ class LeafListener implements ModuleListener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
         Material type = event.getBlock().getType();
         if (Tag.LOGS.isTagged(type) || Tag.LEAVES.isTagged(type)) {
@@ -59,7 +60,7 @@ class LeafListener implements ModuleListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onLeavesDecay(LeavesDecayEvent event) {
         doDecay(event.getBlock());
     }

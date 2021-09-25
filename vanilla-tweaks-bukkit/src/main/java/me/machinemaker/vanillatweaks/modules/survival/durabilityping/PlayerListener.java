@@ -68,14 +68,14 @@ class PlayerListener implements ModuleListener {
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().getPersistentDataContainer().has(durabilityPing.pingKey, PersistentDataType.INTEGER) && config.enabledByDefault) {
             durabilityPing.setToPing(event.getPlayer());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event) {
         this.cooldownCache.invalidate(event.getPlayer().getUniqueId());
     }

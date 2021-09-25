@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataType;
@@ -36,14 +37,14 @@ class PlayerListener implements ModuleListener {
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (event.getPlayer().getPersistentDataContainer().has(HUDRunnable.COORDINATES_HUD_KEY, PersistentDataType.BYTE)) {
             this.hudRunnable.addPlayer(event.getPlayer());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event) {
         this.hudRunnable.removePlayer(event.getPlayer());
     }

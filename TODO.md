@@ -59,8 +59,8 @@
 
 - [ ] Gem Villagers
 - [ ] Treasure Gems
-- [ ] Wandering Trades
-- [ ] Wandering Trades (Hermit Edition)
+- [x] Wandering Trades
+- [x] Wandering Trades (Hermit Edition)
 - [x] Tag
 - [x] Thunder Shrine
 

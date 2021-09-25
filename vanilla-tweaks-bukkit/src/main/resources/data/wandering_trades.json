@@ -1,0 +1,1626 @@
+[
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§ePythonGB\"}",
+    "uuid": "2ce1367d-48f2-4e89-b79a-f85325c85063",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA5M2YwNzc3NThjZjVmZTkyNGYxZWM1YWY5YzZiZGJiNzgwYTVjY2I2ZjEzNmFiMWFmNDc3NDIxZTcyM2Y0ZCJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eXisuma\"}",
+    "uuid": "7f9a1502-c82f-4db0-8249-ac11892910fe",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWU5NjQwMTg2YTcwOTM3Nzg4MTAwOTg0OGVjN2ViZGE4MTllYjE4YzRlNTk2N2FlMWQwYWM3MTQ2YWZiNGI0ZSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eDocm77\"}",
+    "uuid": "0b6386ac-4d32-4e96-a792-24fa763ed21d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjFmNmNhZGMzZTljYWQ5NWZiZjZjMTFmYTU4ZTgwZWE0ZGI1MTllM2I0MjUwZGU5NjEzMGRjZjhjMWE3NDNlZSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eJessassin\"}",
+    "uuid": "cc4880d9-81b7-4319-97e6-c44eb5f9f059",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTM0MzdiMGY0NDRlYTQzYmJjNDc3ZWMyMTI3YzlkNjY3NDdlM2U3M2M2YTdkN2UxMjBhZmQxYTA0M2E4YWMxZCJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§exBCrafted\"}",
+    "uuid": "1f3e2672-566e-4611-ab8f-52c8afe9ab7e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y1M2Q4YjQwMGZlZjAyOGRlYzk1MjEzMGQ0MDY1NDRhZGVjMTY0ZDFkYjRmMGQwYjExNDZjNjVhMWRmYzI2MyJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eEtho\"}",
+    "uuid": "6209adf8-4dcf-4411-b69a-7456b1314b57",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmY3NzQ3ZWEzNDA5ODliOThhODIyMjk0OGFmNDU0NTRiZWU5MDliOWFkODMwYjJhMDFkY2Y5MTE3YzgzYTMzYSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eMumbo\"}",
+    "uuid": "217e8fc4-b203-49b9-9623-09b16a01561e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRhOGQ4NzllZjI5NzMxZTJiNDQ4ZjZlZTYwMDQ4NTViOGZmYWZlZjNiZmQ3OGQ2NTQ2ODY0MjczNmE4MWI0MiJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eiJevin\"}",
+    "uuid": "db4b6fd5-486f-4b0f-9b4c-2c32cad5a54e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWUwNDE5ZjBjODBkNmFkNTljMWMzMmI0NmM3Nzc1NjJmZGM4M2EwMGUxOGJhNDg0ZTI3M2U3NGYyNDZkZGE4OSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eimpulseSV\"}",
+    "uuid": "9e548022-eba1-4fd3-840a-5cf10b678e09",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzcyNTFjODYwNTU4YTU2YzA0ZjYwZTEwNzA1MGI3NzkxMzgwYTgwZDRlYTBhYjZhMjdiOTc5NzljYjhmYmM2ZCJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eRenthedog\"}",
+    "uuid": "b075cecd-acfc-4aad-a6fc-1784dd8a0084",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDBiYTY0YTkyNWRjZjUxNTRlNjYzYzU4NGQ0OGNlODBhNDBmZDEyOWVlOTRlNzA0NDZmNzJlOGEwMjRhOWM5In19fQ=="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eTinfoilchef\"}",
+    "uuid": "933cc6e5-6208-4d39-8ddc-12ad5007189c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWEzYjcwNzA2ODliOGQ4OGIxNjQ5MDhmZGM2YzAwZDAzNWY3YWY0NjJhNzQxMTE0NGQ3NjkyZDI0NzhmYWZmYiJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eBiffa2001\"}",
+    "uuid": "28b1d659-18b6-463a-a988-475a526da4ba",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzkwMjRjMTE4ZTc5YjM5NTBmNGIxNmZlN2NkMDk2NGRiNTA2NTg4ZGUxZjRmYzI5NDQwMTQyMmZjYWVlZmFlMCJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eStressmonster101\"}",
+    "uuid": "9cfb2306-5f6f-4e30-903b-7f2a875c3a94",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU1ZDQwYWM5MGJkMTgxZDI0OWE2ZmNhMjhhODIwNWQzOWJhYzQzYjczZTBjZTU2Y2UzMmZlYTRkYjFkODA1NyJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eGoodTimesWithScar\"}",
+    "uuid": "6545fed0-99ed-466d-b6f3-6f0d8aa7a0a4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODFiNjRiYWU5ODc0Mzc4YWNkM2Y5YjdiNjRjODRkNWZmYmUzYzA2MjcwZDM4NGUyZmViYTQ1NWVlZGIyYTkxNiJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eZedaph\"}",
+    "uuid": "5bd21b35-314a-4fae-80aa-584fa6db9adb",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDMzYjFkYTUwMmQ2MmEzODM2NDU3YmNkMmI2M2UzMjQzNmIyODU4MjljZjM5Y2FhNGQwN2Y3YWYwZmQ5MzJkMCJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§ejoehillssays\"}",
+    "uuid": "9cd808d0-0027-4801-bb3a-a92f701c124f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTIzNmJkNzgwZjkzNTM3NDI1ZWEwYWY1ZDRhMmE1MzQyZmI4MGRlMDY5MWViMTFkOTkzYjU1NmEzY2EyNDQ2OSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§ecubfan135\"}",
+    "uuid": "03f5b923-d869-414a-9d8b-edce53a24f2a",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTgxNTBlOTVkMjY5OTQ2NjQ2ZTFjN2FiOTJlZDUxOWViYWQ5NTc4MzY5NjhjMDA0N2YzM2ZhN2JhZTAyZTRhYyJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eWelsknight\"}",
+    "uuid": "699a78f8-c165-4673-8b0c-cedb3ceb6791",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI1NTg5NGE5Njk2NTUzY2U5N2I1OWJmYTMxZGY4ZTVlOGI4YWVhZDFkZGUzYTZkYWE3NjZhMGNjNGIxZTc1MyJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eKeralis\"}",
+    "uuid": "20fe9cd0-c349-4c54-a973-22b42ef029b3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg3ODc2MDFkNGU5ZDFhOGM0MmY5MjdmN2YxZjdiNzVjZWMxYmRkZTM0MmQ0MDVlYzA2MzlkOGY4YTk2MmQyMSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§efalsesymmetry\"}",
+    "uuid": "bcf5b3a2-af14-4b96-84ec-bd2f44d8c95b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI3MzI3NmFlMzI0ZGFiYzdkMTcxZDVmNDZiZGM3NmI3NDVlODM5YTk1YTFkODhkMDhlNDBlMTY2ZDExMDMwOSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§ehypnotizd\"}",
+    "uuid": "eca8787a-670b-493b-93cf-52e63c2ada86",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODE0OTRkYzljOTI3NTRlYjY0Zjc1N2E4ZTRhMmMxZjJhZGNjYTIxMTVkMTE5NzJkNmQzOWRjOWZkYjE2ZjU2NCJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eVintageBeef\"}",
+    "uuid": "4d39bdae-475e-4bef-935d-8b47d8de11fd",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGVmNWZiMzE4Zjg1NWZiNjNiYTFlZmRjYzEyMDJlZTIzOGNiNDAzYTIxY2Q2YmI0ZjMyNDM3NGYxZTE0ZGRkOSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eBdoubleO100\"}",
+    "uuid": "ed78596f-a590-44fb-8933-562c99970be4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzVlODA1ZDA0YjM3OGVkNzNkNDQ5ZWViOTUzZTBkNTdhMmIyZGZiZjNiNzk1MTY5OTRhMjNhMWRhMDcwNTFkZSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eTango\"}",
+    "uuid": "528079e8-ed63-45b9-bc31-7184ebfbc8f1",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzE4NjAxMjU5ZDM3NTVkNmFlYTMyMmNiYjMzM2M0ZTM2OWNmM2IyMTY4MTA4ZjUxOWI1NGI1NDAzZjZiZjMzNiJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eGrian\"}",
+    "uuid": "da10973e-e0ed-4b64-88b8-b2d24ddd9803",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGI3YWI2ZGQ3MzE4ZTk5NDMyZjI0MzFiZTBlYjZiMGYxYzcwOTQ5YTRiOTJmNDUzYzYwZWE1YjhkMzNiNzEyYyJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eiskall85\"}",
+    "uuid": "52ca908b-f437-491a-9359-80eedd0cc6ee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjBiZmE4YTExOGI3ZjdkNzRiZGU4NDdjMWEyNDgzMWZiY2E2ODJhZDNjYzVkNzk4MzljYmVmYjlkZTQ5MDczNiJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eZombieCleo\"}",
+    "uuid": "0e90e178-b5aa-4f56-8c7d-bd34e0df94cf",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlmZWZmODM4YWI1NmU0MDI1ZWVmODdlOTNjNDE4ODc4MTEwZDhjOGQ5MDVkOGZkNGI0OTM4ODljMDFhNWYxNyJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§eGeminiTay\"}",
+    "uuid": "bbd72f65-909e-4f58-95e8-8624d805cd23",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2Q2MDQxZWJlYWJmOWMyZTk5YmE5ZWExMjhiYjBjYjNiZTI0YTljNzc3OTRhZTJiNjBiZThlMWJhZWZiMjcxMSJ9fX0="
+  },
+  {
+    "maxUses": 3,
+    "secondaryCost": "minecraft:air",
+    "headCount": 1,
+    "name": "{\"text\":\"§r§ePearlescentMoon\"}",
+    "uuid": "ae596d2d-ed57-40f3-85ba-c8f08da79a8d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDYwNjdlNzg5MGM4ZmY2ZTE3Yjk1NmY0YjA4ZTcwZjAzM2MzNWU1YzJjMmM2YTU3YjJjODE2MTMwNWNhMzk3YiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:ender_chest",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eEnder Chest\"}",
+    "uuid": "42db67b6-9dd1-4bfe-b478-8829c1622218",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZjYzQ4NmMyYmUxY2I5ZGZjYjJlNTNkZDlhM2U5YTg4M2JmYWRiMjdjYjk1NmYxODk2ZDYwMmI0MDY3In19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:enchanting_table",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eEnchanting Table\"}",
+    "uuid": "4425282c-40d7-4e90-8b71-e93b1f361528",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU2OTYzNzNhMTg3ZTZkMmRkY2RmMWQ2Nzc3NGNiMTFmM2E1MmE5NzY3YTA4NDU4OWIyM2YxOWE3ZjIzYTcxYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:furnace",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eFurnace\"}",
+    "uuid": "72ef63db-2b03-4862-a380-8e12b8991561",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI5NTc3YjhmNDBkNjE0ZDJhODA5NDYxNWRhMTA2OGNmMTJjYjhmNzgzNDU4MzliZDBmN2VhYTc3YjA2ZTI3ZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:crafting_table",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCrafting Table\"}",
+    "uuid": "e1fe1110-e478-4c50-9e2b-e0257dc1ecba",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU2YWIzZmRjMmJjYjA3YWU3NjkwODAxYWUwMGFjMmZmZjU0MmQ3OTMwODk2MWMyYjU3OTM3MGVjZjY1NmMyOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:chest",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eChest\"}",
+    "uuid": "33a84c61-263c-4689-a62c-3b8044e1ff4d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDVjNmRjMmJiZjUxYzM2Y2ZjNzcxNDU4NWE2YTU2ODNlZjJiMTRkNDdkOGZmNzE0NjU0YTg5M2Y1ZGE2MjIifX19"
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:shulker_box",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eShulker Box\"}",
+    "uuid": "bcacc40c-b321-4fed-aa9e-f2a9fe936e0a",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzlhYTg4YTA1ZmE1ZjMzYjYzMmU1NWE2NDU1YzE0ZmIwZmEyNzllNjMxNDdmOTc3OGQzOWRmOGY1OGE0NzkyMiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:jukebox",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eJukebox\"}",
+    "uuid": "a6f2320c-ea2f-42e8-86ba-8118226200b9",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThmNTY3MzM5ZjQ1NmNkNzk4NzVjNmRmMDM3NDI1MjAyMTIyYzhhNDE2YTRkNGU5ODcyMmNiMDFhYTVmODg5OCJ9fX0"
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:white_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWhite Concrete\"}",
+    "uuid": "34216fc8-3ff5-4ad1-acca-33dfabf14602",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA5MjVjNDhiMDU2NjI4NDhlYzlmMDY4NWY4NThkODg5ZDNkYTExYjA3MTc4OGVhYTM2Y2NkOGYxZjMxZGUifX19"
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:orange_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eOrange Concrete\"}",
+    "uuid": "6892190c-2e99-41da-bfdf-6988470044f9",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNmMTNlMjNlYzIzNDY3YWM1ZTZmNjVhODNmMjY4NmViZWNkOTk4NmRmNWY4Y2JjZDZmYWZjNDJlNjYyYjM4In19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:magenta_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMagenta Concrete\"}",
+    "uuid": "73f61243-e8f1-4242-bdfd-0176713e2bca",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjVlZjJkODdmN2MxZGVmNzk1MjNlOTU2NzY3YjgyODRjYTM4OWIyNDI5OWY1ZTQ2NWQ0NTc5ODlkNjJkZjgifX19"
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:light_blue_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLight Blue Concrete\"}",
+    "uuid": "13ca1722-1fa7-4149-a875-fceb72a60adb",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ3N2Y0NDM4OTM2MmM0Yzc2NGM4NDdhOTczOWJjNzhjMzI0NjdlYWI0ZTM4MzBhZTRjOGJlYWMzNDQyZWY5In19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:yellow_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eYellow Concrete\"}",
+    "uuid": "0d739c30-be45-443a-ae12-eee0bc6d48a0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmNhNWJmZjMyNWVkNzFkOTdhMmRkZmM4M2FjZjA1ZmU3ZmQ5Y2I3Y2JkYjE1ZWJiNGYwNTYyMTkwN2U5ZjJiIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:lime_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLime Concrete\"}",
+    "uuid": "edf2b664-29d9-4c7c-8f3e-43842e922df7",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGI1OTljNjE4ZTkxNGMyNWEzN2Q2OWY1NDFhMjJiZWJiZjc1MTYxNTI2Mzc1NmYyNTYxZmFiNGNmYTM5ZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:pink_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePink Concrete\"}",
+    "uuid": "15eae260-1a1d-43d8-8658-ab22477293d6",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjI3NDlkMzdjM2Y5OGQ0NTdiZjU0MDIyYThiNjEzYTQzNTNlZDhkZDJlMTQ5NDI2ZmM0MmRiM2I3ZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:gray_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGray Concrete\"}",
+    "uuid": "2f9a6648-1f06-450f-a1d2-6aa831caef68",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzA2ZDdiZWZjODJmMjAxZjgzZTE5Mzc2N2U2M2Y4MTAzNzIxNWFmZDQ4M2EzOGQzNjk2NTk4MmNhNmQwIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:light_gray_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLight Gray Concrete\"}",
+    "uuid": "d147723e-001d-4a9e-8c3f-8146f8fc8fa9",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmJhMGM0YTBmZGNlOTIzYTkwNDgzMjhkNjY0MTQ3YzViOTI0NDkxZjRlZTVmZWE3MWYzZTllYzMxNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cyan_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCyan Concrete\"}",
+    "uuid": "47479c6e-9df6-4f51-8383-c31c4c588b3f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjMzYjUxZmVmMWQ3ZmRmMTkyNzRiYjc2ZmNlZGVjZWM3YTc3ZDAxMGNiMzRmZTAyOWZiNzk0Y2M1OWFiYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:purple_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePurple Concrete\"}",
+    "uuid": "a2e02d51-1f37-4fa2-bf22-6598e732d4e2",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjBjMDVkNTYwZDhlMTNmMGNiMjVjMTVjODMxYmM1OTU0NTBjNWU1NGNlMzVmYTU0ZTE3ZTA0OTUyNjdjIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:blue_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBlue Concrete\"}",
+    "uuid": "e1200ea1-d047-447f-8dbe-fa30e4d047ad",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdjN2EyOTcxMDNkYjA4NGFmNjI3M2I4Nzk4MDVhZmM4NTc3Y2M4MmM3NTJhYzI2NmNmOGQ3YTZlZWE2MCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:brown_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBrown Concrete\"}",
+    "uuid": "bb9edc3e-e3b0-48a8-ab0f-e6b02438200b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjUzODEyMGY2MThmMmNjZDNiYmRjMThjZDU3ODJlNjM4MmFlOWVlNzJkMDVmNWY4NjI3NmFkYTU0ZWY3ZWQifX19"
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:green_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGreen Concrete\"}",
+    "uuid": "28ae183a-870d-4e71-9cfd-27023e5f2c6c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGZhYjdkYWViOGYzMzNjNzg4NmE3MGVmMzBjYWY0ZGVjNGE4Y2QxMDQ5M2YyMzgwMmYxNTE2YmRkMjNmY2QifX19"
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:red_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRed Concrete\"}",
+    "uuid": "f789364e-7cc4-4b85-b288-d3ded1de99f3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjE4NTZjN2IzNzhkMzUwMjYyMTQzODQzZDFmOWZiYjIxOTExYTcxOTgzYmE3YjM5YTRkNGJhNWI2NmJlZGM2In19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:black_concrete",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBlack Concrete\"}",
+    "uuid": "7790a6ca-e9c7-4465-a041-56cbb47d22ec",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGZjMjM3MmI0NTc1NDJjNjU0ODNhZmExNDQyZTFjMzNhNWZmNzU4ZDM2MmVjZWM0MzQ4Nzk1MTcyODI0ZDg2OSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:obsidian",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eObsidian\"}",
+    "uuid": "d8e1051e-d79a-480d-b6cf-c6eceedac0bf",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODRjMzA4NTVmODliNDkwYzZmZjIzMmRmM2QzZWM3NDMzYWI2MzYxMGE5YTk1N2M4OGE2Y2Q0MzI3YjA2YTQ5ZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBricks\"}",
+    "uuid": "614b4d5c-1d98-46be-95fc-d43daf8cc386",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ2YWJjY2RmZGI1MjMxZjc0NzEwZDc3OGMyMDg0ZjRjOGU0Y2Q2OTEzYTcwZThhNzIxM2FkYjYzOTE5MjUyNyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sandstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSandstone\"}",
+    "uuid": "d4e461c7-2dd9-47c3-892f-efbe9a7b5145",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWJhZTQxMTk4NTdiZDgyYzdlZGVjMDM0ODIwYjc3ZDVhODM2MDBjOWRhZGNiYWI4NWE3MDQzMTM1MTU2MDFhYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:quartz_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eQuartz Block\"}",
+    "uuid": "a3431e02-f2a1-4342-948d-d1181620b1c8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTIxMDY0NTlkMjI0N2I0M2M2MjhkY2Y2YzY4Zjc0YmI3MDY2OTQ4YWRhMTFkMzNhODA0OTUzY2I1YzYwZjY3YyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:purpur_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePurpur Block\"}",
+    "uuid": "a502c737-19a3-425e-9664-14513bbc4f6f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTc0NWViNTM3YTA3YWNiYmE3ZmFiNTAwOTA1MWM0MmI4MmI3ZTg3N2ViODM2ODkxMzFkNDg3NjExOGYzOTMwMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:snow_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSnow Block\"}",
+    "uuid": "b1b51324-5760-47f0-a1ba-1bae05f0b761",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNhOWUxNTM4MjhmNWZlMzJjMWM0ODVhYWUxNWMwYzFmNTE2ZWZlN2Y0NzBmYThjMGMzYjk0MDgxYjU2ZTBhNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:terracotta",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eTerracotta\"}",
+    "uuid": "6fb7f875-9c3c-4188-b8a2-4d71cd0eed74",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmRkMWJkYjk0MWJkNjkyOGZhMDFlM2NkY2E2MzdhZjViNjFmYmNiYWZhZTk2MmQ0MTQzMDQ5MTUzYjA3NThhMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:end_stone_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eEnd Stone Bricks\"}",
+    "uuid": "bb6e29b3-4ca8-4770-8e89-258b0748a161",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjNzRlMDFiOGIzNTI1NjVjNzFiNGZiMjgxMjEwMDhmNjI4NDAxNzUzMmRjZDkxODAyMzM4ODIxZjdkYjQ4ZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:red_mushroom_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRed Mushroom Block\"}",
+    "uuid": "7899ed29-d0f1-4666-be10-f2843bcf03ee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2JhMWEzZDg3NmEwN2EzMDBkYWM1MTUwZWI3MGY0ZGE2NDE4NmM2NzcwZDQwOWMxODViYThjYjA5MDJlOGZhYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sand",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSand\"}",
+    "uuid": "525629fa-6602-4156-883b-18407382c7ec",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTE3OGQ4MWRhZjdlMGRmMjk3YmNiNWJiOTAwOWZiNjYzMjAzZjllMjA3MzYxOTRkZjgzYWFjOGVhOTQwODNiMSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:red_sand",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRed Sand\"}",
+    "uuid": "428107bd-8ccc-4c77-94bd-6e169e87b97e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM5MzA5M2U4ZWU2NGVhZTBlNmNmYTUyZjI5ODhkMGQwNzZhNDI1YzQ0YmZhM2Q0MzQ0MGY3OTMxYzU0ZTU2YiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:gravel",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGravel\"}",
+    "uuid": "37a25b47-c8e0-4db1-9c75-37e4b78e1a88",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2U0YThlNTFlMjg5OTA2OGU4MjNjODE4ZGIxYTBkYjk0NDdkMmYxNmY0YTE1NzhlNWQxNDYxZDcxNDc2NWU2MiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:grass_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGrass Block\"}",
+    "uuid": "fe02ba7c-6fb4-458d-af7d-85a72a7e8163",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc4NDk5Nzc2ZmYyZGFiNzdhNTkzZGI2MDc3YTZmNzY1NDkzMWU1NWZmNTVlNWRhZDJkMjgwN2JiMGUzNzc2OCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dirt",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDirt\"}",
+    "uuid": "ca021f3f-5002-46b2-bf34-9857790901cf",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFiNDNiOGMzZDM0ZjEyNWU1YTNmOGI5MmNkNDNkZmQxNGM2MjQwMmMzMzI5ODQ2MWQ0ZDRkN2NlMmQzYWVhIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:podzol",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePodzol\"}",
+    "uuid": "64686525-08e5-450d-bfad-bf6f3035a1bd",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTA0NmI4YzQzMDY0OTA4M2Y4NjRkNDBkZmFjODViZTBkNGRkYWRiZGRlOTE5ZTM2MjZjYzdmNDE3NGY1NGZlYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:mycelium",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMycelium\"}",
+    "uuid": "5d16c9aa-5b7c-42b1-8a35-784fbf919c88",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNjMDc3ZWQ2ZDk5NjIyMzBkOWQ4NjcwYmFkODc2YzMzOTQxZmM5Y2ZiMTdlNmVkMGE4MDUyN2M2OTE4NTQ3OCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:clay",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eClay\"}",
+    "uuid": "f38978d0-34a1-439a-82f4-a2f0501b3d35",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTkyNGVkYTcyYTA3ZjU2MzI4ZTAzNmYyMzBlNDg4ODE3ZGQ0ZDQ1NjgxOTEzZDJmYzliZjJkMmE1ZjE5NDFhZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:packed_ice",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePacked Ice\"}",
+    "uuid": "9397dad6-f045-40f4-9bb6-07aee97f2f21",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzE1NDIyODZkYTAzYWI3ZWVjYzRlNTYyYzNmOGI4YTFjZjc4MWRhMzA4YjA3OWUzYWMzMzE0NTYxYjljMWQ5OSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:melon",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMelon\"}",
+    "uuid": "9eb7b016-4c17-4b4a-8501-74829369bc5f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjgzZjc4NWJmMGEwMDU0NDcwZDc0YWUyZDEyODUyNTI5NTZmZWUwYWJkMjg0YWZhMzcxNTQwNGVlYzY2ZWVlZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:pumpkin",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePumpkin\"}",
+    "uuid": "098063fd-dbab-457a-a1a6-7a5663b05eb3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjliZTU1MDUzMTg4OGQ2MzI1NzE3Yjc1M2U2MjUyZTM4MDg2NzM2OWRlMDEyMjVmYTQwMmUxYWVlYzZmYWY3OSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:hay_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eHay Bale\"}",
+    "uuid": "d51236a0-4030-4acb-a817-a7cbdfcbf11d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGI1OTZiNzI4NmVlZjJkZjI3NWMwZmIzZjQ5MTY2NGM2ZWZkMzBjYTdkNDY5N2I5OTg0OWEwYTQ2YmRlM2QyNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dark_prismarine",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDark Prismarine\"}",
+    "uuid": "f5fc48aa-6227-46a8-9a25-17e96b2f87c6",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNTI0MWEyMGVkZWEwYTY0ZjY4MmYzOGE2OWQxZGNkZmFhOGQ5Y2M2NjhhNzhiM2I3MmMwODhmZDIyOTFkOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:prismarine_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePrismarine Brick\"}",
+    "uuid": "2da1086c-9507-46d4-9115-2b97a0af710d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWJkYTMyOTNlYzZhMDAzMzJlNjk4NjJjNzJhNGZmN2IxZDRhODBlZTY1YTRlMGU1MTViNTc0MzhiOTYxODcxYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:prismarine",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePrismarine\"}",
+    "uuid": "d12be783-a080-4e7a-9071-0c943a4964cc",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTg2MjJmMzM3MTU1OGRjNGM3NDMxYzMyZTM1ZTc0YmVhZWE2NjA4MmMzZTRjY2NmNzAwNjIzMWY4ZjIzODNhZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sea_lantern",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSea Lantern\"}",
+    "uuid": "ac626445-1c3c-4bd2-a36b-26af8a52eb69",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGY4NTAzZWY3OTEzNWUwZGI0NjE2N2MzMDRhZWM5Zjc4MTQwN2ZmODZiMDkzNDdkN2Y5OGZhMTQ4ZjkzOWIxMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:tube_coral_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eTube Coral\"}",
+    "uuid": "3077bec1-bf2d-46c4-81e7-6998e7e68c78",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzlmYzNjZjU1MDhkNDBjMTQ2OTlkNWJmN2YyNTI3NTllMTk1NmFmOWE2NmQxNWE2YzM4NTQzNzhjNjFmNmQ5YSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:brain_coral_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBrain Coral\"}",
+    "uuid": "9cb47ac8-fc2b-4c5a-b63f-6e5a30ece1f8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU3ZGQ0M2U4ZjFjZDEzNzI2YzBmOTlhYzQwNDcxNTA0N2QxMmViNDJhMjhmZmM2YWU5YmZiM2I3MGQ3NjQwYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:bubble_coral_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBubble Coral\"}",
+    "uuid": "71c7a3a1-40fb-4e94-9f19-a6c2510aa149",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTNmMTgwNWVkY2QzMmI5N2FiMmYxOWEwM2JhYWIxZjhkNGRjNGRiOGVjN2EwMDRiMTRlYjY2NmQwOWZiODdmMiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:fire_coral_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eFire Coral\"}",
+    "uuid": "953a3627-afb7-4733-b261-efcb843d2c5b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWZlOGRlZDNjNzRlYWNkNzg0MTJhOTAzYjkwNGY1NTc3ODUwZDFlMjBkMzQ4NzhmZDc3NTk3YWQxNjMzYmY3NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:horn_coral_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eHorn Coral\"}",
+    "uuid": "96d0b490-8cfc-4f73-8063-130d2d080681",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQ5MWI2ZTZhZTk0NTFjNDdlMDliZjFmZjIzZDUwZmZmODdiYTU5MjdhNTFmNDZmZmVkZjkyNmM1Y2JkZTc3ZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dried_kelp_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDried Kelp Block\"}",
+    "uuid": "cb2b9b36-9f67-4dd9-94d3-8696c40a151c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjgwNWNhZjNkMDJlMzVlNGFhZGMxOWFmMTVlODI3OTAxNzdmMWNkN2I3OWY0ZjViODhkOTQzYWM2YmUyMDNhMSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:nether_wart_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eNether Wart Block\"}",
+    "uuid": "7bcd06a9-786b-4860-a178-1d77e901fba2",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTAwNjIzOTk4YTI4NzA5ZmNmMDUzZmM1Njk2ODcxMTU4NjdlMGM3ZTU5ODlhOTRiNmU0YmY1MWQ4ZWQ3OWI0NiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:magma_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMagma\"}",
+    "uuid": "8a0fb989-0900-4ed2-846b-48d606d94dee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTVkNzEwMjZiODU4OTEyNWQ0Yjk3OWM5NzIxYzkwYjc3NTg0YmQ3YjIwOTQyODJkMGYyZmEzNTMwNjQ0MmFhNSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:red_nether_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRed Nether Bricks\"}",
+    "uuid": "a65a11f6-7929-4689-88c2-71f72938fde4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc3Njk5ZWZkNGI5NzBhMGQxYzY1YWVmYmNiY2U4ZDNiZWJhODhmMWJlYzI5YmZhODY0NTA4OGY2YjI1YmM2MSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:soul_sand",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSoul Sand\"}",
+    "uuid": "f3618688-79ad-4d29-ac77-92022f1aa20e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmQyMTVjMDY5MDI2MDIxMGY5ODFjYTliYjgxZTY0MmIxODgyZWEzYzdiZjgxOTMwYmRhZmZmYjFkYWUxZmM5YSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:nether_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eNether Bricks\"}",
+    "uuid": "f5efbc9f-3766-49cd-86f0-478d5099e7d3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2NlNDZmZTNlNzU4MjYwZTYwMGE4OWMzM2QxM2UxZjYyN2ZkMDYxZDVlMGRkNzhiYWI4ODk5NTUxZTg0YWEwOCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:netherrack",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eNetherrack\"}",
+    "uuid": "0466750d-4870-4430-9587-cdd2e56b710f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWZjNDRmN2Y3NmVkMTI0NzJmNzA1ZTk5YmI1ZDc5YTQ0NjUzNGU5ZGMwNmQyMjhiYjYxOTQxYzNmYjg0OTQ3YiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:glowstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGlowstone\"}",
+    "uuid": "074f30f5-d609-4c65-bf99-8d382b4838ae",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzQ2ZDM0OTU4Zjg3MDQxYjVlNGFmNjQxMjM4NjAwYTI3N2YwNjRmZjIyZGMxM2Y2YWY5YjZiZTU1NDdkZDc5MCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:coal_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCoal Ore\"}",
+    "uuid": "992b0e52-aeb5-4990-b7d9-a29b02953230",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTVkZTZkYTBjMzNkODAyNjFjNzhhZmJlMjY0Mjc5M2M2YTM4NTJkODdjZjY1ZDVhMjU5Njg1OGMwYjViY2EwNiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:iron_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eIron Ore\"}",
+    "uuid": "ed1dc5ca-c615-4620-892b-59de9dc6295a",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWQwNDA5ZmZiMGZmMTBlNTliNzIwY2U0MThhNDQ5NWM5MjI3YzdlNzQ1YTFiNTVmMzZjNzYwODliMDNmZTA0NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:gold_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGold Ore\"}",
+    "uuid": "67f81ad1-3941-4e1f-938a-d4e913a8eab2",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzY4OTY5NGM5NzlkMWM0YmM0NDMzZjdkMzM0ZGQzNzM3NjQ0NGQxZmM0MzY2MmFkODdjZDM5ODRlOWI5MTNiYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:lapis_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLapis Lazuli Ore\"}",
+    "uuid": "8c03a14e-63bb-48f5-a692-70df5bde6362",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI4ZDkxMzE4NWU1YTM2NWI5NWE4NThkMmU2Yzk5NDE5ODU2NjM5ZDAzNWRjYmY3N2NkNDQwNDU2MGEyNTM4NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:diamond_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDiamond Ore\"}",
+    "uuid": "426793cb-dd86-4792-a334-3751ee15d43e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmZiZjBhYzMxNDFkNWI2MzJjYmNkMzY1OWViODE1MmIyOWQ1ZmEwZDA5ZTRiMDhkYmU4MTNhYzg0MWU0MzQ4YiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:redstone_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRedstone Ore\"}",
+    "uuid": "81516014-6f44-48b1-a6b5-fd7333fa24b3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzk4MmI0MWNlMmViOWZlYjM1MTZlZWY3NTMzNjk0YWQ2YWE2YzE4NTA5MDFiYjU5NDkzOTkwOWQ3MzNiZjJkYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:emerald_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eEmerald Ore\"}",
+    "uuid": "e7a903a2-e581-44e0-a78a-7062da42352d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmI0NTQ4MmE4Y2FlNjk0NmViZTUxMTUxNjc3MGQxMDE4MjA0ZmRjNDgyYmY3OTQyYjQxNzUyNjYxMWExYzBiNSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:nether_quartz_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eNether Quartz Ore\"}",
+    "uuid": "3cf77353-b936-433c-a2b1-c1dacf84a5b4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGVhYzNhZmJhNjdhNWJhMTZhOTgzMTM3NDJhODJiMmJkODRkOTFhYzMyYTAyZWE4N2YxNWIxNDZjNzkwZTQ4YiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:lapis_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLapis Lazuli Block\"}",
+    "uuid": "0f8bdb5d-ae8e-4b31-b7b1-91c3d5ce4d71",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBmOTcyYWU1ZDc4ZjVlMzA1ZGZiZWQ1NmM2NWI0YTNmYmFkZTZiM2E3NzkwYzdlYTUwZjI0NDM2MjZhYWI3OCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:gold_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGold Block\"}",
+    "uuid": "fdea850d-ae8b-4e10-8b03-6883494ae266",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmRjZjVmNzhiZjFkOWFkZTEyNmIyYzdmNmI0OTgwZGNmZTg5YjRlNjVjZDUzMmZjNjVhZDhiNzU3MjUzMGM1YiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:iron_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eIron Block\"}",
+    "uuid": "bfa1f9ae-e235-45cb-b456-5edcc87c114f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFhYjdkNjA4YmZkZGFjNWQ4ZTJjYWYzNzA0OWY2MmY4NDNmZmE5ZjA3NmMyNTJjMWRjMGE0NGVlNDZkMzIwNiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:diamond_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDiamond Block\"}",
+    "uuid": "3d351ecc-23dd-409e-80c9-3fbf0bfd6ebc",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2IxNWRiNDkzMzI1ZGNjZTI5MDhiZTkzMjMxNjY0MTA1YWRjYmZhOGNjMDM5NTc5NjYzMzgxNWVhMTU2ZmVmYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:emerald_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eEmerald Block\"}",
+    "uuid": "7c10ae35-bc55-465c-a0fc-b2415e900c79",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWFiOGZhNzY1NTU1MTVlMmRjYmUzODMzNmM2OTE4NDFhOWMyM2Q5OWM4OGY2NWQ5NmY0NDQ3Nzc1YmNjMTZlYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:coal_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCoal Block\"}",
+    "uuid": "7895e1f6-323b-4b97-b90b-241953291780",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzY4MjQ4NGNlNmMwYTgxMjE1MDMxZjk2YTcxNDliZWRlOThjOWQyMTVkMTZlYzhkZjAxZGFkZmYzZDA5NWRiNSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:redstone_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRedstone Block\"}",
+    "uuid": "51f4609e-467a-4968-875b-8dc14ab10996",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTRiMjUwYzMwNDZmZGNhYWJlYjJmYzI4MjU2YTBmMjEzYTljYzYwNDhkN2ZjNzQwMDU4ZGYzMzgzMmJjZjE2YSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dispenser",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDispenser\"}",
+    "uuid": "e4678881-0b4e-4656-8d01-428cae34137a",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDkzMzBkZGU0Zjk0MjRiNTBmMzZkNjJjODQzZWZlYWNiY2NmNWRhM2I5Y2UwNGFiZjE0ZTE3NWE5YzRmZGZmYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dropper",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDropper\"}",
+    "uuid": "a47ed5e5-e912-41d9-949c-8eeef91950c8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjNmM2UwM2YwNGU2ZmRmYzAwZDkxZWM4OTQyMmU5NDgzY2FhNjdmYzAyMGZjYWNjOTEwMzQyZGJlOWNjODBiYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:observer",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eObserver\"}",
+    "uuid": "a97103ed-2ffa-4f8d-b3f7-290be78c109b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmE5YzkzYTJhMzY0NDU2OTA4NDEwN2I3YjRkODAyNjE0NDk4ODRkOWZiYzM0YWRiZDg4YzYzNDIwNDUyMDJiMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:redstone_lamp",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eUnlit Redstone Lamp\"}",
+    "uuid": "a045d16e-dbbc-4a2b-9a50-aea2accbc970",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAwZTg1ODU1YTY1OTVkODg5ZWYyNDYzOTZlMWQwNmIyYjg0MzFlMTAyZDcxYmViY2I1YzU5NTIzNzFiNzdiMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sticky_piston",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSticky Piston\"}",
+    "uuid": "0d5aba27-b0dc-40bf-83ed-cbd448e3e28c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWE2ZmVlNWI2MWVmYzYzYjliNDRmYzMyMjA2N2ZiNjIwZGQ1ZWE5YTdmYjJmODVhMGFhZGVjODAzOGJjMTM3NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:piston",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePiston\"}",
+    "uuid": "71c2cc25-47db-46f5-9ddc-695ed79b8713",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY2OTFkZTlmNTZiMzllNjhlODdmZGFhMTI4YzdjZTcxM2ZkMDA2NGM1Nzg2ODdiNjc5ZWU2YTg0Mzc1MDJlZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:tnt",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eTNT\"}",
+    "uuid": "a93d9d88-194a-4a14-b73b-791e6b7eaf70",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjA4OWY3OWUxZjc0ZTM3MGRjM2U2MWJhYWIyNmVlNzkzNWEyYTM4MTM4MGE0ZjJlOWRlMGY1YjBhNTI2ZTBhOCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:stone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eStone\"}",
+    "uuid": "5ddd3c1d-99ca-420e-8986-a2187e02daa4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MwOTMwYTFiZWMyNDg3ZjZhNmNiOTY0ZDczMTNmYjBhYmQwNDU5OWQ3NmZmNjUxOGQ5NzdlODNkNDYxMzg0OCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_granite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Granite\"}",
+    "uuid": "35e5aaca-99d4-41c8-8a09-25a9f36e6710",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDY4MTUxZjIxMzc2MGVlYWMwNWZiODYzZmU5ODVjMmMzNzM4OGM5MDVjODMxZDgwNWJjODA1ODkwY2Y4ZTllMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_diorite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Diorite\"}",
+    "uuid": "d950d18e-a3b6-48ce-97e5-00fef277ea9f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYyZWNhOTgyNzg2NmJhMTA1NWY1NjYzYmYyMDU0NzMxMDdjNzkwYjcyNGVkYTIxZjVkMTc0ODVmMGZjZWVlYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_andesite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Andesite\"}",
+    "uuid": "9bbb161b-b46f-4582-8ca6-d736606dc019",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGM3MzVlMjg5MzE5MWRlYzBmN2UxYzkwNDE3YmY4ZmRmODg5N2U4M2FkMDMzYmFiNGQzNDUzNWI3NTA2NzM2ZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:granite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGranite\"}",
+    "uuid": "e26d2b6c-c6ed-408c-bb98-b915920d20ba",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQ4MzhiMmQwNDg0NzAwMTU1MmU0YmYyZTUzNzMzZWNlNzBmNTU1YzZmNGM2NmYxNzRjYzMxMWYzMDkxYzMyOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:diorite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDiorite\"}",
+    "uuid": "b5929fcf-c955-4052-9535-83df5e3a8cb8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTVjMWVmMmQ0NDY1NzE1MDZiNTlmOTI5MTAzZDE5NTZmYzMxNTJmZDlkNDAwMjAyNmJjZTViMDI4YzkxN2ZlZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:andesite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eAndesite\"}",
+    "uuid": "a1ec9574-4ecb-4cdf-a2f5-74d113663fba",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM1ZTE2Yzc2MWUwYWFhMmRkNTI4OWU0M2Y1MmNjNDcxNTY3Y2Q4ZjhjOGE0NzVhNGIyOTBhZWU4Y2ZhNDUzOCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cobblestone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCobblestone\"}",
+    "uuid": "28ed1b64-897f-439b-82e4-b7c4c75e32a0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzNkNTFmNGQwNjA5OGJiMWY0Y2VmZjYxOWM2ZGRjYTk3NmZjNzBlOWY4ODcxZWJlZTRlZWY2NTgwY2Y3NmIwZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:mossy_cobblestone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMossy Cobblestone\"}",
+    "uuid": "32289766-a220-44e6-9076-1283a6c53528",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTFiNzcyOTFlMTU3MWZkMjdkZWNhMWM3NzJlZjRmOTE3ZjU5YTlkNTllZjcwMjYxOTBmMTY2NzM1MDdmMmVlNyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:stone_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eStone Bricks\"}",
+    "uuid": "53b7f381-1550-4029-a1c8-421fec036e58",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjlhMzEyNjIzZTFhOGFhNzVmZDczZmIyNWNhNjIwOTY0MmJjNWEyYzBlYTMwYjNiZTA2MmVjNGM4YzQzMjNmZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:chiseled_stone_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eChiseled Stone Bricks\"}",
+    "uuid": "a8a3b1af-edb5-44a6-b84f-18dae386b423",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBlYzk0MDZhYzA4NWNkOTU3OGRlYWIzMGNkNzQ2NzA0NmVmYzQyZjU4MjEyZmI4Mjg0MzllZTg4NWYxYmUxMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:smooth_stone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSmooth Stone\"}",
+    "uuid": "41139901-1834-4a65-8474-6be4e276511e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTU2MjQ2OTc1YmU4MTYxNmE1OWJjZTViNGU5MmJiNjE1ZDA3MjhjZmU0MWJlNmNmYjVmZmRjZGU1NzkyY2IwOCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:oak_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eOak Planks\"}",
+    "uuid": "25c0d85f-f21d-43a7-a882-f4a0219ab712",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzgxOTJhMWFkZDRhMTExMjRhZDFlOWI2M2ZhN2Q5NzViNTUwMGJmZjEyNzQyNGU3NWJmMjliMjlmNmFmYjI2NSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:spruce_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSpruce Planks\"}",
+    "uuid": "dc0540a2-e511-4e0c-b513-3020b20e8a70",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VhM2FhZjE5NDQ4MmEzOTc1YTE4ZDFlZWNlMjNjMGIzZWEwZjI1ODcwN2ZhZDc1YzVjYWE3NDUzMjA4OGRiIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:birch_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBirch Planks\"}",
+    "uuid": "3e6c5dae-e682-44a9-8709-3e1b42309603",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNjODg4NzczZTlkMTFjYzhhYjE0ZmM4OGUwY2ZmOTRjY2IxNmM4OWE1OGZlYzE4MWUyMmYwZmIxOTRiYjlmZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:jungle_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eJungle Planks\"}",
+    "uuid": "b54304fa-5a01-4453-9903-4d4b5806b4e0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjM3OTdmNWFhZTllZTkwNmViNTA2NmU3NDE2N2FjMGI2MGQ4NTc2ZjBkNGIyM2I0MTI0NDdmZDBmMjkwYmMwNyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dark_oak_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDark Oak Planks\"}",
+    "uuid": "501e0826-366f-4caf-b866-f6273a853d61",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODljYTc5OGZlM2U0MDIzOTcxYjc4NmE2NGE3MmJkOThhMTVmZjc1YTdmODExN2I1NjAxMDNlMjM0ZGUwNTJhYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:acacia_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eAcacia Planks\"}",
+    "uuid": "5dd2a8f9-ade7-4278-9e92-547ad30299fe",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNjk2NmY0ZjNkYWU2NTI0ODYxZTZjYzU2MzE3NDk5MDcwMWJlYWUyNjI3NzEyNzE4YzUxMGYzMzNjNmM4MyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:oak_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eOak Log\"}",
+    "uuid": "1f77726e-867b-4a66-8015-1ed701753de0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWEzY2ExNzdkMjE2OTMxM2YxNjU5NjQzOWRjZDYwZWJiNDgxM2IzNzhiMTdmZmIxNzUzNTQzNzBkNTEwZmIwZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:spruce_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSpruce Log\"}",
+    "uuid": "a23b59b3-78c6-4726-98aa-c0c524d4b8ee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTczMTM3YzQ3ZWUxODllOWZkZDgxZWRhNDhjMTEyNjk0MGEwZTVkNmQ5Y2E0YzU5ZGQzYjgwY2NkOTI3YWRmOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:birch_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBirch Log\"}",
+    "uuid": "1521f126-bbaf-4d15-9dfe-aeb504e9657a",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM0MDExOTliNzgzMzAwY2JkOWNiMWNlYWNmYTVlMjkzZmU3NTc1Nzc2MTg4Y2Q1YWE2Y2E4YmZmYjhlMmY1NyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:jungle_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eJungle Log\"}",
+    "uuid": "4ecb2216-eeff-4368-abee-758e9d922351",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjAwMjlhNTJmOTQ1YjNlYWFjNzJlOWQzZDk5N2MxYTBiNTBlZmY5NTQ0NDE2YWIyYzNjNGU0YmIzOTc3ZjViZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dark_oak_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDark Oak Log\"}",
+    "uuid": "520b712c-73e5-4f6e-8b4c-4f80d3426d42",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGIyZDUzNjA4NjM0OGZkZmMwODExZjljNmY2ZWMxYzBhN2Q2MDUwNzYxZjU5MjFiMmE3YTVkM2EwMDU5ZWMwMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:acacia_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eAcacia Log\"}",
+    "uuid": "b3fe164a-aa9b-4b69-b507-43b5b3104bc1",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3ZTljNzRhYjc3YzAwOTE1NGE5YzczNzg0NmI1MjUxMDliOGMzMTdhNzE2Y2FlZGVjOTI3MDJhZmQwZGU2NSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:crimson_nylium",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCrimson Nylium\"}",
+    "uuid": "2eb4804a-210b-44d2-8eae-4bf1ecdbf4d2",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMThmMGI4ODQ2YmIyMmMyZGU2ODQ5NDgzYWU1MThmYWZiYmU0NDZhNzM1YTNlODgwNmUwMmYxYTQ3ZmMxNGQ3MCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:warped_nylium",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWarped Nylium\"}",
+    "uuid": "a8ebdecf-c898-4c44-9d7f-7df23f8c84aa",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmUzZTFiZDJhMWJiMmRkNzczYmNmMTExMWMxNDZlMTAwNDMwNmFiOTk1ZDUxMDA5ZTY3ZDNhNWMyMTZmMjJlMSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:redstone_lamp",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLit Redstone Lamp\"}",
+    "uuid": "5ce284ba-5bd6-468b-bac7-315875c2dd7d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjcyZGM1ZDJjYzM0NTcxYWRhODA1ZjllZmFlOWY4YzVjZjA4MTU5ZjNhY2MwOGMwMDY1MjY5NDIxYjVjYjM4YyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:crimson_stem",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCrimson Stem\"}",
+    "uuid": "433146be-c80d-43dc-bdc7-3e8273aa759d",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRmOWE0ZDhhMDQ1NDRjYjIyOTdiZTE2MDM0MGFlZTlkMjE1MTk0NGY4OGE0NTQzZjdkYzhiZTlhN2IwN2Q1NiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:warped_stem",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWarped Stem\"}",
+    "uuid": "71e849e1-274d-4913-8ea7-6648e14f7d7f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTIyODE3ZWU1MmI3NWRlODEwM2Y1YWYyN2E3NWJiY2ZmODdhNDUzZWNlNTkzNTBmYjQxOTZmYWFiZmI2YjJiYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:crimson_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCrimson Planks\"}",
+    "uuid": "a70a9613-f8a3-4d2a-86d7-37aade7cd922",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjlhYWIyZTE3NWE3ZTc3ZTM2NTVmNzY5MmQxYzY1MTczMTZiYTM3ODNiNWQ1ZmM1OWIzNDk1NGZmNmJhNjY1MyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:warped_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWarped Planks\"}",
+    "uuid": "e71efac8-3524-4b94-9719-87ecfa1c1f35",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQzYzNjZWJlMDZlMGRkZDljYzRhOTBlYzQ1Y2FjZGVjM2QxODU1ZGFmYzliODVhNTIzNDI3MGYwNmZmNzY0MyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:netherite_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eNetherite Block\"}",
+    "uuid": "cdef02a1-1b17-4663-b4ac-1e9399f7c4b9",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAxMWNkMmNmMWUzMmFlMTMxZDhlNTQyNDAzYmVhMDNjNDgyZmEzOTVhNzI3YTM3MDc2OTA0NzYyODQwMjkyZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:ancient_debris",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eAncient Debris\"}",
+    "uuid": "6d0326e2-fde7-4051-aab6-d120e38dea57",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTcxMTRmNWQzOTAxODhkZjA0NzdjZGY5YWVjZjViYzgxNDE2Y2U1ZTVjNTljZmNhYzU4MWE0M2YzOTAyYzFlIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:nether_gold_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eNether Gold Ore\"}",
+    "uuid": "b19f46b6-08eb-4168-87ce-53f68eadd779",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjEzMjc5YTE5YjY1ODI5YWM3NDU5OGE3NjQ3OTgyNTQ5ZjdhMWUxMGIzNTRmMzk1ZTIzYjBlOGMzMGRmMjhlZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:blackstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBlackstone\"}",
+    "uuid": "376210c2-e553-497f-b512-4ba4b36f6582",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTkwNzQ1NzVkMDcwMTRlOTI4OTcyMTBmNTI3OTViYThhYzRhNTVhYjU5ZWYzNDhlMTFlOGRhMDMwMTJkNjc0NyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_blackstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Blackstone\"}",
+    "uuid": "7d039453-890e-4dba-b320-5185b1d5bc8f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWJiY2FhNDExN2UzNTA0NTI1OTNkMjA5MjcxMzM4NWMwYTQxM2NiNjJiYjljNDMyYTk3OWRiYTRlYjJkM2JjMiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_blackstone_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Blackstone Bricks\"}",
+    "uuid": "642ef455-478b-41b2-9eb6-91a6d33372fd",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzk3NzUwYTI4NGZmNDAzOGNiMDM1ZjFkNmRiMDQ5M2ZmNTM5YzhhOTNhZTNjZGE2MTg2ZGYwYmU2MTYyYzMwNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:chiseled_polished_blackstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eChiseled Polished Blackstone\"}",
+    "uuid": "9a63c5b2-2a6f-4302-9f6d-43e543090355",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmJlODJmMGZlZDY5NTc4ZDI1ZjE1M2ZmMTVhYTBmNGRkNTdhZDY5ZGI2ZGNkNzdhYThkZmFmZTA1NmI2ZGNiNiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:gilded_blackstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eGilded Blackstone\"}",
+    "uuid": "58ac8630-1b9c-4b99-aed2-d558a4969485",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmJiZWQyZmM2MzIxZWM0MTA4MzE2ZjE4NjJjYmYyY2Q4MWYzODlmMjU4N2IxZjUzNjAyNTEzYjdhN2NhNTRhIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:shroomlight",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eShroomlight\"}",
+    "uuid": "3b0642f5-6c6e-42ee-ad99-e93b872b3441",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTQ2OTk3ZmQ5M2I1ZWJlNzFmYWUwMWQzZjNmOTc2MGMyMjM4N2FmNjBkN2VkNWRiZDE1YmI2Y2U0MDRjODA5YyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:chiseled_nether_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eChiseled Nether Bricks\"}",
+    "uuid": "a0fa52f1-31a3-4664-aa6f-f601a6640ff3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMxODBjYjA4MmQ5MTBjNjIwOGQ0M2FjNjE5ZmNiMGI2NTRhYjZmNzBmZDgxYzM1OTkxZmNhMjFhYWI5MDhjMSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:basalt",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBasalt\"}",
+    "uuid": "ebcf9e05-bbc3-41c3-8cf0-b70b41307782",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzEwNDliZmJhNGY3ZWE5MzA1MWNhMTA5NWExMjNlMjNmYWRiNGFiYjJiZDU3YmVmOGI1Mzc4YTY2OTZiOGM5NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_basalt",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Basalt\"}",
+    "uuid": "efeda10a-ac23-48d2-9e8b-3ed647cc26bd",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWVkNTYxMDVkMDY3OGFlNDBiNjZjNDQzMTE3ZTgwYTgxY2UyYzgyNTUzMzY2YWRjOGQ0NDc2ZmRjNWYxODFjOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:warped_wart_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWarped Wart Block\"}",
+    "uuid": "4b917915-9b77-470c-b555-561006591ced",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U3ZTFlMGFkMWZmOGJlM2MxN2Q2MWUxNmQ5NGI2YjJiY2U3ODAyMmQ4OGRlMmFhNmM2NjliYmE1ZjVlYzA0NyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:crying_obsidian",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCrying Obsidian\"}",
+    "uuid": "ec52d95e-ccac-435b-ae72-023406a756b5",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmRmODJiZGM4YTRmN2QwMjZiMGM0ZjE3ZDA2YjhiZjVkYzUyNmEyNTQzODk4NjYyOTFlN2I2YjQ0ZjkwYjBlIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:target",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eTarget\"}",
+    "uuid": "f1f49fc6-1a44-49ab-bc5c-f8948ead1058",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDIwZTE3ZWJjYjFiMTgzNzg2ZGRlMjUwNDViODMyYjIzOGY3NWEzNzRhYWNlMGM1YTRmNjllOTQyNWVkODllNyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:slime_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSlime Block\"}",
+    "uuid": "70ffdd0a-765d-4060-9afe-2d6dcb1a809e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNiZmM0ZjAxYTgyMDYwZTgwODdhMzE0YTlmY2I1ZmZjMWVhYzlhYzFkMzA0ZGEzYzhiMGQ2NmFkNzE1YzViMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:honey_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eHoney Block\"}",
+    "uuid": "481c7ee9-3fe4-4ec2-8685-22c4f7a2457e",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNThkYTg2NWFhODNiNjAwNDM4MGMxZWRhOGNjZTNkZDEyZWRhMzZkNzFmZDhkNWZlYzliMThmMDE1OWRkY2M3NiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sponge",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSponge\"}",
+    "uuid": "24147bd9-ad3b-4f23-85a4-419dd3dcf6ac",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWNkMWNmMWZiNTVkNTA1NTgzMjQ1NWFkZThmYTdiMGE2OGY0NDUzNDIzOTlhMjdkZjE1MTllNjZmMmE3NGFiMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:white_wool",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWool\"}",
+    "uuid": "b728529e-037a-4ea3-b754-0bc63e16c5cf",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODMxYTg3MDE0OTNjMDQ2MjdiMWYwYzQ5OWY0YWE3MGUyMjg2NzI5ODJlMTRmMTM1Y2NmMmU4ZjYzZDEyYTYxYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:end_stone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eEnd Stone\"}",
+    "uuid": "d92ad241-5e47-441b-809d-1a7d0f5f2d77",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2YjZiMzJlOWZlOGY3Y2I3OTBkNDJlZGYzZGY2OWQ0NzFkYzZiOWI2MTZiMTU3MGVjOGJjMWJmZmExNDMyYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:red_sandstone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRed Sandstone\"}",
+    "uuid": "4caca84e-23d0-497e-afa0-d61c63dbe702",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmFmZTdiNjg4ZmU0NTU4YzI0M2VlOTVlMDdjMmVlYzYwNjA2MTI5NzFhMzk1NDJmY2Y3N2ZlMzJhMmZkZWE4YyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:bone_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBone Block\"}",
+    "uuid": "bd12dfc8-c0fa-444a-b656-a7617d33fa39",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y0YjllZDFiMzRmYzQ3MzJmNjIyYmVkZWMwYzY0Y2UyZjJhNzkwZDdmNjNkNTkyZTU1N2RiNjAyZmY2OWIwYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:barrel",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBarrel\"}",
+    "uuid": "f6598813-9fb7-4a99-b95d-6354f3d1fdf5",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGVjZDIyYzRiYjYxM2JkN2Y2OWNiMDIzMWExMzBiYjEwMzViNmIwZDQ2ZDY3MmMwN2U4ZTJhMDM1ZmUwMmU3MCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:loom",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLoom\"}",
+    "uuid": "037fb129-b68c-4c31-9e22-cc0c2f8a9d46",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZjMDE0NDhkNjQ3N2UxZjdhM2QyMDdmMjM1MGEwNjZkZmE5NTA5MGQzNDBkNDUxNTUzY2UwNWU3MDBiYjczMSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:smoker",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSmoker\"}",
+    "uuid": "e583eaec-e5f2-40a8-9d8f-3d7cb4cb2dc8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTgzMWNlODIyN2JiYzdiNzVjMzY4OTQ2NmNlYzRkYWY1ZGEyZDljNTNiYjgzZDExN2E5YmE4OTBkYWVhZjQwNiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:blast_furnace",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBlast Furnace\"}",
+    "uuid": "48a49c9b-efb2-43aa-af06-da14183c171c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjBmNGQzNjAxYjI0ZDZiMzcxYmI5N2EzZjQyNzc5ODQwYTEyOTQ4N2EzMDRkYWI2MjM0NjlkY2EwMjg3Y2FmNSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:fletching_table",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eFletching Table\"}",
+    "uuid": "606209da-b281-4063-9fbe-2a6fc649b9e0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBiNzhlMDk2MTIzNmM4ZGE3N2QyOGZhOWExYzZmMDM5OGViYjI4ZWJmZDdhMTc4M2ViMmI2YzhjNDE2MDM0NiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cartography_table",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCartography Table\"}",
+    "uuid": "9090dcb1-2fa2-4586-960b-23b537b009c4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWNiOTdjNjgyMzZjNjM1MjM2MmYzZWI5MTk0YWI1NDJmMTg3MjBhMzRlOGQwOWRhYTE2OGEwNWVmNjUwMTMwZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:smithing_table",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSmithing Table\"}",
+    "uuid": "bc389954-7f6c-4b40-b009-11086dfb028c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUyNzlmMDVkYjgzNjAyMTg1OTU5MGE1YjVmNDM0OWE2MGFkZjAyYmMxZDMwOWRhODQwZDllYmJlZjhmMGUyYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:bee_nest",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBee Nest\"}",
+    "uuid": "5b4947ad-3a8e-4837-b21f-0744295dfe43",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDZmMjAwMDZlZWI0NTcyZWZlMTljM2YxNjcyMjY5MGY3MzVkYTlmZWE0Y2ZjOTQxZWI0YzNlZDU3NDNmMTkwNiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:beehive",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBeehive\"}",
+    "uuid": "84cd5480-7aac-4f61-b01b-fe8965a17f55",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNlMGQzY2E1YzExMzY3MjRiNzg3ODdlMGE1NDc3NTNkYzhlOTk2OTY1MWU3YzZlZTNkZmU0MmI3OGZiMThjZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:honeycomb_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eHoneycomb Block\"}",
+    "uuid": "069c0ec6-6fac-4996-9162-77bd1a7db05b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODNlZmNmMjMxNGFmZjdmZjVkNmRkOWFjNTRkNDI3N2RkNjA5ODcwNmY5NWYxZjM0ODBmNGVjMTYyZDg3MDU3ZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:lodestone",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eLodestone\"}",
+    "uuid": "0407f65c-ce32-46b1-96e1-7d33a48371ba",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzOTUxZmQ4N2M2OGNmOGNhNDdkMThkYWVjYTVhZDNhZDgwNGIyNTE3NmYyYjRlZjQ4YmZjOTY4NmFiODA2NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:respawn_anchor",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRespawn Anchor\"}",
+    "uuid": "c4b9eeca-8480-42a7-a3a9-c435465adbee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFjZDQ3MzQ5NjQyNjQxM2VlYmI2NTIzZGVlNGEyZmMxN2MxOTJhYTMwMWQyMzQwNjcyY2FiYTI0OWMzZTRmNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cut_copper",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCut Copper\"}",
+    "uuid": "74558134-57c6-40ba-bd95-d9428d38cf71",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMxYzU3ODM3YjhjMzdlY2RiM2RkZDlmM2E4ZGMzOTVhNzEyYzI1N2ZhZjE3N2Q3ZmU4ZDNmNDRlZjQ3NTkzMSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:exposed_cut_copper",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eExposed Cut Copper\"}",
+    "uuid": "4e0972cd-8822-4109-ba71-0f1860b71688",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTY0YmQ2ZTc4MWFhMTU1NmNjZGZmMzIyYzE5NmM5Nzk5MWVhOTUyODI4NDhiZTkwOGYxYThkZGNhOTJjYmViMiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:weathered_cut_copper",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eWeathered Cut Copper\"}",
+    "uuid": "48eba599-d702-4350-bc5b-8b9b0942419f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZhOGZjNDM3MThhZTgxZDU4M2M2NGIyOTA0ZmE1ZmMwMzBiMWJkYmVjMmFmNjYwNTA5OWRmMmZkMmYwMGE2MSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:oxidized_cut_copper",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eOxidized Cut Copper\"}",
+    "uuid": "429ed044-9c2a-4719-baf7-bfd8e234f854",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjQ1YTk2ZTZlMGJkMGIxZjRkZDY0MjdiNTVjMmE2MGM5MDUzZmUwMGE2ODI5NTc1MWZkY2E3OThlMGVhZGU0MiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate\"}",
+    "uuid": "50539ecd-bc78-4917-a568-4644e6e5d8d5",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjJkNzE0NGRjZjFlNzg0OTU2ZWUxMmZiMjljNjEzODJlZWEyNzJhNzYyMWI1MDY2MjM5N2JjMDc0NTE1ZDk4MiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cobbled_deepslate",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCobbled Deepslate\"}",
+    "uuid": "ab293f7d-ac58-4c56-ae44-c3ec346bdec4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAxMDFkMDEzNzk3MTJhYTZiMWE5ODg5ZmE2NmU0ZDA1OTE2MWUyZTM1ZDk1YThlYTQ4MzQ3ZDY4N2QwODYzOCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:calcite",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCalcite\"}",
+    "uuid": "7bd7e596-33cb-466a-bfc8-87610df94d71",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDlhYjZlN2IwYzcyNjQ1Y2RiNGEwOWE0Mjk2MDAzZGYyNGM2Y2ZhMWQ4ZDAxMzNiYzhhZTIxMWU5NDg4MDdjMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_lapis_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Lapis Lazuli Ore\"}",
+    "uuid": "4846aa3d-a5f7-460f-9515-e11da8e742c2",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTU1ZWZjOWMzNzlhYzMzYWVjOTA1MWU4OTk5ZTdmNDgzNzE1NTEwYjM3NGYyYmUyY2QzNTc4MjFmZjg0MDYzMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:dripstone_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDripstone Block\"}",
+    "uuid": "2aa6f4ed-c9f6-4c17-9fe3-b5cc4f498977",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI1Yjk4NTRkMmU0OGVkZTdhMjY4ZjAwMWY2YTEzMjZjOTdlYTU2MmNjYzA1MmQyOWZkOTE4OTVlNThkZWUzMCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:tuff",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eTuff\"}",
+    "uuid": "ba458c5a-158c-435e-a98e-10ea12d0d79b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZkNzQ4M2Q5ZTY5Yjc5Nzg5NTg4NjllMjI2OGU1OTE5NDAxYzY3NTJlM2Y2MmYxYWNmYzNjYTlkYmY0MjllYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:azalea_leaves",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eAzalea Leaves\"}",
+    "uuid": "dcb4a09b-bb9f-46f5-82d8-d349b34877df",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGRhNjI1ZGNmYmZiODc1NTZmZTk0NjI3MWQ4YWIwMWFhZjAyYmE2ODFmNTY3MzcyZDA1NjI4NmI3YTAyYmIxZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:flowering_azalea_leaves",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eFlowering Azalea Leaves\"}",
+    "uuid": "15c569a9-61c2-4e35-b1b0-e05587989c21",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDc5ZDQ3ZjMxMDk0ZTYyNGU5YmQ3ZTIzZTY2ZDQ1ZjQ0ZDAzMzc5MWE1ZmFjNDJhODQ1ODQxYTM4NjI5NDYwMiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:raw_copper_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRaw Copper Block\"}",
+    "uuid": "28e840d4-7095-4a0b-89e4-6b9287707472",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmNWE3Y2NhMmY0MDk5MzhkMGRiOTJkYTQ3NDk2YjM2MjA0YmI4NTgyY2VkNjVkNWZiOGQzY2Q5MjFjMDhhZSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:raw_gold_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRaw Gold Block\"}",
+    "uuid": "129ad4f0-0f29-41ff-9a18-be25c0b17bca",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGRhYzc0YzVlOTVkMDdlYmM5MGYxYzE2Y2Q5NTk5ZWJiYzk0YWExMzIxZDljYjliYjE0MzRjMzg0YTdlMjc0ZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:raw_iron_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eRaw Iron Block\"}",
+    "uuid": "52b0b7bc-1827-4aa1-a245-dee0844f11c6",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjVmYzA2YjBkY2M1ZGIwN2E4NTNhZmJlM2Q2OWNkNzcwM2UxMGQ3NTg0ZGE3OTlmZDI4MTlhZDU3YWJjNGRmZiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:amethyst_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eAmethyst Block\"}",
+    "uuid": "b6cfd167-446b-42fc-b1df-54e1f5655e1c",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzYjc3ZjVhNzQ2YzFmMDBkZDFjZTdmZTY2OTc2Yzc1Y2VjZjdkODliZGIwMmU4Y2Y5NDM2NjcyYWY1ODk2ZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:polished_deepslate",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePolished Deepslate\"}",
+    "uuid": "4477d8fd-e451-4b3d-9e35-1d83cffd806b",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjFkMDIyNTY2OTNjYWYwODFlNGM1ZmMzMDQ5MTc5YmZkNTVjMWU3NmFmYWI5ZTExMjZiYmQ3NjQzZWRjZThkYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_coal_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Coal Ore\"}",
+    "uuid": "d22d6093-9e15-49e4-8f26-9ece7b67b338",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE5NjBkM2RlZGJjNmRlMTA5N2I3Y2MyZDgzNzcyOGJkOTQzZTdjZmI5MGQxMWM0OTQzNjc5NmZiZDlkZDBjYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_copper_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Copper Ore\"}",
+    "uuid": "7e05b310-70d4-4fd3-b8f6-93e80bacdede",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ2MWViZmYzZWZiMTk1NzIxYzRjNjQzZjEzNDFkMjg1NzMwMmYwZWYzY2U1MzdkZTA3MjI3ZWU5MzQ3NzYwNyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_diamond_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Diamond Ore\"}",
+    "uuid": "73f83693-34f3-4378-860c-d923cfd8efaa",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmYxMjFlNTE4YTRmZmFkNzQ5NDAwNzQ2NDJkNmRiOWE0OGRjMmFhOWJlYzJiNjYyNTQ0NjgyZDhlODUxZDJhIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_emerald_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Emerald Ore\"}",
+    "uuid": "b8e19418-225a-4696-85aa-cdb684b78ea0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTA1NjFjN2E3N2EyOTUyMjg2NTIwZGNhZTA3NjVkNDllZGEyNmRjOWQ0YzQwYmRjNmUwODQ3MzI3NWQ2MDI0MiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_gold_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Gold Ore\"}",
+    "uuid": "b3cbd4d5-e85f-4366-8f09-1f470e06a9ba",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTQwYzQwNzM0ZDU1YzIyNWRhMjIwYTMwYzA3NjhjNzAwYmRmYTU2YzE3ZDNhNWViNWZkY2I3NTg2MTliNWUxNyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_iron_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Iron Ore\"}",
+    "uuid": "c3bc021f-f722-4477-948e-709f60159d25",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY2NWZmZGZiMjA5YjU4OGYzYTVlYTJkYTZmYzIxZjg0MzQ1ZjQ3ZjMxODQxODk5NjZjZGQwODBhN2RhOWEyOCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:deepslate_redstone_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eDeepslate Redstone Ore\"}",
+    "uuid": "0a16cdda-5f66-47d9-bda9-a98f099e9523",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBjZGZiZTUzODk5ODk4MWFiMzlkM2Q4OTg0MzBkNTg4NjExZjQ3NmM4ODIwOTA5Njc4YTI5YTA3ZmRmNDAyZCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:copper_ore",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCopper Ore\"}",
+    "uuid": "c65d7bc1-dfca-4a09-bc26-b9ae66eba866",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjUwMTliMmMxOTRkNDBkYmFkOWYzOTUwMTU2MGMxZTc5ZjhkNTZiOTg4MzAxNDU0OGFlOTk3NmJiNmQ5ODEwIn19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:moss_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMoss Block\"}",
+    "uuid": "23767762-e8d1-4c3d-b4ba-f83340fdaeb8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NhMWFlYWRhZDkyZmM4YTE4ZGVmMTQ4MmNlZjMwODhmZDdlMzlhMjAyMjA3ODFiNmU2ODUzZmNkMGQ5YjhjYSJ9fX0="
+  }
+]

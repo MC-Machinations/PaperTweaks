@@ -26,6 +26,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
@@ -54,7 +55,7 @@ public class ExplosionListener implements ModuleListener {
         this.config = config;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onExplosionPrime(ExplosionPrimeEvent event) {
         if (event.getEntityType() != EntityType.CREEPER) return;
         if (ThreadLocalRandom.current().nextDouble() < config.chance) {

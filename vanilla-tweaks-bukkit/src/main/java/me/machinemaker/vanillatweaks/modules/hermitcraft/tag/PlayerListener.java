@@ -25,6 +25,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.time.Duration;
@@ -46,7 +47,7 @@ class PlayerListener implements ModuleListener {
         this.audiences = audiences;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player damagee) {
             if (!damager.getInventory().getItemInMainHand().isSimilar(Tag.TAG_ITEM)) return;
