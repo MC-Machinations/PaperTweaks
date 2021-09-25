@@ -286,6 +286,29 @@ permissions:
     default: op
     description: Configure Back in-game
 
+  vanillatweaks.tpa.request:
+    default: false
+    description: Request to teleport to another player
+  vanillatweaks.tpa.cancel:
+    default: false
+    description: Cancel your request to teleport to another player
+  vanillatweaks.tpa.accept:
+    default: false
+    description: Accept another player's request to teleport to you
+  vanillatweaks.tpa.deny:
+    default: false
+    description: Deny another player's request to teleport to you
+  vanillatweaks.tpa.config:
+    default: op
+    description: Configure TPA in-game
+  vanillatweaks.tpa:
+    default: true
+    children:
+      vanillatweaks.tpa.request: true
+      vanillatweaks.tpa.cancel: true
+      vanillatweaks.tpa.accept: true
+      vanillatweaks.tpa.deny: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1

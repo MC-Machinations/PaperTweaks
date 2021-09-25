@@ -43,7 +43,7 @@
 
 - [x] Spawn
 - [x] Homes
-- [ ] TPA
+- [x] TPA
 - [x] Back
 
 ### Utilities
