@@ -47,14 +47,11 @@ subprojects {
         maven("https://papermc.io/repo/repository/maven-public/")
     }
 
-    val adventureVersion = "4.9.1"
     val cloudVersion = "1.6.0-SNAPSHOT"
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1-SNAPSHOT")
-        implementation("net.kyori:adventure-text-serializer-plain:$adventureVersion")
-        implementation("net.kyori:adventure-api:$adventureVersion")
         implementation("net.kyori:adventure-platform-bukkit:4.0.0")
         implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
         implementation("cloud.commandframework:cloud-paper:$cloudVersion")

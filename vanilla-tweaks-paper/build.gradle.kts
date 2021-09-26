@@ -12,7 +12,28 @@ dependencies {
 
 tasks {
     shadowJar {
+        dependencies {
+            exclude(dependency("net.kyori:examination-api:"))
+            exclude(dependency("net.kyori:examination-string:"))
+            exclude(dependency("net.kyori:adventure-key:"))
+            exclude(dependency("net.kyori:adventure-text-serializer-plain:"))
+            exclude(dependency("net.kyori:adventure-text-serializer-gson:"))
+            exclude(dependency("net.kyori:adventure-text-serializer-legacy:"))
+            exclude(dependency("net.kyori:adventure-api:"))
+        }
+
         configureStandard("Paper")
 
+        val prefix = "me.machinemaker.libs"
+        listOf(
+            "net.kyori.adventure.platform",
+            "net.kyori.adventure.nbt",
+            "net.kyori.adventure.text.minimessage",
+            "net.kyori.adventure.text.serializer.bungeecord",
+            "net.kyori.adventure.text.serializer.craftbukkit",
+            "net.kyori.adventure.text.serializer.gson.legacyimpl"
+        ).forEach { pack ->
+            relocate(pack, "$prefix.$pack")
+        }
     }
 }

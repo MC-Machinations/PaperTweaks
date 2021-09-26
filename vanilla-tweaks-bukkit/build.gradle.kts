@@ -14,6 +14,9 @@ dependencies {
         exclude("com.mojang", "brigadier")
     }
 
+    val adventureVersion = "4.9.1"
+    implementation("net.kyori:adventure-text-serializer-plain:$adventureVersion")
+    implementation("net.kyori:adventure-api:$adventureVersion")
     compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
 
     // tests
@@ -23,6 +26,13 @@ dependencies {
 tasks {
     shadowJar {
         configureStandard("Bukkit")
-        relocate("me.lucko.commodore", "me.machinemaker.libs.me.lucko.commodore")
+
+        val prefix = "me.machinemaker.libs"
+        listOf(
+            "me.lucko.commodore",
+            "net.kyori",
+        ).forEach { pack ->
+            relocate(pack, "$prefix.$pack")
+        }
     }
 }

@@ -39,11 +39,12 @@ public final class Mixins {
     private Mixins() {
     }
 
-    public static void registerMixins(ObjectMapper mapper) {
+    public static ObjectMapper registerMixins(ObjectMapper mapper) {
         mapper.addMixIn(NamespacedKey.class, NamespaceKey.class);
         mapper.addMixIn(Material.class, MaterialMixIn.class);
         mapper.addMixIn(EntityType.class, EntityTypeMixIn.class);
         mapper.addMixIn(World.class, WorldMixIn.class);
+        return mapper;
     }
 
     public abstract static class Keyed {

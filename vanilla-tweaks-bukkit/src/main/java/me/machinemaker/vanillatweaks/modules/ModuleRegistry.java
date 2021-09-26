@@ -61,6 +61,7 @@ public class ModuleRegistry extends AbstractModule {
     protected void configure() {
         MapBinder<String, ModuleBase> moduleMapBinder = MapBinder.newMapBinder(binder(), String.class, ModuleBase.class);
         modules.forEach((name, moduleClass) -> moduleMapBinder.addBinding(name).to(moduleClass).in(Scopes.SINGLETON));
+        modules.forEach((name, moduleClass) -> bind(moduleClass).in(Scopes.SINGLETON));
         bind(ConfigurationNode.class).annotatedWith(Names.named("modules")).toInstance(moduleConfig);
         bind(ModuleManager.class).in(Scopes.SINGLETON);
     }

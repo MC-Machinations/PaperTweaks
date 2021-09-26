@@ -1,0 +1,1662 @@
+[
+  {
+    "tableName": "slime.json",
+    "uuid": "a947d318-dacd-4904-8116-d9f68955aaa6",
+    "name": "Slime",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzA2NDI0ZWM3YTE5NmIxNWY5YWQ1NzMzYTM2YTZkMWYyZTZhMGQ0MmZmY2UxZTE1MDhmOTBmMzEyYWM0Y2FlZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "cow.json",
+    "uuid": "3603f051-3b2f-4428-bcdb-88fd633041bc",
+    "name": "Cow",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjNkNjIxMTAwZmVhNTg4MzkyMmU3OGJiNDQ4MDU2NDQ4Yzk4M2UzZjk3ODQxOTQ4YTJkYTc0N2Q2YjA4YjhhYiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.01,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "18d071ee-a17c-46eb-866c-304a4823ac05",
+    "name": "Tabby Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGUyOGQzMGRiM2Y4YzNmZTUwY2E0ZjI2ZjMwNzVlMzZmMDAzYWU4MDI4MTM1YThjZDY5MmYyNGM5YTk4YWUxYiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "f0db2cac-dde4-47de-9c27-c0015e49d8b5",
+    "name": "Tuxedo Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGZkMTBjOGU3NWY2NzM5OGM0NzU4N2QyNWZjMTQ2ZjMxMWMwNTNjYzVkMGFlYWI4NzkwYmNlMzZlZTg4ZjVmOCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "11d2442b-0bc1-4475-a499-f07dcc2aa40d",
+    "name": "Ginger Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjExM2RiZDNjNmEwNzhhMTdiNGVkYjc4Y2UwN2Q4MzZjMzhkYWNlNTAyN2Q0YjBhODNmZDYwZTdjYTdhMGZjYiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "7d487214-5276-49af-bbb1-019b49384d69",
+    "name": "Siamese Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDViM2Y4Y2E0YjNhNTU1Y2NiM2QxOTQ0NDk4MDhiNGM5ZDc4MzMyNzE5NzgwMGQ0ZDY1OTc0Y2M2ODVhZjJlYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "4332ff48-8a0e-4164-ae55-2d16caf68190",
+    "name": "British Shorthair Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTM4OWUwZDVkM2U4MWY4NGI1NzBlMjk3ODI0NGIzYTczZTVhMjJiY2RiNjg3NGI0NGVmNWQwZjY2Y2EyNGVlYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "024560fb-84a5-40cf-b6a1-c8f9d9db2fe9",
+    "name": "Calico Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQwMDk3MjcxYmI2ODBmZTk4MWU4NTllOGJhOTNmZWEyOGI4MTNiMTA0MmJkMjc3ZWEzMzI5YmVjNDkzZWVmMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "701fa2a8-ef2b-46cd-b9d3-6cd16be17bb4",
+    "name": "Persian Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmY0MGM3NDYyNjBlZjkxYzk2YjI3MTU5Nzk1ZTg3MTkxYWU3Y2UzZDVmNzY3YmY4Yzc0ZmFhZDk2ODlhZjI1ZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "b65e722b-5a35-4561-a8df-db9c7a52041f",
+    "name": "Ragdoll Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGM3YTQ1ZDI1ODg5ZTNmZGY3Nzk3Y2IyNThlMjZkNGU5NGY1YmMxM2VlZjAwNzk1ZGFmZWYyZTgzZTBhYjUxMSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "db9474c0-f11e-47d3-a6dc-2ebcdd5f37e0",
+    "name": "White Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjFkMTVhYzk1NThlOThiODlhY2E4OWQzODE5NTAzZjFjNTI1NmMyMTk3ZGQzYzM0ZGY1YWFjNGQ3MmU3ZmJlZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "f0aaa05b-0283-4663-9b57-52dbf2ca2750",
+    "name": "Jellie Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBkYjQxMzc2Y2E1N2RmMTBmY2IxNTM5ZTg2NjU0ZWVjZmQzNmQzZmU3NWU4MTc2ODg1ZTkzMTg1ZGYyODBhNSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cat.json",
+    "uuid": "f89934e4-99a0-4dab-9151-7b63831e5fd1",
+    "name": "Black Cat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjJjMWU4MWZmMDNlODJhM2U3MWUwY2Q1ZmJlYzYwN2UxMTM2MTA4OWFhNDdmMjkwZDQ2YzhhMmMwNzQ2MGQ5MiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "salmon.json",
+    "uuid": "b70bd4aa-826a-47be-a27b-823c5486e826",
+    "name": "Salmon",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzkxZDllNjliNzk1ZGE0ZWFhY2ZjZjczNTBkZmU4YWUzNjdmZWQ4MzM1NTY3MDZlMDQwMzM5ZGQ3ZmUwMjQwYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "bat.json",
+    "uuid": "27653cdf-9109-481b-8f9f-468895a892a2",
+    "name": "Bat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGEyOWM5ZWNlNDI4ZmEyMzM5NWFjMjAxOWJmMmQwMjc0NDA1MjlmMjUzM2ZjODIwMWU3YjNkYTBmNjBmMjAwNSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "strider.json",
+    "uuid": "9fde30af-3e79-433b-b4af-ae9cc52b0c96",
+    "name": "Strider",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWM0MGZhZDFjMTFkZTllNjQyMmI0MDU0MjZlOWI5NzkwN2YzNWJjZTM0NWUzNzU4NjA0ZDNlN2JlN2RmODg0In19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "strider.json",
+    "uuid": "d843d702-9a8c-419a-80d5-da6c51a2c006",
+    "name": "Freezing Strider",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjcxMzA4NWE1NzUyN2U0NTQ1OWMzOGZhYTdiYjkxY2FiYjM4MWRmMzFjZjJiZjc5ZDY3YTA3MTU2YjZjMjMwOSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "creeper.json",
+    "uuid": "3b9bdc01-c62c-42a9-af61-a25c9009c738",
+    "name": "Charged Creeper",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUxMWU0YTNkNWFkZDZhNTQ0OTlhYmFkMTBkNzk5ZDA2Y2U0NWNiYTllNTIwYWZkMjAwODYwOGE2Mjg4YjdlNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "zoglin.json",
+    "uuid": "746fe686-6785-4584-9fdb-c76ae015af4e",
+    "name": "Zoglin",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzNDkzYTk1NmJmZDc1ODhlZDFhOGVhODU4NzU5NjY3NjU5ZDU4MTAwY2JlY2Q2ZDk2Y2NjMGNhOWIzNjkyMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "llama.json",
+    "uuid": "dd0a3919-e919-428c-9298-6dcc416fec9d",
+    "name": "Creamy Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ2N2ZkNGJmZjI5MzI2OWNiOTA4OTc0ZGNhODNjMzM0ODVlNDM1ZWQ1YThlMWRiZDY1MjFjNjE2ODcxNDAifX19",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "llama.json",
+    "uuid": "60d7893f-b634-48b8-8d6e-f07fa14f5115",
+    "name": "White Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODAyNzdlNmIzZDlmNzgxOWVmYzdkYTRiNDI3NDVmN2FiOWE2M2JhOGYzNmQ2Yjg0YTdhMjUwYzZkMWEzNThlYiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "llama.json",
+    "uuid": "75fb08e5-2419-46fa-bf09-57362138f234",
+    "name": "Brown Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJiMWVjZmY3N2ZmZTNiNTAzYzMwYTU0OGViMjNhMWEwOGZhMjZmZDY3Y2RmZjM4OTg1NWQ3NDkyMTM2OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "llama.json",
+    "uuid": "edca7a0d-770f-43d6-8ffc-f6a00e94e477",
+    "name": "Gray Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2YyNGU1NmZkOWZmZDcxMzNkYTZkMWYzZTJmNDU1OTUyYjFkYTQ2MjY4NmY3NTNjNTk3ZWU4MjI5OWEifX19",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "30697174-9b31-421c-bc7a-fb6d60cabb6e",
+    "name": "Aggressive Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU0NmU0MzZkMTY2YjE3ZjA1MjFiZDg1MzhlYTEzY2Q2ZWUzYjVkZjEwMmViMzJlM2U0MjVjYjI4NWQ0NDA2MyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "a4de0438-255d-446e-8658-fa0d18979877",
+    "name": "Lazy Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTg3ZjFmNWRiMmUyNGRmNGRhYWVkNDY4NWQ2YWVlNWRlYjdjZGQwMjk2MzBmMDA3OWMxZjhlMWY5NzQxYWNmZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "6d3b9dfe-9e27-45de-8a81-6a962f663c03",
+    "name": "Playful Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNhZGQ0YmYzYzRjYWNlOTE2NjgwZTFmZWY5MGI1ZDE2YWQ2NjQzOTUxNzI1NjY4YmE2YjQ5OTZiNjljYTE0MCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "a26e2c67-e282-4673-8e32-099c2e7ffc9a",
+    "name": "Worried Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI4NmZkMWJmOGNiY2UyM2JjMDhmYjkwNjkxNzE3NjExYWRkYzg1YWI4MjNiNzcxNGFlYzk4YTU2NjBlZmYxNSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "a2a3e8df-bc0c-4adf-838b-1d687a922828",
+    "name": "Brown Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWQ1ZjZkNjEyNjcyODY3MWI0NGMxYzc3NWY5OTYxNzQyNGUzMzYxMWI1ZDMxYWQyYWNmZjI4MDRlYjk2ZWIwNiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "c6f2e55c-eff8-40aa-8c90-153691551e01",
+    "name": "Weak Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2M1NmEzNTVmYmUwZTJmYmQyOGU4NWM0ZDgxNWZmYTVkMWY5ZDVmODc5OGRiYzI1OWZmODhjNGFkZGIyMDJhZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "panda.json",
+    "uuid": "d92092c3-4abc-48f3-a52f-d8de6de4c981",
+    "name": "Panda",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTlkZjQ3ZTAxNWQ1YzFjNjhkNzJiZTExYmI2NTYzODBmYzZkYjUzM2FhYjM4OTQxYTkxYjFkM2Q1ZTM5NjQ5NyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "phantom.json",
+    "uuid": "9290add8-c291-4a5a-8f8a-594f165406a3",
+    "name": "Phantom",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2U5NTE1M2VjMjMyODRiMjgzZjAwZDE5ZDI5NzU2ZjI0NDMxM2EwNjFiNzBhYzAzYjk3ZDIzNmVlNTdiZDk4MiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "trader_llama.json",
+    "uuid": "b8e21edd-c25b-4673-9602-6671007f5088",
+    "name": "Creamy Trader Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTg5YTJlYjE3NzA1ZmU3MTU0YWIwNDFlNWM3NmEwOGQ0MTU0NmEzMWJhMjBlYTMwNjBlM2VjOGVkYzEwNDEyYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.07
+  },
+  {
+    "tableName": "trader_llama.json",
+    "uuid": "47dbdab5-105f-42bc-9580-c61cee9231f3",
+    "name": "White Trader Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzA4N2E1NTZkNGZmYTk1ZWNkMjg0NGYzNTBkYzQzZTI1NGU1ZDUzNWZhNTk2ZjU0MGQ3ZTc3ZmE2N2RmNDY5NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.07
+  },
+  {
+    "tableName": "trader_llama.json",
+    "uuid": "a957be18-324a-4984-a81b-f556a793a64a",
+    "name": "Brown Trader Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQyNDc4MGIzYzVjNTM1MWNmNDlmYjViZjQxZmNiMjg5NDkxZGY2YzQzMDY4M2M4NGQ3ODQ2MTg4ZGI0Zjg0ZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.07
+  },
+  {
+    "tableName": "trader_llama.json",
+    "uuid": "34bfbc2b-6c59-47df-8cf6-7457ad15165a",
+    "name": "Gray Trader Llama",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmU0ZDhhMGJjMTVmMjM5OTIxZWZkOGJlMzQ4MGJhNzdhOThlZTdkOWNlMDA3MjhjMGQ3MzNmMGEyZDYxNGQxNiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.24,
+    "lootingMultiplier": 0.07
+  },
+  {
+    "tableName": "dolphin.json",
+    "uuid": "8b7ccd6d-36de-47e0-8d5a-6f6799c6feb8",
+    "name": "Dolphin",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGU5Njg4Yjk1MGQ4ODBiNTViN2FhMmNmY2Q3NmU1YTBmYTk0YWFjNmQxNmY3OGU4MzNmNzQ0M2VhMjlmZWQzIn19fQ=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.33,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "magma_cube.json",
+    "uuid": "568b0e82-076c-4162-9c78-66617d44dcd8",
+    "name": "Magma Cube",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjgxNzE4ZDQ5ODQ4NDdhNGFkM2VjMDgxYTRlYmZmZDE4Mzc0MzIzOWFlY2FiNjAzMjIxMzhhNzI2MDk4MTJjMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "ocelot.json",
+    "uuid": "781441b9-d42c-4f98-86ae-b0f7b0996ccf",
+    "name": "Ocelot",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTE3NWNjNDNlYThhZTIwMTY4YTFmMTcwODEwYjRkYTRkOWI0ZWJkM2M5OTc2ZTlmYzIyZTlmOTk1YzNjYmMzYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "enderman.json",
+    "uuid": "0de98464-1274-4dd6-bba8-370efa5d41a8",
+    "name": "Enderman",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E1OWJiMGE3YTMyOTY1YjNkOTBkOGVhZmE4OTlkMTgzNWY0MjQ1MDllYWRkNGU2YjcwOWFkYTUwYjljZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.0001
+  },
+  {
+    "tableName": "goat.json",
+    "uuid": "e184fc80-6ba6-4a04-9a05-fb407abd254e",
+    "name": "Goat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODc0NzNlMDU1ZGY2ZTdmZDk4NjY0ZTlmZGI2MzY3NWYwODgxMDYzMDVkNzQ0MDI0YTQxYmIzNTg5MThhMTQyYiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.01,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "goat.json",
+    "uuid": "d0aa4129-8c01-46e5-ab55-9816be6ab4aa",
+    "name": "Screaming Goat",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmRhNDg1YWMyMzUxMjQyMDg5MWE1YWUxZThkZTk4OWYwOTFkODQ4ZDE1YTkwNjhkYTQ3MjBkMzE2ZmM0MzMwZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "ravager.json",
+    "uuid": "fd58e30c-7570-4401-93dd-ec28b8cd19f4",
+    "name": "Ravager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWI0ZGIyOTg2MTQwZTI1MWUzMmU3MGVkMDhjOGEwODE3MjAzMTNjZTI1NzYzMmJlMWVmOTRhMDczNzM5NGRiIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "piglin.json",
+    "uuid": "661973b6-702f-42b0-8249-cdb1a39b6f9b",
+    "name": "Piglin",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODFhZmQ4NTM5MTE4MmE5ZjlkZTRmY2UyOWVhZjAyNTE0Y2MyZTA0NDgxNTc3ZGE1ZWRlYjU4YjE3ZTc1NzEzNSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.04,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "bee.json",
+    "uuid": "77342662-8870-445a-869f-f0aef1406b3d",
+    "name": "Bee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTlhYzE2ZjI5NmI0NjFkMDVlYTA3ODVkNDc3MDMzZTUyNzM1OGI0ZjMwYzI2NmFhMDJmMDIwMTU3ZmZjYTczNiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "bee.json",
+    "uuid": "7766f1ce-53ca-4557-80e3-0539d2f7d909",
+    "name": "Pollinated Bee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcyN2QwYWIwM2Y1Y2QwMjJmODcwNWQzZjdmMTMzY2E0OTIwZWFlOGUxZTQ3YjUwNzQ0MzNhMTM3ZTY5MWU0ZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "bee.json",
+    "uuid": "14feb823-becc-4799-a97d-e529110e11a0",
+    "name": "Angry Bee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTQwMDIyM2YxZmE1NDc0MWQ0MjFkN2U4MDQ2NDA5ZDVmM2UxNWM3ZjQzNjRiMWI3Mzk5NDAyMDhmM2I2ODZkNCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "bee.json",
+    "uuid": "a148a6aa-24ea-49b6-b2be-4e1d1d130757",
+    "name": "Angry Pollinated Bee",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZiNzRlMDUyYjc0Mjg4Nzk5YmE2ZDlmMzVjNWQwMjIxY2Y4YjA0MzMxNTQ3ZWMyZjY4ZDczNTk3YWUyYzliIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "pig.json",
+    "uuid": "ad36c426-036c-4637-9826-ed499011f649",
+    "name": "Pig",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFlZTc2ODFhZGYwMDA2N2YwNGJmNDI2MTFjOTc2NDEwNzVhNDRhZTJiMWMwMzgxZDVhYzZiMzI0NjIxMWJmZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.01,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "fox.json",
+    "uuid": "ea7df60c-0001-444b-8529-561f9c94b842",
+    "name": "Fox",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDdlMDA0MzExMWJjNTcwOTA4NTYyNTkxNTU1NzFjNzkwNmU3MDcwNDZkZjA0MWI4YjU3MjcwNGM0NTFmY2Q4MiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.1,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "fox.json",
+    "uuid": "b28c7bb1-b6a9-497b-8a2d-336876e85a9d",
+    "name": "Snow Fox",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE0MzYzNzdlYjRjNGI0ZTM5ZmIwZTFlZDg4OTlmYjYxZWUxODE0YTkxNjliOGQwODcyOWVmMDFkYzg1ZDFiYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "elder_guardian.json",
+    "uuid": "566bf310-f717-45d6-bac2-56325a9d55b3",
+    "name": "Elder Guardian",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGEyZDY0ZjRhMDBlOWM4NWY2NzI2MmVkY2FjYjg0NTIzNTgxYWUwZjM3YmRhYjIyZGQ3MDQ1MjRmNjJlMTY5ZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "vex.json",
+    "uuid": "8a0e3d9a-9875-48e1-b9f7-12abc52b181d",
+    "name": "Vex",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGI4ZTE0ZWQzMTRlYTllYjQ0MTkzMjQxNTllZDA4ZTc3N2JhMTg3NWFkZTI5ODllYWEwZjUzMTBkYTc3MmU1NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "donkey.json",
+    "uuid": "7e3bc228-5c91-4f9c-a8e7-71ea538ca455",
+    "name": "Donkey",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGUyNWVlOTI3M2FkNTc5ZDQ0YmY0MDZmNmY2Mjk1NTg2NDgxZWExOThmZDU3MjA3NmNkMGM1ODgyZGE3ZTZjYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.09
+  },
+  {
+    "tableName": "husk.json",
+    "uuid": "c0394bc5-8928-4d83-94f4-7cd28a31dbbc",
+    "name": "Husk",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzMzODMxOGJjOTFhMzZjZDVhYjZhYTg4NWM5YTRlZTJiZGFjZGFhNWM2NmIyYTk5ZGZiMGE1NjA5ODNmMjQ4MCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.06,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "illusioner.json",
+    "uuid": "1e74f846-b3e5-46bd-8708-582f9f34ebe3",
+    "name": "Illusioner",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM4MjcwMWM2N2Q2YzU0YzkwNzU1ODg5MWRjMTc2MjI1MTEyNTE4NzcxZTA2MWM1ZDhiZDkxODQ3OWU2YmRkOCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "wandering_trader.json",
+    "uuid": "943947ea-3e1a-4fdc-85e5-f538379f05e9",
+    "name": "Wandering Trader",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzc5YTgyMjkwZDdhYmUxZWZhYWJiYzcwNzEwZmYyZWMwMmRkMzRhZGUzODZiYzAwYzkzMGM0NjFjZjkzMiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "pufferfish.json",
+    "uuid": "c70b7dc2-1564-43ad-a140-f4922a01375b",
+    "name": "Pufferfish",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTI3MzNkNWRhNTljODJlYWYzMTBiMzgyYWZmNDBiZDUxM2M0NDM1NGRiYmFiZmUxNGIwNjZhNTU2ODEwYTdmOSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.15,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "chicken.json",
+    "uuid": "c8430ed4-cb5e-4c52-94fe-55fd07f692e8",
+    "name": "Chicken",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDJhZjZlNTg0N2VlYTA5OWUxYjBhYjhjMjBhOWU1ZjNjNzE5MDE1OGJkYTU0ZTI4MTMzZDliMjcxZWMwY2I0YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.01,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "parrot.json",
+    "uuid": "06e5e87b-5413-4c85-8c10-42c6cf08d4f9",
+    "name": "Red Parrot",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBhM2Q0N2Y1NGU3MWE1OGJmOGY1N2M1MjUzZmIyZDIxM2Y0ZjU1YmI3OTM0YTE5MTA0YmZiOTRlZGM3NmVhYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "parrot.json",
+    "uuid": "a11c92dc-d6f9-4b90-95f5-70df0dab0526",
+    "name": "Blue Parrot",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjk0YmQzZmNmNGQ0NjM1NGVkZThmZWY3MzEyNmRiY2FiNTJiMzAxYTFjOGMyM2I2Y2RmYzEyZDYxMmI2MWJlYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "parrot.json",
+    "uuid": "145468b4-09d4-408c-8a63-b4b54694a1cb",
+    "name": "Green Parrot",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmExZGMzMzExNTIzMmY4MDA4MjVjYWM5ZTNkOWVkMDNmYzE4YWU1NTNjMjViODA1OTUxMzAwMGM1OWUzNTRmZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "parrot.json",
+    "uuid": "ca801759-47ad-4812-80c3-fc455f59b8a6",
+    "name": "Light Blue Parrot",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI2OGNlMzdiZTg1MDdlZDY3ZTNkNDBiNjE3ZTJkNzJmNjZmOWQyMGIxMDZlZmIwOGU2YmEwNDFmOWI5ZWYxMCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "parrot.json",
+    "uuid": "c39ed838-f42f-4212-8215-401fb411280d",
+    "name": "Gray Parrot",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFiZTcyM2FhMTczOTNkOTlkYWRkYzExOWM5OGIyYzc5YzU0YjM1ZGViZTA1YzcxMzhlZGViOGQwMjU2ZGM0NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "turtle.json",
+    "uuid": "da6f13e0-ce0d-476a-bd56-4d1b80f160a3",
+    "name": "Turtle",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0OTMxMjAwYWQ0NjBiNjUwYTE5MGU4ZDQxMjI3YzM5OTlmYmViOTMzYjUxY2E0OWZkOWU1OTIwZDFmOGU3ZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "5465197e-5f7b-4b10-a52e-6ef4763bfd2a",
+    "name": "White Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzdiYzYxNjA5NzMwZjJjYjAxMDI2OGZhYjA4MjFiZDQ3MzUyNjk5NzUwYTE1MDU5OWYyMWMzZmM0ZTkyNTkxYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "cc7276a0-d107-4da0-857a-7a94d7b69d74",
+    "name": "Creamy Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDJhMGQ1NGNjMDcxMjY3ZDZiZmQ1ZjUyM2Y4Yzg5ZGNmZGM1ZTgwNWZhYmJiNzYwMTBjYjNiZWZhNDY1YWE5NCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "a98ef2d5-9c48-49aa-8212-9d5a00b9f6b0",
+    "name": "Chestnut Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM4NzIwZDFmNTUyNjkzYjQwYTlhMzNhZmE0MWNlZjA2YWZkMTQyODMzYmVkOWZhNWI4ODdlODhmMDVmNDlmYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "612aea37-f6ab-4425-b45a-9c3d67a11310",
+    "name": "Brown Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc3MTgwMDc3MGNiNGU4MTRhM2Q5MTE4NmZjZDc5NWVjODJlMDYxMDJmZjdjMWVlNGU1YzM4MDEwMmEwYzcwZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "de101c2d-7f7c-4bcc-af82-4a1e54d341fe",
+    "name": "Black Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjcyM2ZhNWJlNmFjMjI5MmE3MjIzMGY1ZmQ3YWI2NjM0OTNiZDhmN2U2NDgxNjQyNGRjNWJmMjRmMTMzODkwYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "50d151e0-4435-495f-a076-77f133f4e6c2",
+    "name": "Gray Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzI1OTg2MTAyMTgxMDgzZmIzMTdiYzU3MTJmNzEwNGRhYTVhM2U4ODkyNjRkZmViYjkxNTlmNmUwOGJhYzkwYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "horse.json",
+    "uuid": "8de6a9d9-c214-4bd1-aa52-3d62d2b3f7d1",
+    "name": "Dark Brown Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2YyMzQxYWFhMGM4MmMyMmJiYzIwNzA2M2UzMTkyOTEwOTdjNTM5YWRhZDlhYTkxM2ViODAwMWIxMWFhNTlkYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.27,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "piglin_brute.json",
+    "uuid": "b9b908ef-1962-42b2-ae20-f37e46303887",
+    "name": "Piglin Brute",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQ4ODc5OWM4M2VjYjI5NDUyY2ViYTg5YzNjMDA5OTIxOTI3NGNlNWIyYmZiOGFkMGIzZWE0YzY1ZmFjNDYzMCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "endermite.json",
+    "uuid": "00c30a52-dce7-481e-ba38-0fe775b4f2ea",
+    "name": "Endermite",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGM2YjY1YzIyYjQ0NjViYTY3OTNiMjE5NWNkNTA4NGNlODNiODhkY2E2ZTU1ZWI5NDg0NTQwYWNkNzM1MmE1MCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "cave_spider.json",
+    "uuid": "1d6c2bf4-35ae-4869-a9d4-fa884f886022",
+    "name": "Cave Spider",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWY4NDNiYjdhOTg0ZTczNGFiNzZhODhjOWExYTBmNWE0MGJmNzk1MjQ4MDlhODUxMWJmMzJkMDU3NTI2ZjdmMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "squid.json",
+    "uuid": "118bbae9-61f7-4246-ad07-add3579e42ae",
+    "name": "Squid",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODM1MWI3ZDlhNGYzNmNmZTMxZmQ1OWQ4YzkwMGU0MTlhMTM1MTQ0MTA1ZTdhOTgxY2FhNWExNjhkY2ZmMzI1YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "wither.json",
+    "uuid": "86034734-f8c6-44a2-9cff-f047dad30794",
+    "name": "Wither",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRhMTA4MjhmNjNiN2VjZGVmZDc2N2IzMjQ1ZmJkYWExM2MzZWMwYzZiMTM3NzRmMWVlOGQzMDdjMDM0YzM4MyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "wither.json",
+    "uuid": "3ff7692f-f639-42b1-9ed7-1ce1f22ca6de",
+    "name": "Invulnerable Wither",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzE5NmViOGQ1OTljNGZlZjUzYTk3MTc2YjcyZmY4ZmM0MWUzMmE2NmExNTlmZDQ1MTkwYTBkYTE1NDU4N2UxMiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "wither.json",
+    "uuid": "0aa676db-c489-4837-b733-55b89714d4f6",
+    "name": "Armored Wither",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjM3YzU4MTRhOTJmOGVjMGY2YWU5OTMzYWJlOTU0MmUxNjUxOTA3NjhlNzYwNDc4NTQzYWViZWVkNDAyN2MyNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "wither.json",
+    "uuid": "8e4c90d2-d6b4-419b-a8f6-66bdacb3ab5f",
+    "name": "Armored Invulnerable Wither",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM2ODJiMDYyMDNiOWRlNGMyODU0MTA3MWEyNmNkYzM0MGRkMjVkNGMzNzJiNzAyM2VjMmY0MTIwMjFkNjJmNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "blaze.json",
+    "uuid": "093b9a11-152d-4a5f-9418-50bea849f7c2",
+    "name": "Blaze",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGVlMjNkYzdhMTBjNmE4N2VmOTM3NDU0YzBlOTRlZDQyYzIzYWE2NDFhOTFlZDg0NzBhMzA0MmQwNWM1MmM1MiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.0005
+  },
+  {
+    "tableName": "pillager.json",
+    "uuid": "4fd83a46-8adf-416b-a93f-ecc6c5495db2",
+    "name": "Pillager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIyNWYwYjQ5YzUyOTUwNDhhNDA5YzljNjAxY2NhNzlhYThlYjUyYWZmNWUyMDMzZWJiODY1ZjQzNjdlZjQzZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.025,
+    "lootingMultiplier": 0.005
+  },
+  {
+    "tableName": "mule.json",
+    "uuid": "b9600962-635f-432e-ad95-f7d6688ec135",
+    "name": "Mule",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFjMjI0YTEwMzFiZTQzNGQyNWFlMTg4NWJmNGZmNDAwYzk4OTRjNjliZmVmNTZhNDkzNTRjNTYyNWMwYzA5YyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "snow_golem.json",
+    "uuid": "4ff3822f-2323-4e0d-b17c-dfdc3686dba0",
+    "name": "Snow Golem",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2FhM2UxN2VmMWIyOWE0Yjg3ZmE0M2RlZTFkYjEyYzQxZmQzOWFhMzg3ZmExM2FmMmEwNzliNWIzNzhmZGU4YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "9e2c8ab3-3e67-42be-ae8f-050ec894d1f1",
+    "name": "Toast",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTFhNTdjM2QwYTliMTBlMTNmNjZkZjc0MjAwY2I4YTZkNDg0YzY3MjIyNjgxMmQ3NGUyNWY2YzAyNzQxMDYxNiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "95707716-a7c2-4741-bb70-03761cf1887a",
+    "name": "Brown Rabbit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2ZkNGY4NmNmNzQ3M2ZiYWU5M2IxZTA5MDQ4OWI2NGMwYmUxMjZjN2JiMTZmZmM4OGMwMDI0NDdkNWM3Mjc5NSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.26,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "1288e126-41dd-4608-b304-86d84464d5e4",
+    "name": "White Rabbit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTU0MmQ3MTYwOTg3MTQ4YTVkOGUyMGU0NjliZDliM2MyYTM5NDZjN2ZiNTkyM2Y1NWI5YmVhZTk5MTg1ZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.26,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "5492c4d3-b524-4df5-9267-1b48e86491e1",
+    "name": "Black Rabbit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjJiNDI1ZmYyYTIzNmFiMTljYzkzOTcxOTVkYjQwZjhmMTg1YjE5MWM0MGJmNDRiMjZlOTVlYWM5ZmI1ZWZhMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.26,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "dac10930-ace7-4c3e-a977-85f27f19a011",
+    "name": "Black and White Rabbit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVmNzJhMjE5NWViZjQxMTdjNTA1NmNmZTJiNzM1N2VjNWJmODMyZWRlMTg1NmE3NzczZWU0MmEwZDBmYjNmMCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.26,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "87a49ce2-fbf9-43e9-a120-8bf58f5da6b2",
+    "name": "Gold Rabbit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzY3YjcyMjY1NmZkZWVjMzk5NzRkMzM5NWM1ZTE4YjQ3YzVlMjM3YmNlNWJiY2VkOWI3NTUzYWExNGI1NDU4NyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.26,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "7f6a75ab-3039-475b-8df8-7b46be3614f0",
+    "name": "Salt and Pepper Rabbit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTIzODUxOWZmMzk4MTViMTZjNDA2MjgyM2U0MzE2MWZmYWFjOTY4OTRmZTA4OGIwMThlNmEyNGMyNmUxODFlYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.26,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "rabbit.json",
+    "uuid": "2edafc73-f4d7-4707-b532-8059c3794258",
+    "name": "The Killer Bunny",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFkZDc2NzkyOWVmMmZkMmQ0M2U4NmU4NzQ0YzRiMGQ4MTA4NTM0NzEyMDFmMmRmYTE4Zjk2YTY3ZGU1NmUyZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "spider.json",
+    "uuid": "50f4e841-3ac5-4643-95ce-4a1f440165c3",
+    "name": "Spider",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBjNDEwMDQ1Y2QzNzQ5YzNhOGVkODU2ZGY0MTFmNmMzM2U5YThhNmY5ZTU3ZTUyMTYwOGE4YWQ4ZWQ2ZWIzNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "ghast.json",
+    "uuid": "021a33db-c9c2-4b77-b834-56c4549ce1ab",
+    "name": "Ghast",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzUzZGUzMWEyZDAwNDFhNmVmNzViZjdhNmM4NDY4NDY0ZGIxYWFhNjIwMWViYjFhNjAxM2VkYjIyNDVjNzYwNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.0625,
+    "lootingMultiplier": 0.0125
+  },
+  {
+    "tableName": "tropical_fish.json",
+    "uuid": "58b108f2-efc5-4872-93ed-d392a33f5215",
+    "name": "Tropical Fish",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRhMGM4NGRjM2MwOTBkZjdiYWZjNDM2N2E5ZmM2Yzg1MjBkYTJmNzNlZmZmYjgwZTkzNGQxMTg5ZWFkYWM0MSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "zombified_piglin.json",
+    "uuid": "83ae2721-aa53-4604-b1d2-774cb23f3a21",
+    "name": "Zombified Piglin",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRmMDMxMjhiMDAyYTcwNzA4ZDY4MjVlZDZjZjU0ZGRmNjk0YjM3NjZkNzhkNTY0OTAzMGIxY2I4YjM0YzZmYSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "zombie_horse.json",
+    "uuid": "0f35156c-5da4-4278-9d2a-80caf51a6145",
+    "name": "Zombie Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjYxOGZmYmUxY2ZhMjA1OGZlODBhMDY1ZjcwYzEyOGMyMjVhMWUwYmM5ZGVhZjhiMzhiMDM5NTQ0M2Y0MDkwOSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "axolotl.json",
+    "uuid": "e27a6db3-e34a-45f3-b624-a1ad5c5d1dde",
+    "name": "Lucy Axolotl",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjY3ZTE1ZWFiNzMwNjRiNjY4MGQxZGI5OGJhNDQ1ZWQwOTE0YmEzNWE3OTk5OTdjMGRhMmIwM2ZmYzNhODgyNiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "axolotl.json",
+    "uuid": "6623686e-3911-43d9-bb7f-f2791e9757f9",
+    "name": "Wild Axolotl",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdjZjAyNzQ5OThiZjVhN2YzOGIzNzAzNmUxNTRmMTEyZmEyZTI4YmFkNDBkNWE3Yzk0NzY1ZmU0ZjUyMjExZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "axolotl.json",
+    "uuid": "2a1a8d2f-2bdd-4d0b-b2ca-8e24aad71177",
+    "name": "Gold Axolotl",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTU4NTYwMTE1ZmFhZDExNjE5YjNkNTVkZTc5ZWYyYTA1M2Y0NzhhNjcxOTRiYmU5MjQ3ZWRlYTBiYzk4ZTgzNCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "axolotl.json",
+    "uuid": "fa14b469-29ca-43fb-a2e6-042928751d70",
+    "name": "Cyan Axolotl",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODUxMTk2ZDQzOTMwNjU5ZDcxN2UxYjZhMDQ2YTA4ZDEyMjBmY2I0ZTMxYzQ4NTZiYzMzZTc1NTE5ODZlZjFkIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "axolotl.json",
+    "uuid": "dc5e0570-de31-4755-a209-9b1d97490832",
+    "name": "Blue Axolotl",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhmZDEwYjBmZWY0NTk1OTYwYjFmNjQxOTNiYzhhMTg2NWEyZDJlZDQ4YjJlMmNlMDNkOTk0NTYzMDI3ZGY5NSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "drowned.json",
+    "uuid": "2f169660-61be-46bd-acb5-1abef9fe5731",
+    "name": "Drowned",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzNmN2NjZjYxZGJjM2Y5ZmU5YTYzMzNjZGUwYzBlMTQzOTllYjJlZWE3MWQzNGNmMjIzYjNhY2UyMjA1MSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "iron_golem.json",
+    "uuid": "84888e02-b912-4ef0-8693-a2a81ac5b07a",
+    "name": "Iron Golem",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmU3YzA3MTlmYWJlMTE2ZGNlNjA1MTk5YmNhZGM2OWE1Mzg4NjA4NjRlZjE1NzA2OTgzZmY2NjI4MjJkOWZlMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.015
+  },
+  {
+    "tableName": "vindicator.json",
+    "uuid": "f1ecfcb3-fab9-4f74-b309-9a6c2ef56f2f",
+    "name": "Vindicator",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRhYmFmZGUyN2VlMTJiMDk4NjUwNDdhZmY2ZjE4M2ZkYjY0ZTA0ZGFlMWMwMGNjYmRlMDRhZDkzZGNjNmM5NSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.015
+  },
+  {
+    "tableName": "hoglin.json",
+    "uuid": "6ba8c18c-881a-4829-86e6-d641611ad18e",
+    "name": "Hoglin",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM0YTdmNTdmYzAzYjEzYWEyZjlkODNjZGQ0ODIyYjkzNjc5MzA5NmRhZjUxZTc4MDI1YmJkMjQxZWQ2ZjY4ZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.03,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "evoker.json",
+    "uuid": "f4d177cf-b22d-4407-80f3-480c50cc2d5e",
+    "name": "Evoker",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkwZmJkODhmNjU5ZDM5NjNjNjhjYmJjYjdjNzEyMWQ4MTk1YThiZTY1YmJkMmJmMTI1N2QxZjY5YmNjYzBjNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.25,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "stray.json",
+    "uuid": "7c8e03e3-7aa6-4571-9891-ec57a90abca9",
+    "name": "Stray",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTkyYjU1OTcwODVlMzVkYjUzZDliZGEwMDhjYWU3MmIyZjAwY2Q3ZDRjZDhkYzY5ZmYxNzRhNTViNjg5ZTZlIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.06,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "skeleton_horse.json",
+    "uuid": "d11eb7d3-a245-49aa-8a1e-9aa4c4e52b53",
+    "name": "Skeleton Horse",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmUyMjY3MDViZDJhOWU3YmI4ZDZiMGY0ZGFhOTY5YjllMTJkNGFlNWM2NmRhNjkzYmI1ZjRhNGExZTZhYTI5NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "witch.json",
+    "uuid": "2d5e7ae2-d55c-4b91-84cb-8203c00a9cb7",
+    "name": "Witch",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTUyMGYxMmM2M2M3OTEyMTg2YzRiZTRlMzBjMzNjNWFjYWVjMGRiMGI2YWJkODM2ZDUxN2Q3NGE2MjI3NWQ0YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "glow_squid.json",
+    "uuid": "0bbea5a5-e69e-4dce-8ce7-23c0586b6ac2",
+    "name": "Glow Squid",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGIyZTliNjU4MWZlZDQ4YTk5ZTAzMjMwOTFhZDVjM2MzMjZjZGEyMDA3M2UyOGE5MDJhMDM3M2Y3MzgyYjU5ZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "wolf.json",
+    "uuid": "13bc0cd2-ce73-43a1-952b-35772e7fa0bd",
+    "name": "Wolf",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY0MzlhNDNlNTY4NzAwODgxNWEyZGQxZmY0YTEzNGMxMjIyMWI3ODIzMzY2NzhiOTc5YWQxM2RjZTM5NjY1ZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "wolf.json",
+    "uuid": "d195f54b-847b-47a6-8a43-7ec20c21f731",
+    "name": "Angry Wolf",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQxYWE3ZTNiOTU2NGIzODQ2ZjFkZWExNGYxYjFjY2JmMzk5YmJiMjNiOTUyZGJkN2VlYzQxODAyYTI4OWM5NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "7cfb4bb2-3205-42fb-afd6-70fd580fb8a5",
+    "name": "Zombie Armorer",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg2NzllMDM0NzY3ZDUxODY2MGQ5NDE2ZGM1ZWFmMzE5ZDY5NzY4MmFjNDBjODg2ZTNjMmJjOGRmYTFkZTFkIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "6c399981-91ff-4d93-b283-ca9af1228382",
+    "name": "Zombie Butcher",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWNjZThkNmNlNDEyNGNlYzNlODRhODUyZTcwZjUwMjkzZjI0NGRkYzllZTg1NzhmN2Q2ZDg5MjllMTZiYWQ2OSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "be6c92ff-fd94-4d56-b9ca-20f0050f3b41",
+    "name": "Zombie Cartographer",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTYwODAwYjAxMDEyZTk2M2U3YzIwYzhiYTE0YjcwYTAyNjRkMTQ2YTg1MGRlZmZiY2E3YmZlNTEyZjRjYjIzZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "26a97cfb-4cbc-4f75-b847-8d41201abd49",
+    "name": "Zombie Cleric",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjk1ODU3OGJlMGUxMjE3MjczNGE3ODI0MmRhYjE0OTY0YWJjODVhYjliNTk2MzYxZjdjNWRhZjhmMTRhMGZlYiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "469641b7-ec99-4a62-b597-c7da85426aae",
+    "name": "Zombie Farmer",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjc3ZDQxNWY5YmFhNGZhNGI1ZTA1OGY1YjgxYmY3ZjAwM2IwYTJjOTBhNDgzMWU1M2E3ZGJjMDk4NDFjNTUxMSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "1812010d-e392-4c3c-b468-6c9066e26c1b",
+    "name": "Zombie Fisherman",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjkwNWQ1M2ZlNGZhZWIwYjMxNWE2ODc4YzlhYjgxYjRiZTUyYzMxY2Q0NzhjMDI3ZjBkN2VjZTlmNmRhODkxNCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "7d20b4d0-05c1-468d-a0fd-e4d8673f9c6e",
+    "name": "Zombie Fletcher",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmVhMjZhYzBlMjU0OThhZGFkYTRlY2VhNThiYjRlNzZkYTMyZDVjYTJkZTMwN2VmZTVlNDIxOGZiN2M1ZWY4OSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "87b57113-d8ca-4fa4-8214-ea6896e2ce4f",
+    "name": "Zombie Leatherworker",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI1NTJjOTBmMjEyZTg1NWQxMjI1NWQ1Y2Q2MmVkMzhiOWNkN2UzMGU3M2YwZWE3NzlkMTc2NDMzMGU2OTI2NCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "2069d306-ad23-4bb9-a6d0-d9e2f57757e6",
+    "name": "Zombie Librarian",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIyMTFhMWY0MDljY2E0MjQ5YzcwZDIwY2E4MDM5OWZhNDg0NGVhNDE3NDU4YmU5ODhjYzIxZWI0Nzk3Mzc1ZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "87b57113-d8ca-4fa4-8214-ea6896e2ce4f",
+    "name": "Zombie Mason",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI1NTJjOTBmMjEyZTg1NWQxMjI1NWQ1Y2Q2MmVkMzhiOWNkN2UzMGU3M2YwZWE3NzlkMTc2NDMzMGU2OTI2NCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "87b57113-d8ca-4fa4-8214-ea6896e2ce4f",
+    "name": "Zombie Nitwit",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI1NTJjOTBmMjEyZTg1NWQxMjI1NWQ1Y2Q2MmVkMzhiOWNkN2UzMGU3M2YwZWE3NzlkMTc2NDMzMGU2OTI2NCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "87b57113-d8ca-4fa4-8214-ea6896e2ce4f",
+    "name": "Zombie Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI1NTJjOTBmMjEyZTg1NWQxMjI1NWQ1Y2Q2MmVkMzhiOWNkN2UzMGU3M2YwZWE3NzlkMTc2NDMzMGU2OTI2NCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "47f729f2-a01c-46c8-982b-82d2ac59437f",
+    "name": "Zombie Shepherd",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjkxMzkxYmVmM2E0NmVmMjY3ZDNiNzE3MTA4NmJhNGM4ZDE3ZjJhNmIwZjgzZmEyYWMzMGVmZTkxNGI3YzI0OSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "87b57113-d8ca-4fa4-8214-ea6896e2ce4f",
+    "name": "Zombie Toolsmith",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI1NTJjOTBmMjEyZTg1NWQxMjI1NWQ1Y2Q2MmVkMzhiOWNkN2UzMGU3M2YwZWE3NzlkMTc2NDMzMGU2OTI2NCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "zombie_villager.json",
+    "uuid": "920e0f3f-f4f4-4b99-8eac-509a974a1393",
+    "name": "Zombie Weaponsmith",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM3MDg5NGI1Y2MzMDVkODdhYTA4YzNiNGIwODU4N2RiNjhmZjI5ZTdhM2VmMzU0Y2FkNmFiY2E1MGU1NTI4YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.5,
+    "lootingMultiplier": 0.02
+  },
+  {
+    "tableName": "cod.json",
+    "uuid": "7a77df37-8a6d-4dfc-8631-7a902e0d7791",
+    "name": "Cod",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI0NmUxOWIzMmNmNzg0NTQ5NDQ3ZTA3Yjk2MDcyZTFmNjU2ZDc4ZTkzY2NjYTU2Mzc0ODVlNjc0OTczNDY1MiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "silverfish.json",
+    "uuid": "24643d74-22c0-4bb6-a017-71bee3f05429",
+    "name": "Silverfish",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1ZTlmYWUzNzE2NjRkZTFhODAwYzg0ZDAyNTEyNGFiYjhmMTUxMTE4MDdjOGJjMWFiOTEyNmFhY2JkNGY5NSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "guardian.json",
+    "uuid": "12d2f3a0-a7db-45b9-8e0d-2e3cd1c77a4e",
+    "name": "Guardian",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJiYTM0NDE2NjcwNDU0YjFhMjA0OTZmODBiOTM5ODUyOWY0OTAwM2ZjNjEzZWI5MzAyNDhlYTliNWQxYTM5MSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.005,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "mooshroom.json",
+    "uuid": "c1cfcfe7-8dd8-4a60-b155-b590502b63af",
+    "name": "Red Mooshroom",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGE4MDYwNmU4MmM2NDJmMTQxNTg3NzMzZTMxODBhZTU3ZjY0NjQ0MmM5ZmZmZDRlNTk5NzQ1N2UzNDMxMWEyOSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.01,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "mooshroom.json",
+    "uuid": "50108493-e74b-454c-82f0-0948811c4aed",
+    "name": "Brown Mooshroom",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2U2NDY2MzAyYTVhYjQzOThiNGU0NzczNDk4MDhlNWQ5NDAyZWEzYWQ4ZmM0MmUyNDQ2ZTRiZWQwYTVlZDVlIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.1,
+    "lootingMultiplier": 0.001
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "9f03a40d-b362-47ae-8aca-224005b8a9f9",
+    "name": "Armorer Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVmNjI3ZjU2NmFjMGE3ODI4YmFkOTNlOWU0Yjk2NDNkOTlhOTI4YTEzZDVmOTc3YmY0NDFlNDBkYjEzMzZiZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "8b3e5814-bc3f-426c-b82d-f8963a814cd4",
+    "name": "Butcher Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFiYWQ2NDE4NWUwNGJmMWRhZmUzZGE4NDkzM2QwMjU0NWVhNGE2MzIyMWExMGQwZjA3NzU5MTc5MTEyYmRjMiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "a4c8ec34-0799-44b9-bcae-e14c26a511d2",
+    "name": "Cartographer Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNhZWNmYmU4MDFjZjMyYjVkMWIwYjFmNjY4MDA0OTY2NjE1ODY3OGM1M2Y0YTY1MWZjODNlMGRmOWQzNzM4YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "a997a7dc-68a0-41b9-b47e-a60f6217be1d",
+    "name": "Cleric Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWI5ZTU4MmUyZjliODlkNTU2ZTc5YzQ2OTdmNzA2YjFkZDQ5MjllY2FlM2MwN2VlOTBiZjFkNWJlMzE5YmY2ZiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "8c388a81-b2a5-43dc-b452-4d8221454e12",
+    "name": "Farmer Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDkyNzJkMDNjZGE2MjkwZTRkOTI1YTdlODUwYTc0NWU3MTFmZTU3NjBmNmYwNmY5M2Q5MmI4ZjhjNzM5ZGIwNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "a31c4706-fb35-427a-a435-e3638ee9e012",
+    "name": "Fisherman Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDE4OWZiNGFjZDE1ZDczZmYyYTU4YTg4ZGYwNDY2YWQ5ZjRjMTU0YTIwMDhlNWM2MjY1ZDVjMmYwN2QzOTM3NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "758d3650-3de5-4b1f-b530-2f43994c461f",
+    "name": "Fletcher Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmY2MTFmMTJlMThjZTQ0YTU3MjM4ZWVmMWNhZTAzY2Q5ZjczMGE3YTQ1ZTBlYzI0OGYxNGNlODRlOWM0ODA1NiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "5625c69c-79b2-4c65-9244-acffeccafa26",
+    "name": "Leatherworker Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUwZTk1OTFlMTFhYWVmNGMyYzUxZDlhYzY5NTE0ZTM0MDQ4NWRlZmNjMmMxMmMzOGNkMTIzODZjMmVjNmI3OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "7a079427-3943-455a-b5ad-f12db8a52db4",
+    "name": "Librarian Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjYWE1NzRiYWJiNDBlZTBmYTgzZjJmZDVlYTIwY2ZmMzFmZmEyNzJmZTExMzU4OGNlZWU0Njk2ODIxMjhlNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "5625c69c-79b2-4c65-9244-acffeccafa26",
+    "name": "Mason Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUwZTk1OTFlMTFhYWVmNGMyYzUxZDlhYzY5NTE0ZTM0MDQ4NWRlZmNjMmMxMmMzOGNkMTIzODZjMmVjNmI3OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "5625c69c-79b2-4c65-9244-acffeccafa26",
+    "name": "Nitwit Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUwZTk1OTFlMTFhYWVmNGMyYzUxZDlhYzY5NTE0ZTM0MDQ4NWRlZmNjMmMxMmMzOGNkMTIzODZjMmVjNmI3OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "5625c69c-79b2-4c65-9244-acffeccafa26",
+    "name": "Unemployed Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUwZTk1OTFlMTFhYWVmNGMyYzUxZDlhYzY5NTE0ZTM0MDQ4NWRlZmNjMmMxMmMzOGNkMTIzODZjMmVjNmI3OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "90621234-a558-47d9-ad55-520a35949240",
+    "name": "Shepherd Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmFiZjRlOTE1NGFjOTI3MTk0MWM3MzNlYWNjNjJkYzlmYzBhNmRjMWI1ZDY3Yzc4Y2E5OGFmYjVjYjFiZTliMiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "5625c69c-79b2-4c65-9244-acffeccafa26",
+    "name": "Toolsmith Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUwZTk1OTFlMTFhYWVmNGMyYzUxZDlhYzY5NTE0ZTM0MDQ4NWRlZmNjMmMxMmMzOGNkMTIzODZjMmVjNmI3OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "villager.json",
+    "uuid": "89758501-e3e9-466e-83bc-8d4de4c8d540",
+    "name": "Weaponsmith Villager",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ3NmZmYTQxMGJiZTdmYTcwOTA5OTY1YTEyNWY0YTRlOWE0ZmIxY2UxYjhiM2MzNGJmYjczYWFmZmQ0Y2U0MyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "polar_bear.json",
+    "uuid": "8da54a4d-5286-4cb1-b230-2ecf43afb74d",
+    "name": "Polar Bear",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Q4NzAyOTExZTYxNmMwZDMyZmJlNzc4ZDE5NWYyMWVjY2U5MDI1YmNiZDA5MTUxZTNkOTdhZjMxOTJhYTdlYyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "sheep/green.json",
+    "uuid": "2b93c3df-2493-4ae7-b016-d8077b12d8b4",
+    "name": "Green Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWVhODg3ZWFlNGIwNzYzNmU5ZTJmOTA2NjA5YjAwYWI4ZDliODZiNzQ3MjhiODE5ZmY2ZjM3NjU4M2VhMTM5In19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/white.json",
+    "uuid": "65e3a049-9a74-4d18-8c24-9bb33b06fd61",
+    "name": "White Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRmZTdjYzQ2ZDc0OWIxNTMyNjFjMWRjMTFhYmJmMmEzMTA4ZWExYmEwYjI2NTAyODBlZWQxNTkyZGNmYzc1YiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/blue.json",
+    "uuid": "02171714-091c-4f05-8578-c3729e0f8aa4",
+    "name": "Blue Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQwZTI3N2RhNmMzOThiNzQ5YTMyZjlkMDgwZjFjZjRjNGVmM2YxZjIwZGQ5ZTVmNDIyNTA5ZTdmZjU5M2MwIn19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/orange.json",
+    "uuid": "9d181c2a-b6e9-463c-9b09-2d8082fd4034",
+    "name": "Orange Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjY4NGQwNGZhODBhYTU5ZGExNDUzNWRlYWQzODgzZDA5N2ZiYmE0MDA2MjU2NTlmNTI1OTk2NDgwNmJhNjZmMCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/purple.json",
+    "uuid": "c49d7cb3-c0fa-47c4-9cdc-272de52efc34",
+    "name": "Purple Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQ0OWQwODI5MWRhZTQ1YTI0NjczNjE5NjAyZjQzNWI1N2Y0Y2Q0ZTllOThkMmUwZmJlYzRmMTgxNDQ3ODFkMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/red.json",
+    "uuid": "8cdb36ec-68c2-4d8e-9fd3-4c824db6c9f3",
+    "name": "Red Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQ3OGUwNTcxNThkZTZmNDVlMjU0MWNkMTc3ODhlNjQwY2NiNTk3MjNkZTU5YzI1NGU4MmFiNTcxMWYzZmMyNyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/pink.json",
+    "uuid": "edc5b391-2f14-4173-b2e2-4832ddabe4ab",
+    "name": "Pink Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjM2M2U4YTkzZDI4N2E4NGU2NDAzMDlhZTgzY2ExZGUwYTBiMjU3NTA1YTIwZWM1NWIzMzQ5ZDQwYTQ0ODU0In19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/brown.json",
+    "uuid": "eced7547-e946-4042-b79d-c1218ed44c53",
+    "name": "Brown Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzEyOGQwODZiYzgxNjY5ZmMyMjU1YmIyMmNhZGM2NmEwZjVlZDcwODg1ZTg0YzMyZDM3YzFiNDg0ZGIzNTkwMSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/light_blue.json",
+    "uuid": "5144d85a-4fda-40ff-9ff9-a5da6b3bfcfb",
+    "name": "Light Blue Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWJmMjNhZjg3MTljNDM3YjNlZTg0MDE5YmEzYzllNjljYTg1NGQzYThhZmQ1Y2JhNmQ5Njk2YzA1M2I0ODYxNCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/lime.json",
+    "uuid": "4cbcb683-f2f5-4118-afe8-056dc65ca4a0",
+    "name": "Lime Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmJlYWQwMzQyYWU4OWI4ZGZkM2Q3MTFhNjBhZGQ2NWUyYzJiZmVhOGQwYmQyNzRhNzU4N2RlZWQ3YTMxODkyZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/yellow.json",
+    "uuid": "dfe308cd-fbe4-4bf3-904d-f702d1003dad",
+    "name": "Yellow Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRiMjhmMDM1NzM1OTA2ZjgyZmZjNGRiYTk5YzlmMGI1NTI0MGU0MjZjZDFjNTI1YTlhYTc3MTgwZWVjNDkzNCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/black.json",
+    "uuid": "c05a3ddc-a4b4-47c0-88fb-d2fa97123ccc",
+    "name": "Black Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTMzMzVlODA2NWM3YjVkZmVhNThkM2RmNzQ3NGYzOTZhZjRmYTBhMmJhNTJhM2M5YjdmYmE2ODMxOTI3MWM5MSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/cyan.json",
+    "uuid": "db9a000b-ee42-454b-a53a-92f8a6cbfe4e",
+    "name": "Cyan Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWQ0MmZjYmNhZjlkNDhmNzNmZmIwYzNjMzZmMzRiNDY0MzI5NWY2ZGFhNmNjNzRhYjlkMjQyZWQ1YWE1NjM2In19fQ==",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/magenta.json",
+    "uuid": "4d313379-2cb3-44eb-ab56-57056beb8a41",
+    "name": "Magenta Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYThlMWYwNWYwZGFjY2E2M2E3MzE4NzRmOTBhNjkzZmZlMjFmZjgzMmUyYjFlMWQwN2I2NWM4NzY0NTI2ZjA4OSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/light_gray.json",
+    "uuid": "685748a6-6cde-4e26-a51c-d2f20f253c6d",
+    "name": "Light Gray Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWQyZTJlOTNhMTQyYmZkNDNmMjQwZDM3ZGU4ZjliMDk3NmU3NmU2NWIyMjY1MTkwODI1OWU0NmRiNzcwZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/gray.json",
+    "uuid": "9954b052-0422-4e78-abe7-ba5860287bc1",
+    "name": "Gray Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2ZhZmVjZjA2MDNiMmRjZDc5ODRkMjUyNTg2MDY5ODk1ZGI5YWE3OGUxODQxYmQ1NTRiMTk1MDhkY2Y5NjdhMSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.0175,
+    "lootingMultiplier": 0.0025
+  },
+  {
+    "tableName": "sheep/jeb_sheep.json",
+    "uuid": "3e717052-24b0-4920-9df8-4242d362768b",
+    "name": "jeb_ Sheep",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjMzMzI2NzY1YTE5MGViZjkwZDU0ODZkNzFmMjBlMjU5N2U0YmVlMmEzOTFmZWNiYmQ4MGRlYmZlMWY4MmQ3OCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.1,
+    "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "shulker.json",
+    "uuid": "4e7bb834-53a8-41a3-a799-7124e2c8413c",
+    "name": "Shulker",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI5ZTZhZjZiODE5ZjNkOTBlNjdjZTJlNzA1OWZiZWYzMWRhMmFhOTUzZDM1ZTM0NTRmMTAyMWZhOTEyZWZkZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.01
+  }
+]

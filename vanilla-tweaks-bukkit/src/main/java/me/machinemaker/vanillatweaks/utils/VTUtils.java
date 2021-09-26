@@ -61,10 +61,20 @@ public final class VTUtils {
     }
 
     public static ItemStack getSkull(String name, @Nullable UUID uuid, String texture, int count) {
+        return getSkull(name, null, uuid, texture, count);
+    }
+
+    public static ItemStack getSkullWithGameProfileName(String name, @NotNull UUID uuid, String texture) {
+        return getSkull(null, name,  uuid, texture, 1);
+    }
+
+    public static ItemStack getSkull(String name, String gameProfileName, @Nullable UUID uuid, String texture, int count) {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD, count);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
-        meta.setDisplayName(name);
-        GameProfile profile = new GameProfile(uuid == null ? UUID.randomUUID() : uuid, null);
+        if (name != null) {
+            meta.setDisplayName(name);
+        }
+        GameProfile profile = new GameProfile(uuid == null ? UUID.randomUUID() : uuid, gameProfileName);
         profile.getProperties().put("textures", new Property("textures", texture));
         loadMeta(meta, profile);
         skull.setItemMeta(meta);

@@ -313,6 +313,10 @@ permissions:
     default: op
     description: Configure WanderingTrades in-game
 
+  vanillatweaks.moremobheads:
+    default: true
+    description: Mobs killed by this player will drop heads (if killed by a player)
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1

@@ -34,7 +34,7 @@
 - [x] ~~Double Shulker Shells~~ **USE DATAPACK**
 - [x] ~~Dragon Drops~~ **USE DATAPACK**
 - [x] Larger Phantoms
-- [ ] More Mob Heads~~ **USE DATAPACK** (or maybe not, still deciding)
+- [x] More Mob Heads
 - [x] Silence Mobs
 - [x] Count Mob Deaths
 - [x] Villager Death Messages **PAPER ONLY**
