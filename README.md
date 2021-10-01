@@ -18,3 +18,7 @@ A better-performance replacement for the popular VanillaTweaks datapack collecti
 Credits:
 Vanilla Tweaks by Xisumavoid: https://www.xisumavoid.com/vanillatweaks
 ```
+
+<p align="center">
+    <a href="https://dedicatedmc.io/minecraft"><img width="700" height="140" src="https://cdn.discordapp.com/attachments/479699795431129088/893386694978580480/Spigot_Banner_VanillaTweaks_small.png" alt="DedicatedMC"></a>
+</p>
