@@ -317,6 +317,10 @@ permissions:
     default: true
     description: Mobs killed by this player will drop heads (if killed by a player)
 
+  vanillatweaks.treasuregems.give:
+    default: op
+    description: Give yourself the gem micro blocks from treasure gems
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1

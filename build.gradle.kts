@@ -74,6 +74,7 @@ subprojects {
         // Native to minecraft
         compileOnly("com.mojang:authlib:1.5.25")
         compileOnly("org.slf4j:slf4j-api:1.7.30")
+        compileOnly("com.mojang:brigadier:1.0.18")
 
         testImplementation("org.apache.commons:commons-configuration2:2.7")
         testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")

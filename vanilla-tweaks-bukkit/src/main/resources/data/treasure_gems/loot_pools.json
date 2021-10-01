@@ -1,0 +1,866 @@
+{
+  "minecraft:chests/jungle_temple": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/stronghold_library": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/stronghold_corridor": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/desert_pyramid": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/woodland_mansion": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/simple_dungeon": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/stronghold_crossing": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/end_city_treasure": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/nether_bridge": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/igloo_chest": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/village/village_toolsmith": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  },
+  "minecraft:chests/abandoned_mineshaft": {
+    "rolls": {
+      "min": 1,
+      "max": 2
+    },
+    "entries": [
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "7f58e517-84ef-4323-811d-0da2b35e9745",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWVlNDY5MzBmNDg2NTkyZGJlMzVjMjEzNDc5ODE0MDNlMTQ3MGVjMGYwODUwY2M5MzM1YTQ4OTA5ODJjOTEzMCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Sapphire Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "bf869c1b-e5c1-43f8-96cd-d7424f10f583",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjkyNGUyNzI2YTg1NDE4M2FhMTE5NWM0ZTk1NzQ4NzdiOGFlZTM1NWI1NzViNWMwYmJlMGQ0MDc1Y2ZlOThjOCJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Ruby Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "2c2f6075-bd15-42f1-8bcd-5310f85e83ff",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJjYmZmMDZhZDJlMzg3ZDM0ZjZiOGE5YjkxYzI4MTcyMTViNzgxYWZlNjgzODk1ZjNkNmViNGUzZGE0MTgifX19",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Amethyst Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Topaz Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 1,
+        "head": {
+          "uuid": "a9ba4be1-61d3-4221-82fa-081fc461e037",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmE5ZTI4ZmFiN2QzZDAxMWJjODRiZjE2ZGFmMmY5NThhOGI4OGIwNmUwZDVlNTBjMjU0NDdiNWRmNGM2MGI3YyJ9fX0=",
+          "name": "{\"extra\":[{\"italic\":false,\"color\":\"yellow\",\"text\":\"Aquamarine Gem\"}],\"text\":\"\"}"
+        },
+        "count": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "weight": 2,
+        "head": null
+      }
+    ]
+  }
+}

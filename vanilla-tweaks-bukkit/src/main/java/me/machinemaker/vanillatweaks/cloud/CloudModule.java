@@ -33,9 +33,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
+import me.machinemaker.vanillatweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcherFactory;
@@ -134,6 +136,14 @@ public class CloudModule extends AbstractModule {
             minecraftExceptionHandler.apply(manager, AudienceProvider.nativeAudience());
             commandCooldownManager.registerCooldownManager(manager);
             manager.registerCommandPostProcessor(new GamemodePostprocessor());
+
+            manager.brigadierManager().registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
+                builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {
+                    case QUOTED -> StringArgumentType.string();
+                    case GREEDY -> StringArgumentType.greedyString();
+                    default -> StringArgumentType.word();
+                });
+            });
 
             return manager;
         } catch (Exception e) {

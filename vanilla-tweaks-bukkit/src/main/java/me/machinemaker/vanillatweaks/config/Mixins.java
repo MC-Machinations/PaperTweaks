@@ -31,6 +31,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.loot.LootTables;
 
 import java.io.IOException;
 
@@ -44,6 +45,7 @@ public final class Mixins {
         mapper.addMixIn(Material.class, MaterialMixIn.class);
         mapper.addMixIn(EntityType.class, EntityTypeMixIn.class);
         mapper.addMixIn(World.class, WorldMixIn.class);
+        mapper.addMixIn(LootTables.class, Keyed.class);
         return mapper;
     }
 

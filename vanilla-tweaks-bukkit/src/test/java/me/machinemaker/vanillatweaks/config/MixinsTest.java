@@ -30,6 +30,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.loot.LootTables;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -81,5 +82,11 @@ class MixinsTest {
     void testWorldMixin() throws JsonProcessingException {
         assertEquals(Bukkit.getWorld("world"), mapper.readValue("world", World.class));
         assertThrows(InvalidFormatException.class, () -> mapper.readValue("not_a_world", World.class));
+    }
+
+    @Test
+    void testLootTablesMixin() throws JsonProcessingException {
+        assertEquals(LootTables.ABANDONED_MINESHAFT, mapper.readValue("minecraft:chests/abandoned_mineshaft", LootTables.class));
+        assertThrows(InvalidFormatException.class, () -> mapper.readValue("not_a_loot_table", LootTables.class));
     }
 }
