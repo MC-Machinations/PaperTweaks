@@ -34,7 +34,6 @@ import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
 import org.jetbrains.annotations.NotNull;
@@ -68,13 +67,12 @@ public class TreasureGems extends ModuleBase {
             var iter = heads.fields();
             while (iter.hasNext()) {
                 var entry = iter.next();
-                String legacyName = LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(entry.getValue().get("name").asText()));
-                tempHeads.put(entry.getKey(), VTUtils.getSkull(legacyName, UUID.fromString(entry.getValue().get("uuid").asText()), entry.getValue().get("texture").asText(), 1));
+                tempHeads.put(entry.getKey(), VTUtils.getSkull(GsonComponentSerializer.gson().deserialize(entry.getValue().get("name").asText()), UUID.fromString(entry.getValue().get("uuid").asText()), entry.getValue().get("texture").asText(), 1));
             }
 
         } catch (IOException e) {
             tempTreasurePoolMap = Collections.emptyMap();
-            LOGGER.error("Could not load treasure gems from data/treasure_gems.json. This module will not work properly", e);
+            LOGGER.error("Could not load treasure gems from data/treasure_gems/. This module will not work properly", e);
         }
 
         this.treasurePoolMap = tempTreasurePoolMap;

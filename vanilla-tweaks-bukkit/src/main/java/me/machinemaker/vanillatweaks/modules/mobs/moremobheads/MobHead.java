@@ -57,7 +57,7 @@ class MobHead {
     MobHead(@JsonProperty("tableName") String lootTable, UUID uuid, String name, String texture, boolean needsPlayer, boolean requiresCustomization, float chance, float lootingMultiplier) {
         this.lootTable = lootTable;
         this.name = name;
-        this.skull = VTUtils.getSkullWithGameProfileName(name, uuid, texture);
+        this.skull = VTUtils.getSkull(name, uuid, texture);
         this.needsPlayer = needsPlayer;
         this.requiresCustomization = requiresCustomization;
         this.chance = chance;

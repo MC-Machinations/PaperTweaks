@@ -92,7 +92,7 @@ public class VanillaTweaks extends JavaPlugin {
     private final Path modulesPath = dataPath.resolve("modules");
     private final Path i18nPath = dataPath.resolve("i18n");
     private final VanillaTweaksConfig config = BaseConfig.create(VanillaTweaksConfig.class, this.dataPath);
-    private final Jdbi jdbi = Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + this.dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;AUTO_SERVER=TRUE", this.config.database.user, this.config.database.password)).installPlugin(new SqlObjectPlugin());
+    private final Jdbi jdbi = Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + this.dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;AUTO_SERVER=TRUE;FILE_LOCK=SOCKET", this.config.database.user, this.config.database.password)).installPlugin(new SqlObjectPlugin());
 
     @Override
     public void onEnable() {

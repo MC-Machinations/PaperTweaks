@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import me.machinemaker.vanillatweaks.utils.WeightedRandomList;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +69,7 @@ class TreasurePool {
                 this.minCount = map.get("min");
                 this.maxCount = map.get("max");
                 this.skullCreator = value -> {
-                    return VTUtils.getSkull(LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(head.get("name"))), UUID.fromString(head.get("uuid")), head.get("texture"), value);
+                    return VTUtils.getSkull(GsonComponentSerializer.gson().deserialize(head.get("name")), UUID.fromString(head.get("uuid")), head.get("texture"), value);
                 };
             } else if (map == null && head == null) {
                 this.minCount = 0;

@@ -30,6 +30,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,7 +55,7 @@ public class ModuleManager {
     private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeGeneralTopics");
     private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeCommands");
 
-    private static final ReflectionUtils.MethodInvoker RESEND_DATA_METHOD = ReflectionUtils.getMethod(PLAYER_LIST_CLASS, "reload");
+    private static final ReflectionUtils.MethodInvoker RESEND_DATA_METHOD = ReflectionUtils.findMethod(PLAYER_LIST_CLASS, List.of("reload", "reloadResources"));
 
     private static void resendData() {
         RESEND_DATA_METHOD.invoke(PLAYER_LIST);

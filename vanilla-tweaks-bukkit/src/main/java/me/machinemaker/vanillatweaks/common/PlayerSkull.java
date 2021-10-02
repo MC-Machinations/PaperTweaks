@@ -17,41 +17,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.modules.hermitcraft.wanderingtrades;
+package me.machinemaker.vanillatweaks.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.MerchantRecipe;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-class Trade {
+public class PlayerSkull {
 
-    private final int maxUses;
-    private final Material secondaryCost;
     private final ItemStack skull;
 
-    @JsonCreator
-    Trade(int maxUses, @NotNull Material secondaryCost, int headCount, @NotNull String name, @NotNull UUID uuid, @NotNull String texture) {
-        this.maxUses = maxUses;
-        this.secondaryCost = secondaryCost;
-        this.skull = VTUtils.getSkull(GsonComponentSerializer.gson().deserialize(name), uuid, texture, headCount);
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public PlayerSkull(@Nullable String name, @Nullable String gameProfileName, @Nullable UUID uuid, @Nullable String texture, @Nullable Integer count) {
+        this.skull = VTUtils.getSkull(GsonComponentSerializer.gson().deserializeOrNull(name), gameProfileName, uuid, texture, count != null ? count : 1);
     }
 
-    public boolean isBlockTrade() {
-        return this.secondaryCost != Material.AIR;
+    public @NotNull ItemStack cloneWithAmount(int amount) {
+        ItemStack clone = this.skull.clone();
+        clone.setAmount(amount);
+        return clone;
     }
 
-    public @NotNull MerchantRecipe createTrade() {
-        MerchantRecipe recipe = new MerchantRecipe(this.skull.clone(), this.maxUses);
-        recipe.addIngredient(new ItemStack(Material.EMERALD, 1));
-        if (secondaryCost != Material.AIR) {
-            recipe.addIngredient(new ItemStack(this.secondaryCost, 1));
-        }
-        return recipe;
+    public @NotNull ItemStack cloneSingle() {
+        return this.cloneWithAmount(1);
+    }
+
+    public @NotNull ItemStack cloneOriginal() {
+        return this.skull.clone();
     }
 }

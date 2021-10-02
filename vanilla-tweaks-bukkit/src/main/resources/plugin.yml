@@ -321,6 +321,10 @@ permissions:
     default: op
     description: Give yourself the gem micro blocks from treasure gems
 
+  vanillatweaks.gemvillagers.spawn:
+    default: op
+    description: Spawn a new gem villager
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1

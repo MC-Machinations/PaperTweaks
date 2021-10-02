@@ -57,7 +57,7 @@
 
 ### Hermitcraft
 
-- [ ] Gem Villagers
+- [x] Gem Villagers
 - [x] Treasure Gems
 - [x] Wandering Trades
 - [x] Wandering Trades (Hermit Edition)

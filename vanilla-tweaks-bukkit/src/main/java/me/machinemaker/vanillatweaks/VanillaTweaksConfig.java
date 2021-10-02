@@ -32,7 +32,7 @@ public class VanillaTweaksConfig extends BaseConfig {
 
     public Database database = new Database();
 
-    @ConfigurationSection(path = "database", description = "Settings related to the embedded database")
+    @ConfigurationSection(path = "database", description = "Settings related to the embedded database. Don't change these, they are just there if you want to look inside the H2 database for yourself")
     public static class Database {
 
         public String user = "user";

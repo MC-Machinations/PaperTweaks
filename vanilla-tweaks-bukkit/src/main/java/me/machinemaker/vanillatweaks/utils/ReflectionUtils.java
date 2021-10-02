@@ -27,6 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -265,7 +266,7 @@ public final class ReflectionUtils {
         // Search in parent classes
         if (target.getSuperclass() != null)
             return getField(target.getSuperclass(), name, fieldType, index);
-        throw new IllegalArgumentException("Cannot find field with type " + fieldType);
+        throw new IllegalArgumentException("Cannot find field with type " + fieldType.getType());
     }
 
     /**
@@ -292,6 +293,32 @@ public final class ReflectionUtils {
      */
     public static MethodInvoker getMethod(Class<?> clazz, String methodName, Class<?>... params) {
         return getTypedMethod(clazz, methodName, null, params);
+    }
+
+    /**
+     * Search for the first publicly and privately defined method of the given name and parameter count.
+     *
+     * @param clazz      a class to start with
+     * @param methodNames the method names to check for
+     * @param params     the expected parameters
+     * @return an object that invokes this specific method
+     * @throws IllegalStateException If we cannot find this method
+     */
+    public static MethodInvoker findMethod(Class<?> clazz, Collection<String> methodNames, Class<?>... params) {
+        MethodInvoker invoker = null;
+        try {
+            for (String name : methodNames) {
+                invoker = getTypedMethod(clazz, name, null, params);
+                if (invoker != null) {
+                    break;
+                }
+            }
+        } catch (IllegalStateException ignored) {
+        }
+        if (invoker == null) {
+            throw new IllegalStateException(String.format("Unable to find method (one of: %s) (%s) in %s.", String.join(", ", methodNames), Arrays.asList(params), clazz.getCanonicalName()));
+        }
+        return invoker;
     }
 
     /**
@@ -365,7 +392,7 @@ public final class ReflectionUtils {
         if (clazz.getSuperclass() != null)
             return getMethod(clazz.getSuperclass(), methodName, params);
         throw new IllegalStateException(String.format(
-                "Unable to find method %s (%s).", methodName, Arrays.asList(params)));
+                "Unable to find method %s (%s) in %s.", methodName, Arrays.asList(params), clazz.getCanonicalName()));
     }
 
     /**

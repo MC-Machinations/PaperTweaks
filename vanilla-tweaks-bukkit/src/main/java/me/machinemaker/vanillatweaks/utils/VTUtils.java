@@ -23,6 +23,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.apache.commons.lang.mutable.MutableInt;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -49,40 +51,50 @@ public final class VTUtils {
 
     private static final Class<?> CRAFT_PLAYER_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftPlayer");
     private static final ReflectionUtils.MethodInvoker CRAFT_PLAYER_GET_HANDLE_METHOD = ReflectionUtils.getMethod(CRAFT_PLAYER_CLASS, "getHandle");
-    private static final Class<?> NMS_PLAYER_CLASS = ReflectionUtils.getMinecraftClass("world.entity.player.EntityHuman");
+    private static final Class<?> NMS_PLAYER_CLASS = ReflectionUtils.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
     private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.getTypedMethod(NMS_PLAYER_CLASS, "getProfile", GameProfile.class);
+    private static final Class<?> CRAFT_META_SKULL_CLASS = ReflectionUtils.getCraftBukkitClass("inventory.CraftMetaSkull");
+    private static final ReflectionUtils.FieldAccessor<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "profile", GameProfile.class);
+    private static final ReflectionUtils.FieldAccessor<String> CRAFT_META_ITEM_DISPLAY_NAME_JSON = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "displayName", String.class);
 
     public static GameProfile getGameProfile(Player player) {
         return (GameProfile) NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE_METHOD.invoke(player));
     }
 
-    public static ItemStack getSkull(String name, String texture) {
+    public static ItemStack getSkull(Component name, String texture) {
         return getSkull(name, null, texture, 1);
     }
 
-    public static ItemStack getSkull(String name, @Nullable UUID uuid, String texture, int count) {
+    public static ItemStack getSkull(Component name, @Nullable UUID uuid, String texture, int count) {
         return getSkull(name, null, uuid, texture, count);
     }
 
-    public static ItemStack getSkullWithGameProfileName(String name, @NotNull UUID uuid, String texture) {
-        return getSkull(null, name,  uuid, texture, 1);
+    public static ItemStack getSkull(String gameProfileName, @NotNull UUID uuid, String texture) {
+        return getSkull(null, gameProfileName,  uuid, texture, 1);
     }
 
-    public static ItemStack getSkull(String name, String gameProfileName, @Nullable UUID uuid, String texture, int count) {
+    public static ItemStack getSkull(@Nullable Component name, @Nullable String gameProfileName, @Nullable UUID uuid, @Nullable String texture, int count) {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD, count);
-        SkullMeta meta = (SkullMeta) skull.getItemMeta();
-        if (name != null) {
-            meta.setDisplayName(name);
+        if (name == null && gameProfileName == null && uuid == null && texture == null) {
+            return skull;
         }
+        SkullMeta meta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(uuid == null ? UUID.randomUUID() : uuid, gameProfileName);
         profile.getProperties().put("textures", new Property("textures", texture));
-        loadMeta(meta, profile);
+        loadMeta(meta, profile, name);
         skull.setItemMeta(meta);
         return skull;
     }
 
     public static void loadMeta(SkullMeta meta, GameProfile profile) {
-        ReflectionUtils.getField(meta.getClass(), "profile", GameProfile.class).set(meta, profile);
+        loadMeta(meta, profile, null);
+    }
+
+    public static void loadMeta(SkullMeta meta, GameProfile profile, @Nullable Component name) {
+        CRAFT_META_ITEM_GAME_PROFILE.set(meta, profile);
+        if (name != null) {
+            CRAFT_META_ITEM_DISPLAY_NAME_JSON.set(meta, GsonComponentSerializer.gson().serialize(name));
+        }
     }
 
     public static @NotNull Location toBlockLoc(@NotNull Location location) {
