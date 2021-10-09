@@ -23,27 +23,26 @@ import cloud.commandframework.bukkit.parsers.location.LocationArgument;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import org.bukkit.Location;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "gemvillagers", aliases = {"gvillagers", "gv"}, i18n = "gem-villagers", perm = "gemvillagers")
 class Commands extends ConfiguredModuleCommand {
 
     private final GemVillagers gemVillagers;
 
     @Inject
     Commands(GemVillagers gemVillagers) {
-        super("gem-villagers", "gemvillagers");
         this.gemVillagers = gemVillagers;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("gemvillagers", "modules.gem-villagers.commands.root", "gvillagers", "gv");
-
-        manager.command(literal(builder, "spawn")
+        manager.command(literal(this.player(), "spawn")
                 .argument(PseudoEnumArgument.single("villager", this.gemVillagers.villagers.keySet()))
                 .argument(LocationArgument.optional("loc"))
                 .handler(sync((context, player) -> {

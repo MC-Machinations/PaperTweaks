@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.modules.survival.pillagertools;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 
 import java.util.Locale;
 
@@ -30,19 +31,19 @@ import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
+@ModuleCommand.Info(value = "pillagertools", aliases = "ptools", i18n = "pillager-tools", perm = "pillagertools")
 class Commands extends ConfiguredModuleCommand {
 
     private final Config config;
 
     @Inject
     Commands(Config config) {
-        super("pillager-tools", "pillagertools");
         this.config = config;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = cmd("pillagertools", "modules.pillager-tools.commands.root", "ptools");
+        var builder = this.builder();
 
         manager.command(literal(builder, "status")
                 .handler(context -> {

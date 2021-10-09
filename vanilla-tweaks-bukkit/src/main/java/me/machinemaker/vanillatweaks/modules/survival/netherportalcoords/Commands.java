@@ -19,7 +19,6 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.netherportalcoords;
 
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
@@ -34,6 +33,7 @@ import static me.machinemaker.vanillatweaks.adventure.translations.MappedTransla
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "portalcoords", aliases = "pcoords", descriptionKey = "modules.nether-portal-coords.commands.root", isMapped = true)
 class Commands extends ModuleCommand {
 
     private final Config config;
@@ -45,7 +45,7 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("portalcoords", RichDescription.of(mapped("modules.nether-portal-coords.commands.root")), "pcoords");
+        var builder = this.player();
 
         this.manager.command(builder
                 .permission(modulePermission("vanillatweaks.netherportalcoords"))

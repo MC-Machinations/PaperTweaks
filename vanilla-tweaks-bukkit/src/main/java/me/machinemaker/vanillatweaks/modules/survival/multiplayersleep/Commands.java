@@ -27,6 +27,7 @@ import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
@@ -41,7 +42,8 @@ import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.JoinConfiguration.separator;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Commands extends ModuleCommand {
+@ModuleCommand.Info(value = "multiplayersleep", aliases = {"mpsleep", "mps"}, i18n = "multiplayer-sleep", perm = "multiplayersleep")
+class Commands extends ConfiguredModuleCommand {
 
     private static final PlayerConfigurationMenu<Settings.DisplaySetting> MENU = new PlayerConfigurationMenu<>(
             Components.join(text(" ".repeat(16) + "MultiplayerSleep"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(16) + "\n")),
@@ -59,15 +61,11 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("multiplayersleep", "modules.multiplayer-sleep.commands.root", "mpsleep", "mps");
-        final var configBuilder = builder
-                .permission(modulePermission("vanillatweaks.multiplayersleep.configure"))
-                .literal("config", RichDescription.translatable("modules.multiplayer-sleep.commands.config"));
+        var builder = this.player();
+        final var configBuilder = this.literal(builder, "config");
 
         manager
-                .command(builder
-                        .permission(modulePermission("vanillatweaks.multiplayersleep.list-sleeping"))
-                        .literal("sleeping", RichDescription.translatable("modules.multiplayer-sleep.commands.players-sleeping"))
+                .command(this.literal(builder, "sleeping")
                         .handler(context -> {
                             World world = PlayerCommandDispatcher.from(context).getWorld();
                             SleepContext sleepContext = MultiplayerSleep.SLEEP_CONTEXT_MAP.computeIfAbsent(world.getUID(), uuid -> SleepContext.from(world));
@@ -75,16 +73,16 @@ class Commands extends ModuleCommand {
                             if (!sleepContext.sleepingPlayers().isEmpty()) {
                                 fullyAsleep = join(separator(text(", ", WHITE)), sleepContext.sleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
                             } else {
-                                fullyAsleep = translatable("modules.multiplayer-sleep.commands.players-sleeping.fully-asleep.empty", RED);
+                                fullyAsleep = translatable("modules.multiplayer-sleep.commands.sleeping.fully-asleep.empty", RED);
                             }
                             Component almostAsleep;
                             if (!sleepContext.almostSleepingPlayers().isEmpty()) {
                                 almostAsleep = join(separator(text(", ", WHITE)), sleepContext.almostSleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
                             } else {
-                                almostAsleep = translatable("modules.multiplayer-sleep.commands.players-sleeping.almost-asleep.empty", RED);
+                                almostAsleep = translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep.empty", RED);
                             }
-                            context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.players-sleeping.fully-asleep", GREEN, fullyAsleep));
-                            context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.players-sleeping.almost-asleep", YELLOW, almostAsleep));
+                            context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.fully-asleep", GREEN, fullyAsleep));
+                            context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep", YELLOW, almostAsleep));
                         })
                 ).command(configBuilder
                         .handler(context -> {

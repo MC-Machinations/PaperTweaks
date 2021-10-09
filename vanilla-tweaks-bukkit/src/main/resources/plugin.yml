@@ -21,24 +21,17 @@ permissions:
     default: true
     description: Toggle HUD
 
-  vanillatweaks.durabilityping.configure:
+  vanillatweaks.durabilityping.config:
     default: true
     description: Ability to configure your personal durability ping
-  vanillatweaks.durabilityping.toggle:
-    default: true
-    description: "Toggle durability ping notification (OUTDATED! use: `vanillatweaks.durabilityping.configure`"
-    children:
-      vanillatweaks.durabilityping.configure: true
-  vanillatweaks.durabilityping:
+  vanillatweaks.durabilityping.notification:
     default: true
     description: Gets the durability notification
-    children:
-      vanillatweaks.durabilityping.toggle: true
 
-  vanillatweaks.multiplayersleep.configure:
+  vanillatweaks.multiplayersleep.config:
     default: true
     description: Ability to configure your personal multiplayer sleep notification
-  vanillatweaks.multiplayersleep.list-sleeping:
+  vanillatweaks.multiplayersleep.sleeping:
     default: true
     description: List sleeping players
 
@@ -187,7 +180,7 @@ permissions:
       vanillatweaks.spawningspheres.add: true
       vanillatweaks.spawningspheres.remove: true
 
-  vanillatweaks.trackrawstats.show:
+  vanillatweaks.trackrawstats.display:
     default: false
     description: Display a specific stat
   vanillatweaks.trackrawstats.clear:
@@ -197,8 +190,8 @@ permissions:
     default: op
     description: All TrackRawStats commands
     children:
+      vanillatweaks.trackrawstats.display: true
       vanillatweaks.trackrawstats.clear: true
-      vanillatweaks.trackrawstats.show: true
 
   vanillatweaks.trackstats.show:
     default: false
@@ -254,7 +247,7 @@ permissions:
   vanillatweaks.tag.counter:
     default: false
     description: Sets the display slot for the tag counter
-  vanillatweaks.tag.config:
+  vanillatweaks.tag.admin.config:
     default: false
     description: Configure Tag in-game
   vanillatweaks.tag:
@@ -264,7 +257,7 @@ permissions:
       vanillatweaks.tag.givetag: true
       vanillatweaks.tag.reset: true
       vanillatweaks.tag.counter: true
-      vanillatweaks.tag.config: true
+      vanillatweaks.tag.admin.config: true
 
   vanillatweaks.thundershrine.create:
     default: false
@@ -282,7 +275,7 @@ permissions:
   vanillatweaks.back:
     default: true
     description: Use the back command to return to previous locations
-  vanillatweaks.back.config:
+  vanillatweaks.back.admin.config:
     default: op
     description: Configure Back in-game
 
@@ -298,7 +291,7 @@ permissions:
   vanillatweaks.tpa.deny:
     default: false
     description: Deny another player's request to teleport to you
-  vanillatweaks.tpa.config:
+  vanillatweaks.tpa.admin.config:
     default: op
     description: Configure TPA in-game
   vanillatweaks.tpa:
@@ -309,7 +302,7 @@ permissions:
       vanillatweaks.tpa.accept: true
       vanillatweaks.tpa.deny: true
 
-  vanillatweaks.wanderingtrades.config:
+  vanillatweaks.wanderingtrades.admin.config:
     default: op
     description: Configure WanderingTrades in-game
 

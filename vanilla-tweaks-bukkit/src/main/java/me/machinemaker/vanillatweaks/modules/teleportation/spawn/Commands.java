@@ -43,6 +43,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "spawn", descriptionKey = "modules.spawn.commands.root")
 class Commands extends ModuleCommand {
 
     static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
@@ -58,7 +59,7 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("spawn", "modules.spawn.commands.root");
+        var builder = this.player();
 
         final var cooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
                 .withKey(SPAWN_CMD_COOLDOWN_KEY)

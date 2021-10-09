@@ -19,40 +19,37 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackrawstats;
 
-import cloud.commandframework.minecraft.extras.RichDescription;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import org.bukkit.Bukkit;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Commands extends ModuleCommand {
+@ModuleCommand.Info(value = "trackrawstats", aliases = {"trackrs", "trs"}, i18n = "track-raw-stats", perm = "trackrawstats")
+class Commands extends ConfiguredModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("trackrawstats", "modules.track-raw-stats.commands.root", "trackrs", "trs");
+        var builder = this.player();
 
-        manager.command(builder
-                .permission(modulePermission("vanillatweaks.trackrawstats.show"))
-                .literal("display", RichDescription.translatable("modules.track-raw-stats.commands.show"))
-                .argument(ObjectiveArgument.of("objective"), RichDescription.translatable("modules.track-raw-stats.commands.show"))
+        manager.command(this.literal(builder, "display")
+                .argument(ObjectiveArgument.of("objective"))
                 .handler(sync((context, player) -> {
-                    player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                    player.setScoreboard(Scoreboards.main());
                     Tracked tracked = context.get("objective");
                     if (tracked.objective().getDisplaySlot() == DisplaySlot.SIDEBAR) {
-                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.show.already-displayed", YELLOW, tracked));
+                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.already-displayed", YELLOW, tracked));
                     } else {
                         tracked.objective().setDisplaySlot(DisplaySlot.SIDEBAR);
-                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.show.success", GREEN, tracked));
+                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.success", GREEN, tracked));
                     }
                 }))
-        ).command(builder
-                .permission(modulePermission("vanillatweaks.trackrawstats.clear"))
-                .literal("clear", RichDescription.translatable("modules.track-raw-stats.commands.clear"))
+        ).command(this.literal(builder, "clear")
                 .handler(sync(context -> {
-                    Objective currentlyDisplayed = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(DisplaySlot.SIDEBAR);
+                    Objective currentlyDisplayed = Scoreboards.main().getObjective(DisplaySlot.SIDEBAR);
                     if (currentlyDisplayed == null || !RawStats.OBJECTIVE_DATA.containsKey(currentlyDisplayed.getName())) {
                         context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.no-display", YELLOW));
                     } else {

@@ -19,7 +19,6 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.workstationhighlights;
 
-import cloud.commandframework.minecraft.extras.RichDescription;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import org.bukkit.Location;
@@ -35,11 +34,12 @@ import static me.machinemaker.vanillatweaks.adventure.translations.MappedTransla
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "find-workstation", aliases = {"fworkstation", "fwork", "findwork"}, descriptionKey = "modules.workstation-highlights.commands.root", isMapped = true)
 class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("find-workstation", RichDescription.of(mapped("modules.workstation-highlights.commands.root")), "fworkstation", "fwork");
+        var builder = this.player();
 
         manager.command(builder
                 .permission(modulePermission("vanillatweaks.workstationhighlights.findworkstation"))

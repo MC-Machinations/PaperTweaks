@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.modules.survival.graves;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import net.kyori.adventure.text.Component;
@@ -36,9 +37,10 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "graves", i18n = "graves", perm = "graves")
 class Commands extends ConfiguredModuleCommand {
 
-    private static final ItemStack GRAVE_KEY = VTUtils.getSkull(text("Grave Key", YELLOW).decoration(TextDecoration.BOLD, false), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVjNzA3NjllMzYzN2E3ZWRiNTcwMmJjYzQzM2NjMjQyYzJmMjIzNWNiNzNiOTQwODBmYjVmYWZmNDdiNzU0ZSJ9fX0=");
+    private static final ItemStack GRAVE_KEY = VTUtils.getSkull(text("Grave Key", YELLOW).decoration(TextDecoration.ITALIC, false), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVjNzA3NjllMzYzN2E3ZWRiNTcwMmJjYzQzM2NjMjQyYzJmMjIzNWNiNzNiOTQwODBmYjVmYWZmNDdiNzU0ZSJ9fX0=");
 
     static {
         ItemMeta meta = GRAVE_KEY.getItemMeta();
@@ -54,13 +56,12 @@ class Commands extends ConfiguredModuleCommand {
 
     @Inject
     Commands(Config config) {
-        super("graves");
         this.config = config;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("graves", "modules.graves.commands.root");
+        var builder = this.player();
 
         manager.command(literal(builder, "locate")
                 .handler(sync((context, player) -> {

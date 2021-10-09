@@ -27,6 +27,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import static net.kyori.adventure.text.Component.translatable;
 
+@ModuleCommand.Info(value = "togglehud", aliases = "thud", descriptionKey = "modules.coordinates-hud.commands")
 class Commands extends ModuleCommand {
 
     private final HUDRunnable hudRunnable;
@@ -38,7 +39,7 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        manager.command(playerCmd("togglehud", "modules.coordinates-hud.commands", "thud")
+        manager.command(this.player()
                 .permission(modulePermission("vanillatweaks.coordinateshud.togglehud"))
                 .handler(sync((context, player) -> {
                     if (this.hudRunnable.getPlayers().remove(player)) {

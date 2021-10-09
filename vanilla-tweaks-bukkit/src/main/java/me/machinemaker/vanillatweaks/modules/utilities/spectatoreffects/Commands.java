@@ -26,11 +26,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+@ModuleCommand.Info(value = "toggle-effect", aliases = "teffect", descriptionKey = "modules.spectator-effects.commands.root")
 class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("toggle-effect", "modules.spectator-effects.commands.root", "teffect")
+        var builder = this.player()
                 .meta(MetaKeys.GAMEMODE_KEY, GameMode.SPECTATOR); // TODO probably change to a permission
 
         manager.command(builder

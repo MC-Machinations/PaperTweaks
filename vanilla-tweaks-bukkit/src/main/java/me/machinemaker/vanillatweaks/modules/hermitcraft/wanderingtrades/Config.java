@@ -33,7 +33,7 @@ import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@Menu(commandPrefix = "/wanderingtrades config")
+@Menu(commandPrefix = "/wanderingtrades admin config")
 @VTConfig
 class Config extends MenuModuleConfig<Config> {
 

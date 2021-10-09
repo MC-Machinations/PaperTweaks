@@ -55,6 +55,7 @@ public abstract class ModuleBase extends ConfigModule {
     @MustBeInvokedByOverriders
     protected void configure() {
         super.configure();
+        bind(ModuleBase.class).toInstance(this);
         bind(ModuleLifecycle.class).to(lifecycle()).asEagerSingleton();
         bind(ModuleInfo.class).toInstance(moduleInfo);
 

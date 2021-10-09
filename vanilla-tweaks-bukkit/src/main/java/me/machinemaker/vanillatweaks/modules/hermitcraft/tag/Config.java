@@ -35,7 +35,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 @VTConfig
-@Menu(commandPrefix = "/tag config")
+@Menu(commandPrefix = "/tag admin config")
 class Config extends MenuModuleConfig<Config> {
 
     @Key("show-messages")

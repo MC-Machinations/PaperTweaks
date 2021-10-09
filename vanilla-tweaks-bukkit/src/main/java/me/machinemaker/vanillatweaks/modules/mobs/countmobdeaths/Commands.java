@@ -24,26 +24,27 @@ import cloud.commandframework.execution.CommandExecutionHandler;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
-import org.bukkit.Bukkit;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "countmobdeaths", aliases = {"cmdeaths", "cmd"}, i18n = "mob-death-count", perm = "mobdeathcount")
 class Commands extends ConfiguredModuleCommand {
 
     private final CountMobDeaths countMobDeaths;
 
     @Inject
     Commands(CountMobDeaths countMobDeaths) {
-        super("mob-death-count", "mobdeathcount");
         this.countMobDeaths = countMobDeaths;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("countmobdeaths", "modules.mob-death-count.commands.root", "cmdeaths", "cmd");
+        var builder = this.player();
 
         manager.command(literal(builder, "start")
                 .handler(sync((player, context, countingBoard) -> {
@@ -64,7 +65,7 @@ class Commands extends ConfiguredModuleCommand {
         ).command(literal(builder, "toggle")
                 .handler(sync((player, context, countingBoard) -> {
                     if (player.getScoreboard() == countingBoard.scoreboard()) {
-                        player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                        player.setScoreboard(Scoreboards.main());
                     } else {
                         player.setScoreboard(countingBoard.scoreboard());
                     }

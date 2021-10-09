@@ -28,6 +28,7 @@ import me.machinemaker.vanillatweaks.cloud.SuggestionProviders;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -41,6 +42,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "tpa", i18n = "tpa", perm = "tpa")
 class Commands extends ConfiguredModuleCommand {
 
     static final CloudKey<Void> TPA_REQUEST_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:tpa_request_cmd_cooldown");
@@ -51,7 +53,6 @@ class Commands extends ConfiguredModuleCommand {
 
     @Inject
     Commands(TPAManager tpaManager, Config config) {
-        super("tpa");
         this.tpaManager = tpaManager;
         this.config = config;
         this.requestSuggestions = (context, s) -> {
@@ -65,7 +66,7 @@ class Commands extends ConfiguredModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("tpa", "modules.tpa.commands.root");
+        var builder = this.player();
 
         final var requestCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
                 .withKey(TPA_REQUEST_COOLDOWN_KEY)

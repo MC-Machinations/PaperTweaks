@@ -36,11 +36,12 @@ import static me.machinemaker.vanillatweaks.adventure.translations.MappedTransla
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "gametime", aliases = {"gtime", "gt"}, descriptionKey = "modules.real-time-clock.commands.root", isMapped = true)
 class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = cmd("gametime", RichDescription.of(mapped("modules.real-time-clock.commands.root")), "gtime", "gt");
+        var builder = this.builder();
 
         manager.command(builder
                 .permission(modulePermission("vanillatweaks.realtimeclock.local"))

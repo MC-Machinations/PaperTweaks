@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.modules.hermitcraft.thundershrine;
 
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -30,15 +31,12 @@ import org.bukkit.entity.ArmorStand;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "thundershrine", aliases = {"tshrine", "ts"}, i18n = "thunder-shrine", perm = "thundershrine")
 class Commands extends ConfiguredModuleCommand {
-
-    Commands() {
-        super("thunder-shrine", "thundershrine");
-    }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("thundershrine", "modules.thunder-shrine.commands.root", "tshrine", "ts");
+        var builder = this.player();
 
         manager.command(literal(builder, "create")
                 .handler(sync((context, player) -> {

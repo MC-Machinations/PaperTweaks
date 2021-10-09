@@ -23,6 +23,7 @@ import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -32,19 +33,19 @@ import java.util.Objects;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "trackstats", aliases = {"tstats", "ts"}, i18n = "track-stats", perm = "trackstats")
 class Commands extends ConfiguredModuleCommand {
 
     private final Scoreboard board;
 
     @Inject
     Commands(Scoreboard board) {
-        super("track-stats", "trackstats");
         this.board = board;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("trackstats", "modules.track-stats.commands.root", "tstats", "ts");
+        var builder = this.player();
 
         manager.command(literal(builder, "show")
                 .argument(EnumArgument.of(Stat.class, "stat"), RichDescription.translatable("modules.track-stats.commands.arguments.stat"))

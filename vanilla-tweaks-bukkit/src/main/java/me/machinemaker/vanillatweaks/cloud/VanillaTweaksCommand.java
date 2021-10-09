@@ -19,23 +19,15 @@
  */
 package me.machinemaker.vanillatweaks.cloud;
 
-import cloud.commandframework.ArgumentDescription;
-import cloud.commandframework.Command;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.execution.CommandExecutionHandler;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import cloud.commandframework.paper.PaperCommandManager;
 import cloud.commandframework.tasks.TaskConsumer;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
 
@@ -46,31 +38,6 @@ public abstract class VanillaTweaksCommand {
 
     @Inject protected PaperCommandManager<CommandDispatcher> manager;
     @Inject protected ArgumentFactory argumentFactory;
-
-    protected Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
-        return cmd(name, RichDescription.translatable(descriptionKey), aliases);
-    }
-
-    protected Command.@NonNull Builder<CommandDispatcher> cmd(@NonNull String name, @NonNull ArgumentDescription description, @NonNull String @NonNull...aliases) {
-        return this.manager
-                .commandBuilder(name, description, aliases)
-                .meta(CommandMeta.DESCRIPTION, ChatColor.RED + "Use /" + name + " help");
-    }
-
-    protected Command.@NonNull Builder<CommandDispatcher> playerCmd(@NonNull String name, @NonNull String descriptionKey, @NonNull String @NonNull...aliases) {
-        return playerCmd(name, RichDescription.translatable(descriptionKey), aliases);
-    }
-
-    protected Command.@NonNull Builder<CommandDispatcher> playerCmd(@NonNull String name, @NonNull ArgumentDescription description, @NonNull String @NonNull...aliases) {
-        return cmd(name, description, aliases)
-                .senderType(PlayerCommandDispatcher.class);
-    }
-
-    protected <C> Command.@NotNull Builder<C> literal(Command.@NonNull Builder<C> builder, ModuleLifecycle lifecycle, @NonNull String i18nPrefix, @NonNull String permPrefix, @NonNull String name) {
-        return builder
-                .literal(name, RichDescription.translatable(i18nPrefix + "." + name))
-                .permission(ModulePermission.of(lifecycle, permPrefix + "." + name));
-    }
 
     protected <C> CommandExecutionHandler<C> sync(BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
         return commandContext -> manager.taskRecipe().begin(commandContext).synchronous(context -> {

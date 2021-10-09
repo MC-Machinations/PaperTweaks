@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.utils.boards.DisplaySlot;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
@@ -37,6 +38,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "tag", i18n = "tag", perm = "tag")
 class Commands extends ConfiguredModuleCommand {
 
     private final TagManager tagManager;
@@ -45,7 +47,6 @@ class Commands extends ConfiguredModuleCommand {
 
     @Inject
     Commands(TagManager tagManager, Config config, BukkitAudiences audiences) {
-        super("tag");
         this.tagManager = tagManager;
         this.config = config;
         this.audiences = audiences;
@@ -53,7 +54,7 @@ class Commands extends ConfiguredModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = cmd("tag", "modules.tag.commands.root");
+        var builder = this.builder();
 
         final var giveTagBuilder = literal(builder, "givetag");
         manager.command(giveTagBuilder

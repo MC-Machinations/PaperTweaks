@@ -23,6 +23,7 @@ import cloud.commandframework.arguments.standard.EnumArgument;
 import com.google.common.math.IntMath;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.utils.Keys;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
@@ -47,6 +48,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "spawningspheres", aliases = {"spawnsphere", "ss"}, i18n = "spawning-spheres", perm = "spawningspheres")
 class Commands extends ConfiguredModuleCommand {
 
     private static final PDCKey<Color> COLOR_KEY = PDCKey.enums(Keys.key("color"), Color.class);
@@ -87,13 +89,10 @@ class Commands extends ConfiguredModuleCommand {
         return new DespawnDistances(24, IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.get(paperWorldConfig), RoundingMode.DOWN));
     }
 
-    Commands() {
-        super("spawning-spheres", "spawningspheres");
-    }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("spawningspheres", "modules.spawning-spheres.commands.root", "spawnsphere", "ss");
+        var builder = this.player();
 
         manager.command(literal(builder, "add")
                 .argument(EnumArgument.of(Color.class, "color"))

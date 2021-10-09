@@ -21,21 +21,20 @@ package me.machinemaker.vanillatweaks.modules.hermitcraft.wanderingtrades;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 
+@ModuleCommand.Info(value = "wanderingtrades", aliases = {"wtrades", "wt"}, i18n = "wandering-trades", perm = "wanderingtrades")
 class Commands extends ConfiguredModuleCommand {
 
     private final Config config;
 
     @Inject
     Commands(Config config) {
-        super("wandering-trades", "wanderingtrades");
         this.config = config;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("wanderingtrades", "modules.wandering-trades.commands.root", "wtrades", "wt");
-
-        this.config.createCommands(this, builder);
+        this.config.createCommands(this, this.player());
     }
 }

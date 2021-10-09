@@ -30,7 +30,7 @@ import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@Menu(commandPrefix = "/moremobheads config")
+@Menu(commandPrefix = "/moremobheads admin config")
 @VTConfig
 class Config extends MenuModuleConfig<Config> {
 

@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules;
 import cloud.commandframework.Command;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
+import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import io.leangen.geantyref.TypeToken;
 import me.machinemaker.lectern.SectionNode;
@@ -53,11 +54,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends ModuleConfig {
 
+    private static final String CONFIG_COMMAND_NAME = "config";
     private static final Map<Class<?>, ConfigMenuOptionBuilder<?>> OPTION_BUILDERS = new HashMap<>();
     private static final List<OptionBuilder> FACTORIES = new ArrayList<>();
 
@@ -130,7 +133,8 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
 
     @SuppressWarnings("unchecked")
     public void createCommands(@NotNull ConfiguredModuleCommand command, Command.@NotNull Builder<CommandDispatcher> builder) {
-        var configBuilder = command.literal(builder, "config").senderType(PlayerCommandDispatcher.class);
+        final var configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME)
+                .senderType(PlayerCommandDispatcher.class);
         command.manager()
                 .command(configBuilder.handler(context -> this.menu.send(context.getSender())))
                 .command(configBuilder.hidden()
@@ -142,11 +146,12 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
                         })
                 ).command(configBuilder
                         .senderType(CommandDispatcher.class)
-                        .literal("reset", RichDescription.translatable(command.i18nPrefix + ".config.reset"))
+                        .literal("reset")
+                        .meta(MinecraftExtrasMetaKeys.DESCRIPTION, command.buildComponent(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset"))
                         .handler(context -> {
                             this.settings.values().forEach(setting -> setting.reset((C) this));
                             this.save();
-                            context.getSender().sendMessage(translatable(command.i18nPrefix + ".config.reset.success", GREEN));
+                            context.getSender().sendMessage(translatable(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset.success", GREEN));
                         })
                 );
     }

@@ -27,9 +27,9 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
-public final class BoardUtils {
+public final class Scoreboards {
 
-    private BoardUtils() {
+    private Scoreboards() {
     }
 
     public static @NotNull ScoreboardManager manager() {

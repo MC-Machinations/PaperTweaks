@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.teleportation.homes;
 import cloud.commandframework.arguments.standard.StringArgument;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
+import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
@@ -30,6 +31,7 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.db.dao.teleportation.homes.HomesDAO;
 import me.machinemaker.vanillatweaks.db.model.teleportation.homes.Home;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
@@ -44,6 +46,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "homes", i18n = "homes", perm = "homes")
 class Commands extends ConfiguredModuleCommand {
 
     static final CloudKey<Void> HOME_COMMAND_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:home_cmd_cooldown");
@@ -53,18 +56,18 @@ class Commands extends ConfiguredModuleCommand {
 
     @Inject
     Commands(HomesDAO homesDAO, Config config) {
-        super("homes");
         this.homesDAO = homesDAO;
         this.config = config;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("homes", "modules.homes.commands.root");
+        var builder = this.player();
 
         final var homeCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.sethomeCooldown))
                 .withKey(HOME_COMMAND_COOLDOWN_KEY)
                 .withNotifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))));
+
 
         manager.command(literal(builder, "sethome")
                 .argument(StringArgument.optional("homeName", "home"))
@@ -131,8 +134,7 @@ class Commands extends ConfiguredModuleCommand {
                     }
                     context.getSender().sendMessage(component);
                 })
-        ).command(homeCooldownBuilder.applyTo(playerCmd("home", "modules.homes.commands.home"))
-                .permission(modulePermission("vanillatweaks.homes.home"))
+        ).command(homeCooldownBuilder.applyTo(this.player("home"))
                 .argument(this.argumentFactory.homeArgument(false, "home"))
                 .handler(sync((context, player) -> {
                     if (HomeTeleportRunnable.AWAITING_TELEPORT.containsKey(player.getUniqueId())) {

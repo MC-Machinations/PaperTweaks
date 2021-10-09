@@ -20,13 +20,13 @@
 package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import cloud.commandframework.arguments.standard.EnumArgument;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.options.BooleanMenuOption;
 import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -38,7 +38,8 @@ import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Commands extends ModuleCommand {
+@ModuleCommand.Info(value = "durabilityping", aliases = {"dping", "dp"}, i18n = "durability-ping", perm = "durabilityping")
+class Commands extends ConfiguredModuleCommand {
 
     private final PlayerListener listener;
     private final Settings settings;
@@ -67,10 +68,8 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("durabilityping", "modules.durability-ping.commands.root", "dping", "dp");
-        final var configBuilder = builder
-                .permission(modulePermission("vanillatweaks.durabilityping.configure"))
-                .literal("config", RichDescription.translatable("modules.durability-ping.commands.config"));
+        var builder = this.player();
+        final var configBuilder = literal(builder, "config");
 
         manager.command(configBuilder
                 .handler(context -> {

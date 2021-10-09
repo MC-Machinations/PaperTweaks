@@ -46,7 +46,7 @@ public class RootCommand extends VanillaTweaksCommand {
     }
 
     public void registerCommands() {
-        var builder = cmd("vanillatweaks", "commands.root", "vt", "vtweaks");
+        var builder = this.manager.commandBuilder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks");
 
         manager.command(builder
                 .literal("reload", RichDescription.translatable("commands.reload"))

@@ -87,7 +87,7 @@ class PlayerListener implements ModuleListener {
                         && this.cooldownCache.getIfPresent(event.getPlayer().getUniqueId()) == null
                         && event.getItem().hasItemMeta()
                         && event.getItem().getItemMeta() instanceof Damageable damageable
-                        && event.getPlayer().hasPermission("vanillatweaks.durabilityping")
+                        && event.getPlayer().hasPermission("vanillatweaks.durabilityping.notification")
                         && Range.openClosed(1, config.usesLeft + 1).contains(event.getItem().getType().getMaxDurability() - damageable.getDamage())
         ) {
             Settings.Instance playerSettings = settingsCache.get(event.getPlayer().getUniqueId(), Callables.returning(Settings.from(event.getPlayer())));

@@ -24,21 +24,22 @@ import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import org.bukkit.inventory.ItemStack;
 
+@ModuleCommand.Info(value = "treasuregems", aliases = {"tgems"}, i18n = "treasure-gems", perm = "treasuregems")
 class Commands extends ConfiguredModuleCommand {
 
     private final TreasureGems treasureGems;
 
     @Inject
     Commands(TreasureGems treasureGems) {
-        super("treasure-gems", "treasuregems");
         this.treasureGems = treasureGems;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = playerCmd("treasuregems", "modules.treasure-gems.commands.root", "tgems");
+        var builder = this.player();
 
         manager.command(literal(builder, "give")
                 .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))

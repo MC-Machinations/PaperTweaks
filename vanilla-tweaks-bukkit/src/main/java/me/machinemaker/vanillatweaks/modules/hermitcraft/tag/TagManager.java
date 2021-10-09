@@ -22,7 +22,7 @@ package me.machinemaker.vanillatweaks.modules.hermitcraft.tag;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.machinemaker.vanillatweaks.modules.survival.afkdisplay.AFKDisplay;
-import me.machinemaker.vanillatweaks.utils.boards.BoardUtils;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -40,8 +40,8 @@ class TagManager {
 
     private final Config config;
     private final BukkitAudiences audiences;
-    final Team tagTeam = BoardUtils.getTeam("tag/redcolor", ChatColor.RED);
-    final Objective tagCounter = BoardUtils.getDummyObjective("tg_timesTagged", "Times Tagged");
+    final Team tagTeam = Scoreboards.getTeam("tag/redcolor", ChatColor.RED);
+    final Objective tagCounter = Scoreboards.getDummyObjective("tg_timesTagged", "Times Tagged");
 
     @Inject
     TagManager(Config config, BukkitAudiences audiences) {

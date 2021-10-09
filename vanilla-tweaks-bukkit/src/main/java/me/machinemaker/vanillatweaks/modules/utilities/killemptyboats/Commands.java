@@ -28,11 +28,12 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@ModuleCommand.Info(value = "killboats", descriptionKey = "modules.kill-empty-boats.commands.root")
 class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = cmd("killboats", "modules.kill-empty-boats.commands.root");
+        var builder = this.builder();
 
         manager.command(builder
                 .permission(modulePermission("vanillatweaks.killboats"))
