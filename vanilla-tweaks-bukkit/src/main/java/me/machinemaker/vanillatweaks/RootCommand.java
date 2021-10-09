@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks;
 
+import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -28,8 +29,11 @@ import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleManager.ReloadResult;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 
+import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
@@ -49,22 +53,52 @@ public class RootCommand extends VanillaTweaksCommand {
         var builder = this.manager.commandBuilder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks");
 
         manager.command(builder
-                .literal("reload", RichDescription.translatable("commands.reload"))
+                .literal("reload")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.reload"))
+                .permission("vanillatweaks.main.reload")
                 .handler(sync(context -> this.reloadEverything(context.getSender())))
         ).command(builder
-                .literal("reload", RichDescription.translatable("commands.reload"))
-                .literal("module", RichDescription.translatable("commands.reload.module"))
+                .literal("reload")
+                .literal("module")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.reload.module"))
+                .permission("vanillatweaks.main.reload")
                 .argument(ModuleArgument.enabled())
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.reloadModule(ModuleArgument.getModule(context).getName()))))
         ).command(builder
-                .literal("enable", RichDescription.translatable("commands.enable"))
+                .literal("enable")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.enable"))
+                .permission("vanillatweaks.main.enable")
                 .argument(ModuleArgument.disabled())
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.enableModule(ModuleArgument.getModule(context).getName()))))
         ).command(builder
-                .literal("disable", RichDescription.translatable("commands.disable"))
+                .literal("disable")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.disable"))
+                .permission("vanillatweaks.main.disable")
                 .argument(ModuleArgument.enabled())
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.disableModule(ModuleArgument.getModule(context).getName())))
-        ));
+        )).command(builder
+                .literal("list")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.list"))
+                .permission("vanillatweaks.main.list")
+                .handler(context -> {
+                    final boolean showAll = context.getSender().hasPermission("vanillatweaks.main.list.all");
+                    var component = text()
+                            .append(translatable("commands.list.success.header", GRAY));
+
+                    this.moduleManager.getModules().forEach((name, moduleBase) -> {
+                        final var lifecycle = this.moduleManager.getLifecycle(name);
+                        if (lifecycle.isEmpty()) return;
+                        final var state = lifecycle.get().getState();
+                        if (showAll || state.isRunning()) {
+                            component.append(newline()).append(text().color(TextColor.color(0x8F8F8F))
+                                    .append(text(" - "))
+                                    .append(text(name, state.isRunning() ? GREEN : RED).hoverEvent(HoverEvent.showText(text(moduleBase.getDescription(), GRAY))))
+                            );
+                        }
+                    });
+                    context.getSender().sendMessage(component);
+                })
+        );
     }
 
     private void reloadEverything(@NotNull Audience audience) {

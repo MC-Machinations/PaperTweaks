@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
@@ -32,7 +33,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -40,7 +43,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 import static org.apache.commons.lang.BooleanUtils.isFalse;
 import static org.apache.commons.lang.BooleanUtils.isTrue;
 
-public class ModuleManager {
+@Singleton
+public final class ModuleManager {
 
     private static final Class<?> MINECRAFT_SERVER_CLASS = ReflectionUtils.getMinecraftClass("server.MinecraftServer");
     private static final ReflectionUtils.MethodInvoker GET_MINECRAFT_SERVER_METHOD = ReflectionUtils.getTypedMethod(MINECRAFT_SERVER_CLASS, null, MINECRAFT_SERVER_CLASS);
@@ -69,7 +73,7 @@ public class ModuleManager {
     }
 
     private final JavaPlugin plugin;
-    private final Map<String, ModuleBase> moduleMap;
+    private final NavigableMap<String, ModuleBase> moduleMap;
     private final Injector baseInjector;
     private final Map<String, Injector> moduleInjectors = Maps.newHashMap();
     private final ConfigurationNode modulesConfig;
@@ -77,7 +81,7 @@ public class ModuleManager {
     @Inject
     public ModuleManager(JavaPlugin plugin, Map<String, ModuleBase> moduleMap, Injector baseInjector, @Named("modules") ConfigurationNode modulesConfig) {
         this.plugin = plugin;
-        this.moduleMap = moduleMap;
+        this.moduleMap = new TreeMap<>(moduleMap);
         this.baseInjector = baseInjector;
         this.modulesConfig = modulesConfig;
     }

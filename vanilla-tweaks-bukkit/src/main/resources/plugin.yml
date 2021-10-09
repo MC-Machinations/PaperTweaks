@@ -12,6 +12,31 @@ permissions:
     description: All of the admin commands for all modules
     children:
       vanillatweaks.admin.grave-key: true
+      vanillatweaks.killboats: true
+      vanillatweaks.spawningspheres: true
+      vanillatweaks.pillagertools.admin.config: true
+      vanillatweaks.tag.admin.config: true
+      vanillatweaks.wanderingtrades.admin.config: true
+      vanillatweaks.tpa.admin.config: true
+      vanillatweaks.back.admin.config: true
+
+  vanillatweaks.main.enable:
+    default: op
+    description: Enable a module
+  vanillatweaks.main.disable:
+    default: op
+    description: Disable a module
+  vanillatweaks.main.reload:
+    default: op
+    description: Reload parts of the plugin
+  vanillatweaks.main.list:
+    default: true
+    description: List enabled modules
+  vanillatweaks.main.list.all:
+    default: op
+    description: List all modules
+    children:
+      vanillatweaks.main.list: true
 
   vanillatweaks.afkdisplay:
     default: true
@@ -231,7 +256,7 @@ permissions:
       vanillatweaks.homes.rename: true
       vanillatweaks.homes.home: true
 
-  vanillatweaks.pillagertools.config:
+  vanillatweaks.pillagertools.admin.config:
     default: op
     description: Configure PillagerTools in-game
   vanillatweaks.pillagertools.status:
@@ -309,6 +334,9 @@ permissions:
   vanillatweaks.moremobheads:
     default: true
     description: Mobs killed by this player will drop heads (if killed by a player)
+  vanillatweaks.moremobheads.admin.config:
+    default: op
+    description: Configure MoreMobHeads in-game
 
   vanillatweaks.treasuregems.give:
     default: op

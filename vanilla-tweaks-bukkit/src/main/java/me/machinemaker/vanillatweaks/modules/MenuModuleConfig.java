@@ -23,13 +23,13 @@ import cloud.commandframework.Command;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import io.leangen.geantyref.TypeToken;
 import me.machinemaker.lectern.SectionNode;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.lectern.annotations.validations.numbers.Max;
 import me.machinemaker.lectern.annotations.validations.numbers.Min;
 import me.machinemaker.lectern.collection.ConfigField;
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
@@ -43,6 +43,7 @@ import me.machinemaker.vanillatweaks.menus.config.types.EnumOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.types.IntegerOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
+import me.machinemaker.vanillatweaks.utils.ChatWindow;
 import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.NotNull;
@@ -54,12 +55,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static net.kyori.adventure.text.Component.join;
+import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends ModuleConfig {
 
+    protected static final Component SEPARATOR = text(" / ", GRAY);
+    protected static final Component GLOBAL_SETTINGS = text("Global Settings");
     private static final String CONFIG_COMMAND_NAME = "config";
     private static final Map<Class<?>, ConfigMenuOptionBuilder<?>> OPTION_BUILDERS = new HashMap<>();
     private static final List<OptionBuilder> FACTORIES = new ArrayList<>();
@@ -130,6 +135,10 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
     }
 
     public abstract @NotNull Component title();
+
+    protected static @NotNull Component buildTitle(@NotNull String name) {
+        return ChatWindow.center(Components.join(text(name), SEPARATOR, GLOBAL_SETTINGS)).append(newline());
+    }
 
     @SuppressWarnings("unchecked")
     public void createCommands(@NotNull ConfiguredModuleCommand command, Command.@NotNull Builder<CommandDispatcher> builder) {

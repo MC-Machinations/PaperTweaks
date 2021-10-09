@@ -54,6 +54,7 @@ final class RawStats {
                 Path statsFolder = Bukkit.getWorlds().get(0).getWorldFolder().toPath().resolve("stats");
                 if (Files.notExists(statsFolder)) {
                     TrackRawStats.LOGGER.info("Could not find the stats folder in {}, skipping", statsFolder.getParent());
+                    return;
                 }
                 TrackRawStats.LOGGER.info("Starting the stat transfer, depending on how many players have played on the server, this could take a while");
                 try (Stream<Path> statFiles = Files.list(statsFolder)) {

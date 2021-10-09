@@ -78,6 +78,7 @@ subprojects {
 
         testImplementation("org.apache.commons:commons-configuration2:2.7")
         testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
+        testImplementation("org.slf4j:slf4j-api:1.7.30")
         testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5")
         testImplementation("com.google.inject:guice:5.0.1")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")

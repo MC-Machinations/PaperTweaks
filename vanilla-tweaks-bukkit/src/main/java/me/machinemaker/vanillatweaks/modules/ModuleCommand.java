@@ -55,9 +55,9 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import static net.kyori.adventure.text.Component.newline;
-import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public abstract class ModuleCommand extends VanillaTweaksCommand {
 
@@ -99,7 +99,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
 
     protected CommandMeta buildRootMeta() {
         return CommandMeta.simple()
-                .with(CommandMeta.DESCRIPTION, "\u00A7Use \"/" + this.commandInfo.value() + "\" for help")
+                .with(CommandMeta.DESCRIPTION, "\u00A7cUse \"/" + this.commandInfo.value() + "\" for help")
                 .with(MinecraftExtrasMetaKeys.DESCRIPTION, this.buildRootDescriptionComponent())
                 .with(MODULE_OWNER, this.moduleBase)
                 .build();
@@ -112,16 +112,16 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
             builder = builder.literal("info");
         }
         this.manager.command(builder.handler(context -> {
-            var component = text().color(NamedTextColor.GRAY)
-                    .append(translatable("commands.info.module",  text(this.moduleBase.getName(), NamedTextColor.GOLD))).append(newline())
+            var component = text().color(GRAY)
+                    .append(translatable("commands.info.module",  text(this.moduleBase.getName(), GOLD))).append(newline())
                     .append(translatable("commands.info.description", text(this.moduleBase.getDescription(), TextColor.color(0x8F8F8F)))).append(newline())
                     .append(translatable(
                             "commands.info.status",
-                            text().color(NamedTextColor.GREEN)
+                            text().color(GREEN)
                                     .append(text("["))
                                     .append(translatable("commands.config.default-value.bool.true"))
                                     .append(text("]"))
-                                    .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", NamedTextColor.RED)))
+                                    .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", RED)))
                                     .clickEvent(ClickEvent.runCommand("/vanillatweaks disable " + this.moduleBase.getName()))
                     )).append(text("  "));
             if (this.commandInfo.help()) {
@@ -129,7 +129,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
                         .append(text("["))
                         .append(translatable("commands.info.show-help"))
                         .append(text("]"))
-                        .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", NamedTextColor.GRAY)))
+                        .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", GRAY)))
                         .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
             }
 

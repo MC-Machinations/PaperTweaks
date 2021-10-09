@@ -19,26 +19,22 @@
  */
 package me.machinemaker.vanillatweaks.modules.mobs.moremobheads;
 
-import me.machinemaker.lectern.annotations.Description;
-import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.vanillatweaks.config.I18nKey;
-import me.machinemaker.vanillatweaks.config.VTConfig;
-import me.machinemaker.vanillatweaks.menus.Menu;
-import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
-import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
+import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 
-@Menu(commandPrefix = "/moremobheads admin config")
-@VTConfig
-class Config extends MenuModuleConfig<Config> {
+@ModuleCommand.Info(value = "moremobheads", aliases = {"mmheads", "mmh"}, i18n = "more-mob-heads", perm = "moremobheads")
+class Commands extends ConfiguredModuleCommand {
 
-    @Key("require-player-kill")
-    @I18nKey("modules.more-mob-heads.settings.require-player-kill")
-    @Description("modules.more-mob-heads.settings.require-player-kill.extended")
-    boolean requirePlayerKill = false;
+    private final Config config;
+
+    @Inject
+    Commands(Config config) {
+        this.config = config;
+    }
 
     @Override
-    public @NotNull Component title() {
-        return buildTitle("More Mob Heads");
+    protected void registerCommands() {
+        this.config.createCommands(this, this.player());
     }
 }

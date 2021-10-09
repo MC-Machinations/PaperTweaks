@@ -25,6 +25,7 @@ import com.google.inject.name.Named;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
@@ -60,5 +61,10 @@ public class MoreMobHeads extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
+    }
+
+    @Override
+    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+        return Set.of(Commands.class);
     }
 }

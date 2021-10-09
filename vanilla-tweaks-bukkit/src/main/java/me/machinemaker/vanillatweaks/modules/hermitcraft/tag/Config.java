@@ -30,10 +30,6 @@ import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
-import static me.machinemaker.vanillatweaks.adventure.Components.join;
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
-
 @VTConfig
 @Menu(commandPrefix = "/tag admin config")
 class Config extends MenuModuleConfig<Config> {
@@ -52,6 +48,6 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return join(text(" ".repeat(26) + "Tag"), text(" / ", GRAY), text("Global Settings" + " ".repeat(26) + "\n"));
+        return buildTitle("Tag");
     }
 }

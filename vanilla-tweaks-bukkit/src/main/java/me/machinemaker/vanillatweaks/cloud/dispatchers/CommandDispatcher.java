@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.cloud.dispatchers;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.command.CommandSender;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -52,6 +53,10 @@ public abstract class CommandDispatcher implements Audience, ForwardingAudience.
     }
 
     public abstract @Nullable UUID getUUID();
+
+    public boolean hasPermission(@NonNull String permission) {
+        return this.bukkitCommandSender.hasPermission(permission);
+    }
 
     @Override
     public boolean equals(Object o) {

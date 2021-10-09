@@ -28,10 +28,6 @@ import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
-import static me.machinemaker.vanillatweaks.adventure.Components.join;
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
-
 @Menu(commandPrefix = "/pillagertools admin config")
 @VTConfig
 class Config extends MenuModuleConfig<Config> {
@@ -61,6 +57,6 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return join(text(" ".repeat(20) + "PillagerTools"), text(" / ", GRAY), text("Global Settings" + " ".repeat(20) + "\n"));
+        return buildTitle("Pillager Tools");
     }
 }
