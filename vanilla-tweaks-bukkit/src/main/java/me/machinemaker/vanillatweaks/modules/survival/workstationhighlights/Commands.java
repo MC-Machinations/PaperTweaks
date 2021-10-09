@@ -34,7 +34,7 @@ import static me.machinemaker.vanillatweaks.adventure.translations.MappedTransla
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@ModuleCommand.Info(value = "find-workstation", aliases = {"fworkstation", "fwork", "findwork"}, descriptionKey = "modules.workstation-highlights.commands.root", isMapped = true)
+@ModuleCommand.Info(value = "find-workstation", aliases = {"fworkstation", "fwork", "findwork"}, descriptionKey = "modules.workstation-highlights.commands.root", isMapped = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
 
     @Override

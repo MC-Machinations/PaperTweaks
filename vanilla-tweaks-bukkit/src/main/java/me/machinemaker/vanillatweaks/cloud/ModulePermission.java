@@ -36,7 +36,11 @@ public final class ModulePermission {
     public static CommandPermission of(ModuleLifecycle lifecycle, String permission) {
         return AndPermission.of(Set.of(
                 Permission.of(permission),
-                PredicatePermission.of(SimpleCloudKey.of(lifecycle.moduleInfo().name() + "-lifecycle"), ignored -> lifecycle.getState().isRunning())
+                of(lifecycle)
         ));
+    }
+
+    public static CommandPermission of(ModuleLifecycle lifecycle) {
+        return PredicatePermission.of(SimpleCloudKey.of(lifecycle.moduleInfo().name() + "-lifecycle"), ignored -> lifecycle.getState().isRunning());
     }
 }

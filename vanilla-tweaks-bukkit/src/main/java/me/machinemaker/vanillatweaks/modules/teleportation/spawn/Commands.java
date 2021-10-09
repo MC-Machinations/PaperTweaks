@@ -43,7 +43,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@ModuleCommand.Info(value = "spawn", descriptionKey = "modules.spawn.commands.root")
+@ModuleCommand.Info(value = "spawn", descriptionKey = "modules.spawn.commands.root", infoOnRoot = false)
 class Commands extends ModuleCommand {
 
     static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();

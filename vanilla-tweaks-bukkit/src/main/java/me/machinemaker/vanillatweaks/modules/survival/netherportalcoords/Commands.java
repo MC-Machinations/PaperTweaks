@@ -33,7 +33,7 @@ import static me.machinemaker.vanillatweaks.adventure.translations.MappedTransla
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@ModuleCommand.Info(value = "portalcoords", aliases = "pcoords", descriptionKey = "modules.nether-portal-coords.commands.root", isMapped = true)
+@ModuleCommand.Info(value = "portalcoords", aliases = "pcoords", descriptionKey = "modules.nether-portal-coords.commands.root", isMapped = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
 
     private final Config config;

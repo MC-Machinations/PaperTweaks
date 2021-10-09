@@ -38,6 +38,8 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.ConsoleCommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -52,6 +54,8 @@ import java.lang.annotation.Target;
 import java.util.Objects;
 import java.util.function.Function;
 
+import static net.kyori.adventure.text.Component.newline;
+import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
@@ -78,6 +82,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
         this.lifecycle = lifecycle;
         this.setupRootBuilder();
         this.registerCommands();
+        this.createInfoCommand();
         this.setupHelp();
         this.registered = true;
     }
@@ -100,7 +105,39 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
                 .build();
     }
 
-    private void setupHelp() {
+    void createInfoCommand() {
+        Objects.requireNonNull(this.rootBuilder, "Must create info command after root builder");
+        var builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle));
+        if (!this.commandInfo.infoOnRoot()) {
+            builder = builder.literal("info");
+        }
+        this.manager.command(builder.handler(context -> {
+            var component = text().color(NamedTextColor.GRAY)
+                    .append(translatable("commands.info.module",  text(this.moduleBase.getName(), NamedTextColor.GOLD))).append(newline())
+                    .append(translatable("commands.info.description", text(this.moduleBase.getDescription(), TextColor.color(0x8F8F8F)))).append(newline())
+                    .append(translatable(
+                            "commands.info.status",
+                            text().color(NamedTextColor.GREEN)
+                                    .append(text("["))
+                                    .append(translatable("commands.config.default-value.bool.true"))
+                                    .append(text("]"))
+                                    .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", NamedTextColor.RED)))
+                                    .clickEvent(ClickEvent.runCommand("/vanillatweaks disable " + this.moduleBase.getName()))
+                    )).append(text("  "));
+            if (this.commandInfo.help()) {
+                component.append(text().color(TextColor.color(0x5290fa))
+                        .append(text("["))
+                        .append(translatable("commands.info.show-help"))
+                        .append(text("]"))
+                        .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", NamedTextColor.GRAY)))
+                        .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
+            }
+
+            context.getSender().sendMessage(component);
+        }));
+    }
+
+    void setupHelp() {
         Objects.requireNonNull(this.rootBuilder, "Must configure help after root builder");
         if (this.commandInfo.help()) {
             final var help = MinecraftHelp.createNative("/" + this.commandInfo.value() + " help", this.manager);
@@ -111,6 +148,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
             });
             this.manager.command(this.rootBuilder
                     .literal("help")
+                    .permission(ModulePermission.of(this.lifecycle))
                     .argument(StringArgument.<CommandDispatcher>newBuilder("query").greedy().asOptional().withDefaultDescription(RichDescription.translatable("commands.help.query")))
                     .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.help", text(this.moduleBase.getName())))
                     .handler(createHelpHandler(help)));
@@ -200,5 +238,10 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
          * Auto-generate help
          */
         boolean help() default true;
+
+        /**
+         * Adds command at the root to display info about the module
+         */
+        boolean infoOnRoot() default true;
     }
 }

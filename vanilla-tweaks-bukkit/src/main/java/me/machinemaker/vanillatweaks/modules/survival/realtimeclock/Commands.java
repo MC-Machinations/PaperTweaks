@@ -31,12 +31,11 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mapped;
 import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@ModuleCommand.Info(value = "gametime", aliases = {"gtime", "gt"}, descriptionKey = "modules.real-time-clock.commands.root", isMapped = true)
+@ModuleCommand.Info(value = "gametime", aliases = {"gtime", "gt"}, descriptionKey = "modules.real-time-clock.commands.root", isMapped = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
 
     @Override

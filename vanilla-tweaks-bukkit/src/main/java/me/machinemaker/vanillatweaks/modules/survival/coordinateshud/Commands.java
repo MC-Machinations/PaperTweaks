@@ -27,7 +27,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import static net.kyori.adventure.text.Component.translatable;
 
-@ModuleCommand.Info(value = "togglehud", aliases = "thud", descriptionKey = "modules.coordinates-hud.commands")
+@ModuleCommand.Info(value = "togglehud", aliases = "thud", descriptionKey = "modules.coordinates-hud.commands", infoOnRoot = false)
 class Commands extends ModuleCommand {
 
     private final HUDRunnable hudRunnable;
