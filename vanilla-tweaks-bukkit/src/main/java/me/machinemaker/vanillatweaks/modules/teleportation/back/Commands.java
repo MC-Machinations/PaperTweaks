@@ -56,6 +56,7 @@ class Commands extends ConfiguredModuleCommand {
                         .withNotifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))));
 
         manager.command(backCooldownBuilder.applyTo(builder)
+                .permission(modulePermission("vanillatweaks.back"))
                 .handler(sync((context, player) -> {
                     Location loc = Back.BACK_LOCATION.getFrom(player);
                     if (loc == null) {
