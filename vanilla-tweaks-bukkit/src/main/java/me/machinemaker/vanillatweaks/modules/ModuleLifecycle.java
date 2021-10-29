@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules;
 import cloud.commandframework.CommandManager.ManagerSettings;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.Bukkit;
@@ -34,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public abstract class ModuleLifecycle {
@@ -86,7 +86,7 @@ public abstract class ModuleLifecycle {
             onEnable();
             state = ModuleState.ENABLED;
         } catch (Exception e) {
-            this.plugin.getLogger().log(Level.SEVERE, e, () -> "Failed to enable " + this.moduleInfo.name());
+            VanillaTweaks.LOGGER.error("Failed to enable {}", this.moduleInfo.name(), e);
             e.printStackTrace();
             state = ModuleState.ENABLED_FAILED;
             // TODO disable commands
@@ -110,7 +110,7 @@ public abstract class ModuleLifecycle {
             onDisable(isShutdown);
             if (changeState) state = ModuleState.DISABLED;
         } catch (Exception e) {
-            this.plugin.getLogger().log(Level.SEVERE, e, () -> "Failed to disable " + this.moduleInfo.name());
+            VanillaTweaks.LOGGER.error("Failed to disable {}", this.moduleInfo.name(), e);
             if (changeState) state = ModuleState.DISABLE_FAILED;
         }
     }
@@ -124,7 +124,7 @@ public abstract class ModuleLifecycle {
                 state = ModuleState.ENABLED;
             }
         } catch (Exception e) {
-            this.plugin.getLogger().log(Level.SEVERE, e, () -> "Failed to reload " + this.moduleInfo.name());
+            VanillaTweaks.LOGGER.error("Failed to reload {}", this.moduleInfo.name(), e);
             state = ModuleState.RELOAD_FAILED;
         }
     }

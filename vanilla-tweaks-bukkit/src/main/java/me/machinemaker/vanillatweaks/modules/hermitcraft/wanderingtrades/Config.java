@@ -65,7 +65,7 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return buildTitle("Wandering Trades");
+        return buildDefaultTitle("Wandering Trades");
     }
 }
 

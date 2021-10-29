@@ -35,7 +35,6 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
-import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
@@ -56,7 +55,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
@@ -159,7 +157,6 @@ public class CloudModule extends AbstractModule {
                 .withCommandExecutionHandler()
                 .withInvalidSenderHandler()
                 .withInvalidSyntaxHandler()
-                .withNoPermissionHandler()
-                .withDecorator(component -> join(VanillaTweaks.PLUGIN_PREFIX, component));
+                .withNoPermissionHandler();
     }
 }

@@ -37,6 +37,8 @@ import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.ConsoleCommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
+import me.machinemaker.vanillatweaks.menus.ConfigurationMenu;
+import me.machinemaker.vanillatweaks.utils.ChatWindow;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -75,6 +77,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
     private Command.Builder<CommandDispatcher> rootBuilder;
     @Inject ModuleBase moduleBase;
     final Info commandInfo = this.getClass().getAnnotation(Info.class);
+    private Component infoComponent;
 
     final void registerCommands0(ModuleLifecycle lifecycle) {
         Objects.requireNonNull(this.commandInfo, this + " is not annotated with @ModuleCommand.Info");
@@ -107,34 +110,49 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
 
     void createInfoCommand() {
         Objects.requireNonNull(this.rootBuilder, "Must create info command after root builder");
+        this.createInfoComponent();
         var builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle));
         if (!this.commandInfo.infoOnRoot()) {
             builder = builder.literal("info");
         }
-        this.manager.command(builder.handler(context -> {
-            var component = text().color(GRAY)
-                    .append(translatable("commands.info.module",  text(this.moduleBase.getName(), GOLD))).append(newline())
-                    .append(translatable("commands.info.description", text(this.moduleBase.getDescription(), TextColor.color(0x8F8F8F)))).append(newline())
-                    .append(translatable(
-                            "commands.info.status",
-                            text().color(GREEN)
-                                    .append(text("["))
-                                    .append(translatable("commands.config.default-value.bool.true"))
-                                    .append(text("]"))
-                                    .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", RED)))
-                                    .clickEvent(ClickEvent.runCommand("/vanillatweaks disable " + this.moduleBase.getName()))
-                    )).append(text("  "));
-            if (this.commandInfo.help()) {
-                component.append(text().color(TextColor.color(0x5290fa))
-                        .append(text("["))
-                        .append(translatable("commands.info.show-help"))
-                        .append(text("]"))
-                        .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", GRAY)))
-                        .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
-            }
+        this.manager.command(builder.handler(context -> context.getSender().sendMessage(this.infoComponent)));
+    }
 
-            context.getSender().sendMessage(component);
-        }));
+    private void createInfoComponent() {
+        final var builder = text()
+                .append(ConfigurationMenu.TITLE_LINE)
+                .append(ChatWindow.center(text().color(WHITE).append(text(this.moduleBase.getName(), GOLD)).append(MenuModuleConfig.SEPARATOR).append(text("ⓘ")).hoverEvent(HoverEvent.showText(translatable("commands.info.hover", GRAY, text(this.moduleBase.getName()))))).append(newline()))
+                .append(ConfigurationMenu.TITLE_LINE);
+
+        builder.append(translatable("commands.info.description", GRAY, text(this.moduleBase.getDescription(), WHITE))).append(newline());
+        final var actionsBuilder = text().append(text()
+                        .color(GREEN)
+                        .append(text('['))
+                        .append(translatable("commands.config.default-value.bool.true"))
+                        .append(text(']'))
+                        .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", RED)))
+                        .clickEvent(ClickEvent.runCommand("/vanillatweaks disable " + this.moduleBase.getName()))
+                )
+                .append(text("  "))
+                .append(text()
+                        .color(YELLOW)
+                        .append(text('['))
+                        .append(translatable("commands.info.reload"))
+                        .append(text(']'))
+                        .hoverEvent(HoverEvent.showText(translatable("commands.info.reload.hover", YELLOW, text(this.moduleBase.getName()))))
+                        .clickEvent(ClickEvent.runCommand("/vanillatweaks reload module " + this.moduleBase.getName()))
+                );
+
+        if (this.commandInfo.help()) {
+            actionsBuilder.append(text("  ")).append(text().color(TextColor.color(0x5290fa))
+                    .append(text("["))
+                    .append(translatable("commands.info.show-help"))
+                    .append(text("]"))
+                    .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", GRAY)))
+                    .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
+        }
+
+        this.infoComponent = builder.append(translatable("commands.info.actions", GRAY, actionsBuilder)).append(newline()).append(ConfigurationMenu.END_LINE).build();
     }
 
     void setupHelp() {

@@ -52,6 +52,6 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return buildTitle("Back");
+        return buildDefaultTitle("Back");
     }
 }

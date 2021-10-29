@@ -39,6 +39,6 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return buildTitle("More Mob Heads");
+        return buildDefaultTitle("More Mob Heads");
     }
 }

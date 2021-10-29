@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.utils;
 import com.google.common.collect.ImmutableMap;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -68,7 +69,8 @@ public final class ChatWindow {
                 .put('h', 5).put('i', 1).put('j', 5).put('k', 4).put('l', 2).put('m', 5).put('n', 5)
                 .put('o', 5).put('p', 5).put('q', 5).put('r', 5).put('s', 5).put('t', 3).put('u', 5)
                 .put('v', 5).put('w', 5).put('x', 5).put('y', 5).put('z', 5)
-                .put('{', 3).put('|', 1).put('}', 3).put('~', 6);
+                .put('{', 3).put('|', 1).put('}', 3).put('~', 6)
+                .put('ⓘ', 5);
 
         WIDTHS = builder.build();
     }
@@ -86,8 +88,8 @@ public final class ChatWindow {
         return width;
     }
 
-    public static Component center(@NotNull Component text) {
-        final String plainText = PlainTextComponentSerializer.plainText().serialize(text);
+    public static Component center(@NotNull ComponentLike text) {
+        final String plainText = PlainTextComponentSerializer.plainText().serialize(text.asComponent());
         final int width = calculateWith(plainText);
         if (width > MAX_WIDTH) {
             throw new IllegalArgumentException(plainText + " was longer than the maximum width");

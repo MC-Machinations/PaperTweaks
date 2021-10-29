@@ -48,6 +48,6 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return buildTitle("Tag");
+        return buildDefaultTitle("Tag");
     }
 }

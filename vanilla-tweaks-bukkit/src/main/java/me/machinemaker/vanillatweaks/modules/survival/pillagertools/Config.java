@@ -57,6 +57,6 @@ class Config extends MenuModuleConfig<Config> {
 
     @Override
     public @NotNull Component title() {
-        return buildTitle("Pillager Tools");
+        return buildDefaultTitle("Pillager Tools");
     }
 }

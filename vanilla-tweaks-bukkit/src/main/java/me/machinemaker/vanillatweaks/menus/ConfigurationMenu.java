@@ -34,8 +34,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class ConfigurationMenu<S> {
 
     private static final int WIDTH = 80;
-    private static final Component TITLE_LINE = text(" ".repeat(WIDTH) + "\n", DARK_GRAY, TextDecoration.STRIKETHROUGH);
-    private static final Component END_LINE = text(" ".repeat(WIDTH), DARK_GRAY, TextDecoration.STRIKETHROUGH); // no newline
+    public static final Component TITLE_LINE = text(" ".repeat(WIDTH) + "\n", DARK_GRAY, TextDecoration.STRIKETHROUGH);
+    public static final Component END_LINE = text(" ".repeat(WIDTH), DARK_GRAY, TextDecoration.STRIKETHROUGH); // no newline
 
     private final Component title;
     private final String commandPrefix;
