@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.time.Duration;
 
@@ -49,7 +50,7 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player damager && event.getEntity() instanceof Player damagee) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.THORNS && event.getDamager() instanceof Player damager && event.getEntity() instanceof Player damagee) {
             if (!damager.getInventory().getItemInMainHand().isSimilar(Tag.TAG_ITEM)) return;
             if (!Tag.IT.has(damager)) return;
             Audience damagerAudience = this.audiences.player(damager);
