@@ -31,6 +31,7 @@ import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.db.DatabaseModule;
+import me.machinemaker.vanillatweaks.integrations.Integrations;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
 import me.machinemaker.vanillatweaks.modules.teleportation.homes.Homes;
@@ -97,6 +98,7 @@ public class VanillaTweaks extends JavaPlugin {
     @Override
     public void onEnable() {
         PaperLib.suggestPaper(this);
+        Integrations.load();
         try (Handle handle = this.jdbi.open()) {
             handle.execute(Resources.toString(this.getClassLoader().getResource("db/schema/h2.sql"), StandardCharsets.UTF_8));
         } catch (IOException exception) {

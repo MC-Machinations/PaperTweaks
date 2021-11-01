@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.modules.items.wrenches;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.integrations.Interactions;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.tags.Tags;
 import me.machinemaker.vanillatweaks.tags.types.MaterialTag;
@@ -52,11 +53,13 @@ class WrenchListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getHand() == EquipmentSlot.HAND
+        if (event.useItemInHand() != Event.Result.DENY
+                && event.getHand() == EquipmentSlot.HAND
                 && event.getAction() == Action.RIGHT_CLICK_BLOCK
                 && event.getClickedBlock() != null
                 && event.getItem() != null
                 && event.getItem().equals(Lifecycle.WRENCH)
+                && Interactions.checkInteraction(event)
         ) {
             Block block = event.getClickedBlock();
             BlockData blockData = block.getBlockData();

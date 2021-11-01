@@ -45,6 +45,7 @@ subprojects {
         maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
+        maven("https://maven.enginehub.org/repo/")
     }
 
     val cloudVersion = "1.6.0-SNAPSHOT"
@@ -75,6 +76,9 @@ subprojects {
         compileOnly("com.mojang:authlib:1.5.25")
         compileOnly("org.slf4j:slf4j-api:1.7.30")
         compileOnly("com.mojang:brigadier:1.0.18")
+
+        // soft dependencies
+        compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
 
         testImplementation("org.apache.commons:commons-configuration2:2.7")
         testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
