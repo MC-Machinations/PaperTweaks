@@ -97,6 +97,10 @@ public class VanillaTweaks extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getLogger().info("Thank you for using PaperTweaks/VanillaTweaks!");
+        getLogger().info("If you have any issues, please visit one of the following links for support:");
+        getLogger().info("  - https://discord.gg/invite/Np6Pcb78rr");
+        getLogger().info("  - https://github.com/MC-Machinations/VanillaTweaks/issues");
         PaperLib.suggestPaper(this);
         Integrations.load();
         try (Handle handle = this.jdbi.open()) {

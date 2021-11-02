@@ -84,10 +84,12 @@ public class RootCommand extends VanillaTweaksCommand {
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.enableModule(ModuleArgument.getModule(context).getName()))))
         ).command(this.simple("disable")
                 .argument(ModuleArgument.enabled())
-                .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.disableModule(ModuleArgument.getModule(context).getName())))
-        )).command(this.simple("list")
+                .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.disableModule(ModuleArgument.getModule(context).getName()))))
+        ).command(this.simple("list")
                 .argument(IntegerArgument.<CommandDispatcher>newBuilder("page").withMin(1).withMax(this.pageCount).asOptionalWithDefault(1))
                 .handler(this::sendModuleList)
+        ).command(this.simple("version")
+                .handler(this::showVersion)
         );
     }
 
@@ -150,6 +152,17 @@ public class RootCommand extends VanillaTweaksCommand {
                 .append(ConfigurationMenu.TITLE_LINE)
                 .append(ChatWindow.center(text("Modules - Page " + page + "/" + this.pageCount).hoverEvent(HoverEvent.showText(translatable("commands.list.success.header.hover", GRAY)))).append(newline()))
                 .append(ConfigurationMenu.TITLE_LINE);
+    }
+
+    private void showVersion(CommandContext<CommandDispatcher> context) {
+        final var component = text()
+                .append(VanillaTweaks.PLUGIN_PREFIX)
+                .append(
+                        translatable("commands.version.success", GRAY, text(VanillaTweaks.class.getPackage().getImplementationVersion(), GOLD))
+                                .hoverEvent(HoverEvent.showText(translatable("commands.version.success.hover", GRAY)))
+                                .clickEvent(ClickEvent.copyToClipboard(VanillaTweaks.class.getPackage().getImplementationVersion()))
+                );
+        context.getSender().sendMessage(component);
     }
 
 }

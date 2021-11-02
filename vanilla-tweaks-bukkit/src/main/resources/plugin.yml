@@ -38,6 +38,9 @@ permissions:
     description: List all modules
     children:
       vanillatweaks.main.list: true
+  vanillatweaks.main.version:
+    default: true
+    description: Show version info
 
   vanillatweaks.afkdisplay:
     default: true
