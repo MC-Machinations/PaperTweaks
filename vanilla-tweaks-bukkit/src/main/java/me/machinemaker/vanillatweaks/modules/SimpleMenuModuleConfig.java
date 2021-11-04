@@ -17,26 +17,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.menus;
+package me.machinemaker.vanillatweaks.modules;
 
 import cloud.commandframework.context.CommandContext;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.ComponentLike;
+import me.machinemaker.vanillatweaks.menus.ReferenceConfigurationMenu;
+import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
-public interface ConfigurationMenu<S> extends BuildablePart<S> {
+import java.util.List;
 
-    @NotNull ComponentLike[] buildHeader(@NotNull S object);
+public abstract class SimpleMenuModuleConfig<C extends SimpleMenuModuleConfig<C>> extends MenuModuleConfig<C, ReferenceConfigurationMenu<C>> {
 
-    @NotNull Iterable<? extends ComponentLike> buildParts(@NotNull S object);
-
-    @NotNull ComponentLike[] buildFooter(@NotNull S object);
-
-    default void send(@NotNull CommandContext<CommandDispatcher> context, @NotNull S object) {
-        this.send(context.getSender(), object);
+    @Override
+    protected final @NotNull ReferenceConfigurationMenu<C> createMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<C>> configMenuParts) {
+        return new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, self());
     }
 
-    void send(@NotNull Audience audience, @NotNull S object);
-
+    @Override
+    protected final void sendMenu(@NotNull CommandContext<CommandDispatcher> context) {
+        this.menu().send(context);
+    }
 }

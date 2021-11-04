@@ -206,6 +206,18 @@ public final class ReflectionUtils {
     /**
      * Retrieve a field accessor for a specific field type and name.
      *
+     * @param className lookup name of the class, see {@link #getClass(String)}
+     * @param name      the name of the field, or NULL to ignore
+     * @param fieldType a compatible field type
+     * @return the field accessor
+     */
+    public static <T> FieldAccessor<T> getField(String className, String name, TypeToken<T> fieldType) {
+        return getField(getClass(className), name, fieldType, 0);
+    }
+
+    /**
+     * Retrieve a field accessor for a specific field type and name.
+     *
      * @param target    the target type
      * @param fieldType a compatible field type
      * @param index     the number of compatible fields to skip

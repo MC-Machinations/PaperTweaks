@@ -27,15 +27,16 @@ import org.jetbrains.annotations.NotNull;
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.space;
+import static net.kyori.adventure.text.Component.translatable;
 
 public interface MenuEnum<E extends Enum<E> & MenuEnum<E>> extends ToggleOption<E> {
 
     @NotNull
-    default Component build(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
+    default Component build(@NotNull E selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
         return join(
                 createClickComponent(selected, commandPrefix, optionKey),
                 space(),
-                label(),
+                createLabel(labelKey),
                 newline()
         );
     }
@@ -45,32 +46,32 @@ public interface MenuEnum<E extends Enum<E> & MenuEnum<E>> extends ToggleOption<
     }
 
     @Override
-    @NotNull
-    default String clickCommandValue(@NotNull E selected) {
+    default @NotNull String clickCommandValue(@NotNull E selected) {
         return this.name();
     }
 
     @Override
-    @NotNull
-    default Component extendedDescription() {
+    default @NotNull Component extendedDescription() {
         return Component.empty();
     }
 
     @Override
-    @NotNull
-    default Component defaultValueDescription() {
+    default @NotNull Component defaultValueDescription() {
         return Component.empty();
     }
 
     @Override
-    @NotNull
-    default String optionKey() {
+    default @NotNull String optionKey() {
         throw new UnsupportedOperationException("MenuEnums can't have option keys");
     }
 
     @Override
     default boolean isSelected(@NotNull E selected) {
         return this == selected;
+    }
+
+    default @NotNull Component createLabel(@NotNull String labelKey) {
+        return translatable(labelKey, this.label());
     }
 
     @NotNull Component label();

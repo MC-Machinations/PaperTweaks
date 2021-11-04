@@ -29,7 +29,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.title.Title;
-import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
@@ -51,44 +51,44 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
 
     static record Instance(boolean handPing, boolean armorPing, boolean sound, @NotNull DisplaySetting displaySetting) { }
 
-    static Instance from(PersistentDataHolder holder) {
-        return new Instance(HAND_PING.getOrDefault(holder), ARMOR_PING.getOrDefault(holder), SOUND.getOrDefault(holder), DISPLAY.getOrDefault(holder));
+    static Instance from(Player player) {
+        return new Instance(HAND_PING.getOrDefault(player), ARMOR_PING.getOrDefault(player), SOUND.getOrDefault(player), DISPLAY.getOrDefault(player));
     }
 
     enum DisplaySetting implements PreviewableMenuEnum<DisplaySetting> {
-        HIDDEN("Display: Hidden") {
+        HIDDEN("Hidden") {
             @Override
             void sendMessage(Audience audience, ComponentLike componentLike) {
                 // pass
             }
 
             @Override
-            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String commandPrefix, @NotNull String optionKey) {
-                return super.buildWithoutPreview(selected, commandPrefix, optionKey);
+            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
+                return super.buildWithoutPreview(selected, labelKey, commandPrefix, optionKey);
             }
         },
-        SUBTITLE("Display: Subtitle") {
+        SUBTITLE("Subtitle") {
             @Override
             void sendMessage(Audience audience, ComponentLike componentLike) {
                 audience.clearTitle();
                 audience.showTitle(Title.title(Component.empty(), componentLike.asComponent()));
             }
         },
-        TITLE("Display: Title") {
+        TITLE("Title") {
             @Override
             void sendMessage(Audience audience, ComponentLike componentLike) {
                 audience.clearTitle();
                 audience.showTitle(Title.title(componentLike.asComponent(), Component.empty()));
             }
         },
-        CHAT("Display: Chat") {
+        CHAT("Chat") {
             @Override
             void sendMessage(Audience audience, ComponentLike componentLike) {
                 audience.sendMessage(componentLike);
             }
 
         },
-        ACTION_BAR("Display: Action Bar") {
+        ACTION_BAR("Action Bar") {
             @Override
             void sendMessage(Audience audience, ComponentLike componentLike) {
                 audience.sendActionBar(componentLike);

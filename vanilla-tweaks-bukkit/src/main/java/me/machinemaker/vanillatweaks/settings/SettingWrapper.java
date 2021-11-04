@@ -21,23 +21,16 @@ package me.machinemaker.vanillatweaks.settings;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import org.bukkit.GameRule;
 import org.bukkit.NamespacedKey;
-import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SettingWrapper<T, C> implements Setting<T, C> {
 
-    private final NamespacedKey key;
     Setting<T, C> wrappedSetting;
-
-    protected SettingWrapper(NamespacedKey key) {
-        this.key = key;
-    }
-
-    public NamespacedKey key() {
-        return this.key;
-    }
 
     @Override
     public @Nullable T get(@NotNull C container) {
@@ -52,7 +45,7 @@ public class SettingWrapper<T, C> implements Setting<T, C> {
     }
 
     @Override
-    public Class<T> valueType() {
+    public @NotNull Class<T> valueType() {
         return this.wrappedSetting.valueType();
     }
 
@@ -64,7 +57,7 @@ public class SettingWrapper<T, C> implements Setting<T, C> {
 
     @Override
     public @NotNull String indexKey() {
-        return this.key.getKey();
+        return this.wrappedSetting.indexKey();
     }
 
     @Override
@@ -83,10 +76,12 @@ public class SettingWrapper<T, C> implements Setting<T, C> {
         return new PDC<>(key);
     }
 
-    public static class PDC<T> extends SettingWrapper<T, PersistentDataHolder> {
+    public static class PDC<T> extends SettingWrapper<T, Player> {
+
+        public final NamespacedKey key;
 
         PDC(@NotNull NamespacedKey key) {
-            super(key);
+            this.key = key;
         }
     }
 }

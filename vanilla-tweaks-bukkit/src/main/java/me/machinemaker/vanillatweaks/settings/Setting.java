@@ -64,7 +64,7 @@ public interface Setting<T, C> {
         set(holder, defaultValue());
     }
 
-    Class<T> valueType();
+    @NotNull Class<T> valueType();
 
     @NotNull T defaultValue();
 

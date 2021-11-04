@@ -30,7 +30,7 @@ import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
 import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.menus.ConfigurationMenu;
+import me.machinemaker.vanillatweaks.menus.AbstractConfigurationMenu;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleManager.ReloadResult;
@@ -144,14 +144,14 @@ public class RootCommand extends VanillaTweaksCommand {
                 ).append(newline());
             }
         }
-        context.getSender().sendMessage(join(JoinConfiguration.noSeparators(), header, list, ConfigurationMenu.END_LINE));
+        context.getSender().sendMessage(join(JoinConfiguration.noSeparators(), header, list, AbstractConfigurationMenu.END_LINE));
     }
 
     private @NonNull ComponentLike createHeader(int page) {
         return text()
-                .append(ConfigurationMenu.TITLE_LINE)
+                .append(AbstractConfigurationMenu.TITLE_LINE)
                 .append(ChatWindow.center(text("Modules - Page " + page + "/" + this.pageCount).hoverEvent(HoverEvent.showText(translatable("commands.list.success.header.hover", GRAY)))).append(newline()))
-                .append(ConfigurationMenu.TITLE_LINE);
+                .append(AbstractConfigurationMenu.TITLE_LINE);
     }
 
     private void showVersion(CommandContext<CommandDispatcher> context) {

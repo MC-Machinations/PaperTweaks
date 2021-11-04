@@ -27,11 +27,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Meta("i18n")
+@Meta(I18nKey.META_KEY)
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface I18nKey {
+
+    String META_KEY = "i18n";
 
     String value();
 }

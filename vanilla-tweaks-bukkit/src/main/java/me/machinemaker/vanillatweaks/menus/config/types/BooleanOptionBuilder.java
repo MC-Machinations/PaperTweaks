@@ -34,12 +34,12 @@ public class BooleanOptionBuilder extends SimpleConfigMenuOptionBuilder<Boolean>
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C>> MenuOptionBuilderCreator<Boolean, C> getBuilder() {
+    protected @NotNull <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<Boolean, C> getBuilder() {
         return BooleanMenuOption::newBuilder;
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C>> ConfigSetting<Boolean, C> createSetting(ValueNode<?> valueNode) {
+    protected @NotNull <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> createSetting(ValueNode<?> valueNode) {
         return ConfigSetting.ofBoolean(valueNode);
     }
 }

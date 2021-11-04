@@ -28,6 +28,7 @@ import me.machinemaker.vanillatweaks.pdc.types.EnumDataType;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import me.machinemaker.vanillatweaks.settings.SettingWrapper;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
@@ -36,33 +37,33 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull PersistentDataType<?, T> dataType, @NotNull Supplier<@NotNull T> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, PersistentDataHolder> {
+public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull PersistentDataType<?, T> dataType, @NotNull Supplier<@NotNull T> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, Player> {
 
     public static PlayerSetting<Boolean> ofBoolean(@NotNull SettingWrapper.PDC<Boolean> wrapper, @NotNull Supplier<Boolean> supplier) {
         return of(wrapper, DataTypes.BOOLEAN, supplier, new BooleanParser());
     }
 
-    public static <E extends Enum<E>> PlayerSetting<E> ofEnum(@NotNull SettingWrapper.PDC<E> wrapper, @NotNull Class<E> classOfE, @NotNull Supplier<E> supplier) {
-        return of(wrapper, EnumDataType.of(classOfE), supplier, new EnumArgument.EnumParser<>(classOfE));
+    public static <E extends Enum<E>> PlayerSetting<E> ofEnum(@NotNull SettingWrapper.PDC<E> wrapper, @NotNull Class<E> classOfE, @NotNull Supplier<E> defaultSupplier) {
+        return of(wrapper, EnumDataType.of(classOfE), defaultSupplier, new EnumArgument.EnumParser<>(classOfE));
     }
 
-    private static <S> PlayerSetting<S> of(@NotNull SettingWrapper.PDC<S> wrapper, @NotNull PersistentDataType<?, S> dataType, @NotNull Supplier<S> supplier, @NotNull ArgumentParser<CommandDispatcher, S> argumentParser) {
-        return new PlayerSetting<>(wrapper.key(), dataType, supplier, argumentParser).loadWrapper(wrapper);
+    private static <S> PlayerSetting<S> of(@NotNull SettingWrapper.PDC<S> wrapper, @NotNull PersistentDataType<?, S> dataType, @NotNull Supplier<S> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, S> argumentParser) {
+        return new PlayerSetting<>(wrapper.key, dataType, defaultSupplier, argumentParser).loadWrapper(wrapper);
     }
 
     @Override
-    public @Nullable T get(@NotNull PersistentDataHolder holder) {
+    public @Nullable T get(@NotNull Player holder) {
         PersistentDataContainer pdc = holder.getPersistentDataContainer();
         return pdc.get(this.settingKey, this.dataType);
     }
 
     @Override
-    public void set(@NotNull PersistentDataHolder holder, T value) {
+    public void set(@NotNull Player holder, T value) {
         holder.getPersistentDataContainer().set(this.settingKey, this.dataType, value);
     }
 
     @Override
-    public Class<T> valueType() {
+    public @NotNull Class<T> valueType() {
         return this.dataType.getComplexType();
     }
 

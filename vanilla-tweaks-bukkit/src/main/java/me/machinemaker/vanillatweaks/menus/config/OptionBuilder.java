@@ -30,5 +30,5 @@ import java.util.Map;
 @FunctionalInterface
 public interface OptionBuilder {
 
-    <C extends MenuModuleConfig<C>> MenuOption<?, C> buildOption(@NotNull ValueNode<?> valueNode, final @NotNull Map<String, ConfigSetting<?, C>> settings);
+    <C extends MenuModuleConfig<C, ?>> MenuOption.Builder<?, ?, C, ?> buildOption(@NotNull ValueNode<?> valueNode, final @NotNull Map<String, ConfigSetting<?, C>> settings);
 }

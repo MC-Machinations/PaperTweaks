@@ -25,13 +25,13 @@ import me.machinemaker.lectern.annotations.validations.numbers.Min;
 import me.machinemaker.vanillatweaks.config.I18nKey;
 import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.menus.Menu;
-import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
+import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 @Menu(commandPrefix = "/tpa admin config")
 @VTConfig
-class Config extends MenuModuleConfig<Config> {
+class Config extends SimpleMenuModuleConfig<Config> {
 
     @Min(0)
     @I18nKey("modules.tpa.settings.request-cooldown")

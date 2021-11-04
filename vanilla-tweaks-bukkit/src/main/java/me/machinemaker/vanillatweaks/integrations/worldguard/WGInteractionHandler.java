@@ -35,6 +35,7 @@ public class WGInteractionHandler implements Interactions.Handler {
     private static final WorldGuard WORLD_GUARD = WorldGuard.getInstance();
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean test(PlayerInteractEvent event) {
         LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.wrapPlayer(event.getPlayer());
         if (WORLD_GUARD.getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) {

@@ -34,12 +34,12 @@ public class IntegerOptionBuilder extends SimpleConfigMenuOptionBuilder<Integer>
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C>> MenuOptionBuilderCreator<Integer, C> getBuilder() {
-        return IntegerMenuOption::newBuilder;
+    protected @NotNull <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<Integer, C> getBuilder() {
+        return IntegerMenuOption::builder;
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C>> ConfigSetting<Integer, C> createSetting(ValueNode<?> valueNode) {
+    protected @NotNull <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> createSetting(ValueNode<?> valueNode) {
         return ConfigSetting.ofInt(valueNode);
     }
 }

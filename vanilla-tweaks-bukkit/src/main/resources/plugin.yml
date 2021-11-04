@@ -20,6 +20,8 @@ permissions:
       vanillatweaks.wanderingtrades.admin.config: true
       vanillatweaks.tpa.admin.config: true
       vanillatweaks.back.admin.config: true
+      vanillatweaks.multiplayersleep.admin.config: true
+      vanillatweaks.durabilityping.admin.config: true
 
   vanillatweaks.main.enable:
     default: op
@@ -56,6 +58,9 @@ permissions:
   vanillatweaks.durabilityping.notification:
     default: true
     description: Gets the durability notification
+  vanillatweaks.durabilityping.admin.config:
+    default: op
+    description: Configure DurabilityPing in-game
 
   vanillatweaks.multiplayersleep.config:
     default: true
@@ -63,6 +68,9 @@ permissions:
   vanillatweaks.multiplayersleep.sleeping:
     default: true
     description: List sleeping players
+  vanillatweaks.multiplayersleep.admin.config:
+    default: op
+    description: Configure MultiplayerSleep in-game
 
   vanillatweaks.graves:
     default: true

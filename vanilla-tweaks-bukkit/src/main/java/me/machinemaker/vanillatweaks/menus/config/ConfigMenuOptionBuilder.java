@@ -30,17 +30,17 @@ public abstract class ConfigMenuOptionBuilder<T> implements OptionBuilder {
 
     public abstract @NotNull Class<T> typeClass();
 
-    protected @NotNull String labelKey(@NotNull ValueNode<?> valueNode) {
+    protected final <C extends MenuModuleConfig<C, ?>> @NotNull Function<C, T> typeMapper(ValueNode<?> valueNode) {
+        return c -> c.rootNode().get(valueNode.path());
+    }
+
+    public static @NotNull String labelKey(@NotNull ValueNode<?> valueNode) {
         String labelKey;
-        if (valueNode.meta().containsKey("i18n")) {
-            labelKey = ((I18nKey) valueNode.meta().get("i18n")).value();
+        if (valueNode.meta().containsKey(I18nKey.META_KEY)) {
+            labelKey = ((I18nKey) valueNode.meta().get(I18nKey.META_KEY)).value();
         } else {
             labelKey = valueNode.key();
         }
         return labelKey;
-    }
-
-    protected final <C extends MenuModuleConfig<C>> @NotNull Function<C, T> typeMapper(ValueNode<?> valueNode) {
-        return c -> c.rootNode().get(valueNode.path());
     }
 }

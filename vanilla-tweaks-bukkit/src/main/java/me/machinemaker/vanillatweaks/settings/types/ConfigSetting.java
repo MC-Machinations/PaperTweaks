@@ -38,17 +38,17 @@ import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 @SuppressWarnings("unchecked")
-public record ConfigSetting<T, C extends MenuModuleConfig<C>>(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser, @NotNull Component validations) implements Setting<T, C> {
+public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser, @NotNull Component validations) implements Setting<T, C> {
 
-    public static <C extends MenuModuleConfig<C>> ConfigSetting<Boolean, C> ofBoolean(@NotNull ValueNode<?> valueNode) {
+    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> ofBoolean(@NotNull ValueNode<?> valueNode) {
         return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanParser());
     }
 
-    public static <E extends Enum<E>, C extends MenuModuleConfig<C>> ConfigSetting<E, C> ofEnum(@NotNull ValueNode<?> valueNode, @NotNull Class<E> classOfE) {
+    public static <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> ConfigSetting<E, C> ofEnum(@NotNull ValueNode<?> valueNode, @NotNull Class<E> classOfE) {
         return new ConfigSetting<>((ValueNode<E>) valueNode, new EnumArgument.EnumParser<>(classOfE));
     }
 
-    public static <C extends MenuModuleConfig<C>> ConfigSetting<Integer, C> ofInt(@NotNull ValueNode<?> valueNode) {
+    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> ofInt(@NotNull ValueNode<?> valueNode) {
         return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerArgument.IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerArgument.IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerArgument.IntegerParser.DEFAULT_MAXIMUM).toString())));
     }
 
@@ -67,7 +67,7 @@ public record ConfigSetting<T, C extends MenuModuleConfig<C>>(@NotNull ValueNode
     }
 
     @Override
-    public Class<T> valueType() {
+    public @NotNull Class<T> valueType() {
         return (Class<T>) GenericTypeReflector.box(TypeFactory.rawClass(node.type()));
     }
 

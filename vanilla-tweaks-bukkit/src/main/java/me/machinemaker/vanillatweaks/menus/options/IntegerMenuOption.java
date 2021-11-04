@@ -82,8 +82,16 @@ public class IntegerMenuOption<S> extends MenuOption<Integer, S> implements Edit
         return new Builder<>(translatable(labelKey), typeMapper, setting).build();
     }
 
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Function<S, Integer> typeMapper, @NotNull Setting<Integer, ?> setting) {
+    public static <S> @NotNull IntegerMenuOption<S> of(@NotNull String labelKey, @NotNull Setting<Integer, S> setting) {
+        return new Builder<>(translatable(labelKey), setting::getOrDefault, setting).build();
+    }
+
+    public static <S> @NotNull Builder<S> builder(@NotNull String labelKey, @NotNull Function<S, Integer> typeMapper, @NotNull Setting<Integer, ?> setting) {
         return new Builder<>(translatable(labelKey), typeMapper, setting);
+    }
+
+    public static <S> @NotNull Builder<S> builder(@NotNull String labelKey, @NotNull Setting<Integer, S> setting) {
+        return new Builder<>(translatable(labelKey), setting::getOrDefault, setting);
     }
 
     public static class Builder<S> extends MenuOption.Builder<Integer, IntegerMenuOption<S>, S, Builder<S>> {

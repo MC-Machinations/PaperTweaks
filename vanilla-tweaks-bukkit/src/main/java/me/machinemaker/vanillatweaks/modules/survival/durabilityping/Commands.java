@@ -22,10 +22,9 @@ package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.options.BooleanMenuOption;
-import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
+import me.machinemaker.vanillatweaks.menus.options.SelectableEnumMenuOption;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import net.kyori.adventure.sound.Sound;
@@ -41,29 +40,30 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 @ModuleCommand.Info(value = "durabilityping", aliases = {"dping", "dp"}, i18n = "durability-ping", perm = "durabilityping")
 class Commands extends ConfiguredModuleCommand {
 
-    private final PlayerListener listener;
-    private final Settings settings;
-    private static final PlayerConfigurationMenu<Settings.Instance> MENU = new PlayerConfigurationMenu<>(
+    private static final PlayerConfigurationMenu MENU = new PlayerConfigurationMenu(
             join(text(" ".repeat(18) + "DurabilityPing"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(18) + "\n")),
             "/durabilityping config",
             List.of(
                     BooleanMenuOption
-                            .newBuilder("modules.durability-ping.config.hand-items", Settings.Instance::handPing, Settings.HAND_PING)
+                            .newBuilder("modules.durability-ping.config.hand-items", Settings.HAND_PING)
                             .extendedDescription("modules.durability-ping.config.hand-items.extended"),
-                    BooleanMenuOption.newBuilder("modules.durability-ping.config.armor-items", Settings.Instance::armorPing, Settings.ARMOR_PING)
+                    BooleanMenuOption.newBuilder("modules.durability-ping.config.armor-items", Settings.ARMOR_PING)
                             .extendedDescription("modules.durability-ping.config.armor-items.extended"),
                     BooleanMenuOption
-                            .newBuilder(text("Ping with Sound"), Settings.Instance::sound, Settings.SOUND)
+                            .newBuilder(text("Ping with Sound"), Settings.SOUND)
                             .previewAction(bool -> ClickEvent.runCommand("/durabilityping config preview_sound")),
-                    EnumMenuOption.of(Settings.DisplaySetting.class, Settings.Instance::displaySetting, Settings.DISPLAY)
-            ),
-            Settings::from
+                    SelectableEnumMenuOption.of(Settings.DisplaySetting.class, "modules.durability-ping.config.display", Settings.DISPLAY)
+            )
     );
+    private final PlayerListener listener;
+    private final Settings settings;
+    private final Config config;
 
     @Inject
-    Commands(PlayerListener listener, Settings settings) {
+    Commands(PlayerListener listener, Settings settings, Config config) {
         this.listener = listener;
         this.settings = settings;
+        this.config = config;
     }
 
     @Override
@@ -72,10 +72,7 @@ class Commands extends ConfiguredModuleCommand {
         final var configBuilder = literal(builder, "config");
 
         manager.command(configBuilder
-                .handler(context -> {
-                    Settings.Instance instance = Settings.from(PlayerCommandDispatcher.from(context));
-                    context.getSender().sendMessage(MENU.build(instance));
-                })
+                .handler(MENU::send)
         ).command(configBuilder.hidden()
                 .literal("preview_display")
                 .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
@@ -91,6 +88,8 @@ class Commands extends ConfiguredModuleCommand {
                     this.listener.settingsCache.invalidate(player.getUniqueId());
                     MENU.send(context);
                 }))
-        ).command(SettingArgument.reset(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
+        ).command(SettingArgument.resetPlayerSettings(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
+
+        this.config.createCommands(this, builder);
     }
 }

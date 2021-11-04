@@ -32,19 +32,19 @@ import java.util.function.Function;
 public abstract class SimpleConfigMenuOptionBuilder<T> extends ConfigMenuOptionBuilder<T> {
 
     @Override
-    public final <C extends MenuModuleConfig<C>> @NotNull MenuOption<T, C> buildOption(@NotNull ValueNode<?> valueNode, final @NotNull Map<String, ConfigSetting<?, C>> settings) {
+    public final <C extends MenuModuleConfig<C, ?>> MenuOption.@NotNull Builder<T, ?, C, ?> buildOption(@NotNull ValueNode<?> valueNode, final @NotNull Map<String, ConfigSetting<?, C>> settings) {
         var setting = this.<C>createSetting(valueNode);
         settings.put(setting.indexKey(), setting);
         var builder =  this.<C>getBuilder().createBuilder(labelKey(valueNode), typeMapper(valueNode), setting);
         if (valueNode.meta().containsKey("desc")) {
             builder.extendedDescription((String) valueNode.meta().get("desc"));
         }
-        return builder.build();
+        return builder;
     }
 
-    protected abstract <C extends MenuModuleConfig<C>> @NotNull MenuOptionBuilderCreator<T, C> getBuilder();
+    protected abstract <C extends MenuModuleConfig<C, ?>> @NotNull MenuOptionBuilderCreator<T, C> getBuilder();
 
-    protected abstract <C extends MenuModuleConfig<C>> @NotNull ConfigSetting<T, C> createSetting(ValueNode<?> valueNode);
+    protected abstract <C extends MenuModuleConfig<C, ?>> @NotNull ConfigSetting<T, C> createSetting(ValueNode<?> valueNode);
 
     @FunctionalInterface
     protected interface MenuOptionBuilderCreator<T, S> {

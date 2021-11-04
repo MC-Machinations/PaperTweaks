@@ -19,24 +19,36 @@
  */
 package me.machinemaker.vanillatweaks.menus;
 
+import cloud.commandframework.context.CommandContext;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
-import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class LecternConfigurationMenu<C extends MenuModuleConfig<C>> extends ConfigurationMenu<C> {
+public class ReferenceConfigurationMenu<S> extends AbstractConfigurationMenu<S> {
 
-    private final C configuration;
+    private final S reference;
 
-    public LecternConfigurationMenu(@NotNull Component title, String commandPrefix, @NotNull List<MenuPartLike<C>> parts, @NotNull C configuration) {
+    public ReferenceConfigurationMenu(@NotNull Component title, String commandPrefix, @NotNull List<MenuPartLike<S>> parts, @NotNull S reference) {
         super(title, commandPrefix, parts);
-        this.configuration = configuration;
+        this.reference = reference;
     }
 
-    public void send(@NotNull Audience audience) {
-        audience.sendMessage(this.build(this.configuration));
+    public void send(@NotNull CommandContext<CommandDispatcher> context) {
+        this.send(context.getSender(), this.reference);
+    }
+
+    @Override
+    public void send(@NotNull Audience audience, @NotNull S reference) {
+        if (audience instanceof Player || audience instanceof PlayerCommandDispatcher) {
+            audience.sendMessage(this.build(reference));
+        } else {
+            throw new IllegalArgumentException(audience + " isn't a valid audience for sending a configuration menu");
+        }
     }
 }

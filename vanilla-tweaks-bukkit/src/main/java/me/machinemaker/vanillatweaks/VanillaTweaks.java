@@ -26,6 +26,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
+import io.leangen.geantyref.TypeToken;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
@@ -36,9 +37,11 @@ import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
 import me.machinemaker.vanillatweaks.modules.teleportation.homes.Homes;
 import me.machinemaker.vanillatweaks.utils.PlayerMapFactory;
+import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.renderer.TranslatableComponentRenderer;
 import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -74,10 +77,9 @@ public class VanillaTweaks extends JavaPlugin {
 
     static {
         try {
-            Field rendererField = Class.forName("net.kyori.adventure.translation.GlobalTranslatorImpl").getDeclaredField("renderer");
-            rendererField.trySetAccessible();
+            ReflectionUtils.FieldAccessor<TranslatableComponentRenderer<Locale>> rendererField = ReflectionUtils.getField("net.kyori.adventure.translation.GlobalTranslatorImpl", "renderer", new TypeToken<TranslatableComponentRenderer<Locale>>() {});
             rendererField.set(GlobalTranslator.get(), MappedTranslatableComponentRenderer.GLOBAL_INSTANCE);
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -19,24 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.menus;
 
-import cloud.commandframework.context.CommandContext;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
 
-public interface ConfigurationMenu<S> extends BuildablePart<S> {
+public interface BuildablePart<S> {
 
-    @NotNull ComponentLike[] buildHeader(@NotNull S object);
-
-    @NotNull Iterable<? extends ComponentLike> buildParts(@NotNull S object);
-
-    @NotNull ComponentLike[] buildFooter(@NotNull S object);
-
-    default void send(@NotNull CommandContext<CommandDispatcher> context, @NotNull S object) {
-        this.send(context.getSender(), object);
-    }
-
-    void send(@NotNull Audience audience, @NotNull S object);
-
+    @NotNull ComponentLike build(@NotNull S object);
 }

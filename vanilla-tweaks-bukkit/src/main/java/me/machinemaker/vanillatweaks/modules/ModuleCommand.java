@@ -37,7 +37,7 @@ import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.ConsoleCommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.vanillatweaks.menus.ConfigurationMenu;
+import me.machinemaker.vanillatweaks.menus.AbstractConfigurationMenu;
 import me.machinemaker.vanillatweaks.utils.ChatWindow;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -120,9 +120,9 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
 
     private void createInfoComponent() {
         final var builder = text()
-                .append(ConfigurationMenu.TITLE_LINE)
+                .append(AbstractConfigurationMenu.TITLE_LINE)
                 .append(ChatWindow.center(text().color(WHITE).append(text(this.moduleBase.getName(), GOLD)).append(MenuModuleConfig.SEPARATOR).append(text("ⓘ")).hoverEvent(HoverEvent.showText(translatable("commands.info.hover", GRAY, text(this.moduleBase.getName()))))).append(newline()))
-                .append(ConfigurationMenu.TITLE_LINE);
+                .append(AbstractConfigurationMenu.TITLE_LINE);
 
         builder.append(translatable("commands.info.description", GRAY, text(this.moduleBase.getDescription(), WHITE))).append(newline());
         final var actionsBuilder = text().append(text()
@@ -152,7 +152,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
                     .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
         }
 
-        this.infoComponent = builder.append(translatable("commands.info.actions", GRAY, actionsBuilder)).append(newline()).append(ConfigurationMenu.END_LINE).build();
+        this.infoComponent = builder.append(translatable("commands.info.actions", GRAY, actionsBuilder)).append(newline()).append(AbstractConfigurationMenu.END_LINE).build();
     }
 
     void setupHelp() {

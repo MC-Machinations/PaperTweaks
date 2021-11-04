@@ -39,7 +39,7 @@ import static net.kyori.adventure.text.Component.translatable;
 
 public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements ToggleOption<Boolean> {
 
-    private BooleanMenuOption(@NotNull Component label, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting, @NotNull Component extendedDescription, @Nullable Function<Boolean, ClickEvent> previewAction) {
+    private BooleanMenuOption(@NotNull Component label, @NotNull Function<S, @NotNull Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting, @NotNull Component extendedDescription, @Nullable Function<Boolean, ClickEvent> previewAction) {
         super(label, typeMapper, setting, extendedDescription, previewAction);
     }
 
@@ -90,6 +90,18 @@ public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements Togg
 
     public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
         return new Builder<>(translatable(labelKey), typeMapper, setting);
+    }
+
+    public static <S> @NotNull BooleanMenuOption<S> of(@NotNull String labelKey, @NotNull Setting<Boolean, S> setting) {
+        return of(labelKey, setting::getOrDefault, setting);
+    }
+
+    public static <S> @NotNull Builder<S> newBuilder(@NotNull Component label, @NotNull Setting<Boolean, S> setting) {
+        return newBuilder(label, setting::getOrDefault, setting);
+    }
+
+    public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Setting<Boolean, S> setting) {
+        return newBuilder(translatable(labelKey), setting::getOrDefault, setting);
     }
 
     public static class Builder<S> extends MenuOption.Builder<Boolean, BooleanMenuOption<S>, S, Builder<S>> {

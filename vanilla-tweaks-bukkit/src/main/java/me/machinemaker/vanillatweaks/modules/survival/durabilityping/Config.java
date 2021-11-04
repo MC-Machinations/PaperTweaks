@@ -21,41 +21,57 @@ package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
+import me.machinemaker.lectern.annotations.validations.numbers.Min;
+import me.machinemaker.vanillatweaks.config.I18nKey;
 import me.machinemaker.vanillatweaks.config.VTConfig;
-import me.machinemaker.vanillatweaks.modules.ModuleConfig;
+import me.machinemaker.vanillatweaks.menus.Menu;
+import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
+import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 
 @VTConfig
-class Config extends ModuleConfig {
-
-    @Key("notification-threshold-percent")
-    @Description("Value between 0 (inclusive) and 1 (exclusive) for the percentage at which to start notifying the player. THIS IS UNUSED, look for `uses-left`")
-    @Deprecated
-    public double threshold = 0.02d;
+@Menu(commandPrefix = "/durabilityping admin config")
+class Config extends SimpleMenuModuleConfig<Config> {
 
     @Key("uses-left")
-    @Description("How many uses left a tool should have to start notifying the player. Replaces `notification-threshold-percent`")
+    @I18nKey("modules.durability-ping.settings.uses-left")
+    @Description("modules.durability-ping.settings.uses-left.extended")
+    @Min(1)
     public int usesLeft = 10;
 
     @Key("notification-cooldown-seconds")
-    @Description("Cooldown in seconds between notifications to limit spam")
+    @I18nKey("modules.durability-ping.settings.notification-cooldown-seconds")
+    @Description("modules.durability-ping.settings.notification-cooldown-seconds.extended")
+    @Min(0)
     public int notificationCooldown = 10;
 
     @Key("defaults.hand-ping")
-    @Description("Default setting for notifying players when their main/off hand tools get low")
+    @I18nKey("modules.durability-ping.settings.defaults.hand-ping")
+    @Description("modules.durability-ping.settings.defaults.hand-ping.extended")
     public boolean defaultHandPing = true;
 
     @Key("defaults.armor-ping")
-    @Description("Default setting for notifying players when their equipped armor gets low")
+    @I18nKey("modules.durability-ping.settings.defaults.armor-ping")
+    @Description("modules.durability-ping.settings.defaults.armor-ping.extended")
     public boolean defaultArmorPing = true;
 
     @Key("defaults.play-sound")
-    @Description("Default setting for playing a sound upon a notification")
+    @I18nKey("modules.durability-ping.settings.defaults.play-sound")
+    @Description("modules.durability-ping.settings.defaults.play-sound.extended")
     public boolean defaultPlaySound = true;
 
     @Key("defaults.display")
+    @I18nKey("modules.durability-ping.settings.defaults.display")
     @Description("Default setting for displaying the notification to the player. Can be one of: TITLE, SUBTITLE, CHAT, ACTION_BAR, HIDDEN")
     public Settings.DisplaySetting defaultDisplaySetting = Settings.DisplaySetting.SUBTITLE;
 
     @Key("enabled-by-default")
+    @I18nKey("modules.durability-ping.settings.enabled-by-default")
+    @Description("modules.durability-ping.settings.enabled-by-default.extended")
     public boolean enabledByDefault = true;
+
+    @Override
+    protected @NotNull Component title() {
+        return buildDefaultTitle("Durability Ping");
+    }
 }

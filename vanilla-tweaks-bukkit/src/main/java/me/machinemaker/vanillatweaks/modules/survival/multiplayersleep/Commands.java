@@ -20,13 +20,12 @@
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import cloud.commandframework.arguments.standard.EnumArgument;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.PlayerConfigurationMenu;
-import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
+import me.machinemaker.vanillatweaks.menus.options.SelectableEnumMenuOption;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
@@ -34,7 +33,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.function.Function;
 
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.text;
@@ -45,17 +43,18 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 @ModuleCommand.Info(value = "multiplayersleep", aliases = {"mpsleep", "mps"}, i18n = "multiplayer-sleep", perm = "multiplayersleep")
 class Commands extends ConfiguredModuleCommand {
 
-    private static final PlayerConfigurationMenu<Settings.DisplaySetting> MENU = new PlayerConfigurationMenu<>(
+    private static final PlayerConfigurationMenu MENU = new PlayerConfigurationMenu(
             Components.join(text(" ".repeat(16) + "MultiplayerSleep"), text(" / ", GRAY), text("Personal Settings" + " ".repeat(16) + "\n")),
             "/multiplayersleep config",
-            List.of(EnumMenuOption.of(Settings.DisplaySetting.class, Function.identity(), Settings.DISPLAY)),
-            Settings.DISPLAY::getOrDefault
+            List.of(SelectableEnumMenuOption.of(Settings.DisplaySetting.class, "modules.multiplayer-sleep.settings.display", Settings.DISPLAY))
     );
 
+    private final Config config;
     private final Settings settings;
 
     @Inject
-    Commands(Settings settings) {
+    Commands(Config config, Settings settings) {
+        this.config = config;
         this.settings = settings;
     }
 
@@ -85,10 +84,7 @@ class Commands extends ConfiguredModuleCommand {
                             context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep", YELLOW, almostAsleep));
                         })
                 ).command(configBuilder
-                        .handler(context -> {
-                            Settings.DisplaySetting setting = Settings.DISPLAY.getOrDefault(PlayerCommandDispatcher.from(context));
-                            context.getSender().sendMessage(MENU.build(setting));
-                        })
+                        .handler(MENU::send)
                 ).command(configBuilder.hidden()
                         .literal("preview_display")
                         .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
@@ -103,7 +99,9 @@ class Commands extends ConfiguredModuleCommand {
                             change.apply(player);
                             MENU.send(context);
                         })
-                ).command(SettingArgument.reset(configBuilder, "modules.multiplayer-sleep.commands.config.reset", this.settings));
+                ).command(SettingArgument.resetPlayerSettings(configBuilder, "modules.multiplayer-sleep.commands.config.reset", this.settings));
         // TODO if set to action bar or boss bar, don't wait for SleepContext#recalculate to send notifications
+
+        this.config.createCommands(this, builder);
     }
 }

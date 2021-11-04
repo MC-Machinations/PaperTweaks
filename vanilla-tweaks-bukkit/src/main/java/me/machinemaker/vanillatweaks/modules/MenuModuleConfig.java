@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.modules;
 
 import cloud.commandframework.Command;
+import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
@@ -33,13 +34,15 @@ import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.vanillatweaks.menus.LecternConfigurationMenu;
+import me.machinemaker.vanillatweaks.menus.ConfigurationMenu;
+import me.machinemaker.vanillatweaks.menus.ReferenceConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.menus.config.ConfigMenuOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.OptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.types.BooleanOptionBuilder;
-import me.machinemaker.vanillatweaks.menus.config.types.EnumOptionBuilder;
+import me.machinemaker.vanillatweaks.menus.config.types.EnumOptionBuilderFactory;
 import me.machinemaker.vanillatweaks.menus.config.types.IntegerOptionBuilder;
+import me.machinemaker.vanillatweaks.menus.options.MenuOption;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
 import me.machinemaker.vanillatweaks.utils.ChatWindow;
@@ -60,7 +63,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends ModuleConfig {
+public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M extends ConfigurationMenu<C>> extends ModuleConfig {
 
     public static final Component SEPARATOR = text(" / ", GRAY);
     protected static final Component GLOBAL_SETTINGS = text("Global Settings");
@@ -71,18 +74,17 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
     static {
         registerOptionBuilder(new BooleanOptionBuilder());
         registerOptionBuilder(new IntegerOptionBuilder());
-        FACTORIES.add(new EnumOptionBuilder.Factory());
+        FACTORIES.add(new EnumOptionBuilderFactory());
     }
 
     private static void registerOptionBuilder(ConfigMenuOptionBuilder<?> builder) {
         OPTION_BUILDERS.put(builder.typeClass(), builder);
     }
 
-    private @MonotonicNonNull LecternConfigurationMenu<C> menu;
+    private @MonotonicNonNull M menu;
     private final Map<String, ConfigSetting<?, C>> settings = new HashMap<>();
     private final CloudKey<SettingArgument.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = SimpleCloudKey.of(SettingArgument.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgument.SettingChange<C, ConfigSetting<?, C>>>() {});
 
-    @SuppressWarnings("unchecked")
     @Override
     public final void init(Path parentDir) {
         if (!getClass().isAnnotationPresent(Menu.class)) {
@@ -91,7 +93,22 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
         super.init(parentDir);
         List<MenuPartLike<C>> menuParts = new ArrayList<>();
         this.collectMenuParts(this.rootNode(), menuParts);
-        this.menu = new LecternConfigurationMenu<>(this.title(), getClass().getAnnotation(Menu.class).commandPrefix(), menuParts, (C) this);
+        this.menu = this.createMenu(this.title(), getClass().getAnnotation(Menu.class).commandPrefix(), menuParts);
+    }
+
+    protected abstract @NotNull M createMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<C>> configMenuParts);
+
+    protected abstract void sendMenu(@NotNull CommandContext<CommandDispatcher> context);
+
+    protected MenuOption.@NotNull Builder<?, ?, C, ?> touchMenuOption(MenuOption.@NotNull Builder<?, ?, C, ?> optionBuilder) {
+        return optionBuilder;
+    }
+
+    protected @NotNull M menu() {
+        if (this.menu == null) {
+            throw new IllegalStateException(this + " is not initialized yet");
+        }
+        return this.menu;
     }
 
     private void collectMenuParts(SectionNode section, List<MenuPartLike<C>> menuParts) {
@@ -99,14 +116,14 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
             if (node instanceof ValueNode<?> valueNode) {
                 for (var entry : OPTION_BUILDERS.entrySet()) {
                     if (valueNode.type().getRawClass().equals(entry.getKey())) {
-                        menuParts.add(entry.getValue().buildOption(valueNode, this.settings));
+                        menuParts.add(this.touchMenuOption(entry.getValue().buildOption(valueNode, this.settings)));
                         return;
                     }
                 }
                 for (OptionBuilder factory : FACTORIES) {
                     var menuPart = factory.buildOption(valueNode, this.settings);
                     if (menuPart != null) {
-                        menuParts.add(menuPart);
+                        menuParts.add(this.touchMenuOption(menuPart));
                         return;
                     }
                 }
@@ -133,35 +150,39 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C>> extends Mo
         return valueNode;
     }
 
-    public abstract @NotNull Component title();
+    protected abstract @NotNull Component title();
 
     protected static @NotNull Component buildDefaultTitle(@NotNull String name) {
         return ChatWindow.center(join(text(name), SEPARATOR, GLOBAL_SETTINGS)).append(newline());
     }
 
-    @SuppressWarnings("unchecked")
     public void createCommands(@NotNull ConfiguredModuleCommand command, Command.@NotNull Builder<CommandDispatcher> builder) {
         final var configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME)
                 .senderType(PlayerCommandDispatcher.class);
         command.manager()
-                .command(configBuilder.handler(context -> this.menu.send(context.getSender())))
+                .command(configBuilder.handler(this::sendMenu))
                 .command(configBuilder.hidden()
-                        .argument(SettingArgument.configSettings(this.settings))
+                        .argument(SettingArgument.configSettings(this.settingChangeCloudKey, this.settings))
                         .handler(context -> {
-                            context.get(this.settingChangeCloudKey).apply((C) this);
+                            context.get(this.settingChangeCloudKey).apply(self());
                             this.save();
-                            this.menu.send(context.getSender());
+                            this.sendMenu(context);
                         })
                 ).command(configBuilder
                         .senderType(CommandDispatcher.class)
                         .literal("reset")
                         .meta(MinecraftExtrasMetaKeys.DESCRIPTION, command.buildComponent(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset"))
                         .handler(context -> {
-                            this.settings.values().forEach(setting -> setting.reset((C) this));
+                            this.settings.values().forEach(setting -> setting.reset(self()));
                             this.save();
                             context.getSender().sendMessage(translatable(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset.success", GREEN));
                         })
                 );
+    }
+
+    @SuppressWarnings("unchecked")
+    protected final C self() {
+        return (C) this;
     }
 
 }

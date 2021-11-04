@@ -27,12 +27,13 @@ import me.machinemaker.vanillatweaks.config.I18nKey;
 import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
+import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 @VTConfig
 @Menu(commandPrefix = "/tag admin config")
-class Config extends MenuModuleConfig<Config> {
+class Config extends SimpleMenuModuleConfig<Config> {
 
     @Key("show-messages")
     @I18nKey("modules.tag.settings.show-messages")

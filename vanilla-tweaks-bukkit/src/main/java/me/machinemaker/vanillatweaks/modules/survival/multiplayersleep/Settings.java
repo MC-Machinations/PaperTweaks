@@ -53,11 +53,12 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
     @Inject
     Settings(Config config) {
         register(PlayerSetting.ofEnum(DISPLAY, DisplaySetting.class, () -> config.defaultDisplaySetting));
+        // register(GameRuleSetting.ofInt(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 0, 100));
     }
 
     enum DisplaySetting implements PreviewableMenuEnum<DisplaySetting> {
 
-        HIDDEN("Display: Hidden") {
+        HIDDEN("Hidden") {
             @Override
             void notify(Player player, SleepContext context, boolean isBedLeave) { /*pass*/ }
 
@@ -65,12 +66,12 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
             void notifyFinal(Player player, SleepContext context) { /*pass*/ }
 
             @Override
-            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String commandPrefix, @NotNull String optionKey) {
-                return super.buildWithoutPreview(selected, commandPrefix, optionKey);
+            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
+                return super.buildWithoutPreview(selected, labelKey, commandPrefix, optionKey);
             }
 
         },
-        BOSS_BAR("Display: Boss Bar") {
+        BOSS_BAR("Boss Bar") {
             @Override
             void notify(Player player, SleepContext context, boolean isBedLeave) {
                 Audience audience = audiences.player(player);
@@ -117,7 +118,7 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
                 Bukkit.getScheduler().runTaskLater(plugin, () -> audience.hideBossBar(bossBar), 100L);
             }
         },
-        ACTION_BAR("Display: Action Bar") {
+        ACTION_BAR("Action Bar") {
             @Override
             void notify(Player player, SleepContext context, boolean isBedLeave) {
                 if (isBedLeave) return;
@@ -147,7 +148,7 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
                 audiences.player(player).sendActionBar(translatable("modules.multiplayer-sleep.display.action-bar.player-sleeping", YELLOW, text(sleepingCount), text(totalCount)));
             }
         },
-        CHAT("Display: Chat") {
+        CHAT("Chat") {
             @Override
             void notify(Player player, SleepContext context, boolean isBedLeave) {
                 if (isBedLeave) return;
