@@ -35,5 +35,5 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before submitting this feature request please ensure the following:"
+        Before submitting this feature request please ensure the following:
         * You searched for and ensured there isn't already any open feature request regarding this.
