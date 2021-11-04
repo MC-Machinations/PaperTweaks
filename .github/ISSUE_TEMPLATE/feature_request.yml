@@ -1,0 +1,39 @@
+name: Feature Request
+description: Suggest an idea for VanillaTweaks/PaperTweaks
+labels:
+  - "type: feature"
+  - "status: unverified"
+body:
+  - type: textarea
+    attributes:
+      label: Is your feature request related to a problem?
+      description: Please give some context for this request. Why do you want it added?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and conside description of what you want.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Describe alternatives you've considered
+      description: List any alternatives you might have tried to get the functionality you want.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Other
+      description: Any other context of screenshots about the feature request.
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting this feature request please ensure the following:"
+        * You searched for and ensured there isn't already any open feature request regarding this.
