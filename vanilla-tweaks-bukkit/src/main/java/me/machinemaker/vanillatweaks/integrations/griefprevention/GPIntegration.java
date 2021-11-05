@@ -17,15 +17,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.integrations;
+package me.machinemaker.vanillatweaks.integrations.griefprevention;
 
+import me.machinemaker.vanillatweaks.integrations.AbstractIntegration;
+import me.machinemaker.vanillatweaks.integrations.Interactions;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractIntegration {
+public class GPIntegration extends AbstractIntegration {
 
-    public abstract void register();
+    public static final GPIntegration INSTANCE = new GPIntegration();
 
-    public abstract @NotNull String className();
+    private GPIntegration() {
+    }
 
-    public abstract @NotNull String name();
+    @Override
+    public void register() {
+        Interactions.registerHandler(new GPInteractionHandler());
+    }
+
+    @Override
+    public @NotNull String className() {
+        return "me.ryanhamshire.GriefPrevention.GriefPrevention";
+    }
+
+    @Override
+    public @NotNull String name() {
+        return "GriefPrevention";
+    }
 }

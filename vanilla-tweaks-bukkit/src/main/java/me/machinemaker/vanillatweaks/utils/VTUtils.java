@@ -32,6 +32,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -93,8 +94,12 @@ public final class VTUtils {
     public static void loadMeta(SkullMeta meta, GameProfile profile, @Nullable Component name) {
         CRAFT_META_ITEM_GAME_PROFILE.set(meta, profile);
         if (name != null) {
-            CRAFT_META_ITEM_DISPLAY_NAME_JSON.set(meta, GsonComponentSerializer.gson().serialize(name));
+            loadMeta(meta, name);
         }
+    }
+
+    public static void loadMeta(ItemMeta meta, @NotNull Component displayName) {
+        CRAFT_META_ITEM_DISPLAY_NAME_JSON.set(meta, GsonComponentSerializer.gson().serialize(displayName));
     }
 
     public static @NotNull Location toBlockLoc(@NotNull Location location) {

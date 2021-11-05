@@ -26,8 +26,10 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.machinemaker.vanillatweaks.integrations.Interactions;
 import org.bukkit.Effect;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class WGInteractionHandler implements Interactions.Handler {
 
@@ -36,8 +38,8 @@ public class WGInteractionHandler implements Interactions.Handler {
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean test(PlayerInteractEvent event) {
-        LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.wrapPlayer(event.getPlayer());
+    public boolean checkBlock(@NotNull Player player, @NotNull Block clickedBlock) {
+        LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.wrapPlayer(player);
         if (WORLD_GUARD.getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) {
             return true;
         }
@@ -45,8 +47,8 @@ public class WGInteractionHandler implements Interactions.Handler {
         boolean result = query.testBuild(localPlayer.getLocation(), localPlayer);
         if (!result) {
             localPlayer.printRaw(query.queryValue(localPlayer.getLocation(), localPlayer, Flags.DENY_MESSAGE).replace("%what%", "use that"));
-            if (WORLD_GUARD_PLUGIN.getConfigManager().particleEffects && event.getClickedBlock() != null) {
-                event.getPlayer().playEffect(event.getClickedBlock().getLocation().add(0, 1, 0), Effect.SMOKE, BlockFace.UP);
+            if (WORLD_GUARD_PLUGIN.getConfigManager().particleEffects) {
+                player.playEffect(clickedBlock.getLocation().add(0, 1, 0), Effect.SMOKE, BlockFace.UP);
             }
             return false;
         }

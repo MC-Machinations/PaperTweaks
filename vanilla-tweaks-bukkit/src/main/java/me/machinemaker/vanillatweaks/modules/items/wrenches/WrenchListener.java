@@ -59,25 +59,25 @@ class WrenchListener implements ModuleListener {
                 && event.getClickedBlock() != null
                 && event.getItem() != null
                 && event.getItem().equals(Lifecycle.WRENCH)
-                && Interactions.checkInteraction(event)
         ) {
             Block block = event.getClickedBlock();
             BlockData blockData = block.getBlockData();
             if (blockData instanceof Directional directional
                     && (isValid(block, event.getPlayer(), config.redstoneWrench, Tags.REDSTONE_COMPONENTS, "vanillatweaks.wrench.redstone")
                     || isValid(block, event.getPlayer(), config.terracottaWrench, Tags.GLAZED_TERRACOTTA, "vanillatweaks.wrench.terracotta"))) {
-                if (directional instanceof Piston piston && piston.isExtended()) return;
-                List<BlockFace> applicableFaces = Lists.newArrayList();
-                for (BlockFace face : FACES) {
-                    if (directional.getFaces().contains(face)) {
-                        applicableFaces.add(face);
+                if (!(directional instanceof Piston piston && piston.isExtended()) && Interactions.isAllowedInteraction(event.getPlayer(), event.getClickedBlock())) { // Don't allow rotating extended pistons
+                    List<BlockFace> applicableFaces = Lists.newArrayList();
+                    for (BlockFace face : FACES) {
+                        if (directional.getFaces().contains(face)) {
+                            applicableFaces.add(face);
+                        }
                     }
+                    int facing = applicableFaces.indexOf(directional.getFacing());
+                    BlockFace nextFace = applicableFaces.get(event.getPlayer().isSneaking() ? (applicableFaces.size() + (facing - 1)) % applicableFaces.size() : (facing + 1) % applicableFaces.size());
+                    event.setUseInteractedBlock(Event.Result.DENY);
+                    directional.setFacing(nextFace);
+                    block.setBlockData(directional);
                 }
-                int facing = applicableFaces.indexOf(directional.getFacing());
-                BlockFace nextFace = applicableFaces.get(event.getPlayer().isSneaking() ? (applicableFaces.size() + (facing - 1)) % applicableFaces.size() : (facing + 1) % applicableFaces.size());
-                event.setUseInteractedBlock(Event.Result.DENY);
-                directional.setFacing(nextFace);
-                block.setBlockData(directional);
             }
         }
 

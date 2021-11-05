@@ -26,8 +26,10 @@ import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import me.machinemaker.vanillatweaks.utils.Keys;
+import me.machinemaker.vanillatweaks.utils.VTUtils;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +41,7 @@ import java.math.BigInteger;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
+import static net.kyori.adventure.text.Component.text;
 
 class Lifecycle extends ModuleLifecycle {
 
@@ -48,7 +51,7 @@ class Lifecycle extends ModuleLifecycle {
     static final ItemStack WRENCH = new ItemStack(Material.CARROT_ON_A_STICK, 1);
     static {
         ItemMeta meta = requireNonNull(WRENCH.getItemMeta());
-        meta.setDisplayName(ChatColor.RESET + "Redstone Wrench");
+        VTUtils.loadMeta(meta, text("Redstone Wrench", Style.style().decoration(TextDecoration.ITALIC, false).build()));
         meta.setUnbreakable(true);
         meta.setCustomModelData(4321);
         WRENCH.setItemMeta(meta);

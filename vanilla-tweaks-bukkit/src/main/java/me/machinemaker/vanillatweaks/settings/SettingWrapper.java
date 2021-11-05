@@ -21,9 +21,7 @@ package me.machinemaker.vanillatweaks.settings;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import org.bukkit.GameRule;
 import org.bukkit.NamespacedKey;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,39 +32,41 @@ public class SettingWrapper<T, C> implements Setting<T, C> {
 
     @Override
     public @Nullable T get(@NotNull C container) {
-        checkSettingSet();
+        validateWrapper();
         return this.wrappedSetting.get(container);
     }
 
     @Override
     public void set(@NotNull C holder, T value) {
-        checkSettingSet();
+        validateWrapper();
         this.wrappedSetting.set(holder, value);
     }
 
     @Override
     public @NotNull Class<T> valueType() {
+        validateWrapper();
         return this.wrappedSetting.valueType();
     }
 
     @Override
     public @NotNull T defaultValue() {
-        checkSettingSet();
+        validateWrapper();
         return this.wrappedSetting.defaultValue();
     }
 
     @Override
     public @NotNull String indexKey() {
+        validateWrapper();
         return this.wrappedSetting.indexKey();
     }
 
     @Override
     public @NotNull ArgumentParser<CommandDispatcher, T> argumentParser() {
-        checkSettingSet();
+        validateWrapper();
         return this.wrappedSetting.argumentParser();
     }
 
-    private void checkSettingSet() {
+    private void validateWrapper() {
         if (this.wrappedSetting == null) {
             throw new IllegalStateException("This wrapped setting hasn't had its delegate set yet");
         }

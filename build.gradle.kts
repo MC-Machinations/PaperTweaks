@@ -46,6 +46,11 @@ subprojects {
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://maven.enginehub.org/repo/")
+        maven("https://jitpack.io") {
+            mavenContent {
+                includeGroup("com.github.TechFortress")
+            }
+        }
     }
 
     val cloudVersion = "1.6.0-SNAPSHOT"
@@ -79,6 +84,7 @@ subprojects {
 
         // soft dependencies
         compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.6")
+        compileOnly("com.github.TechFortress:GriefPrevention:16.17.1")
 
         testImplementation("org.apache.commons:commons-configuration2:2.7")
         testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")

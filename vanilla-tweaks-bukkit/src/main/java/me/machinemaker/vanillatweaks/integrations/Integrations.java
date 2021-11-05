@@ -19,7 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.integrations;
 
+import me.machinemaker.vanillatweaks.VanillaTweaks;
+import me.machinemaker.vanillatweaks.integrations.griefprevention.GPIntegration;
 import me.machinemaker.vanillatweaks.integrations.worldguard.WGIntegration;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 
@@ -36,12 +39,18 @@ public final class Integrations {
         }
         loaded = true;
         List.of(
-                WGIntegration.INSTANCE
+                WGIntegration.INSTANCE,
+                GPIntegration.INSTANCE
         ).forEach(integration -> {
             try {
                 Class.forName(integration.className());
                 integration.register();
-            } catch (ClassNotFoundException ignored) {}
+                VanillaTweaks.LOGGER.info("Detected {} and successfully hooked into it!", integration.name());
+            } catch (ClassNotFoundException ignored) {
+                if (Bukkit.getPluginManager().getPlugin(integration.name()) != null) {
+                    VanillaTweaks.LOGGER.error("Detected {} but was unable to hook into it!", integration.name());
+                }
+            }
         });
     }
 }

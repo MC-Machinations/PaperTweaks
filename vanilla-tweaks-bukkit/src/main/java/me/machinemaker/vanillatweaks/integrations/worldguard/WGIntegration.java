@@ -31,13 +31,18 @@ public final class WGIntegration extends AbstractIntegration {
     }
 
     @Override
-    @NotNull
-    public String className() {
+    public void register() {
+        Interactions.registerHandler(new WGInteractionHandler());
+    }
+
+    @Override
+    public @NotNull String className() {
         return "com.sk89q.worldguard.WorldGuard";
     }
 
     @Override
-    public void register() {
-        Interactions.registerHandler(new WGInteractionHandler());
+    @NotNull
+    public String name() {
+        return "WorldGuard";
     }
 }

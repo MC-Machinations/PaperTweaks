@@ -19,15 +19,16 @@
  */
 package me.machinemaker.vanillatweaks.integrations;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public final class Interactions {
 
-    private static final List<Handler> HANDLERS = new ArrayList<>();
+    private static final Set<Handler> HANDLERS = new LinkedHashSet<>();
 
     private Interactions() {
     }
@@ -36,12 +37,13 @@ public final class Interactions {
         HANDLERS.add(handler);
     }
 
-    public static boolean checkInteraction(PlayerInteractEvent event) {
-        return HANDLERS.stream().allMatch(handler -> handler.test(event));
+    public static boolean isAllowedInteraction(@NotNull Player player, @NotNull Block clickedBlock) {
+        return HANDLERS.stream().allMatch(handler -> handler.checkBlock(player, clickedBlock));
     }
 
     @FunctionalInterface
-    public interface Handler extends Predicate<PlayerInteractEvent> {
+    public interface Handler {
 
+        boolean checkBlock(@NotNull Player player, @NotNull Block clickedBlock);
     }
 }
