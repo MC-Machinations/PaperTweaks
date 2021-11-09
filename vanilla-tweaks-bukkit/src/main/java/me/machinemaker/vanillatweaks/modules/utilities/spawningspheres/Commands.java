@@ -33,9 +33,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
@@ -55,38 +57,53 @@ class Commands extends ConfiguredModuleCommand {
 
     private static final DespawnDistances VANILLA = new DespawnDistances(32, 128);
     private static final boolean SUPPORTS_CUSTOM_DESPAWN_RANGES;
+    private static final boolean IS_PER_CATEGORY_DESPAWN_RANGES;
     private static FieldAccessor<?> CRAFT_WORLD_SERVER_LEVEL_FIELD;
     private static FieldAccessor<?> SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD;
     // private static FieldAccessor<Integer> PAPER_WORLD_CONFIG_SOFT_DESPAWN_FIELD; // This isn't the same distance as the inner spawn ring
     private static FieldAccessor<Integer> PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD;
+    private static ReflectionUtils.MethodInvoker PAPER_YAML_CONFIG_METHOD;
 
     static {
         boolean supportsCustomDespawnRanges = false;
+        boolean isPerCategoryDespawnRanges = false;
         if (PaperLib.isPaper()) {
             supportsCustomDespawnRanges = true;
             try {
                 final Class<?> PAPER_WORLD_CONFIG_CLASS = Class.forName("com.destroystokyo.paper.PaperWorldConfig");
-                final Class<?> CRAFT_WORLD_CLASS = ReflectionUtils.getCraftBukkitClass("CraftWorld");
-                final Class<?> SERVER_LEVEL_CLASS = ReflectionUtils.findMinecraftClass("server.level.WorldServer", "server.level.ServerLevel", "server.WorldServer");
-                CRAFT_WORLD_SERVER_LEVEL_FIELD = ReflectionUtils.getField(CRAFT_WORLD_CLASS, "world", SERVER_LEVEL_CLASS);
-                SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD = ReflectionUtils.getField(SERVER_LEVEL_CLASS, "paperConfig", PAPER_WORLD_CONFIG_CLASS);
-                // PAPER_WORLD_CONFIG_SOFT_DESPAWN_FIELD = ReflectionUtils.getField(PAPER_WORLD_CONFIG_CLASS, "softDespawnDistance", int.class);
-                PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD = ReflectionUtils.getField(PAPER_WORLD_CONFIG_CLASS, "hardDespawnDistance", int.class);
+                try {
+                    PAPER_WORLD_CONFIG_CLASS.getField("hardDespawnDistances");
+                    isPerCategoryDespawnRanges = true;
+                    PAPER_YAML_CONFIG_METHOD = ReflectionUtils.getMethod(Bukkit.getServer().spigot().getClass(), "getPaperConfig");
+                } catch (NoSuchFieldException ex) {
+                    final Class<?> CRAFT_WORLD_CLASS = ReflectionUtils.getCraftBukkitClass("CraftWorld");
+                    final Class<?> SERVER_LEVEL_CLASS = ReflectionUtils.findMinecraftClass("server.level.WorldServer", "server.level.ServerLevel", "server.WorldServer");
+                    CRAFT_WORLD_SERVER_LEVEL_FIELD = ReflectionUtils.getField(CRAFT_WORLD_CLASS, "world", SERVER_LEVEL_CLASS);
+                    SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD = ReflectionUtils.getField(SERVER_LEVEL_CLASS, "paperConfig", PAPER_WORLD_CONFIG_CLASS);
+                    // PAPER_WORLD_CONFIG_SOFT_DESPAWN_FIELD = ReflectionUtils.getField(PAPER_WORLD_CONFIG_CLASS, "softDespawnDistance", int.class);
+                    PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD = ReflectionUtils.getField(PAPER_WORLD_CONFIG_CLASS, "hardDespawnDistance", int.class);
+                }
             } catch (ClassNotFoundException | IllegalArgumentException exception) {
                 SpawningSpheres.LOGGER.warn("Paper environment detected, but could not hook into any custom spawning ranges. This might be a bug", exception);
                 supportsCustomDespawnRanges = false;
             }
         }
         SUPPORTS_CUSTOM_DESPAWN_RANGES = supportsCustomDespawnRanges;
+        IS_PER_CATEGORY_DESPAWN_RANGES = isPerCategoryDespawnRanges;
     }
 
     private static DespawnDistances getDespawnDistances(World world) {
-        if (!SUPPORTS_CUSTOM_DESPAWN_RANGES) {
+        if (SUPPORTS_CUSTOM_DESPAWN_RANGES && IS_PER_CATEGORY_DESPAWN_RANGES && PAPER_YAML_CONFIG_METHOD != null) {
+            YamlConfiguration config = (YamlConfiguration) PAPER_YAML_CONFIG_METHOD.invoke(Bukkit.getServer().spigot());
+            int hard = config.getInt("world-settings." + world.getName() + ".despawn-ranges.monster.hard", config.getInt("world-settings.default.despawn-ranges.monster.hard", 128));
+            return new DespawnDistances(24, hard);
+        } else if (SUPPORTS_CUSTOM_DESPAWN_RANGES && CRAFT_WORLD_SERVER_LEVEL_FIELD != null && SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD != null && PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD != null) {
+            Object serverLevel = CRAFT_WORLD_SERVER_LEVEL_FIELD.get(world);
+            Object paperWorldConfig = SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD.get(serverLevel);
+            return new DespawnDistances(24, IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.get(paperWorldConfig), RoundingMode.DOWN));
+        } else {
             return VANILLA;
         }
-        Object serverLevel = CRAFT_WORLD_SERVER_LEVEL_FIELD.get(world);
-        Object paperWorldConfig = SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD.get(serverLevel);
-        return new DespawnDistances(24, IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.get(paperWorldConfig), RoundingMode.DOWN));
     }
 
 
