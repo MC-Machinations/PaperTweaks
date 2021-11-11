@@ -71,7 +71,7 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
     }
 
     final @NonNull Component buildComponent(@NonNull String i18nKey) {
-        return translatableComponentBuilder(this.commandInfo.isMapped()).apply(i18nKey);
+        return translatableComponentBuilder(this.commandInfo.miniMessage()).apply(i18nKey);
     }
 
     @Override

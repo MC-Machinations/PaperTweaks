@@ -26,10 +26,9 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
-import io.leangen.geantyref.TypeToken;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.lectern.BaseConfig;
-import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponentRenderer;
+import me.machinemaker.vanillatweaks.adventure.MiniMessageComponentRenderer;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.db.DatabaseModule;
 import me.machinemaker.vanillatweaks.integrations.Integrations;
@@ -37,12 +36,10 @@ import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
 import me.machinemaker.vanillatweaks.modules.teleportation.homes.Homes;
 import me.machinemaker.vanillatweaks.utils.PlayerMapFactory;
-import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.renderer.TranslatableComponentRenderer;
-import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -55,7 +52,6 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,14 +71,6 @@ public class VanillaTweaks extends JavaPlugin {
     public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text("VanillaTweaks", BLUE)).append(text("] ", DARK_GRAY)).build();
     public static final Logger LOGGER = LoggerFactory.getLogger();
 
-    static {
-        try {
-            ReflectionUtils.FieldAccessor<TranslatableComponentRenderer<Locale>> rendererField = ReflectionUtils.getField("net.kyori.adventure.translation.GlobalTranslatorImpl", "renderer", new TypeToken<TranslatableComponentRenderer<Locale>>() {});
-            rendererField.set(GlobalTranslator.get(), MappedTranslatableComponentRenderer.GLOBAL_INSTANCE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(0);
 
     static final Set<Locale> SUPPORTED_LOCALES = Set.of(
@@ -122,7 +110,7 @@ public class VanillaTweaks extends JavaPlugin {
         }
         I18n.create(this.i18nPath, this.getClassLoader()).setupI18n();
 
-        BukkitAudiences bukkitAudiences = BukkitAudiences.create(this);
+        BukkitAudiences bukkitAudiences = BukkitAudiences.builder(this).componentRenderer(ptr -> ptr.getOrDefault(Identity.LOCALE, Locale.US), new MiniMessageComponentRenderer()).build();
         PlayerMapFactory mapFactory = new PlayerMapFactory();
         Injector pluginInjector;
         try {

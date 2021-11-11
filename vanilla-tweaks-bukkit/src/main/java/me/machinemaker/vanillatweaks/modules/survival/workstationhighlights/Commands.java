@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.workstationhighlights;
 
+import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import org.bukkit.Location;
@@ -29,13 +30,15 @@ import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mapped;
-import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
-
-@ModuleCommand.Info(value = "find-workstation", aliases = {"fworkstation", "fwork", "findwork"}, descriptionKey = "modules.workstation-highlights.commands.root", isMapped = true, infoOnRoot = false)
+@ModuleCommand.Info(value = "find-workstation", aliases = {"fworkstation", "fwork", "findwork"}, descriptionKey = "modules.workstation-highlights.commands.root", miniMessage = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
+
+    private final MessageService messageService;
+
+    @Inject
+    Commands(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
     @Override
     protected void registerCommands() {
@@ -46,12 +49,12 @@ class Commands extends ModuleCommand {
                 .handler(sync((context, player) -> {
                     Villager villager = VTUtils.getSingleNearbyEntityOfType(Villager.class, player.getLocation(), 3, 3, 3);
                     if (villager == null) {
-                        context.getSender().sendMessage(mapped("modules.workstation-highlights.no-villager-nearby", RED));
+                        this.messageService.noVillagerNearby(context.getSender());
                         return;
                     }
                     Location work = villager.getMemory(MemoryKey.JOB_SITE);
                     if (work == null || work.getWorld() == null) {
-                        context.getSender().sendMessage(mapped("modules.workstation-highlights.none-found", YELLOW));
+                        this.messageService.noWorkstationFound(context.getSender());
                         return;
                     }
                     villager.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 200, 0));
@@ -63,11 +66,7 @@ class Commands extends ModuleCommand {
                         cloud.setRadiusOnUse(0f);
                         cloud.setDuration(200);
                     });
-                    context.getSender().sendMessage(mappedBuilder("modules.workstation-highlights.located-at", YELLOW)
-                            .arg("x", text(work.getBlockX(), WHITE))
-                            .arg("y", text(work.getBlockY(), WHITE))
-                            .arg("z", text(work.getBlockZ(), WHITE))
-                    );
+                    this.messageService.workstationLocatedAt(context.getSender(), work.getBlockX(), work.getBlockY(), work.getBlockZ());
                 }))
         );
     }

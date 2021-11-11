@@ -19,7 +19,7 @@
  */
 package me.machinemaker.vanillatweaks;
 
-import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
+import me.machinemaker.vanillatweaks.adventure.TranslationRegistry;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;

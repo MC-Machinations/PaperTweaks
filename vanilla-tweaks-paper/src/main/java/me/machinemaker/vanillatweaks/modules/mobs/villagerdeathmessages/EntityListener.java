@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.modules.mobs.villagerdeathmessages;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.PaperVTUtils;
+import me.machinemaker.vanillatweaks.utils.VTUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.AbstractVillager;
 import org.bukkit.entity.Villager;
@@ -30,23 +30,25 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
 
-import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
-
 
 class EntityListener implements ModuleListener {
 
     private final Config config;
+    private final MessageService messageService;
 
     @Inject
-    EntityListener(Config config) {
+    EntityListener(Config config, MessageService messageService) {
         this.config = config;
+        this.messageService = messageService;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof AbstractVillager && config.showMessageOnDeath) {
             Location loc = event.getEntity().getLocation();
-            PaperVTUtils.broadcast(mappedBuilder("modules.villager-death-messages.on-death").arg("x", loc.getBlockX()).arg("y", loc.getBlockY()).arg("z", loc.getBlockZ()).arg("world", event.getEntity().getWorld().getName()).build(), "vanillatweaks.villagerdeathmessages.death");
+            VTUtils.runIfHasPermission("vanillatweaks.villagerdeathmessages.death", sender -> {
+                this.messageService.onVillagerDeath(sender, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), event.getEntity().getWorld());
+            });
         }
     }
 
@@ -54,7 +56,9 @@ class EntityListener implements ModuleListener {
     public void onEntityConvert(EntityTransformEvent event) {
         if (event.getEntity() instanceof Villager && event.getTransformReason() == EntityTransformEvent.TransformReason.INFECTION && config.showMessageOnConversion) {
             Location loc = event.getEntity().getLocation();
-            PaperVTUtils.broadcast(mappedBuilder("modules.villager-death-messages.on-conversion").arg("x", loc.getBlockX()).arg("y", loc.getBlockY()).arg("z", loc.getBlockZ()).arg("world", event.getEntity().getWorld().getName()).build(), "vanillatweaks.villagerdeathmessages.conversion");
+            VTUtils.runIfHasPermission("vanillatweaks.villagerdeathmessages.conversion", sender -> {
+                this.messageService.onVillagerConversion(sender, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), event.getEntity().getWorld());
+            });
         }
     }
 

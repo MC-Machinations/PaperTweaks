@@ -17,28 +17,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.utils;
+package me.machinemaker.vanillatweaks.moonshine.resolvers;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.translation.GlobalTranslator;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import net.kyori.moonshine.placeholder.ConclusionValue;
+import net.kyori.moonshine.placeholder.ContinuanceValue;
+import net.kyori.moonshine.util.Either;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Locale;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Map;
 
-public final class PaperVTUtils {
+public class ComponentPlaceholderResolver extends AbstractPlaceholderResolver<Component> {
 
-    private PaperVTUtils() {
-    }
-
-    // Only needed because sending custom translations to console on Paper is broken at the moment
-    public static void broadcast(@NotNull Component component, @NotNull String permission) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.hasPermission(permission)) {
-                player.sendMessage(component);
-            }
-        }
-        Bukkit.getConsoleSender().sendMessage(GlobalTranslator.render(component, Locale.ENGLISH));
+    @Override
+    public @Nullable Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(String placeholderName, Component value, Audience receiver, Type owner, Method method, @Nullable Object[] parameters) {
+        return this.constant(placeholderName, value);
     }
 }

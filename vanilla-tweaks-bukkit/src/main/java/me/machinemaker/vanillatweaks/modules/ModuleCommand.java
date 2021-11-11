@@ -31,7 +31,7 @@ import cloud.commandframework.permission.CommandPermission;
 import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent;
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.cloud.ModulePermission;
 import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
@@ -111,7 +111,8 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
     void createInfoCommand() {
         Objects.requireNonNull(this.rootBuilder, "Must create info command after root builder");
         this.createInfoComponent();
-        var builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle));
+        var builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle))
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.info.hover", text(this.moduleBase.getName(), GOLD)));
         if (!this.commandInfo.infoOnRoot()) {
             builder = builder.literal("info");
         }
@@ -121,7 +122,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
     private void createInfoComponent() {
         final var builder = text()
                 .append(AbstractConfigurationMenu.TITLE_LINE)
-                .append(ChatWindow.center(text().color(WHITE).append(text(this.moduleBase.getName(), GOLD)).append(MenuModuleConfig.SEPARATOR).append(text("ⓘ")).hoverEvent(HoverEvent.showText(translatable("commands.info.hover", GRAY, text(this.moduleBase.getName()))))).append(newline()))
+                .append(ChatWindow.center(text().color(WHITE).append(text(this.moduleBase.getName(), GOLD)).append(MenuModuleConfig.SEPARATOR).append(text("ⓘ")).hoverEvent(HoverEvent.showText(translatable("commands.info.hover", GRAY, text(this.moduleBase.getName(), GOLD))))).append(newline()))
                 .append(AbstractConfigurationMenu.TITLE_LINE);
 
         builder.append(translatable("commands.info.description", GRAY, text(this.moduleBase.getDescription(), WHITE))).append(newline());
@@ -205,11 +206,11 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
     }
 
     Component buildRootDescriptionComponent() {
-        return translatableComponentBuilder(this.commandInfo.isMapped()).apply(this.commandInfo.descriptionKey());
+        return translatableComponentBuilder(this.commandInfo.miniMessage()).apply(this.commandInfo.descriptionKey());
     }
 
-    static @NonNull Function<@NonNull String, @NonNull Component> translatableComponentBuilder(boolean isMapped) {
-        return isMapped ? MappedTranslatableComponent::mapped : Component::translatable;
+    static @NonNull Function<@NonNull String, @NonNull Component> translatableComponentBuilder(boolean miniMessage) {
+        return miniMessage ? Components::mini : Component::translatable;
     }
 
     private static  <C> CommandExecutionHandler<C> createHelpHandler(@NonNull MinecraftHelp<C> help) {
@@ -233,9 +234,9 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
         String descriptionKey() default "";
 
         /**
-         * Description should be a mapped component
+         * Module makes use of {@link net.kyori.adventure.text.minimessage.MiniMessage} components
          */
-        boolean isMapped() default false;
+        boolean miniMessage() default false;
 
         /**
          * Command aliases

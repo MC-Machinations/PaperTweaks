@@ -30,12 +30,11 @@ import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.lectern.annotations.validations.numbers.Max;
 import me.machinemaker.lectern.annotations.validations.numbers.Min;
 import me.machinemaker.lectern.collection.ConfigField;
-import me.machinemaker.vanillatweaks.adventure.translations.TranslationRegistry;
+import me.machinemaker.vanillatweaks.adventure.TranslationRegistry;
 import me.machinemaker.vanillatweaks.cloud.arguments.SettingArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.ConfigurationMenu;
-import me.machinemaker.vanillatweaks.menus.ReferenceConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.menus.config.ConfigMenuOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.OptionBuilder;
@@ -138,7 +137,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
         ValueNode<T> valueNode = super.setupValueNodeSchema(sectionNode, field, value, configInstance);
         String desc = field.description();
         if (desc != null) {
-            valueNode.description(TranslationRegistry.translate(desc, Locale.US));
+            valueNode.description(TranslationRegistry.translate(desc, Locale.US).orElse(null));
             valueNode.meta().put("desc", desc);
         }
         if (field.field().isAnnotationPresent(Min.class)) {

@@ -19,7 +19,6 @@
  */
 package me.machinemaker.vanillatweaks.cloud.dispatchers;
 
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -31,7 +30,7 @@ import java.util.UUID;
 /**
  * Base class for representing command senders.
  */
-public abstract class CommandDispatcher implements Audience, ForwardingAudience.Single {
+public abstract class CommandDispatcher implements ForwardingAudience.Single {
 
     private final CommandSender bukkitCommandSender;
 

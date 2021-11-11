@@ -17,30 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.adventure;
+package me.machinemaker.vanillatweaks.modules;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+import net.kyori.moonshine.Moonshine;
 
-import static net.kyori.adventure.text.JoinConfiguration.noSeparators;
+public interface ModuleMessageService {
 
-@DefaultQualifier(NonNull.class)
-public final class Components {
-
-    private Components() {
-    }
-
-    public static Component join(ComponentLike ...components) {
-        return Component.join(noSeparators(), components);
-    }
-
-    public static Component join(Iterable<? extends ComponentLike> components) {
-        return Component.join(noSeparators(), components);
-    }
-
-    public static Component mini(String key) {
-        return new MiniComponent(key);
-    }
+    Moonshine<Audience, String, Component, Component> moonshine();
 }

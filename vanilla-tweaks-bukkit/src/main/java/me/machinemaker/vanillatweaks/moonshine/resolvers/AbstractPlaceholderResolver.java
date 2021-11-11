@@ -17,30 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.adventure;
+package me.machinemaker.vanillatweaks.moonshine.resolvers;
 
+import me.machinemaker.vanillatweaks.moonshine.module.AnnotationBase;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
+import net.kyori.moonshine.placeholder.ConclusionValue;
+import net.kyori.moonshine.placeholder.ContinuanceValue;
+import net.kyori.moonshine.placeholder.IPlaceholderResolver;
+import net.kyori.moonshine.util.Either;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
-import static net.kyori.adventure.text.JoinConfiguration.noSeparators;
+import java.util.Map;
 
 @DefaultQualifier(NonNull.class)
-public final class Components {
+public abstract class AbstractPlaceholderResolver<P> extends AnnotationBase implements IPlaceholderResolver<Audience, P, Component> {
 
-    private Components() {
-    }
-
-    public static Component join(ComponentLike ...components) {
-        return Component.join(noSeparators(), components);
-    }
-
-    public static Component join(Iterable<? extends ComponentLike> components) {
-        return Component.join(noSeparators(), components);
-    }
-
-    public static Component mini(String key) {
-        return new MiniComponent(key);
+    protected final Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> constant(String placeholderName, Component value) {
+        return Map.of(placeholderName, Either.left(ConclusionValue.conclusionValue(value)));
     }
 }

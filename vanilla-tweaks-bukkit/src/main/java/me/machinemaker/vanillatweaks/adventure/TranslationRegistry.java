@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.adventure.translations;
+package me.machinemaker.vanillatweaks.adventure;
 
 import com.google.common.collect.Maps;
 import net.kyori.adventure.key.Key;
@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public final class TranslationRegistry {
@@ -48,12 +49,12 @@ public final class TranslationRegistry {
         });
     }
 
-    public static @Nullable String translate(@NotNull String key, @NotNull Locale locale) {
+    public static @NotNull Optional<String> translate(@NotNull String key, @NotNull Locale locale) {
         Translation translation = TRANSLATIONS.get(key);
         if (translation == null) {
-            return null;
+            return Optional.empty();
         }
-        return translation.translate(locale);
+        return Optional.ofNullable(translation.translate(locale));
     }
 
     static class Translation {

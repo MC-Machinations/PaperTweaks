@@ -19,17 +19,18 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.workstationhighlights;
 
-import me.machinemaker.vanillatweaks.modules.ModuleBase;
-import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import me.machinemaker.vanillatweaks.moonshine.module.MoonshineModuleBase;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Set;
 
 @ModuleInfo(name = "VillagerWorkstationHighlights", configPath = "survival.villager-workstation-highlights", description = "Easily find a villager's workstation")
-public class WorkstationHighlights extends ModuleBase {
+public class WorkstationHighlights extends MoonshineModuleBase<MessageService> {
 
     @Override
     protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
@@ -39,5 +40,10 @@ public class WorkstationHighlights extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
+    }
+
+    @Override
+    public @Nullable Class<MessageService> messageService() {
+        return MessageService.class;
     }
 }

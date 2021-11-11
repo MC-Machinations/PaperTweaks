@@ -22,25 +22,19 @@ package me.machinemaker.vanillatweaks.modules.survival.netherportalcoords;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.function.IntUnaryOperator;
-
-import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mapped;
-import static me.machinemaker.vanillatweaks.adventure.translations.MappedTranslatableComponent.mappedBuilder;
-import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
-
-@ModuleCommand.Info(value = "portalcoords", aliases = "pcoords", descriptionKey = "modules.nether-portal-coords.commands.root", isMapped = true, infoOnRoot = false)
+@ModuleCommand.Info(value = "portalcoords", aliases = "pcoords", descriptionKey = "modules.nether-portal-coords.commands.root", miniMessage = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
 
     private final Config config;
+    private final MessageService messageService;
 
     @Inject
-    Commands(Config config) {
+    Commands(Config config, MessageService messageService) {
         this.config = config;
+        this.messageService = messageService;
     }
 
     @Override
@@ -53,23 +47,13 @@ class Commands extends ModuleCommand {
                     Player player = PlayerCommandDispatcher.from(context);
                     Location loc = player.getLocation();
                     if (this.config.overWorlds().contains(player.getWorld())) {
-                        Component coords = coords(loc, i -> i / 8);
-                        context.getSender().sendMessage(msg(coords, "Nether"));
+                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether");
                     } else if (this.config.netherWorlds().contains(player.getWorld())) {
-                        Component coords = coords(loc, i -> i * 8);
-                        context.getSender().sendMessage(msg(coords, "Overworld"));
+                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld");
                     } else {
-                        context.getSender().sendMessage(mapped("modules.nether-portal-coords.invalid-world", RED));
+                        this.messageService.invalidWorld(context.getSender());
                     }
                 })
         );
-    }
-
-    private Component coords(Location loc, IntUnaryOperator op) {
-        return mappedBuilder("modules.nether-portal-coords.coord-format", GREEN).arg("x", text(op.applyAsInt(loc.getBlockX()), GOLD)).arg("y", text(loc.getBlockY(), GOLD)).arg("z", text(op.applyAsInt(loc.getBlockZ()), GOLD)).build();
-    }
-
-    private Component msg(Component coords, String world) {
-        return mappedBuilder("modules.nether-portal-coords.msg-format").arg("world", text(world, YELLOW)).arg("coords", coords).build();
     }
 }

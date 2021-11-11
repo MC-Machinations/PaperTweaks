@@ -26,9 +26,11 @@ import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.apache.commons.lang.mutable.MutableInt;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public final class VTUtils {
@@ -185,5 +188,14 @@ public final class VTUtils {
             }
         }
         return nearby;
+    }
+
+    public static void runIfHasPermission(String permission, Consumer<CommandSender> consumer) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.hasPermission(permission)) {
+                consumer.accept(player);
+            }
+        }
+        consumer.accept(Bukkit.getConsoleSender());
     }
 }

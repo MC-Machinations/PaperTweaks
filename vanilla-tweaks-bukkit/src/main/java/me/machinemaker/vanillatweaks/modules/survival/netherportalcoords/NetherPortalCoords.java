@@ -21,18 +21,22 @@ package me.machinemaker.vanillatweaks.modules.survival.netherportalcoords;
 
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
-import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import me.machinemaker.vanillatweaks.moonshine.module.MoonshineModuleBase;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.moonshine.MoonshineBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.Set;
 
 @ModuleInfo(name = "NetherPortalCoords", configPath = "survival.nether-portal-coords", description = "Helper for determining portal locations in other dimensions")
-public class NetherPortalCoords extends ModuleBase {
+public class NetherPortalCoords extends MoonshineModuleBase<MessageService> {
 
     static final Logger LOGGER = LoggerFactory.getModuleLogger(NetherPortalCoords.class);
 
@@ -49,5 +53,16 @@ public class NetherPortalCoords extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
+    }
+
+    @Override
+    public @Nullable Class<MessageService> messageService() {
+        return MessageService.class;
+    }
+
+    @Override
+    public void placeholderStrategies(MoonshineBuilder.@NotNull Resolved<MessageService, Audience, String, Component, Component> resolved) {
+        super.placeholderStrategies(resolved);
+        resolved.weightedPlaceholderResolver(MessageService.CoordinatesComponent.class, new MessageService.CoordinatesComponentPlaceholderResolver(), 0);
     }
 }

@@ -21,7 +21,6 @@ allprojects {
 
     configure<org.cadixdev.gradle.licenser.LicenseExtension>() {
         header(rootProject.file("HEADER"))
-        exclude("**/AbstractComponentBuilder.java")
     }
 
     tasks {
@@ -36,8 +35,8 @@ subprojects {
     apply(plugin="net.kyori.indra.license-header")
     apply(plugin="com.github.johnrengelman.shadow")
 
-    group = rootProject.group;
-    version = rootProject.version;
+    group = rootProject.group
+    version = rootProject.version
 
     repositories {
         mavenCentral()
@@ -49,6 +48,13 @@ subprojects {
         maven("https://jitpack.io") {
             mavenContent {
                 includeGroup("com.github.TechFortress")
+            }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/kyoripowered/moonshine")
+            credentials {
+                username = "DummyUser"
+                password = "\u0067\u0068\u0070\u005F\u0051\u0066\u0045\u0059\u006E\u0037\u0063\u0066\u0043\u0072\u0055" + "\u0077\u0078\u0071\u0033\u0047\u0069\u0058\u0058\u0054\u0073\u0052\u0079\u005A\u0032\u0078\u006D\u0068\u0052\u0073\u0033\u006C\u0066\u0049\u006D\u0042"
             }
         }
     }
@@ -64,6 +70,7 @@ subprojects {
         implementation("cloud.commandframework:cloud-minecraft-extras:$cloudVersion")
         implementation("org.bstats:bstats-bukkit:2.2.1")
         implementation("io.papermc:paperlib:1.0.6")
+        implementation("net.kyori.moonshine:moonshine-standard:2.0.0-SNAPSHOT")
 
         // Loaded via plugin.yml libraries
         compileOnly("io.github.classgraph:classgraph:4.8.114")

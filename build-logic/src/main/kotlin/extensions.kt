@@ -18,6 +18,8 @@ fun ShadowJar.configureStandard(platform: String) {
         "cloud.commandframework",
         "io.papermc.lib",
         "me.machinemaker.lectern",
+        "net.kyori.moonshine",
+        "org.checkerframework",
     ).forEach { pack ->
         relocate(pack, "$prefix.$pack")
     }

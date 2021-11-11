@@ -47,7 +47,7 @@ public abstract class ConfigModule extends AbstractModule {
         configs().forEach(configClass -> this.bindConfig(configsBinder, configClass));
     }
 
-    protected final <C extends ModuleConfig> void bindConfig(Multibinder<ModuleConfig> binder, Class<C> configClass) {
+    private <C extends ModuleConfig> void bindConfig(Multibinder<ModuleConfig> binder, Class<C> configClass) {
         String folder;
         if (configClass.isAnnotationPresent(ConfigureModuleConfig.class)) {
             folder = configClass.getAnnotation(ConfigureModuleConfig.class).folder();
