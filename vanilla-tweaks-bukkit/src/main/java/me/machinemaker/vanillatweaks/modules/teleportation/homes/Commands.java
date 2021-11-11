@@ -22,7 +22,6 @@ package me.machinemaker.vanillatweaks.modules.teleportation.homes;
 import cloud.commandframework.arguments.standard.StringArgument;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
@@ -87,14 +86,14 @@ class Commands extends ConfiguredModuleCommand {
                     context.getSender().sendMessage(translatable("modules.homes.commands.sethome.success", GOLD, text(homeName, YELLOW)));
                 })
         ).command(literal(builder, "delhome")
-                .argument(this.argumentFactory.homeArgument(false, "home"))
+                .argument(this.argumentFactory.home(false, "home"))
                 .handler(context -> {
                     Home home = context.get("home");
                     this.homesDAO.deleteHome(home);
                     context.getSender().sendMessage(translatable("modules.homes.commands.delhome.success", GOLD, text(home.getName(), YELLOW)));
                 })
         ).command(literal(builder, "rename")
-                .argument(this.argumentFactory.homeArgument(true, "home"))
+                .argument(this.argumentFactory.home(true, "home"))
                 .argument(StringArgument.single("newName"))
                 .handler(context -> {
                     Player player = PlayerCommandDispatcher.from(context);
@@ -135,7 +134,7 @@ class Commands extends ConfiguredModuleCommand {
                     context.getSender().sendMessage(component);
                 })
         ).command(homeCooldownBuilder.applyTo(this.player("home"))
-                .argument(this.argumentFactory.homeArgument(false, "home"))
+                .argument(this.argumentFactory.home(false, "home"))
                 .handler(sync((context, player) -> {
                     if (HomeTeleportRunnable.AWAITING_TELEPORT.containsKey(player.getUniqueId())) {
                         return;

@@ -19,10 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.cloud.arguments;
 
-import com.google.inject.assistedinject.Assisted;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+@DefaultQualifier(NonNull.class)
 public interface ArgumentFactory {
 
-    @NonNull HomeArgument homeArgument(@Assisted boolean required, @Assisted @NonNull String name);
+    HomeArgument home(boolean required, String name);
+
+    ModuleArgument module(@Nullable Boolean enabled);
 }

@@ -32,6 +32,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Optional;
@@ -98,7 +99,7 @@ public final class ModuleManager {
         int count = 0;
         for (var entry : moduleMap.entrySet()) {
             if (isTrue(modulesConfig.get(entry.getValue().getConfigPath()))) {
-                moduleInjectors.get(entry.getValue().getName()).getInstance(ModuleLifecycle.class).enable();
+                moduleInjectors.get(entry.getKey()).getInstance(ModuleLifecycle.class).enable();
                 count++;
             }
         }
@@ -109,7 +110,7 @@ public final class ModuleManager {
         int count = 0;
         for (var entry : moduleMap.entrySet()) {
             if (isTrue(modulesConfig.get(entry.getValue().getConfigPath()))) {
-                Injector injector = moduleInjectors.get(entry.getValue().getName());
+                Injector injector = moduleInjectors.get(entry.getKey());
                 if (injector != null) {
                     injector.getInstance(ModuleLifecycle.class).disable(isShutdown);
                     count++;
@@ -146,12 +147,28 @@ public final class ModuleManager {
         return new ReloadResult(disableCount, reloadCount, enableCount);
     }
 
+    public Optional<ModuleBase> getModule(String moduleName) {
+        return this.getModule(moduleName, ModuleBase.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <M extends ModuleBase> Optional<M> getModule(String moduleName, Class<M> classOfM) {
+        final ModuleBase module = this.moduleMap.get(moduleName.toLowerCase(Locale.US));
+        if (module == null) {
+            return Optional.empty();
+        } else if (classOfM.isInstance(module)) {
+            return Optional.of((M) module);
+        } else {
+            throw new IllegalArgumentException(module + " is not an instance of " + classOfM);
+        }
+    }
+
     public Optional<ModuleLifecycle> getLifecycle(String moduleName) {
         return getLifecycle(moduleName, ModuleLifecycle.class);
     }
 
     public <L extends ModuleLifecycle> Optional<L> getLifecycle(String moduleName, Class<L> classOfL) {
-        return Optional.ofNullable(this.moduleInjectors.get(moduleName)).map(injector -> injector.getInstance(classOfL));
+        return Optional.ofNullable(this.moduleInjectors.get(moduleName.toLowerCase(Locale.US))).map(injector -> injector.getInstance(classOfL));
     }
 
     public Component enableModule(String moduleName) {
@@ -166,7 +183,7 @@ public final class ModuleManager {
             lifecycle.disable(false);
             return translatable("commands.enable.fail.error", RED, text(moduleName, GOLD));
         }
-        this.modulesConfig.set(this.moduleMap.get(moduleName).getConfigPath(), true);
+        this.modulesConfig.set(this.getModule(moduleName).orElseThrow().getConfigPath(), true);
         if (Bukkit.isPrimaryThread()) {
             Bukkit.getScheduler().runTaskAsynchronously(this.plugin, this.modulesConfig::save);
         } else {
@@ -185,7 +202,7 @@ public final class ModuleManager {
             return translatable("commands.disable.fail.error", RED, text(moduleName, GOLD));
         }
         Bukkit.getOnlinePlayers().forEach(Player::updateCommands);
-        this.modulesConfig.set(this.moduleMap.get(moduleName).getConfigPath(), false);
+        this.modulesConfig.set(this.getModule(moduleName).orElseThrow().getConfigPath(), false);
         if (Bukkit.isPrimaryThread()) {
             Bukkit.getScheduler().runTaskAsynchronously(this.plugin, this.modulesConfig::save);
         } else {

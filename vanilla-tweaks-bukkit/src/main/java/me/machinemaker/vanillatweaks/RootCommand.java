@@ -77,13 +77,13 @@ public class RootCommand extends VanillaTweaksCommand {
         ).command(this.simple("reload")
                 .literal("module")
                 .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.reload.module")) // Override default meta from #simple(String)
-                .argument(ModuleArgument.enabled())
+                .argument(this.argumentFactory.module(true))
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.reloadModule(ModuleArgument.getModule(context).getName()))))
         ).command(this.simple("enable")
-                .argument(ModuleArgument.disabled())
+                .argument(this.argumentFactory.module(false))
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.enableModule(ModuleArgument.getModule(context).getName()))))
         ).command(this.simple("disable")
-                .argument(ModuleArgument.enabled())
+                .argument(this.argumentFactory.module(true))
                 .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.disableModule(ModuleArgument.getModule(context).getName()))))
         ).command(this.simple("list")
                 .argument(IntegerArgument.<CommandDispatcher>newBuilder("page").withMin(1).withMax(this.pageCount).asOptionalWithDefault(1))
@@ -140,7 +140,7 @@ public class RootCommand extends VanillaTweaksCommand {
                                 .clickEvent(ClickEvent.runCommand("/vanillatweaks " + (state.isRunning() ? "disable " : "enable ") + moduleBase.getName()))
                         )
                         .append(space())
-                        .append(text(moduleBase.getName(), state.isRunning() ? GREEN : RED).hoverEvent(HoverEvent.showText(text(this.moduleManager.getModules().get(moduleBase.getName()).getDescription(), GRAY))))
+                        .append(text(moduleBase.getName(), state.isRunning() ? GREEN : RED).hoverEvent(HoverEvent.showText(text(moduleBase.getDescription(), GRAY))))
                 ).append(newline());
             }
         }

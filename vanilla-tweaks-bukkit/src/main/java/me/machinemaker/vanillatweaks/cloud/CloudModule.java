@@ -40,8 +40,8 @@ import me.machinemaker.vanillatweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcherFactory;
+import me.machinemaker.vanillatweaks.cloud.processors.SimpleSuggestionProcessor;
 import me.machinemaker.vanillatweaks.cloud.processors.post.GamemodePostprocessor;
-import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -93,7 +93,6 @@ public class CloudModule extends AbstractModule {
     @Provides
     @Singleton
     PaperCommandManager<CommandDispatcher> paperCommandManager(CommandDispatcherFactory commandDispatcherFactory,
-                                                               ModuleManager moduleManager,
                                                                CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager,
                                                                MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
         final LoadingCache<CommandSender, CommandDispatcher> senderCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build(commandDispatcherFactory);
@@ -129,11 +128,10 @@ public class CloudModule extends AbstractModule {
                 manager.registerBrigadier();
             }
 
-            manager.parameterInjectorRegistry().registerInjector(ModuleManager.class, (context, annotationAccessor) -> moduleManager);
-
             minecraftExceptionHandler.apply(manager, AudienceProvider.nativeAudience());
             commandCooldownManager.registerCooldownManager(manager);
             manager.registerCommandPostProcessor(new GamemodePostprocessor());
+            manager.setCommandSuggestionProcessor(new SimpleSuggestionProcessor());
 
             manager.brigadierManager().registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
                 builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {

@@ -24,46 +24,40 @@ import cloud.commandframework.arguments.parser.ArgumentParseResult;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.minecraft.extras.RichDescription;
-import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.processors.SimpleSuggestionProcessor;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.function.Predicate;
 
+@DefaultQualifier(NonNull.class)
 public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBase> {
 
     private static final String ARGUMENT_NAME = "module";
 
-    private ModuleArgument(@Nullable Boolean enabled) {
-        super(true, ARGUMENT_NAME, new Parser(enabled), "", ModuleBase.class, null, RichDescription.translatable("commands.arguments.module"));
+    @Inject
+    private ModuleArgument(ModuleManager manager, @Assisted @Nullable Boolean enabled) {
+        super(true, ARGUMENT_NAME, new Parser(enabled, manager), "", ModuleBase.class, null, RichDescription.translatable("commands.arguments.module"));
     }
 
-    public static ModuleArgument enabled() {
-        return new ModuleArgument(true);
-    }
-
-    public static ModuleArgument all() {
-        return new ModuleArgument(null);
-    }
-
-    public static ModuleArgument disabled() {
-        return new ModuleArgument(false);
-    }
-
-    public record Parser(@Nullable Boolean enabled) implements ArgumentParser<CommandDispatcher, ModuleBase> {
+    private record Parser(@Nullable Boolean enabled, ModuleManager manager) implements ArgumentParser<CommandDispatcher, ModuleBase> {
 
         @Override
-        public @NonNull
-        ArgumentParseResult<@NonNull ModuleBase> parse(@NonNull CommandContext<@NonNull CommandDispatcher> commandContext, @NonNull Queue<@NonNull String> inputQueue) {
-            ModuleManager moduleManager = commandContext.inject(ModuleManager.class).orElseThrow();
+        public ArgumentParseResult<ModuleBase> parse(CommandContext<CommandDispatcher> commandContext, Queue<String> inputQueue) {
             final String input = inputQueue.peek();
-            Optional<ModuleLifecycle> lifecycle = moduleManager.getLifecycle(input);
+            Optional<ModuleLifecycle> lifecycle = this.manager.getLifecycle(input);
             if (lifecycle.isEmpty()) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(input + " is not a valid module")); // TODO lang
             }
@@ -76,23 +70,40 @@ public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBas
                 }
             }
             inputQueue.remove();
-            return ArgumentParseResult.success(moduleManager.getModules().get(input));
+            try {
+                return ArgumentParseResult.success(this.manager.getModule(input).orElseThrow());
+            } catch (NoSuchElementException exception) {
+                return ArgumentParseResult.failure(exception);
+            }
         }
 
         @Override
-        public @NonNull List<@NonNull String> suggestions(@NonNull CommandContext<CommandDispatcher> commandContext, @NonNull String input) {
-            ModuleManager manager = commandContext.inject(ModuleManager.class).orElseThrow();
-            if (this.enabled == null) {
-                return Lists.newArrayList(manager.getModules().keySet());
-            } else if (this.enabled) {
-                return manager.getModules().keySet().stream().filter(name -> manager.getLifecycle(name).map(lifecycle -> lifecycle.getState().isRunning()).orElse(false)).toList();
-            } else {
-                return manager.getModules().keySet().stream().filter(name -> manager.getLifecycle(name).map(lifecycle -> !lifecycle.getState().isRunning()).orElse(false)).toList();
+        public List<String> suggestions(CommandContext<CommandDispatcher> commandContext, String input) {
+            commandContext.set(SimpleSuggestionProcessor.IGNORE_CASE, true);
+            final List<String> modules = new ArrayList<>();
+            final Predicate<ModuleLifecycle> lifecyclePredicate = predicateFor(this.enabled);
+            for (final ModuleBase module : this.manager.getModules().values()) {
+                this.manager.getLifecycle(module.getName()).ifPresent(lifecycle -> {
+                    if (lifecyclePredicate.test(lifecycle)) {
+                        modules.add(module.getName());
+                    }
+                });
             }
+            return modules;
         }
     }
 
     public static ModuleBase getModule(CommandContext<CommandDispatcher> context) {
         return context.get(ARGUMENT_NAME);
+    }
+
+    private static Predicate<ModuleLifecycle> predicateFor(@Nullable Boolean enabled) {
+        if (enabled == null) {
+            return lifecycle -> true;
+        } else if (enabled) {
+            return lifecycle -> lifecycle.getState().isRunning();
+        } else {
+            return lifecycle -> !lifecycle.getState().isRunning();
+        }
     }
 }

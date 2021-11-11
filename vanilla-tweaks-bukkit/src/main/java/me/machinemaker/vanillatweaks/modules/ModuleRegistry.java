@@ -32,6 +32,7 @@ import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.lectern.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class ModuleRegistry extends AbstractModule {
@@ -50,7 +51,7 @@ public class ModuleRegistry extends AbstractModule {
                 AnnotationInfo annotationInfo = classInfo.getAnnotationInfo(MODULE_INFO_ANNOTATION);
                 String name = (String) annotationInfo.getParameterValues().getValue("name");
                 String configPath = (String) annotationInfo.getParameterValues().getValue("configPath");
-                modules.put(name, (Class<? extends ModuleBase>) classInfo.loadClass());
+                modules.put(name.toLowerCase(Locale.US), (Class<? extends ModuleBase>) classInfo.loadClass());
                 moduleConfig.set(configPath, false);
             }
         }
