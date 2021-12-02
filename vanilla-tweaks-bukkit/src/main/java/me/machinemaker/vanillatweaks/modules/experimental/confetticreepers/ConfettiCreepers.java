@@ -23,7 +23,6 @@ import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle.Empty;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +35,7 @@ public class ConfettiCreepers extends ModuleBase {
     @NotNull
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {
-        return Empty.class;
+        return ModuleLifecycle.Empty.class;
     }
 
     @NotNull

@@ -102,7 +102,7 @@ public class RootCommand extends VanillaTweaksCommand {
 
     private void reloadEverything(@NonNull CommandContext<CommandDispatcher> context) {
         final Audience audience = context.getSender();
-        this.modulesConfig.reloadOrSave();
+        this.modulesConfig.reloadAndSave();
         // TODO reload more stuff
         ReloadResult result = moduleManager.reloadModules();
         boolean noModuleChange = true;

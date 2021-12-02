@@ -38,9 +38,11 @@ import net.kyori.moonshine.exception.scan.UnscannableMethodException;
 import net.kyori.moonshine.strategy.StandardPlaceholderResolverStrategy;
 import net.kyori.moonshine.strategy.supertype.StandardSupertypeThenInterfaceSupertypeStrategy;
 import org.bukkit.World;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jetbrains.annotations.NotNull;
 
+@DefaultQualifier(NonNull.class)
 public abstract class MoonshineModuleBase<T extends ModuleMessageService> extends ModuleBase implements MoonshineBuilderAdapter<T, Audience, String, Component, Component> {
 
     private @Inject @Named("plugin") ClassLoader classLoader;
@@ -59,29 +61,29 @@ public abstract class MoonshineModuleBase<T extends ModuleMessageService> extend
     }
 
     @Override
-    public MoonshineBuilder.@NotNull Sourced<T, Audience, String> sourced(@NotNull MoonshineBuilder.Receivers<T, Audience> receivers) {
+    public MoonshineBuilder.Sourced<T, Audience, String> sourced(MoonshineBuilder.Receivers<T, Audience> receivers) {
         receivers.receiverLocatorResolver(new AudienceReceiverResolver(), 0);
         return receivers.sourced(new TranslatableMessageSource());
     }
 
     @Override
-    public MoonshineBuilder.@NotNull Rendered<T, Audience, String, Component, Component> rendered(@NotNull MoonshineBuilder.Sourced<T, Audience, String> sourced) {
+    public MoonshineBuilder.Rendered<T, Audience, String, Component, Component> rendered(MoonshineBuilder.Sourced<T, Audience, String> sourced) {
         return sourced.rendered(new MiniMessageMessageRenderer());
     }
 
     @Override
-    public MoonshineBuilder.@NotNull Sent<T, Audience, String, Component, Component> sent(@NotNull MoonshineBuilder.Rendered<T, Audience, String, Component, Component> rendered) {
+    public MoonshineBuilder.Sent<T, Audience, String, Component, Component> sent(MoonshineBuilder.Rendered<T, Audience, String, Component, Component> rendered) {
         return rendered.sent(new AdventureMessageSender());
     }
 
     @Override
-    public MoonshineBuilder.@NotNull Resolved<T, Audience, String, Component, Component> resolved(@NotNull MoonshineBuilder.Sent<T, Audience, String, Component, Component> sent) {
+    public MoonshineBuilder.Resolved<T, Audience, String, Component, Component> resolved(MoonshineBuilder.Sent<T, Audience, String, Component, Component> sent) {
         return sent.resolvingWithStrategy(new StandardPlaceholderResolverStrategy<>(new StandardSupertypeThenInterfaceSupertypeStrategy(false)));
     }
 
     @Override
     @MustBeInvokedByOverriders
-    public void placeholderStrategies(@NotNull MoonshineBuilder.Resolved<T, Audience, String, Component, Component> resolved) {
+    public void placeholderStrategies(MoonshineBuilder.Resolved<T, Audience, String, Component, Component> resolved) {
         this.registerNumberPlaceholderStrategies(resolved);
         resolved
                 .weightedPlaceholderResolver(String.class, new StringPlaceholderResolver(), 0)
@@ -89,7 +91,7 @@ public abstract class MoonshineModuleBase<T extends ModuleMessageService> extend
                 .weightedPlaceholderResolver(Component.class, new ComponentPlaceholderResolver(), 0);
     }
 
-    private void registerNumberPlaceholderStrategies(@NotNull MoonshineBuilder.Resolved<T, Audience, String, Component, Component> resolved) {
+    private void registerNumberPlaceholderStrategies(MoonshineBuilder.Resolved<T, Audience, String, Component, Component> resolved) {
         resolved
                 .weightedPlaceholderResolver(int.class, new NumberPlaceholderResolver<>(String::valueOf), 0)
                 .weightedPlaceholderResolver(Integer.class, new NumberPlaceholderResolver<>(String::valueOf), 0)

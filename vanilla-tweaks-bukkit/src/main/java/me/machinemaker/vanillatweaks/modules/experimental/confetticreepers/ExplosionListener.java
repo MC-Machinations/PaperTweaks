@@ -34,7 +34,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ExplosionListener implements ModuleListener {
 
-    private static final FireworkEffect fireworkEffect = FireworkEffect.builder()
+    private static final FireworkEffect COLORFUL_EFFECT = FireworkEffect.builder()
             .flicker(false)
             .trail(false)
             .with(FireworkEffect.Type.BURST)
@@ -64,7 +64,7 @@ public class ExplosionListener implements ModuleListener {
             event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class, firework -> {
                 FireworkMeta fireworkMeta = firework.getFireworkMeta();
                 fireworkMeta.setPower(0);
-                fireworkMeta.addEffect(fireworkEffect);
+                fireworkMeta.addEffect(COLORFUL_EFFECT);
                 firework.setFireworkMeta(fireworkMeta);
                 firework.detonate();
             });

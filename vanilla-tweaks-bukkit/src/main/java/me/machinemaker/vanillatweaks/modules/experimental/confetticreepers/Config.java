@@ -26,6 +26,6 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 @VTConfig
 class Config extends ModuleConfig {
 
-    @Description("Value between 0 (inclusive) and 1.0 (exclusive) for the chance a creeper will be a confetti creeper")
+    @Description("Value between 0 (inclusive) and 1.0 (inclusive) for the chance a creeper will be a confetti creeper")
     public double chance = 1D;
 }
