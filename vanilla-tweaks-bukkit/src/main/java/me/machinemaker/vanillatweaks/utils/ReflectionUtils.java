@@ -318,14 +318,13 @@ public final class ReflectionUtils {
      */
     public static MethodInvoker findMethod(Class<?> clazz, Collection<String> methodNames, Class<?>... params) {
         MethodInvoker invoker = null;
-        try {
-            for (String name : methodNames) {
-                invoker = getTypedMethod(clazz, name, null, params);
-                if (invoker != null) {
-                    break;
-                }
+        for (String name : methodNames) {
+            try {
+                invoker = getMethod(clazz, name, params);
+            } catch (IllegalStateException ignored) { }
+            if (invoker != null) {
+                break;
             }
-        } catch (IllegalStateException ignored) {
         }
         if (invoker == null) {
             throw new IllegalStateException(String.format("Unable to find method (one of: %s) (%s) in %s.", String.join(", ", methodNames), Arrays.asList(params), clazz.getCanonicalName()));

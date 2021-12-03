@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -56,7 +57,7 @@ public final class VTUtils {
     private static final Class<?> CRAFT_PLAYER_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftPlayer");
     private static final ReflectionUtils.MethodInvoker CRAFT_PLAYER_GET_HANDLE_METHOD = ReflectionUtils.getMethod(CRAFT_PLAYER_CLASS, "getHandle");
     private static final Class<?> NMS_PLAYER_CLASS = ReflectionUtils.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
-    private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.getTypedMethod(NMS_PLAYER_CLASS, "getProfile", GameProfile.class);
+    private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.findMethod(NMS_PLAYER_CLASS, Set.of("fp", "getProfile", "getGameProfile"), GameProfile.class);
     private static final Class<?> CRAFT_META_SKULL_CLASS = ReflectionUtils.getCraftBukkitClass("inventory.CraftMetaSkull");
     private static final ReflectionUtils.FieldAccessor<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "profile", GameProfile.class);
     private static final ReflectionUtils.FieldAccessor<String> CRAFT_META_ITEM_DISPLAY_NAME_JSON = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "displayName", String.class);

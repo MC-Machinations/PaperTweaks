@@ -64,7 +64,7 @@ subprojects {
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1-SNAPSHOT")
-        implementation("net.kyori:adventure-platform-bukkit:4.0.0")
+        implementation("net.kyori:adventure-platform-bukkit:4.0.1")
         implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
         implementation("cloud.commandframework:cloud-paper:$cloudVersion")
         implementation("cloud.commandframework:cloud-minecraft-extras:$cloudVersion")

@@ -44,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
@@ -51,7 +52,7 @@ class VillagerData {
 
     private static final Class<?> NMS_ENTITY_CLASS = ReflectionUtils.getMinecraftClass("world.entity.Entity");
     private static final Class<?> NMS_CHAT_COMPONENT_CLASS = ReflectionUtils.findMinecraftClass("network.chat.IChatBaseComponent", "network.chat.Component");
-    private static final ReflectionUtils.MethodInvoker ENTITY_SET_CUSTOM_NAME_METHOD = ReflectionUtils.getMethod(NMS_ENTITY_CLASS, "setCustomName", NMS_CHAT_COMPONENT_CLASS);
+    private static final ReflectionUtils.MethodInvoker ENTITY_SET_CUSTOM_NAME_METHOD = ReflectionUtils.findMethod(NMS_ENTITY_CLASS, Set.of("a", "setCustomName"), NMS_CHAT_COMPONENT_CLASS);
     private static final Class<?> CRAFT_ENTITY_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftEntity");
     private static final ReflectionUtils.MethodInvoker CRAFT_ENTITY_GET_HANDLE_METHOD = ReflectionUtils.getTypedMethod(CRAFT_ENTITY_CLASS, "getHandle", NMS_ENTITY_CLASS);
 
