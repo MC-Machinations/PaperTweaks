@@ -19,7 +19,6 @@
  */
 package me.machinemaker.vanillatweaks;
 
-import com.google.common.io.Resources;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -31,6 +30,7 @@ import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.adventure.MiniMessageComponentRenderer;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.db.DatabaseModule;
+import me.machinemaker.vanillatweaks.db.DatabaseType;
 import me.machinemaker.vanillatweaks.integrations.Integrations;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
@@ -44,15 +44,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.h2.jdbcx.JdbcConnectionPool;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -83,7 +80,7 @@ public class VanillaTweaks extends JavaPlugin {
     private final Path modulesPath = dataPath.resolve("modules");
     private final Path i18nPath = dataPath.resolve("i18n");
     private final VanillaTweaksConfig config = BaseConfig.create(VanillaTweaksConfig.class, this.dataPath);
-    private final Jdbi jdbi = Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + this.dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;AUTO_SERVER=TRUE;FILE_LOCK=SOCKET", this.config.database.user, this.config.database.password)).installPlugin(new SqlObjectPlugin());
+    private final Jdbi jdbi = DatabaseType.installPlugins(this.config.database.type.createJdbiInstance(this.dataPath, this.config));
 
     @Override
     public void onEnable() {
@@ -94,8 +91,11 @@ public class VanillaTweaks extends JavaPlugin {
         PaperLib.suggestPaper(this);
         Integrations.load();
         try (Handle handle = this.jdbi.open()) {
-            handle.execute(Resources.toString(this.getClassLoader().getResource("db/schema/h2.sql"), StandardCharsets.UTF_8));
+            handle.execute(this.config.database.type.readSchema(this.getClassLoader()));
+            LOGGER.info("You are using the " + this.config.database.type.name() + " database type.");
         } catch (IOException exception) {
+            LOGGER.error("Unable to create/load the database of type " + this.config.database.type.name());
+            LOGGER.error("You could try select a different database type by changing the type in the config.yml");
             this.getPluginLoader().disablePlugin(this);
             throw new RuntimeException("Could not create database and load schema", exception);
         }

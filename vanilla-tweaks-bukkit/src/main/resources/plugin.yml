@@ -370,3 +370,4 @@ libraries:
   - org.jdbi:jdbi3-core:3.22.0
   - org.jdbi:jdbi3-sqlobject:3.22.0
   - com.h2database:h2:1.4.200
+  - org.xerial:sqlite-jdbc:3.36.0.3

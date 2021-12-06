@@ -41,7 +41,7 @@ subprojects {
     repositories {
         mavenCentral()
         sonatypeSnapshots()
-        maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
+        // maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://maven.enginehub.org/repo/")
@@ -59,7 +59,7 @@ subprojects {
         }
     }
 
-    val cloudVersion = "1.6.0-SNAPSHOT"
+    val cloudVersion = "1.6.0"
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
@@ -83,6 +83,7 @@ subprojects {
         compileOnly("org.jdbi:jdbi3-core")
         compileOnly("org.jdbi:jdbi3-sqlobject")
         compileOnly("com.h2database:h2:1.4.200")
+        compileOnly("org.xerial:sqlite-jdbc:3.36.0.3")
 
         // Native to minecraft
         compileOnly("com.mojang:authlib:1.5.25")

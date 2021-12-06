@@ -21,8 +21,10 @@ package me.machinemaker.vanillatweaks;
 
 import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.lectern.annotations.ConfigurationSection;
+import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.lectern.annotations.YamlConfig;
+import me.machinemaker.vanillatweaks.db.DatabaseType;
 
 @YamlConfig
 public class VanillaTweaksConfig extends BaseConfig {
@@ -34,6 +36,9 @@ public class VanillaTweaksConfig extends BaseConfig {
 
     @ConfigurationSection(path = "database", description = "Settings related to the embedded database. Don't change these, they are just there if you want to look inside the H2 database for yourself")
     public static class Database {
+
+        @Description("Currently supported: H2, SQLITE. Changing the type will NOT transfer the data.")
+        public DatabaseType type = DatabaseType.H2;
 
         public String user = "user";
 
