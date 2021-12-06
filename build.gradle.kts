@@ -70,7 +70,7 @@ subprojects {
         implementation("cloud.commandframework:cloud-minecraft-extras:$cloudVersion")
         implementation("org.bstats:bstats-bukkit:2.2.1")
         implementation("io.papermc:paperlib:1.0.6")
-        implementation("net.kyori.moonshine:moonshine-standard:2.0.0-SNAPSHOT")
+        implementation("net.kyori.moonshine:moonshine-standard:2.0.0-SNAPSHOT+git.java-16")
 
         // Loaded via plugin.yml libraries
         compileOnly("io.github.classgraph:classgraph:4.8.114")
