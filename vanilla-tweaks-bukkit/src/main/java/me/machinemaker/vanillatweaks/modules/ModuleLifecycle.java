@@ -22,7 +22,9 @@ package me.machinemaker.vanillatweaks.modules;
 import cloud.commandframework.CommandManager.ManagerSettings;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
+import me.machinemaker.vanillatweaks.annotations.ConfigureModuleConfig;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.Bukkit;
@@ -30,13 +32,17 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+import java.nio.file.Path;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@DefaultQualifier(NonNull.class)
 public abstract class ModuleLifecycle {
 
     private final JavaPlugin plugin;
@@ -49,6 +55,8 @@ public abstract class ModuleLifecycle {
     private PaperCommandManager<CommandDispatcher> commandManager;
     @Inject
     private ModuleInfo moduleInfo;
+    @Inject
+    private @Named("modules") Path modulesConfigFolder;
 
     @Inject
     protected ModuleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
@@ -73,7 +81,7 @@ public abstract class ModuleLifecycle {
         return this.plugin;
     }
 
-    public @NotNull ModuleInfo moduleInfo() {
+    public ModuleInfo moduleInfo() {
         return moduleInfo;
     }
 
@@ -81,7 +89,13 @@ public abstract class ModuleLifecycle {
         try {
             enableCommands();
             registerListeners();
-            configs.forEach(ModuleConfig::reloadAndSave);
+            for (ModuleConfig config : this.configs) {
+                if (config.file() == null) {
+                    config.init(this.modulesConfigFolder.resolve(this.getConfigFolderName(config.getClass())));
+                } else {
+                    config.reloadAndSave();
+                }
+            }
             registerRecipes();
             onEnable();
             state = ModuleState.ENABLED;
@@ -91,8 +105,16 @@ public abstract class ModuleLifecycle {
             state = ModuleState.ENABLED_FAILED;
             // TODO disable commands
             unregisterListeners();
+            unregisterRecipes();
             onDisable(false);
         }
+    }
+
+    private String getConfigFolderName(Class<?> configClass) {
+        if (configClass.isAnnotationPresent(ConfigureModuleConfig.class)) {
+            return configClass.getAnnotation(ConfigureModuleConfig.class).folder();
+        }
+        return this.moduleInfo.name().toLowerCase(Locale.ENGLISH);
     }
 
     final void disable(boolean isShutdown) {

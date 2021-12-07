@@ -20,23 +20,20 @@
 package me.machinemaker.vanillatweaks.modules;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Named;
-import me.machinemaker.lectern.BaseConfig;
-import me.machinemaker.vanillatweaks.annotations.ConfigureModuleConfig;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jetbrains.annotations.NotNull;
 
-import java.nio.file.Path;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 
+@DefaultQualifier(NonNull.class)
 public abstract class ConfigModule extends AbstractModule {
 
-    @Inject @Named("modules") private Path modulesConfigFolder;
-
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Collections.emptySet();
     }
 
@@ -47,18 +44,19 @@ public abstract class ConfigModule extends AbstractModule {
         configs().forEach(configClass -> this.bindConfig(configsBinder, configClass));
     }
 
-    private <C extends ModuleConfig> void bindConfig(Multibinder<ModuleConfig> binder, Class<C> configClass) {
-        String folder;
-        if (configClass.isAnnotationPresent(ConfigureModuleConfig.class)) {
-            folder = configClass.getAnnotation(ConfigureModuleConfig.class).folder();
-        } else {
-            folder = this.getConfigDataFolder();
+    private static <C extends ModuleConfig> C createInstanceWithoutInitialization(Class<C> configClass) {
+        try {
+            Constructor<C> ctor = configClass.getDeclaredConstructor();
+            ctor.trySetAccessible();
+            return ctor.newInstance();
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalArgumentException(String.format("Unable to create a new instance of %s", configClass.getSimpleName()), e);
         }
-        C config = BaseConfig.create(configClass, this.modulesConfigFolder.resolve(folder));
+    }
+
+    private <C extends ModuleConfig> void bindConfig(Multibinder<ModuleConfig> binder, Class<C> configClass) {
+        C config = createInstanceWithoutInitialization(configClass);
         bind(configClass).toInstance(config);
         binder.addBinding().toInstance(config);
     }
-
-    protected abstract @NotNull String getConfigDataFolder();
-
 }
