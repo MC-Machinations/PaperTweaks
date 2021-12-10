@@ -76,8 +76,12 @@ public class VanillaTweaks extends JavaPlugin {
             Locale.ENGLISH
     );
 
-    @Inject private ModuleManager moduleManager;
-    @Inject private BukkitAudiences audiences;
+    @Inject
+    private ModuleManager moduleManager;
+    @Inject
+    private BukkitAudiences audiences;
+    @Inject
+    private VanillaTweaksMetrics metrics;
     private final Path dataPath = this.getDataFolder().toPath();
     private final Path modulesPath = dataPath.resolve("modules");
     private final Path i18nPath = dataPath.resolve("i18n");
