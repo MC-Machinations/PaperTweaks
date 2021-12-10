@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.lucko:commodore:1.10") {
+    implementation("me.lucko:commodore:1.11") {
         exclude("com.mojang", "brigadier")
     }
 
