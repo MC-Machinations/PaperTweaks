@@ -137,7 +137,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
         ValueNode<T> valueNode = super.setupValueNodeSchema(sectionNode, field, value, configInstance);
         String desc = field.description();
         if (desc != null) {
-            valueNode.description(TranslationRegistry.translate(desc, Locale.US).orElse(null));
+            valueNode.description(TranslationRegistry.translate(desc, Locale.US).orElse(desc));
             valueNode.meta().put("desc", desc);
         }
         if (field.field().isAnnotationPresent(Min.class)) {

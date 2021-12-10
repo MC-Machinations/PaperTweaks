@@ -65,6 +65,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class VanillaTweaks extends JavaPlugin {
 
+    public static boolean RAN_CONFIG_MIGRATIONS = false;
+
     public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text("VanillaTweaks", BLUE)).append(text("] ", DARK_GRAY)).build();
     public static final Logger LOGGER = LoggerFactory.getLogger();
 
@@ -177,6 +179,7 @@ public class VanillaTweaks extends JavaPlugin {
 
     private void migrateModuleConfigs() throws IOException {
         if (Files.notExists(this.modulesPath)) {
+            RAN_CONFIG_MIGRATIONS = true;
             Files.createDirectories(this.modulesPath);
             LOGGER.info("Moving module configurations to their new location");
             try (Stream<Path> files = Files.list(this.dataPath)) {

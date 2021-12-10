@@ -25,18 +25,20 @@ import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Named;
 import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.annotations.ConfigureModuleConfig;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 
+@DefaultQualifier(NonNull.class)
 public abstract class ConfigModule extends AbstractModule {
 
     @Inject @Named("modules") private Path modulesConfigFolder;
 
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Collections.emptySet();
     }
 
@@ -59,6 +61,6 @@ public abstract class ConfigModule extends AbstractModule {
         binder.addBinding().toInstance(config);
     }
 
-    protected abstract @NotNull String getConfigDataFolder();
+    protected abstract String getConfigDataFolder();
 
 }

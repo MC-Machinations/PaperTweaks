@@ -71,7 +71,7 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
 
     @Key("defaults.display")
     @I18nKey("modules.multiplayer-sleep.settings.default-display")
-    @Description("Default display for new players")
+    @Description("Default display for new players. Can be one of: HIDDEN, BOSS_BAR, ACTION_BAR, CHAT")
     public Settings.DisplaySetting defaultDisplaySetting = Settings.DisplaySetting.CHAT;
 
     @Key("boss-bar-color")

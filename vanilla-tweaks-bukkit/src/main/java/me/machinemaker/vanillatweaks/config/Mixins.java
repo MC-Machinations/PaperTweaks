@@ -25,6 +25,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import me.machinemaker.vanillatweaks.VanillaTweaks;
+import me.machinemaker.vanillatweaks.VanillaTweaksConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -113,6 +115,9 @@ public final class Mixins {
             @Override
             public World deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
                 String value = p.getValueAsString();
+                if (VanillaTweaks.RAN_CONFIG_MIGRATIONS && value.equals("world") && !Bukkit.getWorlds().get(0).getName().equals("world")) {
+                    value = Bukkit.getWorlds().get(0).getName();
+                }
                 World world = Bukkit.getWorld(value);
                 if (world != null) {
                     return world;

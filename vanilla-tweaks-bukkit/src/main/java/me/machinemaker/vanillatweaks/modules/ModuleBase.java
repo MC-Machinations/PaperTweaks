@@ -26,33 +26,35 @@ import com.google.inject.name.Names;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.Recipe;
-import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 
+@DefaultQualifier(NonNull.class)
 public abstract class ModuleBase extends ConfigModule {
 
     private final ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
 
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Collections.emptySet();
     }
 
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Collections.emptySet();
     }
 
-    protected abstract @NotNull Class<? extends ModuleLifecycle> lifecycle();
+    protected abstract Class<? extends ModuleLifecycle> lifecycle();
 
-    protected @NotNull Collection<ModuleRecipe<?>> recipes() {
+    protected Collection<ModuleRecipe<?>> recipes() {
         return Collections.emptySet();
     }
 
     @Override
-    @MustBeInvokedByOverriders
+    @OverridingMethodsMustInvokeSuper
     protected void configure() {
         super.configure();
         bind(ModuleBase.class).toInstance(this);
@@ -92,7 +94,7 @@ public abstract class ModuleBase extends ConfigModule {
     }
 
     @Override
-    protected @NotNull String getConfigDataFolder() {
+    protected String getConfigDataFolder() {
         return this.moduleInfo.name().toLowerCase(Locale.ENGLISH);
     }
 

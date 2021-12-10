@@ -103,9 +103,6 @@ public abstract class ModuleLifecycle {
         try {
             // TODO disable commands
             unregisterListeners();
-            if (!this.state.isErrored()) {
-                configs.forEach(ModuleConfig::save);
-            }
             unregisterRecipes();
             onDisable(isShutdown);
             if (changeState) state = ModuleState.DISABLED;
