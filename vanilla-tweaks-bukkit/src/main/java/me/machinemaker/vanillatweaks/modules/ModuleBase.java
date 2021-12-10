@@ -31,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Locale;
 
 public abstract class ModuleBase extends ConfigModule {
 
@@ -88,6 +89,11 @@ public abstract class ModuleBase extends ConfigModule {
 
     String getConfigPath() {
         return this.moduleInfo.configPath();
+    }
+
+    @Override
+    protected @NotNull String getConfigDataFolder() {
+        return this.moduleInfo.name().toLowerCase(Locale.ENGLISH);
     }
 
     @Override

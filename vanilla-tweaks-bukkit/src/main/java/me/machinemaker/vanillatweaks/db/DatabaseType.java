@@ -30,7 +30,6 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Objects;
 
 @DefaultQualifier(NonNull.class)
 public enum DatabaseType {
@@ -54,7 +53,7 @@ public enum DatabaseType {
     }
 
     public String readSchema(final ClassLoader classLoader) throws IOException {
-        return Resources.toString(Objects.requireNonNull(classLoader.getResource("db/schema/" + this.schema), "Could not find schema for " + this.name() + " database"), StandardCharsets.UTF_8);
+        return Resources.toString(classLoader.getResource("db/schema/" + this.schema), StandardCharsets.UTF_8);
     }
 
     public abstract Jdbi createJdbiInstance(Path dataPath, VanillaTweaksConfig config);
