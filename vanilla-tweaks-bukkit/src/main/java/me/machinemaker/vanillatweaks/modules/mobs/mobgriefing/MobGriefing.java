@@ -19,12 +19,18 @@
  */
 package me.machinemaker.vanillatweaks.modules.mobs.mobgriefing;
 
+import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.Set;
@@ -32,9 +38,11 @@ import java.util.Set;
 @ModuleInfo(name = "MobGriefing", configPath = "mobs.mob-griefing", description = "Disable various mobs griefing behaviors")
 public class MobGriefing extends ModuleBase {
 
+    static final Logger LOGGER = LoggerFactory.getModuleLogger(MobGriefing.class);
+
     @Override
     protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
+        return Lifecycle.class;
     }
 
     @Override
@@ -45,5 +53,23 @@ public class MobGriefing extends ModuleBase {
     @Override
     protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
+    }
+
+    static class Lifecycle extends ModuleLifecycle {
+
+        private final Config config;
+
+        @Inject
+        Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, Config config) {
+            super(plugin, commands, listeners, configs, moduleRecipes);
+            this.config = config;
+        }
+
+        @Override
+        public void onEnable() {
+            if (!this.config.antiCreeperGrief && !this.config.antiGhastGrief && !this.config.antiEndermanGrief) {
+                LOGGER.warn("Enabling this module will have no effect without at least one of the anti-grief settings configured in " + this.config.file());
+            }
+        }
     }
 }
