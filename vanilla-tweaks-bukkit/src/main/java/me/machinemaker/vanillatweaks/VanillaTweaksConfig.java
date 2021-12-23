@@ -38,7 +38,7 @@ public class VanillaTweaksConfig extends BaseConfig {
     public static class Database {
 
         @Description("Currently supported: H2, SQLITE. Changing the type will NOT transfer the data.")
-        public DatabaseType type = DatabaseType.SQLITE;
+        public DatabaseType type = DatabaseType.H2;
 
         public String user = "user";
 
