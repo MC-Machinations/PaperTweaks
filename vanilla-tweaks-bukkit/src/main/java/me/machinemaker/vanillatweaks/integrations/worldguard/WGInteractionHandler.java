@@ -31,9 +31,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class WGInteractionHandler implements Interactions.Handler {
 
-    private static final WorldGuardPlugin WORLD_GUARD_PLUGIN = WorldGuardPlugin.inst();
+    private static final WorldGuardPlugin WORLD_GUARD_PLUGIN = Objects.requireNonNull(WorldGuardPlugin.inst(), "Could not find the instance of WorldGuard");
     private static final WorldGuard WORLD_GUARD = WorldGuard.getInstance();
 
     @Override

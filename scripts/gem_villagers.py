@@ -21,7 +21,7 @@ def run():
     print(f"Root directory for gem villager mcfunction files: {abspath(argv[1])}")
 
     villagers = {}
-    for filename in iglob(abspath(argv[1]) + "/**/functions/*.mcfunction", recursive=True):
+    for filename in sorted(iglob(abspath(argv[1]) + "/**/functions/*.mcfunction", recursive=True)):
         with open(filename, "r") as file:
             villager_name = filename.split("/")[-1].split(".")[0]
             nbt = parse_nbt(file.readline().split(" ", maxsplit=5)[-1])

@@ -29,10 +29,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class GPInteractionHandler implements Interactions.Handler {
 
-    private static final GriefPrevention PLUGIN = GriefPrevention.instance;
-    private static final DataStore DATA_STORE = PLUGIN.dataStore;
+    private static final GriefPrevention PLUGIN = Objects.requireNonNull(GriefPrevention.instance, "Could not find the instance of the GriefPrevention plugin");
+    private static final DataStore DATA_STORE = Objects.requireNonNull(PLUGIN.dataStore, "Could not find the GriefPrevention dataStore");
 
     @Override
     public boolean checkBlock(@NotNull Player player, @NotNull Block clickedBlock) {
