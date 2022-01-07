@@ -157,6 +157,7 @@ abstract class Tracked implements ComponentLike {
                     case "crafted", "used", "broken" -> Pair.of("stat_type." + this.type, "item.");
                     case "killed" -> Pair.of("modules.track-raw-stats.stat-type.minecraft.killed", "entity.");
                     case "killed_by" -> Pair.of("modules.track-raw-stats.stat-type.minecraft.killed-by", "entity.");
+                    case "mined" -> Pair.of("modules.track-raw-stats.stat-type.minecraft.mined", "block.");
                     default -> throw new IllegalArgumentException();
                 };
 
