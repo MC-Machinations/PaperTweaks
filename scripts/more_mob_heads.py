@@ -22,7 +22,7 @@ def run():
 
     missing = []
     heads = []
-    for filename in iglob(abspath(argv[1]) + '/**/*.json', recursive=True):
+    for filename in sorted(iglob(abspath(argv[1]) + '/**/*.json', recursive=True)):
         done = False
         with open(filename, "r") as file:
             json = load(file)
