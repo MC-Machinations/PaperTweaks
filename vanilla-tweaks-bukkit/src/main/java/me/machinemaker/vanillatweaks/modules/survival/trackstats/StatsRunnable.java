@@ -33,7 +33,7 @@ import java.util.List;
 @Singleton
 class StatsRunnable extends TimerRunnable {
 
-    private static final List<List<Stat>> partitions = Lists.partition(Lists.newArrayList(Stat.values()), Stat.values().length / 3);
+    private static final List<List<CalculatedStat>> PARTITIONS = Lists.partition(Lists.newArrayList(Stats.REGISTRY.values()), Stats.REGISTRY.values().size() / 3);
 
     private final Scoreboard board;
     private int count = 0;
@@ -48,10 +48,10 @@ class StatsRunnable extends TimerRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            for (Stat stat : partitions.get(count % 3)) {
-                board.getObjective(stat.objName()).getScore(player.getName()).setScore(stat.operate(player.getStatistic(stat.stat())));
+            for (CalculatedStat stat : PARTITIONS.get(this.count % 3)) {
+                stat.updateScore(this.board, player);
             }
         }
-        count++;
+        this.count++;
     }
 }

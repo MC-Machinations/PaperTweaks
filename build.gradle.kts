@@ -59,7 +59,7 @@ subprojects {
         }
     }
 
-    val cloudVersion = "1.6.0"
+    val cloudVersion = "1.6.1"
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")

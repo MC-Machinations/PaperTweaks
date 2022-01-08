@@ -28,17 +28,18 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @ModuleInfo(name = "TrackStats", configPath = "survival.track-stats", description = "Adds several pre-processed stats")
 public class TrackStats extends ModuleBase {
 
-    final Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+    final Scoreboard board = Objects.requireNonNull(Bukkit.getScoreboardManager(), "null ScoreboardManager").getMainScoreboard();
 
     TrackStats() {
-        for (Stat stat : Stat.values()) {
-            if (board.getObjective(stat.objName()) == null) {
-                board.registerNewObjective(stat.objName(), "dummy", stat.displayName());
+        for (CalculatedStat stat : Stats.REGISTRY.values()) {
+            if (board.getObjective(stat.objectiveName()) == null) {
+                board.registerNewObjective(stat.objectiveName(), "dummy", stat.displayName());
             }
         }
     }
@@ -47,7 +48,6 @@ public class TrackStats extends ModuleBase {
     protected void configure() {
         super.configure();
         bind(Scoreboard.class).toInstance(board);
-        // bind(StatsRunnable.class);
     }
 
     @Override

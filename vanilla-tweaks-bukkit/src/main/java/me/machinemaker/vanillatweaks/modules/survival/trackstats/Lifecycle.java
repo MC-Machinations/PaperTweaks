@@ -41,7 +41,7 @@ class Lifecycle extends ModuleLifecycle {
 
     @Override
     public void onEnable() {
-        this.runnable.runTaskTimer(1L, 7L);
+        this.runnable.runTaskTimer(1L, 5L);
     }
 
     @Override
