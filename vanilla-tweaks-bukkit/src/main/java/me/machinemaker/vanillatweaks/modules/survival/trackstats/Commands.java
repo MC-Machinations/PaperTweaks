@@ -62,7 +62,7 @@ class Commands extends ConfiguredModuleCommand {
         ).command(literal(builder, "clear")
                 .handler(sync((context, player) -> {
                     final @Nullable Objective currentlyDisplayed = this.board.getObjective(DisplaySlot.SIDEBAR);
-                    if (currentlyDisplayed == null || Stats.REGISTRY.containsKey(currentlyDisplayed.getName())) {
+                    if (currentlyDisplayed == null || !Stats.REGISTRY.containsKey(currentlyDisplayed.getName())) {
                         context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.no-display", YELLOW));
                     } else {
                         currentlyDisplayed.setDisplaySlot(null);
