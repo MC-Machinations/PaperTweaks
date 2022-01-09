@@ -32,6 +32,7 @@ import me.machinemaker.vanillatweaks.cloud.CloudModule;
 import me.machinemaker.vanillatweaks.db.DatabaseModule;
 import me.machinemaker.vanillatweaks.db.DatabaseType;
 import me.machinemaker.vanillatweaks.integrations.Integrations;
+import me.machinemaker.vanillatweaks.migrations.ModulesFileMigrations;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import me.machinemaker.vanillatweaks.modules.ModuleRegistry;
 import me.machinemaker.vanillatweaks.modules.teleportation.homes.Homes;
@@ -106,7 +107,7 @@ public class VanillaTweaks extends JavaPlugin {
             throw new RuntimeException("Could not create database and load schema", exception);
         }
 
-        tryBackupOldModulesYml();
+        ModulesFileMigrations.apply(this.dataPath, this);
         try {
             migrateModuleConfigs();
         } catch (IOException e) {
@@ -160,24 +161,6 @@ public class VanillaTweaks extends JavaPlugin {
         if (this.audiences != null) {
             audiences.console().sendMessage(join(PLUGIN_PREFIX, translatable("plugin-lifecycle.on-disable.disabled-modules", YELLOW, text(disabled, GRAY))));
             audiences.close();
-        }
-    }
-
-    private void tryBackupOldModulesYml() {
-        File oldFile = new File(this.getDataFolder(), "modules.yml");
-        if (oldFile.exists()) {
-            FileConfiguration oldModulesConfig = YamlConfiguration.loadConfiguration(oldFile);
-            if (oldModulesConfig.contains("item-tools")) { // is old
-                if (oldFile.renameTo(new File(this.getDataFolder(), "OLD_modules.yml"))) {
-                    LOGGER.warn("OLD modules.yml detected. It has been backed up to OLD_modules.yml");
-                    LOGGER.warn("You can re-configure your enabled packs with the new modules.yml");
-                } else {
-                    LOGGER.error("Could not rename modules.yml to back it up! Please rename VanillaTweaks/modules.yml to something else so the plugin can create a new one");
-                    this.getPluginLoader().disablePlugin(this);
-                    return;
-                }
-
-            }
         }
     }
 

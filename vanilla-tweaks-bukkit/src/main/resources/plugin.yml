@@ -179,9 +179,6 @@ permissions:
     default: true
     description: Players killed by this player will drop heads
 
-  vanillatweaks.mobdeathcount.help:
-    default: false
-    description: Use /mdc help
   vanillatweaks.mobdeathcount.start:
     default: false
     description: Use /mdc start
@@ -198,7 +195,6 @@ permissions:
     default: true
     description: Use all /mdc commands
     children:
-      vanillatweaks.mobdeathcount.help: true
       vanillatweaks.mobdeathcount.start: true
       vanillatweaks.mobdeathcount.stop: true
       vanillatweaks.mobdeathcount.reset: true

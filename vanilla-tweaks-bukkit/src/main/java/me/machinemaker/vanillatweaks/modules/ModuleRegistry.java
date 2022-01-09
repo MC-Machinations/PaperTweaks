@@ -37,6 +37,7 @@ import java.util.Map;
 
 public class ModuleRegistry extends AbstractModule {
 
+    private static final int MODULE_FILE_VERSION = 1;
     private static final String MODULE_PKG = "me.machinemaker.vanillatweaks.modules";
     private static final String MODULE_INFO_ANNOTATION = "me.machinemaker.vanillatweaks.annotations.ModuleInfo";
 
@@ -46,6 +47,7 @@ public class ModuleRegistry extends AbstractModule {
     @SuppressWarnings("unchecked")
     public ModuleRegistry(JavaPlugin plugin) {
         this.moduleConfig = YamlConfiguration.builder(plugin.getDataFolder().toPath().resolve("modules.yml")).build();
+        this.moduleConfig.set("version", MODULE_FILE_VERSION);
         try (ScanResult scanResult = new ClassGraph().enableAnnotationInfo().acceptPackages(MODULE_PKG).scan()) {
             for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(MODULE_INFO_ANNOTATION)) {
                 AnnotationInfo annotationInfo = classInfo.getAnnotationInfo(MODULE_INFO_ANNOTATION);

@@ -40,7 +40,7 @@ public final class LoggerFactory {
     }
 
     public static Logger getLogger(Class<?> clazz) {
-        return getLogger(clazz.getName());
+        return getLogger(clazz.getSimpleName());
     }
 
     public static Logger getLogger(String name) {

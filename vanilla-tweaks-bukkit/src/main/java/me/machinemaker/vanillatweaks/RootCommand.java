@@ -27,6 +27,7 @@ import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import me.machinemaker.lectern.ConfigurationNode;
+import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
 import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
@@ -89,14 +90,14 @@ public class RootCommand extends VanillaTweaksCommand {
                 .handler(sync(context -> {
                     final Component enableMsg = this.moduleManager.enableModule(ModuleArgument.getModule(context).getName());
                     context.getSender().sendMessage(enableMsg);
-                    this.audiences.console().sendMessage(enableMsg);
+                    this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, enableMsg));
                 }))
         ).command(this.simple("disable")
                 .argument(this.argumentFactory.module(true))
                 .handler(sync(context -> {
                     final Component disableMsg = this.moduleManager.disableModule(ModuleArgument.getModule(context).getName());
                     context.getSender().sendMessage(disableMsg);
-                    this.audiences.console().sendMessage(disableMsg);
+                    this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, disableMsg));
                 }))
         ).command(this.simple("list")
                 .argument(IntegerArgument.<CommandDispatcher>newBuilder("page").withMin(1).withMax(this.maxPageCount).asOptionalWithDefault(1))

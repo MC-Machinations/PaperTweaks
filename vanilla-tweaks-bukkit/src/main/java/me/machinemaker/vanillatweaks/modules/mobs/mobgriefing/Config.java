@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.modules.mobs.mobgriefing;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.vanillatweaks.config.VTConfig;
+import me.machinemaker.vanillatweaks.migrations.ModulesFileMigrations;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 
 @VTConfig
@@ -29,13 +30,13 @@ class Config extends ModuleConfig {
 
     @Key("anti-enderman-grief")
     @Description("Prevents enderman from picking up blocks")
-    public boolean antiEndermanGrief = false;
+    public boolean antiEndermanGrief = Boolean.parseBoolean(System.getProperty(ModulesFileMigrations.MOB_GRIEFING_ENDERMAN, Boolean.FALSE.toString()));
 
     @Key("anti-ghast-grief")
-    public boolean antiGhastGrief = false;
+    public boolean antiGhastGrief = Boolean.parseBoolean(System.getProperty(ModulesFileMigrations.MOB_GRIEFING_GHAST, Boolean.FALSE.toString()));
 
     @Key("anti-creeper-grief")
-    public boolean antiCreeperGrief = false;
+    public boolean antiCreeperGrief = Boolean.parseBoolean(System.getProperty(ModulesFileMigrations.MOB_GRIEFING_CREEPER, Boolean.FALSE.toString()));;
 
     @Key("disable-entity-damage")
     @Description("When enabled both block and entity damage will be cancelled for creeper and ghast fireball explosions. Disable to turn on entity damage for those explosions")
