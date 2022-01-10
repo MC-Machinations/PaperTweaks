@@ -76,11 +76,11 @@ final class SleepContext {
     }
 
     public List<Player> sleepingPlayers() {
-        return sleepingPlayers;
+        return this.sleepingPlayers;
     }
 
     public Set<Player> almostSleepingPlayers() {
-        return sleepingTasks.keySet();
+        return this.sleepingTasks.keySet();
     }
 
     public void startSleeping(Player player) {
@@ -94,7 +94,7 @@ final class SleepContext {
             this.sleepingTasks.remove(player).cancel();
             plugin.getLogger().log(Level.WARNING, "{0} already had a scheduled sleep task", player.getDisplayName());
         }
-        this.sleepingTasks.put(player, Bukkit.getScheduler().runTaskTimer(plugin, new PlayerBedCheckRunnable(player, this::addSleepingPlayer), 99L, 1L));
+        this.sleepingTasks.put(player, new PlayerBedCheckRunnable(player, this::addSleepingPlayer).runTaskTimer(plugin, 99L, 1L));
     }
 
     public void addSleepingPlayer(Player player) {
@@ -148,6 +148,9 @@ final class SleepContext {
     }
 
     public boolean shouldSkip() {
+        if (this.sleepingPlayers.isEmpty() || this.totalPlayerCount() == 0) {
+            return false;
+        }
         return (double) this.sleepingPlayers.size() / (double) totalPlayerCount() >= this.requiredPercent();
     }
 
@@ -171,6 +174,6 @@ final class SleepContext {
     }
 
     static double getSleepingPercentage(World world) {
-        return requireNonNull(world.getGameRuleValue(GameRule.PLAYERS_SLEEPING_PERCENTAGE)) / 100D;
+        return Math.max(requireNonNull(world.getGameRuleValue(GameRule.PLAYERS_SLEEPING_PERCENTAGE)), 100) / 100D;
     }
 }

@@ -20,10 +20,11 @@
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.function.Consumer;
 
-class PlayerBedCheckRunnable implements Runnable {
+class PlayerBedCheckRunnable extends BukkitRunnable {
 
     private final Player player;
     private final Consumer<Player> sleepingCallback;

@@ -121,7 +121,7 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
         ACTION_BAR("Action Bar") {
             @Override
             void notify(Player player, SleepContext context, boolean isBedLeave) {
-                if (isBedLeave) return;
+                if (isBedLeave) return; // skip because runnable handles the task
                 new BukkitRunnable() {
                     @Override
                     public void run() {
