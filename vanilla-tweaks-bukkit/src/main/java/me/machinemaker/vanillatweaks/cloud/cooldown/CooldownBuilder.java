@@ -50,12 +50,12 @@ public class CooldownBuilder<C> {
         return new CooldownBuilder<>(cooldownDuration);
     }
 
-    public CooldownBuilder<C> withNotifier(CommandCooldownNotifier<C> notifier) {
+    public CooldownBuilder<C> notifier(CommandCooldownNotifier<C> notifier) {
         this.notifier = notifier;
         return this;
     }
 
-    public CooldownBuilder<C> withKey(CloudKey<Void> cooldownKey) {
+    public CooldownBuilder<C> key(CloudKey<Void> cooldownKey) {
         this.cooldownKey = cooldownKey;
         return this;
     }

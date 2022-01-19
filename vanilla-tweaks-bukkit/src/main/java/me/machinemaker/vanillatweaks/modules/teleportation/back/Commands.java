@@ -52,8 +52,8 @@ class Commands extends ConfiguredModuleCommand {
         var builder = this.player();
 
         final var backCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
-                        .withKey(BACK_COMMAND_COOLDOWN_KEY)
-                        .withNotifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))));
+                        .key(BACK_COMMAND_COOLDOWN_KEY)
+                        .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))));
 
         manager.command(backCooldownBuilder.applyTo(builder)
                 .permission(modulePermission("vanillatweaks.back"))

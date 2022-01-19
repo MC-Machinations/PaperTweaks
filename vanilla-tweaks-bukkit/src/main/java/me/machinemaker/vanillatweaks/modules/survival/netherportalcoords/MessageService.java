@@ -69,7 +69,7 @@ interface MessageService extends ModuleMessageService {
             if (miniMessage.isPresent()) {
                 final List<Template> templates = List.of(
                         Template.of("x", text(op.applyAsInt(loc.getBlockX()), GOLD)),
-                        Template.of("y", text(op.applyAsInt(loc.getBlockY()), GOLD)),
+                        Template.of("y", /* don't operate on y coord as that stays the same */ text(loc.getBlockY(), GOLD)),
                         Template.of("z", text(op.applyAsInt(loc.getBlockZ()), GOLD))
                 );
                 return this.constant(placeholderName, text().append(MiniMessage.get().parse(miniMessage.get(), templates)).color(GREEN).build());

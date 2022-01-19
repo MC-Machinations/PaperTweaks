@@ -62,8 +62,8 @@ class Commands extends ModuleCommand {
         var builder = this.player();
 
         final var cooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
-                .withKey(SPAWN_CMD_COOLDOWN_KEY)
-                .withNotifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.spawn.teleporting.cooldown", RED, text(secondsLeft))));
+                .key(SPAWN_CMD_COOLDOWN_KEY)
+                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.spawn.teleporting.cooldown", RED, text(secondsLeft))));
 
 
         this.manager.command(cooldownBuilder.applyTo(builder)

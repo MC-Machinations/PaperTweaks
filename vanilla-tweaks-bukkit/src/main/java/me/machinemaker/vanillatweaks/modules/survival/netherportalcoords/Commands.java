@@ -47,9 +47,9 @@ class Commands extends ModuleCommand {
                     Player player = PlayerCommandDispatcher.from(context);
                     Location loc = player.getLocation();
                     if (this.config.overWorlds().contains(player.getWorld())) {
-                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether");
+                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether"); // TODO use coord scale from DimensionType
                     } else if (this.config.netherWorlds().contains(player.getWorld())) {
-                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld");
+                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld"); // TODO use coord scale from DimensionType
                     } else {
                         this.messageService.invalidWorld(context.getSender());
                     }

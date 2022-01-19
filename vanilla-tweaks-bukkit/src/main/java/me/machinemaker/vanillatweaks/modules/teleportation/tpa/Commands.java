@@ -69,8 +69,8 @@ class Commands extends ConfiguredModuleCommand {
         var builder = this.player();
 
         final var requestCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
-                .withKey(TPA_REQUEST_COOLDOWN_KEY)
-                .withNotifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))));
+                .key(TPA_REQUEST_COOLDOWN_KEY)
+                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))));
 
         manager.command(requestCooldownBuilder.applyTo(literal(builder, "request"))
                 .argument(PlayerArgument.<CommandDispatcher>newBuilder("target").withSuggestionsProvider(SuggestionProviders.playersWithoutSelf()))

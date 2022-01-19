@@ -64,8 +64,8 @@ class Commands extends ConfiguredModuleCommand {
         var builder = this.player();
 
         final var homeCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.sethomeCooldown))
-                .withKey(HOME_COMMAND_COOLDOWN_KEY)
-                .withNotifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))));
+                .key(HOME_COMMAND_COOLDOWN_KEY)
+                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))));
 
 
         manager.command(literal(builder, "sethome")
