@@ -20,7 +20,6 @@
 package me.machinemaker.vanillatweaks.tags;
 
 import me.machinemaker.vanillatweaks.utils.Keys;
-import me.machinemaker.vanillatweaks.tags.types.MaterialTag;
 import org.bukkit.Material;
 
 public final class Tags {
@@ -28,27 +27,25 @@ public final class Tags {
     private Tags() {
     }
 
-    public static final MaterialTag DURABILITY = new MaterialTag(Keys.key("durability_items"))
-            .add(material -> material.getMaxDurability() > 0);
+    public static final MaterialTag DURABILITY = material("durability_items").add(m -> m.getMaxDurability() > 0).build();
 
-    public static final MaterialTag DAMAGEABLE_TOOLS = new MaterialTag(Keys.key("damageable_tools"))
+    public static final MaterialTag DAMAGEABLE_TOOLS = material("damageable_tools")
             .endsWith("_SWORD")
             .endsWith("_SHOVEL")
             .endsWith("_PICKAXE")
             .endsWith("_AXE")
             .endsWith("_HOE")
             .endsWith("_ON_A_STICK")
-            .add(Material.FLINT_AND_STEEL)
             .endsWith("BOW")
-            .add(Material.SHEARS)
-            .add(Material.FISHING_ROD)
-            .add(Material.TRIDENT);
+            .add(Material.FLINT_AND_STEEL, Material.SHEARS, Material.FISHING_ROD, Material.TRIDENT)
+            .build();
 
-    public static final MaterialTag DAMAGEABLE_ARMOR = new MaterialTag(Keys.key("damageable_armor"))
+    public static final MaterialTag DAMAGEABLE_ARMOR = material("damageable_armor")
             .add(DURABILITY)
-            .not(DAMAGEABLE_TOOLS);
+            .remove(DAMAGEABLE_TOOLS)
+            .build();
 
-    public static final MaterialTag REDSTONE_COMPONENTS = new MaterialTag(Keys.key("redstone_components"))
+    public static final MaterialTag REDSTONE_COMPONENTS = material("redstone_components")
             .add(Material.REPEATER)
             .add(Material.COMPARATOR)
             .add(Material.OBSERVER)
@@ -56,10 +53,16 @@ public final class Tags {
             .add(Material.DROPPER)
             .add(Material.HOPPER)
             .add(Material.STICKY_PISTON)
-            .add(Material.PISTON);
-    public static final MaterialTag GLAZED_TERRACOTTA = new MaterialTag(Keys.key("glazed_terracotta"))
-            .endsWith("_GLAZED_TERRACOTTA").ensureSize("glazed terracotta", 16);
+            .add(Material.PISTON)
+            .build();
 
-    public static final MaterialTag CHESTPLATES = new MaterialTag(Keys.key("chestplates"))
-            .endsWith("_CHESTPLATE").ensureSize("chestplates", 6);
+    public static final MaterialTag GLAZED_TERRACOTTA = material("glazed_terracotta")
+            .endsWith("_GLAZED_TERRACOTTA").verify(16).build();
+
+    public static final MaterialTag CHESTPLATES = material("chestplates")
+            .endsWith("_CHESTPLATE").verify(6).build();
+
+    private static MaterialTag.Builder material(String name) {
+        return MaterialTag.builder(Keys.key(name));
+    }
 }

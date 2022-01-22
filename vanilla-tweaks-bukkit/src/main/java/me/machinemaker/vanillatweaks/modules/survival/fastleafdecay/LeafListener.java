@@ -43,7 +43,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class LeafListener implements ModuleListener {
 
-    private static final List<BlockFace> FACES = Lists.newArrayList(Arrays.stream(BlockFace.values()).filter(BlockFace::isCartesian).toList());
+    private static final List<BlockFace> FACES = Lists.newArrayList(Arrays.stream(BlockFace.values()).filter(BlockFace::isCartesian).toList()); // mutable list due to Collections#shuffle
     private static final Set<Block> SCHEDULED = Sets.newHashSet();
     private final JavaPlugin plugin;
 
@@ -71,9 +71,7 @@ class LeafListener implements ModuleListener {
         for (BlockFace face : FACES) {
             Block b = block.getRelative(face);
             if (SCHEDULED.contains(b)) continue;
-            if (!Tag.LEAVES.isTagged(b.getType())) continue;
-            Leaves leaves = (Leaves) b.getBlockData();
-            if (leaves.isPersistent() || leaves.getDistance() < 7) continue;
+            if (!(b.getBlockData() instanceof Leaves leaves) || leaves.isPersistent() || leaves.getDistance() < 7) continue; // https://github.com/MC-Machinations/VanillaTweaks/issues/54, datapacks modify the #minecraft:leaves block tag
             SCHEDULED.add(b);
             Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
                 LeavesDecayEvent decayEvent = new LeavesDecayEvent(b);
