@@ -354,6 +354,19 @@ permissions:
     default: op
     description: Spawn a new gem villager
 
+  vanillatweaks.armoredelytra.create:
+    default: false
+    description: Allows creating the elytra (applies to the player that dropped the first item)
+  vanillatweaks.armoredelytra.destroy:
+    default: false
+    description: Allows destroying the armored eyltra (applies to the player that dropped it)
+  vanillatweaks.armoredelytra:
+    default: true
+    description: Allows creationg and destruction of the elytra
+    children:
+      vanillatweaks.armoredelytra.create: true
+      vanillatweaks.armoredelytra.destroy: true
+
 libraries:
   - com.google.inject:guice:5.0.1
   - com.google.inject.extensions:guice-assistedinject:5.0.1

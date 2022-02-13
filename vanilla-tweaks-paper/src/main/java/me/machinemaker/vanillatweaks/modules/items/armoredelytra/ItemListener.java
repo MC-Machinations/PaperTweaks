@@ -45,10 +45,14 @@ class ItemListener implements ModuleListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemDrop(PlayerDropItemEvent event) {
         if (event.getItemDrop().getItemStack().getType() == Material.ELYTRA) {
-            if (!IS_ARMORED_ELYTRA.has(event.getItemDrop().getItemStack())) {
-                new ItemDropRunnable(event.getItemDrop(), ItemDropRunnable.LookingFor.CHESTPLATE).runTaskTimer(this.plugin, 1L, 2L);
-            } else {
-                new ItemDropRunnable(event.getItemDrop(), ItemDropRunnable.LookingFor.ARMORED_ELYTRA).runTaskTimer(this.plugin, 1L, 2L);
+            ItemDropRunnable.LookingFor lookingFor = null;
+            if (!IS_ARMORED_ELYTRA.has(event.getItemDrop().getItemStack()) && event.getPlayer().hasPermission("vanillatweaks.armoredelytra.create")) {
+                lookingFor = ItemDropRunnable.LookingFor.CHESTPLATE;
+            } else if (IS_ARMORED_ELYTRA.has(event.getItemDrop().getItemStack()) && event.getPlayer().hasPermission("vanillatweaks.armoredelytra.destroy")) {
+                lookingFor = ItemDropRunnable.LookingFor.ARMORED_ELYTRA;
+            }
+            if (lookingFor != null) {
+                new ItemDropRunnable(event.getItemDrop(), lookingFor).runTaskTimer(this.plugin, 1L, 2L);
             }
         }
     }
