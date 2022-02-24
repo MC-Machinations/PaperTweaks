@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.modules.teleportation.tpa;
 
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
+import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -53,7 +54,12 @@ record Request(@NotNull UUID from, @NotNull UUID to, long cancelAfter) {
         }
         audiences.player(from).sendMessage(translatable("modules.tpa.teleport.success.sender", GOLD, text(to.getName(), YELLOW)));
         audiences.player(to).sendMessage(translatable("modules.tpa.teleport.success.target", GOLD, text(from.getName(), YELLOW)));
-        PaperLib.teleportAsync(from, to.getLocation());
+        Back.setBackLocation(from, from.getLocation());
+        if (to.getLocation().getChunk().isLoaded()) {
+            from.teleport(to);
+        } else {
+            PaperLib.teleportAsync(from, to.getLocation());
+        }
         return true;
     }
 

@@ -67,7 +67,12 @@ class Commands extends ConfiguredModuleCommand {
                     if (this.config.delay > 0) {
                         new BackTeleportRunnable(player, loc, this.config.delay * 20L, context.getSender()).start();
                     } else {
-                        PaperLib.teleportAsync(player, loc);
+                        Back.setBackLocation(player, player.getLocation());
+                        if (loc.getChunk().isLoaded()) {
+                            player.teleport(loc);
+                        } else {
+                            PaperLib.teleportAsync(player, loc);
+                        }
                     }
                 }))
         );

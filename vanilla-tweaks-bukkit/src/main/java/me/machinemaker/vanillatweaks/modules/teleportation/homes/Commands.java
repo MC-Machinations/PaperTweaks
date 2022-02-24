@@ -150,7 +150,11 @@ class Commands extends ConfiguredModuleCommand {
                         new HomeTeleportRunnable(player, home.getLocation(), this.config.sethomeDelay * 20, context.getSender()).start();
                     } else {
                         Back.setBackLocation(player, player.getLocation()); // Store back location
-                        PaperLib.teleportAsync(player, home.getLocation());
+                        if (home.getLocation().getChunk().isLoaded()) {
+                            player.teleport(home.getLocation());
+                        } else {
+                            PaperLib.teleportAsync(player, home.getLocation());
+                        }
                     }
                 }))
         );

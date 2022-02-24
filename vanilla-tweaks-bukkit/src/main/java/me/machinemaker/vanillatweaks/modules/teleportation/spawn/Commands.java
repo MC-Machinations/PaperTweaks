@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.modules.teleportation.spawn;
 
+import cloud.commandframework.arguments.CommandArgument;
 import cloud.commandframework.bukkit.parsers.WorldArgument;
 import cloud.commandframework.execution.CommandExecutionHandler;
 import cloud.commandframework.keys.CloudKey;
@@ -31,6 +32,7 @@ import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -45,6 +47,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 @ModuleCommand.Info(value = "spawn", descriptionKey = "modules.spawn.commands.root", infoOnRoot = false)
 class Commands extends ModuleCommand {
+
+    private static final CommandArgument<CommandDispatcher, World> WORLD_ARG = WorldArgument.of("world");
 
     static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
     static final CloudKey<Void> SPAWN_CMD_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:spawn_cmd_cooldown");
@@ -71,7 +75,7 @@ class Commands extends ModuleCommand {
                 .handler(handleSpawnCmd())
         ).command(cooldownBuilder.applyTo(builder)
                 .permission(modulePermission("vanillatweaks.spawn.other"))
-                .argument(WorldArgument.of("world"), RichDescription.translatable("modules.spawn.commands.other"))
+                .argument(WORLD_ARG, RichDescription.translatable("modules.spawn.commands.other"))
                 .handler(handleSpawnCmd())
         );
     }
@@ -81,13 +85,17 @@ class Commands extends ModuleCommand {
             if (AWAITING_TELEPORT.containsKey(player.getUniqueId())) {
                 return;
             }
-            World world = context.getOrDefault("world", player.getWorld());
+            Location spawnLoc = context.getOptional(WORLD_ARG).orElse(player.getWorld()).getSpawnLocation();
             context.getSender().sendMessage(translatable("modules.spawn.teleporting", GOLD));
             if (this.config.delay > 0) {
-                AWAITING_TELEPORT.put(player.getUniqueId(), new SpawnTeleportRunnable(player, context.getSender(), world.getSpawnLocation(), this.config.delay * 20, (p) -> AWAITING_TELEPORT.remove(p.getUniqueId())).runTaskTimer(this.plugin, 1L, 1L));
+                AWAITING_TELEPORT.put(player.getUniqueId(), new SpawnTeleportRunnable(player, context.getSender(), spawnLoc, this.config.delay * 20, (p) -> AWAITING_TELEPORT.remove(p.getUniqueId())).runTaskTimer(this.plugin, 1L, 1L));
             } else {
                 Back.setBackLocation(player, player.getLocation()); // Set back location
-                PaperLib.teleportAsync(player, world.getSpawnLocation());
+                if (spawnLoc.getChunk().isLoaded()) {
+                    player.teleport(spawnLoc);
+                } else {
+                    PaperLib.teleportAsync(player, spawnLoc);
+                }
             }
         });
     }

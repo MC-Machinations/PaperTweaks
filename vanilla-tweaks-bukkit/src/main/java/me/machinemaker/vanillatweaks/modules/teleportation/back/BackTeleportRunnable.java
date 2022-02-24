@@ -51,7 +51,12 @@ public class BackTeleportRunnable extends TeleportRunnable {
     }
 
     public void start() {
-        AWAITING_TELEPORT.put(player.getUniqueId(), this.runTaskTimer(plugin, 1L, 1L));
+        AWAITING_TELEPORT.put(this.player.getUniqueId(), this.runTaskTimer(plugin, 1L, 1L));
+    }
+
+    @Override
+    public void onTeleport() {
+        Back.setBackLocation(this.player, this.player.getLocation());
     }
 
     @Override

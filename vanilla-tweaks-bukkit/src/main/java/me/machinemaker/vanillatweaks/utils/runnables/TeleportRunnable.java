@@ -52,7 +52,11 @@ public abstract class TeleportRunnable extends BukkitRunnable {
         }
         if (this.tickDelay <= 0) {
             this.onTeleport();
-            PaperLib.teleportAsync(this.player, this.teleportLoc);
+            if (this.teleportLoc.getChunk().isLoaded()) {
+                this.player.teleport(this.teleportLoc);
+            } else {
+                PaperLib.teleportAsync(this.player, this.teleportLoc);
+            }
             this.onEnd();
             this.cancel();
             return;
