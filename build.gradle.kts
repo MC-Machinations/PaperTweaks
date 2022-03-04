@@ -59,7 +59,7 @@ subprojects {
         }
     }
 
-    val cloudVersion = "1.6.1"
+    val cloudVersion = "1.6.2"
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
@@ -118,6 +118,7 @@ subprojects {
     tasks {
         compileJava {
             options.compilerArgs.add("-parameters")
+            options.release.set(16)
         }
 
         processResources {
