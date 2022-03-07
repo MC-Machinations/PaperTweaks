@@ -34,4 +34,8 @@ class Config extends ModuleConfig {
     @Key("delay")
     @Description("Delay in seconds after using /spawn before teleportation occurs")
     public long delay = 0;
+
+    @Key("defaults-to-main-world")
+    @Description("If set, running the /spawn command without any argument will go to the spawnpoint of the main world")
+    public boolean defaultsToMainWorld = false;
 }

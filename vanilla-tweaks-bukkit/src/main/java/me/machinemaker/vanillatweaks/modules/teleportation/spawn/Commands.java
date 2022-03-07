@@ -32,6 +32,7 @@ import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,7 +86,7 @@ class Commands extends ModuleCommand {
             if (AWAITING_TELEPORT.containsKey(player.getUniqueId())) {
                 return;
             }
-            Location spawnLoc = context.getOptional(WORLD_ARG).orElse(player.getWorld()).getSpawnLocation();
+            Location spawnLoc = context.getOptional(WORLD_ARG).orElse(this.config.defaultsToMainWorld ? Bukkit.getWorlds().get(0) : player.getWorld()).getSpawnLocation();
             context.getSender().sendMessage(translatable("modules.spawn.teleporting", GOLD));
             if (this.config.delay > 0) {
                 AWAITING_TELEPORT.put(player.getUniqueId(), new SpawnTeleportRunnable(player, context.getSender(), spawnLoc, this.config.delay * 20, (p) -> AWAITING_TELEPORT.remove(p.getUniqueId())).runTaskTimer(this.plugin, 1L, 1L));
