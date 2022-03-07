@@ -62,7 +62,7 @@ public final class ModuleManager {
     private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeGeneralTopics");
     private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeCommands");
 
-    private static final ReflectionUtils.MethodInvoker RESEND_DATA_METHOD = ReflectionUtils.findMethod(PLAYER_LIST_CLASS, List.of("u", "reload", "reloadResources"));
+    private static final ReflectionUtils.MethodInvoker RESEND_DATA_METHOD = ReflectionUtils.method(PLAYER_LIST_CLASS, Void.TYPE).named("u", "reload", "reloadResources").build();
 
     private static void resendData() {
         RESEND_DATA_METHOD.invoke(PLAYER_LIST);

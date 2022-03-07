@@ -23,15 +23,71 @@ import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import org.bukkit.Bukkit;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class ReflectionUtils {
+
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+
+    public static MethodBuilder method(Class<?> ownerClass, Class<?> returnType, Class<?>...parameterTypes) {
+        return new MethodBuilder(ownerClass, MethodType.methodType(returnType, parameterTypes));
+    }
+
+    public static final class MethodBuilder {
+
+        private final Class<?> ownerClass;
+        private final MethodType type;
+        private final Set<String> names = new LinkedHashSet<>();
+
+        private MethodBuilder(Class<?> ownerClass, MethodType type) {
+            this.ownerClass = ownerClass;
+            this.type = type;
+        }
+
+        public MethodBuilder named(String... names) {
+            this.names.addAll(List.of(names));
+            return this;
+        }
+
+        public MethodInvoker build() {
+            MethodHandle handle = null;
+            for (String name : this.names) {
+                try {
+                    handle = LOOKUP.findVirtual(this.ownerClass, name, this.type);
+                } catch (NoSuchMethodException | IllegalAccessException ignored) {}
+            }
+            if (handle == null) {
+                throw new NoSuchElementException("Couldn't find a method named " + this.names + " on " + this.ownerClass.getSimpleName() + " with types " + this.type);
+            }
+
+            MethodHandle finalHandle = handle;
+            return (target, arguments) -> {
+                try {
+                    final Object[] args = new Object[arguments.length + 1];
+                    args[0] = target;
+                    if (arguments.length > 0) {
+                        System.arraycopy(arguments, 0, args, 1, args.length);
+                    }
+                    return finalHandle.invokeWithArguments(args);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            };
+        }
+    }
 
     // Deduce the net.minecraft.server.v* package
     private static final String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();

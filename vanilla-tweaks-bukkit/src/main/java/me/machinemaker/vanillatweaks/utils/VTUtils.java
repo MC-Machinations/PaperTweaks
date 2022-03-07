@@ -39,6 +39,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,15 +56,17 @@ public final class VTUtils {
     }
 
     private static final Class<?> CRAFT_PLAYER_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftPlayer");
-    private static final ReflectionUtils.MethodInvoker CRAFT_PLAYER_GET_HANDLE_METHOD = ReflectionUtils.getMethod(CRAFT_PLAYER_CLASS, "getHandle");
     private static final Class<?> NMS_PLAYER_CLASS = ReflectionUtils.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
-    private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.findMethod(NMS_PLAYER_CLASS, Set.of("fq", "getProfile", "getGameProfile"), GameProfile.class); // TODO update
     private static final Class<?> CRAFT_META_SKULL_CLASS = ReflectionUtils.getCraftBukkitClass("inventory.CraftMetaSkull");
     private static final ReflectionUtils.FieldAccessor<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "profile", GameProfile.class);
     private static final ReflectionUtils.FieldAccessor<String> CRAFT_META_ITEM_DISPLAY_NAME_JSON = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "displayName", String.class);
 
+    private static final ReflectionUtils.MethodInvoker CRAFT_PLAYER_GET_HANDLE = ReflectionUtils.method(CRAFT_PLAYER_CLASS, NMS_PLAYER_CLASS).named("getHandle").build();
+    private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.method(NMS_PLAYER_CLASS, GameProfile.class).named("fq", "getProfile", "getGameProfile").build();
+
+
     public static GameProfile getGameProfile(Player player) {
-        return (GameProfile) NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE_METHOD.invoke(player));
+        return (GameProfile) NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE.invoke(player));
     }
 
     public static ItemStack getSkull(Component name, String texture) {
