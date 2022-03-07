@@ -20,6 +20,8 @@
 package me.machinemaker.vanillatweaks.modules.items.playerheaddrops;
 
 import com.google.inject.Inject;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import org.bukkit.Material;
@@ -50,7 +52,11 @@ class PlayerListener implements ModuleListener {
             ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
             if (meta == null) return; // shouldn't be possible
-            VTUtils.loadMeta(meta, VTUtils.getGameProfile(event.getEntity()));
+            final GameProfile profile = VTUtils.getGameProfile(event.getEntity());
+            Property texture = profile.getProperties().get("textures").iterator().next();
+            profile.getProperties().removeAll("textures");
+            profile.getProperties().put("textures", new Property("textures", texture.getValue()));
+            VTUtils.loadMeta(meta, profile);
             meta.setLore(List.of("Killed by " + event.getEntity().getKiller().getName()));
             skull.setItemMeta(meta);
             event.getDrops().add(skull);
