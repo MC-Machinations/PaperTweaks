@@ -29,7 +29,7 @@ jobs:
         run: ./gradlew build
 
       - name: Copy artifacts before uploading
-        run: cp vanilla-tweaks-bukkit/build/libs/VanillaTweaks-Bukkit.jar . && cp vanilla-tweaks-paper/build/libs/VanillaTweaks-Paper.jar .
+        run: cp vanilla-tweaks-bukkit/build/libs/PaperTweaks-Bukkit.jar . && cp vanilla-tweaks-paper/build/libs/PaperTweaks.jar .
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
