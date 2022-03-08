@@ -113,6 +113,16 @@ public final class VTUtils {
         return new Location(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
+    public static Location toCenter(Location location, boolean includeY) {
+        final Location center = location.clone();
+        center.setX(location.getBlockX() + 0.5);
+        if (includeY) {
+            center.setY(location.getBlockY() + 0.5);
+        }
+        center.setZ(location.getBlockZ() + 0.5);
+        return center;
+    }
+
     public static <T> T random(Collection<T> coll) {
         int num = (int) (Math.random() * coll.size());
         for(T t: coll) if (--num < 0) return t;
