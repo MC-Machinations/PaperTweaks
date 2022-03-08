@@ -1,7 +1,7 @@
 /*
  * GNU General Public License v3
  *
- * VanillaTweaks, a performant replacement for the VanillaTweaks datapacks.
+ * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
  * Copyright (C) 2021 Machine_Maker
  *
