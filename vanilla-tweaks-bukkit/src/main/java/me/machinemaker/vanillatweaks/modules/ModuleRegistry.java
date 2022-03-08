@@ -32,6 +32,7 @@ import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.lectern.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Map;
 
@@ -45,8 +46,8 @@ public class ModuleRegistry extends AbstractModule {
     private final Map<String, Class<? extends ModuleBase>> modules = Maps.newHashMap();
 
     @SuppressWarnings("unchecked")
-    public ModuleRegistry(JavaPlugin plugin) {
-        this.moduleConfig = YamlConfiguration.builder(plugin.getDataFolder().toPath().resolve("modules.yml")).build();
+    public ModuleRegistry(JavaPlugin plugin, Path dataPath) {
+        this.moduleConfig = YamlConfiguration.builder(dataPath.resolve("modules.yml")).build();
         this.moduleConfig.set("version", MODULE_FILE_VERSION);
         try (ScanResult scanResult = new ClassGraph().enableAnnotationInfo().acceptPackages(MODULE_PKG).scan()) {
             for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(MODULE_INFO_ANNOTATION)) {

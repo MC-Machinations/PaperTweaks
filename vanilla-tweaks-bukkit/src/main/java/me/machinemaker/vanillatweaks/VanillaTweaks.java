@@ -41,10 +41,12 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
@@ -83,19 +85,28 @@ public class VanillaTweaks extends JavaPlugin {
     private BukkitAudiences audiences;
     @Inject
     private VanillaTweaksMetrics metrics;
-    private final Path dataPath = this.getDataFolder().toPath();
+    private final Path dataPath = this.getDataFolder().toPath().getParent().resolve("PaperTweaks");
     private final Path modulesPath = dataPath.resolve("modules");
     private final Path i18nPath = dataPath.resolve("i18n");
-    private final VanillaTweaksConfig config = BaseConfig.create(VanillaTweaksConfig.class, this.dataPath);
-    private final Jdbi jdbi = DatabaseType.installPlugins(this.config.database.type.createJdbiInstance(this.dataPath, this.config));
+    private @MonotonicNonNull VanillaTweaksConfig config;
+    private @MonotonicNonNull Jdbi jdbi;
 
     @Override
     public void onEnable() {
+        if (this.getDataFolder().exists()) {
+            try {
+                Files.move(this.getDataFolder().toPath(), this.dataPath);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not migrate from old VanillaTweaks folder. Move all files inside the plugins/VanillaTweaks folder to the plugins/PaperTweaks folder", e);
+            }
+        }
         getLogger().info("Thank you for using PaperTweaks/VanillaTweaks!");
         getLogger().info("If you have any issues, please visit one of the following links for support:");
         getLogger().info("  - https://discord.gg/invite/Np6Pcb78rr");
         getLogger().info("  - https://github.com/MC-Machinations/VanillaTweaks/issues");
         PaperLib.suggestPaper(this);
+        config = BaseConfig.create(VanillaTweaksConfig.class, this.dataPath);
+        jdbi = DatabaseType.installPlugins(this.config.database.type.createJdbiInstance(this.dataPath, this.config));
         Integrations.load();
         try (Handle handle = this.jdbi.open()) {
             handle.execute(this.config.database.type.readSchema(this.getClassLoader()));
@@ -137,7 +148,7 @@ public class VanillaTweaks extends JavaPlugin {
                     bind(Path.class).annotatedWith(Names.named("i18n")).toInstance(VanillaTweaks.this.i18nPath);
                     bind(ClassLoader.class).annotatedWith(Names.named("plugin")).toInstance(VanillaTweaks.this.getClassLoader());
                 }
-            }, new ModuleRegistry(this), new CloudModule(this, EXECUTOR_SERVICE));
+            }, new ModuleRegistry(this, VanillaTweaks.this.dataPath), new CloudModule(this, EXECUTOR_SERVICE));
             pluginInjector.injectMembers(this);
         } catch (CreationException e) {
             throw new RuntimeException("Could not create injector!", e);
