@@ -12,6 +12,7 @@ dependencies {
 
 tasks {
     shadowJar {
+        archiveFileName.set("PaperTweaks.jar")
         dependencies {
             exclude(dependency("net.kyori:examination-api:"))
             exclude(dependency("net.kyori:examination-string:"))
@@ -22,7 +23,7 @@ tasks {
             exclude(dependency("net.kyori:adventure-api:"))
         }
 
-        configureStandard("Paper")
+        configureStandard()
 
         val prefix = "me.machinemaker.libs"
         listOf(

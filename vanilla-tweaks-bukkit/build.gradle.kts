@@ -25,7 +25,8 @@ dependencies {
 
 tasks {
     shadowJar {
-        configureStandard("Bukkit")
+        configureStandard()
+        archiveFileName.set("PaperTweaks-Bukkit.jar")
 
         val prefix = "me.machinemaker.libs"
         listOf(

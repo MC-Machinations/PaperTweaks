@@ -36,6 +36,6 @@ jobs:
         with:
           name: VanillaTweaks
           path: |
-            VanillaTweaks-Bukkit.jar
-            VanillaTweaks-Paper.jar
+            PaperTweaks-Bukkit.jar
+            PaperTweaks.jar
             LICENSE

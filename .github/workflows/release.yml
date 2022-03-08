@@ -32,6 +32,6 @@ jobs:
           pre-release: ${{ contains(steps.vars.outputs.tag, '-beta') || contains(steps.vars.outputs.tag, '-dev') }}
           skip-prereleases: true
           files: |
-            VanillaTweaks-Bukkit.jar
-            VanillaTweaks-Paper.jar
+            PaperTweaks-Bukkit.jar
+            PaperTweaks.jar
             LICENSE

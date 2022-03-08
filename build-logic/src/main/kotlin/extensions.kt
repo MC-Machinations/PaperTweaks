@@ -1,8 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-fun ShadowJar.configureStandard(platform: String) {
+fun ShadowJar.configureStandard() {
     archiveClassifier.set("")
-    archiveFileName.set("VanillaTweaks-$platform.jar")
 
     dependencies {
         dependencyFilter.exclude {
