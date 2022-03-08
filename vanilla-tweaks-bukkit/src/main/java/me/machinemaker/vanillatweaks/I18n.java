@@ -60,11 +60,11 @@ public final class I18n {
         ClassLoader previousLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(this.pluginClassLoader);
-            TranslationRegistry.registerAll(Locale.US, createBundle(Locale.ENGLISH));
             VanillaTweaks.SUPPORTED_LOCALES.forEach(locale -> {
                 this.updateI18nFile(locale);
                 TranslationRegistry.registerAll(locale, createBundle(locale));
             });
+            TranslationRegistry.registerAll(Locale.US, createBundle(Locale.ENGLISH));
         } finally {
             Thread.currentThread().setContextClassLoader(previousLoader);
         }
