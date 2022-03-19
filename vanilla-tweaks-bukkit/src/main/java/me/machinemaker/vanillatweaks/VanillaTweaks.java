@@ -111,7 +111,7 @@ public class VanillaTweaks extends JavaPlugin {
         try (Handle handle = this.jdbi.open()) {
             handle.execute(this.config.database.type.readSchema(this.getClassLoader()));
             LOGGER.info("You are using the " + this.config.database.type.name() + " database type.");
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             LOGGER.error("Unable to create/load the database of type " + this.config.database.type.name());
             LOGGER.error("You could try select a different database type by changing the type in the config.yml");
             this.getPluginLoader().disablePlugin(this);

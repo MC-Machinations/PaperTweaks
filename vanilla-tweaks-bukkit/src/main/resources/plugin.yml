@@ -6,6 +6,7 @@ authors:
   - Machine_Maker
 description: A replacement for the VanillaTweaks datapack
 softdepend: [WorldGuard, GriefPrevention]
+prefix: PaperTweaks
 
 permissions:
   vanillatweaks.admin:

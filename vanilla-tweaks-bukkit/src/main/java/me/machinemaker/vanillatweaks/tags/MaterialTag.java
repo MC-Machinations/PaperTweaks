@@ -64,8 +64,8 @@ public final class MaterialTag extends AbstractTag<Material> {
         }
 
         @Override
+        @SuppressWarnings("deprecation")
         public Collection<Material> allValues() {
-            //noinspection deprecation // for tests
             return Set.copyOf(Arrays.stream(Material.values()).filter(m -> !m.isLegacy()).toList());
         }
 

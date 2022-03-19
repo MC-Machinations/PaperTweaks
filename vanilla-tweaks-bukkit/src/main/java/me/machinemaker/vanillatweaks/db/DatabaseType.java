@@ -37,7 +37,7 @@ public enum DatabaseType {
     H2("h2.sql") {
         @Override
         public Jdbi createJdbiInstance(Path dataPath, VanillaTweaksConfig config) {
-            return Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;AUTO_SERVER=TRUE;FILE_LOCK=SOCKET", config.database.user, config.database.password));
+            return Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;", config.database.user, config.database.password));
         }
     },
     SQLITE("sqlite.sql") {
