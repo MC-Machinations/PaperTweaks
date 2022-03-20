@@ -31,7 +31,7 @@ import org.bukkit.entity.ArmorStand;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-@ModuleCommand.Info(value = "thundershrine", aliases = {"tshrine", "ts"}, i18n = "thunder-shrine", perm = "thundershrine")
+@ModuleCommand.Info(value = "thundershrine", aliases = {"tshrine"}, i18n = "thunder-shrine", perm = "thundershrine")
 class Commands extends ConfiguredModuleCommand {
 
     @Override
