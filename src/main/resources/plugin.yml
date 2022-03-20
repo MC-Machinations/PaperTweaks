@@ -77,7 +77,7 @@ permissions:
   vanillatweaks.pillagertools.status:
     default: true
     description: View pillager tool settings
-  vanillatweaks.pillatertools:
+  vanillatweaks.pillagertools:
     default: op
     description: Use both commands
     children:
