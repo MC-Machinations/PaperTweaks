@@ -70,7 +70,7 @@ public class VanillaTweaks extends JavaPlugin {
 
     public static boolean RAN_CONFIG_MIGRATIONS = false;
 
-    public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text("VanillaTweaks", BLUE)).append(text("] ", DARK_GRAY)).build();
+    public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text("PaperTweaks", BLUE)).append(text("] ", DARK_GRAY)).build();
     public static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(0);
