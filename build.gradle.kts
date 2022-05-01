@@ -7,8 +7,6 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0" apply false
 }
 
-group = "me.machinemaker"
-version = "0.2.0-SNAPSHOT"
 description = "A replacement for the VanillaTweaks datapack"
 
 gradle.buildFinished {
@@ -18,6 +16,9 @@ gradle.buildFinished {
 allprojects {
     apply(plugin="net.kyori.indra")
     apply(plugin="net.kyori.indra.license-header")
+
+    group = "me.machinemaker"
+    version = "0.2.0-SNAPSHOT"
 
     configure<org.cadixdev.gradle.licenser.LicenseExtension>() {
         header(rootProject.file("HEADER"))
@@ -34,9 +35,6 @@ subprojects {
     apply(plugin="net.kyori.indra")
     apply(plugin="net.kyori.indra.license-header")
     apply(plugin="com.github.johnrengelman.shadow")
-
-    group = rootProject.group
-    version = rootProject.version
 
     repositories {
         mavenCentral()
@@ -59,15 +57,14 @@ subprojects {
         }
     }
 
-    val cloudVersion = "1.6.2"
-
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1")
         implementation("net.kyori:adventure-platform-bukkit:4.0.1")
         implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
-        implementation("cloud.commandframework:cloud-paper:$cloudVersion")
-        implementation("cloud.commandframework:cloud-minecraft-extras:$cloudVersion")
+        implementation(platform("cloud.commandframework:cloud-bom:1.6.2"))
+        implementation("cloud.commandframework:cloud-paper")
+        implementation("cloud.commandframework:cloud-minecraft-extras")
         implementation("org.bstats:bstats-bukkit:2.2.1")
         implementation("io.papermc:paperlib:1.0.6")
         implementation("net.kyori.moonshine:moonshine-standard:2.0.0-SNAPSHOT+git.java-16")

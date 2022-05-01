@@ -79,6 +79,7 @@ permissions:
   vanillatweaks.graves.locate:
     default: true
     description: Use the graves locate command to find your last grave (requires grave locations to be toggled on in the configuration)
+  # TODO remove this old perm at some point
   vanillatweaks.playergraves:
     default: true
     description: (use vanillatweaks.graves)
@@ -122,8 +123,6 @@ permissions:
   vanillatweaks.spawn.other:
     default: false
     description: Use /spawn command (for any world)
-    children:
-      vanillatweaks.spawn.current: true
   vanillatweaks.spawn:
     default: true
     description: Use /spawn command (both for current world and other worlds)

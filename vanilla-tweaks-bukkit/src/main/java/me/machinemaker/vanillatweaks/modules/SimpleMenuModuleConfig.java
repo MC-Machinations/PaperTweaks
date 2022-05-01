@@ -32,7 +32,7 @@ public abstract class SimpleMenuModuleConfig<C extends SimpleMenuModuleConfig<C>
 
     @Override
     protected final @NotNull ReferenceConfigurationMenu<C> createMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<C>> configMenuParts) {
-        return new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, self());
+        return new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, this.self());
     }
 
     @Override
