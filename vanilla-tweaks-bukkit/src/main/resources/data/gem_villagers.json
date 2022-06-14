@@ -2307,6 +2307,20 @@
           "name": "{\"italic\":false,\"color\":\"#FFC87C\",\"text\":\"Topaz Gem\"}"
         },
         "output": {
+          "uuid": "e0367a11-910c-423b-9f20-6ec94b9b5b46",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTYzYWVjM2IyMDczODI2YjI5MjdhZTY0NmIzNDVmMTk3ZTdlMmYxNjFmMWE3Mzg3NjhjMGRmNGZhZTA2YjBjYSJ9fX0=",
+          "count": 1,
+          "name": "{\"text\":\"§r§eMangrove Planks\"}"
+        }
+      },
+      {
+        "input": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "count": 1,
+          "name": "{\"italic\":false,\"color\":\"#FFC87C\",\"text\":\"Topaz Gem\"}"
+        },
+        "output": {
           "uuid": "a70a9613-f8a3-4d2a-86d7-37aade7cd922",
           "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjlhYWIyZTE3NWE3ZTc3ZTM2NTVmNzY5MmQxYzY1MTczMTZiYTM3ODNiNWQ1ZmM1OWIzNDk1NGZmNmJhNjY1MyJ9fX0=",
           "count": 1,
@@ -2409,6 +2423,20 @@
           "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3ZTljNzRhYjc3YzAwOTE1NGE5YzczNzg0NmI1MjUxMDliOGMzMTdhNzE2Y2FlZGVjOTI3MDJhZmQwZGU2NSJ9fX0=",
           "count": 1,
           "name": "{\"text\":\"§r§eAcacia Log\"}"
+        }
+      },
+      {
+        "input": {
+          "uuid": "37cf5e09-6230-4b27-9cad-1ea1fbd7a436",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQzYTI0MmRhM2FkYjE2MzE1Y2UyOWUxOWY3OWNjMjJmMzQwNTEwNTNhYmRhZDU2NjhlYWNhYWMxZWEwYjIyMiJ9fX0=",
+          "count": 1,
+          "name": "{\"italic\":false,\"color\":\"#FFC87C\",\"text\":\"Topaz Gem\"}"
+        },
+        "output": {
+          "uuid": "2705abc6-cf64-445d-9567-d118535a53b3",
+          "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzFmYWY2NjM5ZWMwZGMzMDBkYzYzNDgyOGU3Y2M3YjFkYzU4ODMyZmIzNDI3NjQ4NmZjNTRjZDFhNWEwNGRmYiJ9fX0=",
+          "count": 1,
+          "name": "{\"text\":\"§r§eMangrove Log\"}"
         }
       },
       {
