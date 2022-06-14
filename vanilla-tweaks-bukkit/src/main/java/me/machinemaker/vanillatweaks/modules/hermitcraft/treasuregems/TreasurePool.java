@@ -19,22 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.modules.hermitcraft.treasuregems;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 import me.machinemaker.vanillatweaks.utils.WeightedRandomList;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
 
 class TreasurePool {
 
@@ -42,54 +34,46 @@ class TreasurePool {
     private final int maxRolls;
     private final WeightedRandomList<Entry> entries = new WeightedRandomList<>(Entry::getWeight);
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    TreasurePool(@JsonProperty("rolls") Map<String, Integer> map, List<Entry> entries) {
-        this.minRolls = map.get("min");
-        this.maxRolls = map.get("max");
+    TreasurePool(final int minRolls, final int maxRolls, final List<Entry> entries) {
+        this.minRolls = minRolls;
+        this.maxRolls = maxRolls;
         this.entries.addAll(entries);
     }
 
-    public void collectLoot(Consumer<@NotNull ItemStack> stackConsumer) {
+    public void collectLoot(final Map<String, ItemStack> gems, final Consumer<@NotNull ItemStack> stackConsumer) {
         for (int i = 0; i < ThreadLocalRandom.current().nextInt(this.minRolls, this.maxRolls + 1); i++) {
-            stackConsumer.accept(this.entries.next().rollSkull());
+            this.entries.next().rollSkull(gems, stackConsumer);
         }
     }
 
-    private static class Entry {
+    static class Entry {
 
         private final int weight;
         private final int minCount;
         private final int maxCount;
-        private final @Nullable IntFunction<ItemStack> skullCreator;
+        private final @Nullable String gem;
 
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        private Entry(int weight, @JsonProperty("count") @Nullable Map<String, Integer> map, @Nullable Map<String, String> head) {
+        Entry(final int weight, final int minCount, final int maxCount, @Nullable final String head) {
             this.weight = weight;
-            if (map != null && head != null) {
-                this.minCount = map.get("min");
-                this.maxCount = map.get("max");
-                this.skullCreator = value -> {
-                    return VTUtils.getSkull(GsonComponentSerializer.gson().deserialize(head.get("name")), UUID.fromString(head.get("uuid")), head.get("texture"), value);
-                };
-            } else if (map == null && head == null) {
-                this.minCount = 0;
-                this.maxCount = 0;
-                this.skullCreator = null;
-            } else {
-                throw new IllegalArgumentException("Invalid treasure gem json");
-            }
+            this.minCount = minCount;
+            this.maxCount = maxCount;
+            this.gem = head;
         }
 
-        public @NotNull ItemStack rollSkull() {
-            if (skullCreator != null) {
-                return this.skullCreator.apply(ThreadLocalRandom.current().nextInt(this.minCount, this.maxCount + 1));
-            } else {
-                return new ItemStack(Material.AIR, 0);
+        public void rollSkull(final Map<String, ItemStack> gems, final Consumer<ItemStack> stackConsumer) {
+            if (this.gem != null) {
+                ItemStack stack = gems.get(this.gem);
+                if (stack == null) {
+                    throw new IllegalStateException("Could not find a gem with name " + this.gem);
+                }
+                stack = stack.clone();
+                stack.setAmount(ThreadLocalRandom.current().nextInt(this.minCount, this.maxCount + 1));
+                stackConsumer.accept(stack);
             }
         }
 
         public int getWeight() {
-            return weight;
+            return this.weight;
         }
     }
 }

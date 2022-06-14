@@ -20,6 +20,8 @@
 package me.machinemaker.vanillatweaks.modules.hermitcraft.treasuregems;
 
 import com.google.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.Registry;
 import org.bukkit.event.EventHandler;
@@ -30,18 +32,24 @@ import org.bukkit.loot.LootTables;
 class LootListener implements ModuleListener {
 
     private final TreasureGems treasureGems;
+    private final TreasurePool treasurePool;
 
     @Inject
-    LootListener(TreasureGems treasureGems) {
+    LootListener(final TreasureGems treasureGems) {
         this.treasureGems = treasureGems;
+        final List<TreasurePool.Entry> entries = this.treasureGems.heads.keySet().stream()
+                .map(gem -> new TreasurePool.Entry(1, 1, 2, gem))
+                .collect(Collectors.toList());
+        entries.add(new TreasurePool.Entry(2, 0, 0, null));
+        this.treasurePool = new TreasurePool(1, 2, entries);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onLootGenerate(LootGenerateEvent event) {
+    public void onLootGenerate(final LootGenerateEvent event) {
         if (event.getInventoryHolder() != null) {
-            LootTables tables = Registry.LOOT_TABLES.get(event.getLootTable().getKey());
-            if (tables != null && this.treasureGems.treasurePoolMap.containsKey(tables)) {
-                this.treasureGems.treasurePoolMap.get(tables).collectLoot(event.getLoot()::add);
+            final LootTables tables = Registry.LOOT_TABLES.get(event.getLootTable().getKey());
+            if (tables != null && this.treasureGems.tables.contains(tables)) {
+                this.treasurePool.collectLoot(this.treasureGems.heads, event.getLoot()::add);
             }
         }
     }

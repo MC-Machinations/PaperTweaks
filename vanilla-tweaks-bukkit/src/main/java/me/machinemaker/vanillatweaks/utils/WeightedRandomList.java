@@ -19,13 +19,12 @@
  */
 package me.machinemaker.vanillatweaks.utils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.function.ToDoubleFunction;
+import org.jetbrains.annotations.NotNull;
 
 public class WeightedRandomList<T> {
 
@@ -34,28 +33,28 @@ public class WeightedRandomList<T> {
     private final ToDoubleFunction<T> toDoubleFunction;
     private double totalWeight = 0;
 
-    public WeightedRandomList(@NotNull ToDoubleFunction<T> toDoubleFunction) {
+    public WeightedRandomList(@NotNull final ToDoubleFunction<T> toDoubleFunction) {
         this(new Random(), toDoubleFunction);
     }
 
-    public WeightedRandomList(@NotNull Random random, @NotNull ToDoubleFunction<T> toDoubleFunction) {
+    public WeightedRandomList(@NotNull final Random random, @NotNull final ToDoubleFunction<T> toDoubleFunction) {
         this.random = random;
         this.toDoubleFunction = toDoubleFunction;
     }
 
-    public void add(T entry) {
+    public void add(final T entry) {
         this.totalWeight += this.toDoubleFunction.applyAsDouble(entry);
         this.entries.put(this.totalWeight, entry);
     }
 
-    public void addAll(Collection<T> entries) {
-        for (T entry : entries) {
+    public void addAll(final Collection<T> entries) {
+        for (final T entry : entries) {
             this.add(entry);
         }
     }
 
     public @NotNull T next() {
-        if (entries.isEmpty()) {
+        if (this.entries.isEmpty()) {
             throw new IllegalStateException("Must have at least 1 entry");
         }
         return this.entries.higherEntry(this.random.nextDouble() * this.totalWeight).getValue();
