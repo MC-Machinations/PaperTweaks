@@ -1,5 +1,15 @@
 [
   {
+    "tableName": "allay.json",
+    "uuid": "a975dd11-542b-4c4a-9e3e-2a254b0eb6b7",
+    "name": "Allay",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MwMzg5MTc3ZGJhYTkyZjBkNWZmZGY4NDg4NjJjN2Y5YjM2ZGYyMjJmYmZkNzM3ZTI2MzlkYzMwNTllMGNmMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
     "tableName": "axolotl.json",
     "uuid": "e27a6db3-e34a-45f3-b624-a1ad5c5d1dde",
     "name": "Lucy Axolotl",
@@ -51,9 +61,9 @@
   },
   {
     "tableName": "bat.json",
-    "uuid": "27653cdf-9109-481b-8f9f-468895a892a2",
+    "uuid": "44bcad80-ba67-4b25-9aaf-933fac1db16f",
     "name": "Bat",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGEyOWM5ZWNlNDI4ZmEyMzM5NWFjMjAxOWJmMmQwMjc0NDA1MjlmMjUzM2ZjODIwMWU3YjNkYTBmNjBmMjAwNSJ9fX0=",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGViODFjNDBiNWI2M2YzZDgzMDM0MGY4ZmNjNGFhYjUzOGQ0ZTU0NGU5NWVlYzlkNzBkNjFmNzg2ZjZiNjk3NCJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": false,
     "chance": 0.1,
@@ -221,9 +231,9 @@
   },
   {
     "tableName": "cave_spider.json",
-    "uuid": "1d6c2bf4-35ae-4869-a9d4-fa884f886022",
+    "uuid": "81757311-3a67-43f1-9d56-0bf0bd8e5b8a",
     "name": "Cave Spider",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWY4NDNiYjdhOTg0ZTczNGFiNzZhODhjOWExYTBmNWE0MGJmNzk1MjQ4MDlhODUxMWJmMzJkMDU3NTI2ZjdmMyJ9fX0=",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZhMWMyNTk5ZmM5MTIwM2E2NWEwM2Q0NzljOGRjODdmNjYyZGVhYzM2NjNjMTZjNWUwNGQ2MjViMzk3OGEyNSJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": false,
     "chance": 0.005,
@@ -311,9 +321,9 @@
   },
   {
     "tableName": "enderman.json",
-    "uuid": "0de98464-1274-4dd6-bba8-370efa5d41a8",
+    "uuid": "cc54ee4b-ef40-46dd-a2b0-c6f26c79a42b",
     "name": "Enderman",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E1OWJiMGE3YTMyOTY1YjNkOTBkOGVhZmE4OTlkMTgzNWY0MjQ1MDllYWRkNGU2YjcwOWFkYTUwYjljZiJ9fX0=",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODk3N2E5NGYwMjQ5OGNhZDBjZmRiNjVjYTdjYjcyZTIzMTExYTkxNGQ4YzY3MGFjY2NjN2E2NWIzNDdkNzc3NiJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": false,
     "chance": 0.005,
@@ -358,6 +368,36 @@
     "requiresCustomization": true,
     "chance": 0.2,
     "lootingMultiplier": 0.004
+  },
+  {
+    "tableName": "frog.json",
+    "uuid": "633dcca1-b60b-4d59-91b1-146a4a566eca",
+    "name": "Cold Frog",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzY4Nzc4OTNlOTIwZmY1ZGZhNGI1ZmJkMTRkYWJlZTJlNjMwOGE2Zjk3YzNhMTliMDhlMjQxYTI5ZWI5YTVjMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "frog.json",
+    "uuid": "2dcdf931-a67b-442c-a68e-6f78232b52a1",
+    "name": "Temperate Frog",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTUwZDEwNzNkNDFmMTkzNDA1ZDk1YjFkOTQxZjlmZTFhN2ZmMDgwZTM4MTU1ZDdiYjc4MGJiYmQ4ZTg2ZjcwZCJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
+  },
+  {
+    "tableName": "frog.json",
+    "uuid": "d8a80665-fa41-487d-9205-4895eb34b7c4",
+    "name": "Warm Frog",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDViMGRhNDM5NzViODNjMzMyMjc4OGRkYTMxNzUwNjMzMzg0M2FlYmU1NTEyNzg3Y2IyZTNkNzY5ZWQyYjM4MiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": true,
+    "chance": 0.2,
+    "lootingMultiplier": 0.01
   },
   {
     "tableName": "ghast.json",
@@ -890,16 +930,6 @@
     "lootingMultiplier": 0.02
   },
   {
-    "tableName": "shulker.json",
-    "uuid": "4e7bb834-53a8-41a3-a799-7124e2c8413c",
-    "name": "Shulker",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI5ZTZhZjZiODE5ZjNkOTBlNjdjZTJlNzA1OWZiZWYzMWRhMmFhOTUzZDM1ZTM0NTRmMTAyMWZhOTEyZWZkZSJ9fX0=",
-    "needsPlayer": true,
-    "requiresCustomization": false,
-    "chance": 0.05,
-    "lootingMultiplier": 0.01
-  },
-  {
     "tableName": "salmon.json",
     "uuid": "b70bd4aa-826a-47be-a27b-823c5486e826",
     "name": "Salmon",
@@ -1080,6 +1110,16 @@
     "lootingMultiplier": 0.0025
   },
   {
+    "tableName": "shulker.json",
+    "uuid": "4e7bb834-53a8-41a3-a799-7124e2c8413c",
+    "name": "Shulker",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmI5ZTZhZjZiODE5ZjNkOTBlNjdjZTJlNzA1OWZiZWYzMWRhMmFhOTUzZDM1ZTM0NTRmMTAyMWZhOTEyZWZkZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.05,
+    "lootingMultiplier": 0.01
+  },
+  {
     "tableName": "silverfish.json",
     "uuid": "24643d74-22c0-4bb6-a017-71bee3f05429",
     "name": "Silverfish",
@@ -1121,9 +1161,9 @@
   },
   {
     "tableName": "spider.json",
-    "uuid": "50f4e841-3ac5-4643-95ce-4a1f440165c3",
+    "uuid": "7595f3a6-2dda-4e2c-81c0-748cbb499adf",
     "name": "Spider",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBjNDEwMDQ1Y2QzNzQ5YzNhOGVkODU2ZGY0MTFmNmMzM2U5YThhNmY5ZTU3ZTUyMTYwOGE4YWQ4ZWQ2ZWIzNyJ9fX0=",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGUyOGU2NjI5YjZlZDFkYTk0ZDRhODE4NzYxNjEyYzM2ZmIzYTY4MTNjNGI2M2ZiOWZlYTUwNzY0MTVmM2YwYyJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": false,
     "chance": 0.005,
@@ -1168,6 +1208,16 @@
     "requiresCustomization": false,
     "chance": 0.1,
     "lootingMultiplier": 0.05
+  },
+  {
+    "tableName": "tadpole.json",
+    "uuid": "52c22c74-f079-4b5d-b296-ce289355ea45",
+    "name": "Tadpole",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2RhZjE2NTNiNWY1OWI1ZWM1YTNmNzk2MDljYjQyMzM1NzlmZWYwN2U2OTNiNjE3NDllMDkwMDE0OWVkZjU2MyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 0.1,
+    "lootingMultiplier": 0.01
   },
   {
     "tableName": "trader_llama.json",
@@ -1404,6 +1454,16 @@
     "uuid": "943947ea-3e1a-4fdc-85e5-f538379f05e9",
     "name": "Wandering Trader",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzc5YTgyMjkwZDdhYmUxZWZhYWJiYzcwNzEwZmYyZWMwMmRkMzRhZGUzODZiYzAwYzkzMGM0NjFjZjkzMiJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
+    "tableName": "warden.json",
+    "uuid": "8dac825b-3820-491f-b5a4-8f6c6021248b",
+    "name": "Warden",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjJmMzg3OWI3MzcxMjc0ODVlYjM1ZGRlZTc0OGQwNmNmOTE0YjE5M2Q5Nzc1M2FlMzRlOTIyMzA4NDI4MzFmYiJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": false,
     "chance": 1.0,
