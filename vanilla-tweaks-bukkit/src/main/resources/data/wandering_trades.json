@@ -1622,5 +1622,77 @@
     "name": "{\"text\":\"§r§eMoss Block\"}",
     "uuid": "23767762-e8d1-4c3d-b4ba-f83340fdaeb8",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NhMWFlYWRhZDkyZmM4YTE4ZGVmMTQ4MmNlZjMwODhmZDdlMzlhMjAyMjA3ODFiNmU2ODUzZmNkMGQ5YjhjYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:mangrove_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMangrove Planks\"}",
+    "uuid": "e0367a11-910c-423b-9f20-6ec94b9b5b46",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTYzYWVjM2IyMDczODI2YjI5MjdhZTY0NmIzNDVmMTk3ZTdlMmYxNjFmMWE3Mzg3NjhjMGRmNGZhZTA2YjBjYSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:mangrove_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMangrove Log\"}",
+    "uuid": "2705abc6-cf64-445d-9567-d118535a53b3",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzFmYWY2NjM5ZWMwZGMzMDBkYzYzNDgyOGU3Y2M3YjFkYzU4ODMyZmIzNDI3NjQ4NmZjNTRjZDFhNWEwNGRmYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:ochre_froglight",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eOchre Froglight\"}",
+    "uuid": "bd9ccfd2-c867-4f24-b90c-234ab3429ec5",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzEzMWUyZGFlNjkyMTg3ZWQzYTYyMTc1ZWU2YmYwOGUzYjg5MWFkMjBkZTk2YmVlMDNkNTQ4M2I0MDBlMmVhOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:verdant_froglight",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eVerdant Froglight\"}",
+    "uuid": "f04ed9c4-3b8f-4837-8347-db0bb4235927",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmIyMGI5MGY3OWZmYWRjZDdmM2NmMTlhNzNjMzcxZmQ0ZThmMjZkNjk4N2RkMjZhYzZjYjc0YWM2MTQ0NzZiMyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:pearlescent_froglight",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePearlescent Froglight\"}",
+    "uuid": "93f5b2ee-4dbd-492a-aef2-9384b7e2f97a",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTVkNzIwM2UzNTlkM2NmYTE1OTU1ZmU2NDAyMDRlMTk3NTZhNGRkMGE3ZGJhNzQ2YTZhMzY2YTM1YzZiY2VlNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:mud",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMud\"}",
+    "uuid": "5df7ffd0-c3ea-424c-a012-d803fe6fdfc4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQ3NmM0YjEzZGIwYzczY2ViYjVjODZlNDVjOWU1MjgyOTUwZDc1Mzk2YTcxYWVlZGQxOGNjNThmNzlhMGU5MCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:packed_mud",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§ePacked Mud\"}",
+    "uuid": "fed7cdf1-48a0-444e-a7f1-b1b6f8707616",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFiODE0ZWZkMzM4ZDM4YzRiYTAwMTJiMWVmNjUxZDI5YWE2MjhkNmRkYzgyMmQxZTFkYTEzZWFlYjFiZjNlYiJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:mud_bricks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eMud Bricks\"}",
+    "uuid": "c0620c06-a8f5-4808-95f6-be38fb39a6e4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I5NDkxYTAwMGNiMWIzYjJmYThhOWFlZTFlZTUyZGM4YTlkZWZmZjQ4OTdlYzRjZTQ4OGNjY2QxZTZiODNjYyJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sculk",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSculk\"}",
+    "uuid": "3ebd5a56-6f51-4998-92d2-eb11d18e6193",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ2NzJkYjk0MTYwNWZhNjMzYzM1NDgwZDFlOTk2Nzc1ZmFmY2E1ZmM4NGRjMzFlNzUyNDcxNWJlMDUxNmQxOSJ9fX0="
   }
 ]
