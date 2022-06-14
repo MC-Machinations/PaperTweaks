@@ -19,11 +19,15 @@
  */
 package me.machinemaker.vanillatweaks.adventure;
 
+import java.util.stream.Stream;
+
+import net.kyori.adventure.internal.Internals;
 import net.kyori.adventure.text.AbstractComponent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.ScopedComponent;
 import net.kyori.adventure.text.format.Style;
+import net.kyori.examination.ExaminableProperty;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -32,6 +36,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
 
 @DefaultQualifier(NonNull.class)
 public class MiniComponent extends AbstractComponent implements ScopedComponent<MiniComponent> {
@@ -85,5 +91,21 @@ public class MiniComponent extends AbstractComponent implements ScopedComponent<
         result = (31 * result) + this.key.hashCode();
         result = (31 * result) + this.args.hashCode();
         return result;
+    }
+
+    @Override
+    public @NotNull Stream<? extends ExaminableProperty> examinableProperties() {
+        return Stream.concat(
+                Stream.of(
+                        ExaminableProperty.of("key", this.key()),
+                        ExaminableProperty.of("args", this.args())
+                ),
+                super.examinableProperties()
+        );
+    }
+
+    @Override
+    public String toString() {
+        return Internals.toString(this);
     }
 }

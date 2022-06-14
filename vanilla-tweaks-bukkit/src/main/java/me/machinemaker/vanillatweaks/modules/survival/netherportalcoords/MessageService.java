@@ -27,7 +27,7 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.Template;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.moonshine.annotation.Message;
 import net.kyori.moonshine.annotation.Placeholder;
 import net.kyori.moonshine.placeholder.ConclusionValue;
@@ -39,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -47,6 +46,7 @@ import java.util.function.IntUnaryOperator;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.component;
 
 interface MessageService extends ModuleMessageService {
 
@@ -65,14 +65,13 @@ interface MessageService extends ModuleMessageService {
         public @Nullable Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(String placeholderName, CoordinatesComponent value, Audience receiver, Type owner, Method method, @Nullable Object[] parameters) {
             final Location loc = value.loc;
             final IntUnaryOperator op = value.op;
-            Optional<String> miniMessage = TranslationRegistry.translate("modules.nether-portal-coords.coord-format", receiver.pointers().getOrDefault(Identity.LOCALE, Locale.US));
+            final Optional<String> miniMessage = TranslationRegistry.translate("modules.nether-portal-coords.coord-format", receiver.pointers().getOrDefault(Identity.LOCALE, Locale.US));
             if (miniMessage.isPresent()) {
-                final List<Template> templates = List.of(
-                        Template.of("x", text(op.applyAsInt(loc.getBlockX()), GOLD)),
-                        Template.of("y", /* don't operate on y coord as that stays the same */ text(loc.getBlockY(), GOLD)),
-                        Template.of("z", text(op.applyAsInt(loc.getBlockZ()), GOLD))
-                );
-                return this.constant(placeholderName, text().append(MiniMessage.get().parse(miniMessage.get(), templates)).color(GREEN).build());
+                final TagResolver.Builder builder = TagResolver.builder();
+                builder.resolver(component("x", text(op.applyAsInt(loc.getBlockX()), GOLD)));
+                builder.resolver(component("y", /* don't operate on y coord as that stays the same */ text(loc.getBlockY(), GOLD)));
+                builder.resolver(component("z", text(op.applyAsInt(loc.getBlockZ()), GOLD)));
+                return this.constant(placeholderName, text().append(MiniMessage.miniMessage().deserialize(miniMessage.get(), builder.build())).color(GREEN).build());
             }
             return null;
         }

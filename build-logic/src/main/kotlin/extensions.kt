@@ -17,6 +17,7 @@ fun ShadowJar.configureStandard() {
         "cloud.commandframework",
         "io.papermc.lib",
         "me.machinemaker.lectern",
+        "me.machinemaker.mirror",
         "net.kyori.moonshine",
         "org.checkerframework",
     ).forEach { pack ->

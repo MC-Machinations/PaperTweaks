@@ -21,6 +21,7 @@ tasks {
             exclude(dependency("net.kyori:adventure-text-serializer-gson:"))
             exclude(dependency("net.kyori:adventure-text-serializer-legacy:"))
             exclude(dependency("net.kyori:adventure-api:"))
+            exclude(dependency("net.kyori:adventure-text-minimessage:"))
         }
 
         configureStandard()
@@ -29,7 +30,6 @@ tasks {
         listOf(
             "net.kyori.adventure.platform",
             "net.kyori.adventure.nbt",
-            "net.kyori.adventure.text.minimessage",
             "net.kyori.adventure.text.serializer.bungeecord",
             "net.kyori.adventure.text.serializer.craftbukkit",
             "net.kyori.adventure.text.serializer.gson.legacyimpl"

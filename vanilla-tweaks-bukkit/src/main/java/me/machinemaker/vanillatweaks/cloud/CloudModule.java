@@ -35,6 +35,10 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
+import me.machinemaker.mirror.FieldAccessor;
+import me.machinemaker.mirror.MethodInvoker;
+import me.machinemaker.mirror.Mirror;
+import me.machinemaker.mirror.paper.PaperMirror;
 import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldownManager;
@@ -42,7 +46,6 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcherFactory;
 import me.machinemaker.vanillatweaks.cloud.processors.SimpleSuggestionProcessor;
 import me.machinemaker.vanillatweaks.cloud.processors.post.GamemodePostprocessor;
-import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
@@ -60,9 +63,9 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public class CloudModule extends AbstractModule {
 
-    private static final Class<?> VANILLA_COMMAND_WRAPPER_CLASS = ReflectionUtils.getCraftBukkitClass("command.VanillaCommandWrapper");
-    private static final ReflectionUtils.MethodInvoker CRAFT_SERVER_GET_COMMAND_MAP = ReflectionUtils.getTypedMethod(Bukkit.getServer().getClass(), "getCommandMap", SimpleCommandMap.class);
-    private static final ReflectionUtils.FieldAccessor<Map<String, org.bukkit.command.Command>> COMMAND_MAP_KNOWN_COMMANDS_FIELD = ReflectionUtils.getField(SimpleCommandMap.class, "knownCommands", new TypeToken<Map<String, org.bukkit.command.Command>>() {});
+    private static final Class<?> VANILLA_COMMAND_WRAPPER_CLASS = PaperMirror.getCraftBukkitClass("command.VanillaCommandWrapper");
+    private static final MethodInvoker.Typed<SimpleCommandMap> CRAFT_SERVER_GET_COMMAND_MAP = Mirror.typedFuzzyMethod(PaperMirror.CRAFT_SERVER_CLASS, SimpleCommandMap.class).names("getCommandMap").find();
+    private static final FieldAccessor.Typed<Map<String, org.bukkit.command.Command>> COMMAND_MAP_KNOWN_COMMANDS_FIELD = Mirror.typedFuzzyField(SimpleCommandMap.class, new TypeToken<Map<String, org.bukkit.command.Command>>() {}).names("knownCommands").find();
 
     private static Map<String, org.bukkit.command.Command> getCommandMap() {
         return COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer()));
@@ -120,18 +123,18 @@ public class CloudModule extends AbstractModule {
                     return super.command(command);
                 }
             };
-            if (manager.queryCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
+            if (manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
                 manager.registerAsynchronousCompletions();
             }
 
-            if (manager.queryCapability(CloudBukkitCapabilities.BRIGADIER)) {
+            if (manager.hasCapability(CloudBukkitCapabilities.BRIGADIER)) {
                 manager.registerBrigadier();
             }
 
             minecraftExceptionHandler.apply(manager, AudienceProvider.nativeAudience());
             commandCooldownManager.registerCooldownManager(manager);
             manager.registerCommandPostProcessor(new GamemodePostprocessor());
-            manager.setCommandSuggestionProcessor(new SimpleSuggestionProcessor());
+            manager.commandSuggestionProcessor(new SimpleSuggestionProcessor());
 
             manager.brigadierManager().registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
                 builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {

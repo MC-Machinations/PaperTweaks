@@ -36,7 +36,7 @@ public final class TranslationRegistry {
     private static final Map<String, Translation> TRANSLATIONS = Maps.newConcurrentMap();
     private static final net.kyori.adventure.translation.TranslationRegistry ADVENTURE_REGISTRY = net.kyori.adventure.translation.TranslationRegistry.create(LANG_KEY);
     static {
-        GlobalTranslator.get().addSource(ADVENTURE_REGISTRY);
+        GlobalTranslator.translator().addSource(ADVENTURE_REGISTRY);
     }
 
     private TranslationRegistry() {

@@ -25,8 +25,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import me.machinemaker.mirror.MethodInvoker;
+import me.machinemaker.mirror.Mirror;
+import me.machinemaker.mirror.paper.PaperMirror;
 import me.machinemaker.vanillatweaks.common.PlayerSkull;
-import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
 import net.kyori.adventure.platform.bukkit.MinecraftComponentSerializer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -44,17 +46,16 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
 class VillagerData {
 
-    private static final Class<?> NMS_ENTITY_CLASS = ReflectionUtils.getMinecraftClass("world.entity.Entity");
-    private static final Class<?> NMS_CHAT_COMPONENT_CLASS = ReflectionUtils.findMinecraftClass("network.chat.IChatBaseComponent", "network.chat.Component");
-    private static final ReflectionUtils.MethodInvoker ENTITY_SET_CUSTOM_NAME_METHOD = ReflectionUtils.method(NMS_ENTITY_CLASS, Void.TYPE, NMS_CHAT_COMPONENT_CLASS).named( "a", "setCustomName").build();
-    private static final Class<?> CRAFT_ENTITY_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftEntity");
-    private static final ReflectionUtils.MethodInvoker CRAFT_ENTITY_GET_HANDLE_METHOD = ReflectionUtils.getTypedMethod(CRAFT_ENTITY_CLASS, "getHandle", NMS_ENTITY_CLASS);
+    private static final Class<?> NMS_ENTITY_CLASS = PaperMirror.getMinecraftClass("world.entity.Entity");
+    private static final Class<?> NMS_CHAT_COMPONENT_CLASS = PaperMirror.findMinecraftClass("network.chat.IChatBaseComponent", "network.chat.Component");
+    private static final MethodInvoker ENTITY_SET_CUSTOM_NAME_METHOD = Mirror.fuzzyMethod(NMS_ENTITY_CLASS, Void.TYPE).params(NMS_CHAT_COMPONENT_CLASS).names("b", "setCustomName").find();
+    private static final Class<?> CRAFT_ENTITY_CLASS = PaperMirror.getCraftBukkitClass("entity.CraftEntity");
+    private static final MethodInvoker CRAFT_ENTITY_GET_HANDLE_METHOD = Mirror.fuzzyMethod(CRAFT_ENTITY_CLASS, NMS_ENTITY_CLASS).names("getHandle").find();
 
     private final Component name;
     private final PlayerSkull head;

@@ -20,11 +20,15 @@
 package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
 import com.google.common.collect.Sets;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.machinemaker.vanillatweaks.utils.Keys;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -36,6 +40,12 @@ class HUDRunnable implements Runnable {
     static final NamespacedKey COORDINATES_HUD_KEY = Keys.key("coordinateshud");
 
     private final Set<Player> enabled = Sets.newHashSet();
+    private final BukkitAudiences audiences;
+
+    @Inject
+    HUDRunnable(BukkitAudiences audiences) {
+        this.audiences = audiences;
+    }
 
     public void addPlayer(Player player) {
         this.enabled.add(player);
@@ -60,14 +70,13 @@ class HUDRunnable implements Runnable {
             long hours = time / 1000;
             Long extra = (time - (hours * 1000)) * 60 / 1000;
 
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.format(ChatColor.GOLD + "XYZ: "+ ChatColor.RESET + "%d %d %d  " + ChatColor.GOLD + "%2s      %02d:%02d",
-                    player.getLocation().getBlockX(),
-                    player.getLocation().getBlockY(),
-                    player.getLocation().getBlockZ(),
-                    CoordinatesHUD.getDirection(player.getLocation().getYaw()).c,
-                    hours,
-                    extra
-            ))); // TODO adventure
+            final Audience audience = this.audiences.player(player);
+            final Location loc = player.getLocation();
+            final TextComponent.Builder builder = Component.text().content("XYZ: ").color(NamedTextColor.GOLD).append(
+                    Component.text(String.format("%d %d %d  ", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), NamedTextColor.WHITE),
+                    Component.text(String.format("%2s      %02d:%02d", CoordinatesHUD.getDirection(loc.getYaw()).c, hours, extra))
+            );
+            audience.sendActionBar(builder.build()); // TODO i18n
         });
     }
 }

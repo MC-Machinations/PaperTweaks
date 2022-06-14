@@ -25,15 +25,14 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.machinemaker.lectern.ConfigurationNode;
-import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
+import me.machinemaker.mirror.MethodInvoker;
+import me.machinemaker.mirror.Mirror;
+import me.machinemaker.mirror.paper.PaperMirror;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -49,23 +48,14 @@ import static org.apache.commons.lang.BooleanUtils.isTrue;
 @Singleton
 public final class ModuleManager {
 
-    private static final Class<?> MINECRAFT_SERVER_CLASS = ReflectionUtils.getMinecraftClass("server.MinecraftServer");
-    private static final ReflectionUtils.MethodInvoker GET_MINECRAFT_SERVER_METHOD = ReflectionUtils.getTypedMethod(MINECRAFT_SERVER_CLASS, null, MINECRAFT_SERVER_CLASS);
-    private static final Object MINECRAFT_SERVER = GET_MINECRAFT_SERVER_METHOD.invoke(null);
+    private static final MethodInvoker SYNC_COMMANDS_METHOD = Mirror.fuzzyMethod(PaperMirror.CRAFT_SERVER_CLASS, Void.TYPE).names("syncCommands").find();
+    private static final MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeGeneralTopics").find();
+    private static final MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names( "initializeCommands").find();
 
-    private static final Class<?> PLAYER_LIST_CLASS = ReflectionUtils.getMinecraftClass("server.players.PlayerList");
-    private static final ReflectionUtils.MethodInvoker GET_PLAYER_LIST_METHOD = ReflectionUtils.getTypedMethod(MINECRAFT_SERVER_CLASS, null, PLAYER_LIST_CLASS);
-    private static final Object PLAYER_LIST = GET_PLAYER_LIST_METHOD.invoke(MINECRAFT_SERVER);
-
-    private static final Class<?> CRAFT_SERVER_CLASS = Bukkit.getServer().getClass();
-    private static final ReflectionUtils.MethodInvoker SYNC_COMMANDS_METHOD = ReflectionUtils.getMethod(CRAFT_SERVER_CLASS, "syncCommands");
-    private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeGeneralTopics");
-    private static final ReflectionUtils.MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = ReflectionUtils.getMethod(Bukkit.getHelpMap().getClass(), "initializeCommands");
-
-    private static final ReflectionUtils.MethodInvoker RESEND_DATA_METHOD = ReflectionUtils.method(PLAYER_LIST_CLASS, Void.TYPE).named("u", "reload", "reloadResources").build();
+    private static final MethodInvoker RESEND_DATA_METHOD = Mirror.fuzzyMethod(PaperMirror.PLAYER_LIST_CLASS, Void.TYPE).names("u", "reload", "reloadResources").find();
 
     private static void resendData() {
-        RESEND_DATA_METHOD.invoke(PLAYER_LIST);
+        RESEND_DATA_METHOD.invoke(PaperMirror.PLAYER_LIST);
     }
 
     private static void reSyncCommands() {

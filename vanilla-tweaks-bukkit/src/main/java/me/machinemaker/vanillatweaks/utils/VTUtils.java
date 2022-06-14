@@ -23,6 +23,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import me.machinemaker.mirror.FieldAccessor;
+import me.machinemaker.mirror.MethodInvoker;
+import me.machinemaker.mirror.Mirror;
+import me.machinemaker.mirror.paper.PaperMirror;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.apache.commons.lang.mutable.MutableInt;
@@ -39,13 +43,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -55,18 +57,19 @@ public final class VTUtils {
     private VTUtils() {
     }
 
-    private static final Class<?> CRAFT_PLAYER_CLASS = ReflectionUtils.getCraftBukkitClass("entity.CraftPlayer");
-    private static final Class<?> NMS_PLAYER_CLASS = ReflectionUtils.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
-    private static final Class<?> CRAFT_META_SKULL_CLASS = ReflectionUtils.getCraftBukkitClass("inventory.CraftMetaSkull");
-    private static final ReflectionUtils.FieldAccessor<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "profile", GameProfile.class);
-    private static final ReflectionUtils.FieldAccessor<String> CRAFT_META_ITEM_DISPLAY_NAME_JSON = ReflectionUtils.getField(CRAFT_META_SKULL_CLASS, "displayName", String.class);
+    private static final Class<?> CRAFT_PLAYER_CLASS = PaperMirror.getCraftBukkitClass("entity.CraftPlayer");
+    private static final Class<?> NMS_PLAYER_CLASS = PaperMirror.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
+    private static final Class<?> CRAFT_META_ITEM_CLASS = PaperMirror.getCraftBukkitClass("inventory.CraftMetaItem");
+    private static final Class<?> CRAFT_META_SKULL_CLASS = PaperMirror.getCraftBukkitClass("inventory.CraftMetaSkull");
+    private static final FieldAccessor.Typed<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = Mirror.typedFuzzyField(CRAFT_META_SKULL_CLASS, GameProfile.class).names("profile").find();
+    private static final FieldAccessor.Typed<String> CRAFT_META_ITEM_DISPLAY_NAME_JSON = Mirror.typedFuzzyField(CRAFT_META_ITEM_CLASS, String.class).names("displayName").find();
 
-    private static final ReflectionUtils.MethodInvoker CRAFT_PLAYER_GET_HANDLE = ReflectionUtils.method(CRAFT_PLAYER_CLASS, NMS_PLAYER_CLASS).named("getHandle").build();
-    private static final ReflectionUtils.MethodInvoker NMS_PLAYER_GET_PLAYER_PROFILE = ReflectionUtils.method(NMS_PLAYER_CLASS, GameProfile.class).named("fq", "getProfile", "getGameProfile").build();
+    private static final MethodInvoker CRAFT_PLAYER_GET_HANDLE = Mirror.fuzzyMethod(CRAFT_PLAYER_CLASS, NMS_PLAYER_CLASS).names("getHandle").find();
+    private static final MethodInvoker.Typed<GameProfile> NMS_PLAYER_GET_PLAYER_PROFILE = Mirror.typedFuzzyMethod(NMS_PLAYER_CLASS, GameProfile.class).find();
 
 
     public static GameProfile getGameProfile(Player player) {
-        return (GameProfile) NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE.invoke(player));
+        return NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE.invoke(player));
     }
 
     public static ItemStack getSkull(Component name, String texture) {

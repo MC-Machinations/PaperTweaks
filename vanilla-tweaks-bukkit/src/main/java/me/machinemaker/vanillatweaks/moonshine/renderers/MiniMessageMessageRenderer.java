@@ -21,22 +21,21 @@ package me.machinemaker.vanillatweaks.moonshine.renderers;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.Template;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class MiniMessageMessageRenderer extends AbstractMessageRenderer<String> {
 
     @Override
     protected @NotNull Component render(@NotNull String intermediateMessage, @NotNull Map<String, ? extends Component> resolvedPlaceholders) {
-        final List<Template> templates = new ArrayList<>();
+        final TagResolver.Builder builder = TagResolver.builder();
         for (final var entry : resolvedPlaceholders.entrySet()) {
-            templates.add(Template.of(entry.getKey(), entry.getValue()));
+            builder.resolver(Placeholder.component(entry.getKey(), entry.getValue()));
         }
 
-        return MiniMessage.get().parse(intermediateMessage, templates);
+        return MiniMessage.miniMessage().deserialize(intermediateMessage, builder.build());
     }
 }

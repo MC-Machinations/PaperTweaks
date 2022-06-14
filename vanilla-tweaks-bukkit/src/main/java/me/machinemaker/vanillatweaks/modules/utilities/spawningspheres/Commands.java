@@ -20,30 +20,24 @@
 package me.machinemaker.vanillatweaks.modules.utilities.spawningspheres;
 
 import cloud.commandframework.arguments.standard.EnumArgument;
-import com.google.common.math.IntMath;
-import io.papermc.lib.PaperLib;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.utils.Keys;
-import me.machinemaker.vanillatweaks.utils.ReflectionUtils;
-import me.machinemaker.vanillatweaks.utils.ReflectionUtils.FieldAccessor;
 import me.machinemaker.vanillatweaks.utils.VTUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.util.Services;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.RoundingMode;
 import java.util.Collection;
 
 import static net.kyori.adventure.text.Component.text;
@@ -54,58 +48,11 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 class Commands extends ConfiguredModuleCommand {
 
     private static final PDCKey<Color> COLOR_KEY = PDCKey.enums(Keys.key("color"), Color.class);
+    private static final double PHI =  Math.PI * (3.0 - Math.sqrt(5.0));
 
-    private static final DespawnDistances VANILLA = new DespawnDistances(32, 128);
-    private static final boolean SUPPORTS_CUSTOM_DESPAWN_RANGES;
-    private static final boolean IS_PER_CATEGORY_DESPAWN_RANGES;
-    private static FieldAccessor<?> CRAFT_WORLD_SERVER_LEVEL_FIELD;
-    private static FieldAccessor<?> SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD;
-    // private static FieldAccessor<Integer> PAPER_WORLD_CONFIG_SOFT_DESPAWN_FIELD; // This isn't the same distance as the inner spawn ring
-    private static FieldAccessor<Integer> PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD;
-    private static ReflectionUtils.MethodInvoker PAPER_YAML_CONFIG_METHOD;
-
-    static {
-        boolean supportsCustomDespawnRanges = false;
-        boolean isPerCategoryDespawnRanges = false;
-        if (PaperLib.isPaper()) {
-            supportsCustomDespawnRanges = true;
-            try {
-                final Class<?> PAPER_WORLD_CONFIG_CLASS = Class.forName("com.destroystokyo.paper.PaperWorldConfig");
-                try {
-                    PAPER_WORLD_CONFIG_CLASS.getField("hardDespawnDistances");
-                    isPerCategoryDespawnRanges = true;
-                    PAPER_YAML_CONFIG_METHOD = ReflectionUtils.getMethod(Bukkit.getServer().spigot().getClass(), "getPaperConfig");
-                } catch (NoSuchFieldException ex) {
-                    final Class<?> CRAFT_WORLD_CLASS = ReflectionUtils.getCraftBukkitClass("CraftWorld");
-                    final Class<?> SERVER_LEVEL_CLASS = ReflectionUtils.findMinecraftClass("server.level.WorldServer", "server.level.ServerLevel", "server.WorldServer");
-                    CRAFT_WORLD_SERVER_LEVEL_FIELD = ReflectionUtils.getField(CRAFT_WORLD_CLASS, "world", SERVER_LEVEL_CLASS);
-                    SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD = ReflectionUtils.getField(SERVER_LEVEL_CLASS, "paperConfig", PAPER_WORLD_CONFIG_CLASS);
-                    // PAPER_WORLD_CONFIG_SOFT_DESPAWN_FIELD = ReflectionUtils.getField(PAPER_WORLD_CONFIG_CLASS, "softDespawnDistance", int.class);
-                    PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD = ReflectionUtils.getField(PAPER_WORLD_CONFIG_CLASS, "hardDespawnDistance", int.class);
-                }
-            } catch (ClassNotFoundException | IllegalArgumentException exception) {
-                SpawningSpheres.LOGGER.warn("Paper environment detected, but could not hook into any custom spawning ranges. This might be a bug", exception);
-                supportsCustomDespawnRanges = false;
-            }
-        }
-        SUPPORTS_CUSTOM_DESPAWN_RANGES = supportsCustomDespawnRanges;
-        IS_PER_CATEGORY_DESPAWN_RANGES = isPerCategoryDespawnRanges;
-    }
-
-    private static DespawnDistances getDespawnDistances(World world) {
-        if (SUPPORTS_CUSTOM_DESPAWN_RANGES && IS_PER_CATEGORY_DESPAWN_RANGES && PAPER_YAML_CONFIG_METHOD != null) {
-            YamlConfiguration config = (YamlConfiguration) PAPER_YAML_CONFIG_METHOD.invoke(Bukkit.getServer().spigot());
-            int hard = config.getInt("world-settings." + world.getName() + ".despawn-ranges.monster.hard", config.getInt("world-settings.default.despawn-ranges.monster.hard", 128));
-            return new DespawnDistances(24, hard);
-        } else if (SUPPORTS_CUSTOM_DESPAWN_RANGES && CRAFT_WORLD_SERVER_LEVEL_FIELD != null && SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD != null && PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD != null) {
-            Object serverLevel = CRAFT_WORLD_SERVER_LEVEL_FIELD.get(world);
-            Object paperWorldConfig = SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD.get(serverLevel);
-            return new DespawnDistances(24, IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.get(paperWorldConfig), RoundingMode.DOWN));
-        } else {
-            return VANILLA;
-        }
-    }
-
+    private static final DespawnDistances DESPAWN_DISTANCES = Services.service(DespawnDistances.Provider.class)
+            .map(DespawnDistances.Provider::create)
+            .orElse(DespawnDistances.VANILLA);
 
     @Override
     protected void registerCommands() {
@@ -120,15 +67,14 @@ class Commands extends ConfiguredModuleCommand {
                         context.getSender().sendMessage(translatable("modules.spawning-spheres.commands.add.fail", RED, color));
                         return;
                     }
-                    DespawnDistances distances = getDespawnDistances(player.getWorld());
                     Location center = VTUtils.toBlockLoc(player.getLocation()).add(0.5, 0, 0.5);
                     player.getWorld().spawn(center.clone().subtract(0, 1, 0), ArmorStand.class, stand -> {
                         configureStand(stand, context.get("color"), color.center);
                         stand.setCustomName("Center");
                         stand.setCustomNameVisible(true);
                     });
-                    display(player.getWorld(), center, distances.hard, 8, color, color.outer);
-                    display(player.getWorld(), center, distances.soft, 4, color, color.inner);
+                    this.fibonacciSphere(player.getWorld(), center, DESPAWN_DISTANCES.hard(player.getWorld()), 1500, color, color.outer);
+                    this.fibonacciSphere(player.getWorld(), center, DESPAWN_DISTANCES.soft(player.getWorld()), 200, color, color.inner);
                     context.getSender().sendMessage(translatable("modules.spawning-spheres.commands.add.succeed", GREEN, color));
                 }))
         ).command(literal(builder, "remove")
@@ -146,19 +92,19 @@ class Commands extends ConfiguredModuleCommand {
         );
     }
 
-    private void display(World world, Location center, double radius, double step, Color color, Material helmet) {
-        for (double x = -radius; x < radius; x += step) {
-            for (double z = -radius; z < radius; z += step) {
-                double y = Math.sqrt(radius * radius - x * x - z * z);
-                world.spawn(center.clone().subtract(-x, y, -z), ArmorStand.class, stand -> {
-                    configureStand(stand, color, helmet);
-                    stand.setGlowing(true);
-                });
-                world.spawn(center.clone().add(-x, y, -z), ArmorStand.class, stand -> {
-                    configureStand(stand, color, helmet);
-                    stand.setGlowing(true);
-                });
-            }
+    private void fibonacciSphere(World world, Location center, double radius, int count, Color color, Material helmet) {
+        for (int i = 0; i < count; i++) {
+            final double y = radius - ((i / (double) (count - 1)) * (2 * radius));
+            final double radiusAtY = Math.sqrt(radius * radius - y * y);
+
+            final double theta = PHI * i;
+
+            final double x = Math.cos(theta) * radiusAtY;
+            final double z = Math.sin(theta) * radiusAtY;
+            world.spawn(center.clone().add(x, y, z), ArmorStand.class, stand -> {
+                configureStand(stand, color, helmet);
+                stand.setGlowing(true);
+            });
         }
     }
 
@@ -172,8 +118,6 @@ class Commands extends ConfiguredModuleCommand {
         stand.getEquipment().setHelmet(new ItemStack(helmet));
         COLOR_KEY.setTo(stand, color);
     }
-
-    private static record DespawnDistances(int soft, int hard) {}
 
     enum Color implements ComponentLike {
         RED(Material.REDSTONE_BLOCK, Material.RED_CONCRETE, Material.ORANGE_CONCRETE, NamedTextColor.RED),

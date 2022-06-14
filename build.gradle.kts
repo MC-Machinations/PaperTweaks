@@ -39,7 +39,6 @@ subprojects {
     repositories {
         mavenCentral()
         sonatypeSnapshots()
-        // maven("https://repo.incendo.org/content/repositories/snapshots") // For cloud snapshot builds
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://maven.enginehub.org/repo/")
@@ -48,26 +47,20 @@ subprojects {
                 includeGroup("com.github.TechFortress")
             }
         }
-        maven {
-            url = uri("https://maven.pkg.github.com/kyoripowered/moonshine")
-            credentials {
-                username = "DummyUser"
-                password = "\u0067\u0068\u0070\u005F\u0051\u0066\u0045\u0059\u006E\u0037\u0063\u0066\u0043\u0072\u0055" + "\u0077\u0078\u0071\u0033\u0047\u0069\u0058\u0058\u0054\u0073\u0052\u0079\u005A\u0032\u0078\u006D\u0068\u0052\u0073\u0033\u006C\u0066\u0049\u006D\u0042"
-            }
-        }
     }
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
+        implementation("me.machinemaker.mirror:mirror-paper:0.1.0")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1")
-        implementation("net.kyori:adventure-platform-bukkit:4.0.1")
-        implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
-        implementation(platform("cloud.commandframework:cloud-bom:1.6.2"))
+        implementation("net.kyori:adventure-platform-bukkit:4.1.1")
+        implementation("net.kyori:adventure-text-minimessage:4.11.0")
+        implementation(platform("cloud.commandframework:cloud-bom:1.7.0-SNAPSHOT"))
         implementation("cloud.commandframework:cloud-paper")
         implementation("cloud.commandframework:cloud-minecraft-extras")
         implementation("org.bstats:bstats-bukkit:2.2.1")
         implementation("io.papermc:paperlib:1.0.6")
-        implementation("net.kyori.moonshine:moonshine-standard:2.0.0-SNAPSHOT+git.java-16")
+        implementation("net.kyori.moonshine:moonshine-standard:2.0.4")
 
         // Loaded via plugin.yml libraries
         compileOnly("io.github.classgraph:classgraph:4.8.114")
@@ -103,8 +96,8 @@ subprojects {
 
     indra {
         javaVersions {
-            testWith(16)
-            target(16)
+            testWith(17)
+            target(17)
         }
 
         github("MC-Machinations", "VanillaTweaks")
@@ -115,7 +108,7 @@ subprojects {
     tasks {
         compileJava {
             options.compilerArgs.add("-parameters")
-            options.release.set(16)
+            options.release.set(17)
         }
 
         processResources {

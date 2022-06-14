@@ -19,10 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.adventure;
 
-import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.Template;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.renderer.TranslatableComponentRenderer;
 import net.kyori.adventure.translation.GlobalTranslator;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,7 @@ public class MiniMessageComponentRenderer extends TranslatableComponentRenderer<
 
     @Override
     protected @Nullable MessageFormat translate(@NotNull String key, @NotNull Locale context) {
-        return GlobalTranslator.get().translate(key, context);
+        return GlobalTranslator.translator().translate(key, context);
     }
 
     @Override
@@ -64,17 +64,17 @@ public class MiniMessageComponentRenderer extends TranslatableComponentRenderer<
         }
         final var builder = text();
         this.mergeStyle(component, builder, locale);
-        builder.append(MiniMessage.get().parse(message.get(), this.createTemplates(component, locale)));
+        builder.append(MiniMessage.miniMessage().deserialize(message.get(), this.createTagResolver(component, locale)));
         return this.optionallyRenderChildrenAppendAndBuild(component.children(), builder, locale);
     }
 
-    private @NotNull List<Template> createTemplates(@NotNull MiniComponent component, @NotNull Locale locale) {
-        final var builder = ImmutableList.<Template>builder();
+    private @NotNull TagResolver createTagResolver(@NotNull MiniComponent component, @NotNull Locale locale) {
+        final TagResolver.Builder builder = TagResolver.builder();
         for (final var entry : component.args().entrySet()) {
             if (entry.getValue() instanceof MiniComponent) {
-                builder.add(Template.of(entry.getKey(), this.render(entry.getValue(), locale)));
+                builder.resolver(Placeholder.component(entry.getKey(), this.render(entry.getValue(), locale)));
             } else {
-                builder.add(Template.of(entry.getKey(), entry.getValue()));
+                builder.resolver(Placeholder.component(entry.getKey(), entry.getValue()));
             }
         }
         return builder.build();
