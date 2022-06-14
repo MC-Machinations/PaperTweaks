@@ -25,6 +25,7 @@ import org.bukkit.entity.Bee;
 import org.bukkit.entity.Cat;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Fox;
+import org.bukkit.entity.Frog;
 import org.bukkit.entity.Goat;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Llama;
@@ -67,6 +68,7 @@ final class MobHeadCustomizations {
             case "mooshroom.json": mooshroom(head); break;
             case "villager.json": villager(head); break;
             case "sheep.json": sheep(head); break;
+            case "frog.json": frog(head); break;
             default: MoreMobHeads.LOGGER.error("{} doesn't have a custom handler", head.lootTable());
         }
     }
@@ -310,6 +312,17 @@ final class MobHeadCustomizations {
         };
         Predicate<Sheep> sheepPredicate = sheep -> sheep.getColor() == dyeColor;
         head.predicate(sheepPredicate);
+    }
+
+    private static void frog(MobHead head) {
+        Frog.Variant variant = switch (head.name()) {
+            case "Cold Frog" -> Frog.Variant.COLD;
+            case "Temperate Frog" -> Frog.Variant.TEMPERATE;
+            case "Warm Frog" -> Frog.Variant.WARM;
+            default -> throw new IllegalArgumentException(head.name() + " isn't a valid frog name");
+        };
+        Predicate<Frog> frogPredicate = frog -> frog.getVariant() == variant;
+        head.predicate(frogPredicate);
     }
 
 }
