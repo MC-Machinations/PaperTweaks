@@ -19,9 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -32,26 +33,24 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
-import java.util.Set;
-
 @Singleton
 class HUDRunnable implements Runnable {
 
     static final NamespacedKey COORDINATES_HUD_KEY = Keys.key("coordinateshud");
 
-    private final Set<Player> enabled = Sets.newHashSet();
+    private final Set<Player> enabled = ConcurrentHashMap.newKeySet();
     private final BukkitAudiences audiences;
 
     @Inject
-    HUDRunnable(BukkitAudiences audiences) {
+    HUDRunnable(final BukkitAudiences audiences) {
         this.audiences = audiences;
     }
 
-    public void addPlayer(Player player) {
+    public void addPlayer(final Player player) {
         this.enabled.add(player);
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(final Player player) {
         this.enabled.remove(player);
     }
 
@@ -66,9 +65,9 @@ class HUDRunnable implements Runnable {
     @Override
     public void run() {
         this.enabled.forEach(player -> {
-            long time = (player.getWorld().getTime() + 6000) % 24000;
-            long hours = time / 1000;
-            Long extra = (time - (hours * 1000)) * 60 / 1000;
+            final long time = (player.getWorld().getTime() + 6000) % 24000;
+            final long hours = time / 1000;
+            final Long extra = (time - (hours * 1000)) * 60 / 1000;
 
             final Audience audience = this.audiences.player(player);
             final Location loc = player.getLocation();
