@@ -30,4 +30,8 @@ class Config extends ModuleConfig {
     @Key("hud-update-time-in-ticks")
     @Description("Time in ticks between updates of the HUD in the player's action bar")
     public long ticks = 2L;
+
+    @Key("enabled-by-default")
+    @Description("Enabling this will set the player's HUD to be on when they join the game for the first time")
+    public boolean enabledByDefault = false;
 }

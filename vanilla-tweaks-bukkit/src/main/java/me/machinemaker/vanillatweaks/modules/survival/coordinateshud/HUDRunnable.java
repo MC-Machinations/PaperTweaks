@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -36,7 +37,7 @@ import org.bukkit.entity.Player;
 @Singleton
 class HUDRunnable implements Runnable {
 
-    static final NamespacedKey COORDINATES_HUD_KEY = Keys.key("coordinateshud");
+    static final PDCKey<Boolean> COORDINATES_HUD_KEY = PDCKey.bool(Keys.key("coordinateshud"));
 
     private final Set<Player> enabled = ConcurrentHashMap.newKeySet();
     private final BukkitAudiences audiences;

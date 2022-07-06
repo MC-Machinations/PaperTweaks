@@ -24,12 +24,11 @@ import cloud.commandframework.execution.CommandExecutionHandler;
 import cloud.commandframework.paper.PaperCommandManager;
 import cloud.commandframework.tasks.TaskConsumer;
 import com.google.inject.Inject;
+import java.util.function.BiConsumer;
 import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import org.bukkit.entity.Player;
-
-import java.util.function.BiConsumer;
 
 /**
  * Various utility methods for commands to utilize
@@ -39,14 +38,14 @@ public abstract class VanillaTweaksCommand {
     @Inject protected PaperCommandManager<CommandDispatcher> manager;
     @Inject protected ArgumentFactory argumentFactory;
 
-    protected <C> CommandExecutionHandler<C> sync(BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
-        return commandContext -> manager.taskRecipe().begin(commandContext).synchronous(context -> {
-            Player player = PlayerCommandDispatcher.from(context);
+    protected <C> CommandExecutionHandler<C> sync(final BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
+        return commandContext -> this.manager.taskRecipe().begin(commandContext).synchronous(context -> {
+            final Player player = PlayerCommandDispatcher.from(context);
             playerTaskConsumer.accept(context, player);
         }).execute();
     }
 
-    protected <C> CommandExecutionHandler<C> sync(TaskConsumer<CommandContext<C>> taskConsumer) {
-        return commandContext -> manager.taskRecipe().begin(commandContext).synchronous(taskConsumer).execute();
+    protected <C> CommandExecutionHandler<C> sync(final TaskConsumer<CommandContext<C>> taskConsumer) {
+        return commandContext -> this.manager.taskRecipe().begin(commandContext).synchronous(taskConsumer).execute();
     }
 }

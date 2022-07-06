@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.persistence.PersistentDataType;
 
 import static net.kyori.adventure.text.Component.translatable;
 
@@ -33,22 +32,22 @@ class Commands extends ModuleCommand {
     private final HUDRunnable hudRunnable;
 
     @Inject
-    Commands(HUDRunnable hudRunnable) {
+    Commands(final HUDRunnable hudRunnable) {
         this.hudRunnable = hudRunnable;
     }
 
     @Override
     protected void registerCommands() {
-        manager.command(this.player()
-                .permission(modulePermission("vanillatweaks.coordinateshud.togglehud"))
-                .handler(sync((context, player) -> {
+        this.manager.command(this.player()
+                .permission(this.modulePermission("vanillatweaks.coordinateshud.togglehud"))
+                .handler(this.sync((context, player) -> {
                     if (this.hudRunnable.getPlayers().remove(player)) {
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", NamedTextColor.GREEN));
                         context.getSender().sendActionBar(Component.empty());
-                        player.getPersistentDataContainer().remove(HUDRunnable.COORDINATES_HUD_KEY);
+                        HUDRunnable.COORDINATES_HUD_KEY.setTo(player, false);
                     } else {
                         this.hudRunnable.getPlayers().add(player);
-                        player.getPersistentDataContainer().set(HUDRunnable.COORDINATES_HUD_KEY, PersistentDataType.BYTE, (byte) 1);
+                        HUDRunnable.COORDINATES_HUD_KEY.setTo(player, true);
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", NamedTextColor.GREEN));
                     }
                 }))
