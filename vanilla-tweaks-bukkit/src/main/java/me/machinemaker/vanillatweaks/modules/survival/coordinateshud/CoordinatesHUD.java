@@ -19,16 +19,15 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
+import java.util.Collection;
+import java.util.Set;
+import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
-import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "CoordinatesHUD", configPath = "survival.coordinates-hud", description = "A helpful HUD for showing coordinates and direction")
 public class CoordinatesHUD extends ModuleBase {
@@ -53,8 +52,8 @@ public class CoordinatesHUD extends ModuleBase {
         return Set.of(Commands.class);
     }
 
-    static Direction getDirection(float yaw) {
-        double degrees = yaw < 0 ? (yaw % -360.0) + 360 : yaw % 360.0;
+    static Direction getDirection(final float yaw) {
+        final double degrees = yaw < 0 ? (yaw % -360.0) + 360 : yaw % 360.0;
         if (degrees <= 22.5) return Direction.SOUTH;
         if (degrees <= 67.5) return Direction.SOUTHWEST;
         if (degrees <= 112.5) return Direction.WEST;
@@ -77,7 +76,8 @@ public class CoordinatesHUD extends ModuleBase {
         NORTHWEST("NW");
 
         final String c;
-        Direction(String c) {
+
+        Direction(final String c) {
             this.c = c;
         }
     }

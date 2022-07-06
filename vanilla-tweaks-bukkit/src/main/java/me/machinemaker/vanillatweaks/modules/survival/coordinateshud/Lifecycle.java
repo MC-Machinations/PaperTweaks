@@ -20,16 +20,16 @@
 package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.util.Set;
 
 class Lifecycle extends ModuleLifecycle {
 
@@ -38,7 +38,7 @@ class Lifecycle extends ModuleLifecycle {
     private BukkitTask task;
 
     @Inject
-    public Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Config config, HUDRunnable hudRunnable, Set<ModuleRecipe<?>> moduleRecipes) {
+    public Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Config config, final HUDRunnable hudRunnable, final Set<ModuleRecipe<?>> moduleRecipes) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.config = config;
         this.hudRunnable = hudRunnable;
@@ -46,20 +46,28 @@ class Lifecycle extends ModuleLifecycle {
 
     @Override
     public void onEnable() {
-        startTask();
+        this.startTask();
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (!HUDRunnable.COORDINATES_HUD_KEY.has(player)) {
+                HUDRunnable.COORDINATES_HUD_KEY.setTo(player, this.config.enabledByDefault);
+            }
+            if (Boolean.TRUE.equals(HUDRunnable.COORDINATES_HUD_KEY.getFrom(player))) {
+                this.hudRunnable.addPlayer(player);
+            }
+        }
     }
 
     @Override
     public void onReload() {
-        startTask();
+        this.startTask();
     }
 
     private void startTask() {
-        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(this.getPlugin(), this.hudRunnable, 1L, config.ticks);
+        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(this.getPlugin(), this.hudRunnable, 1L, this.config.ticks);
     }
 
     @Override
-    public void onDisable(boolean isShutdown) {
+    public void onDisable(final boolean isShutdown) {
         if (this.task != null) {
             this.task.cancel();
         }
