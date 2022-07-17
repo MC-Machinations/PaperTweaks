@@ -21,9 +21,10 @@ package me.machinemaker.vanillatweaks.pdc.types;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import io.papermc.paper.text.PaperComponents;
+import com.google.gson.JsonSyntaxException;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -43,12 +44,17 @@ public class ComponentDataType implements PersistentDataType<String, Component> 
     }
 
     @Override
-    public @NotNull String toPrimitive(@NotNull Component complex, @NotNull PersistentDataAdapterContext context) {
-        return GSON.toJson(PaperComponents.gsonSerializer().serializeToTree(complex));
+    public @NotNull String toPrimitive(@NotNull final Component complex, @NotNull final PersistentDataAdapterContext context) {
+        return GSON.toJson(GsonComponentSerializer.gson().serializeToTree(complex));
     }
 
     @Override
-    public @NotNull Component fromPrimitive(@NotNull String primitive, @NotNull PersistentDataAdapterContext context) {
-        return PaperComponents.gsonSerializer().deserializeFromTree(GSON.fromJson(primitive, JsonElement.class));
+    public @NotNull Component fromPrimitive(@NotNull final String primitive, @NotNull final PersistentDataAdapterContext context) {
+        try {
+            return GsonComponentSerializer.gson().deserialize(primitive);
+        } catch (final JsonSyntaxException ex) {
+            // fallback on legacy
+            return LegacyComponentSerializer.legacySection().deserialize(primitive);
+        }
     }
 }
