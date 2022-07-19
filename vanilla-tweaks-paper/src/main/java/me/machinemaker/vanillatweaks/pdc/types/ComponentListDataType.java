@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.pdc.types;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.JsonParseException;
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class ComponentListDataType implements PersistentDataType<String, List<Co
         for (final JsonElement element : array) {
             try {
                 components.add(GsonComponentSerializer.gson().deserializeFromTree(element));
-            } catch (final JsonSyntaxException ex) {
+            } catch (final JsonParseException ex) {
                 // fallback on legacy
                 components.add(LegacyComponentSerializer.legacySection().deserialize(element.getAsString()));
             }
