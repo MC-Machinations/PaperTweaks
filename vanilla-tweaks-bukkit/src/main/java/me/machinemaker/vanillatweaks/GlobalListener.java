@@ -19,7 +19,10 @@
  */
 package me.machinemaker.vanillatweaks;
 
+import cloud.commandframework.bukkit.CloudBukkitCapabilities;
+import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,16 +32,21 @@ import org.bukkit.event.server.ServerLoadEvent;
 public class GlobalListener implements Listener {
 
     private final ModuleManager moduleManager;
+    private final PaperCommandManager<CommandDispatcher> commandManager;
 
     @Inject
-    public GlobalListener(ModuleManager moduleManager) {
+    public GlobalListener(ModuleManager moduleManager, PaperCommandManager<CommandDispatcher> commandManager) {
         this.moduleManager = moduleManager;
+        this.commandManager = commandManager;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBukkitReload(ServerLoadEvent event) {
         if (event.getType() == ServerLoadEvent.LoadType.RELOAD) {
            moduleManager.reloadModules();
+        } else if (event.getType() == ServerLoadEvent.LoadType.STARTUP && this.commandManager.hasCapability(CloudBukkitCapabilities.COMMODORE_BRIGADIER)) {
+            // This is very annoying
+            ModuleManager.reSyncCommands();
         }
     }
 

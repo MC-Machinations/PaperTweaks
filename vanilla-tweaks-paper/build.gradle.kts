@@ -4,10 +4,11 @@ dependencies {
         exclude(group="me.lucko", module="commodore")
     }
 
-    compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
+    val mcVersion = providers.gradleProperty("mcVersion").get()
+    compileOnly("io.papermc.paper:paper-api:$mcVersion")
 
     // tests
-    testImplementation("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
+    testImplementation("io.papermc.paper:paper-api:$mcVersion")
 }
 
 tasks {

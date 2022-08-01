@@ -26,6 +26,14 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import io.papermc.lib.PaperLib;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Stream;
 import me.machinemaker.lectern.BaseConfig;
 import me.machinemaker.vanillatweaks.adventure.MiniMessageComponentRenderer;
 import me.machinemaker.vanillatweaks.cloud.CloudModule;
@@ -41,25 +49,12 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
-import org.apache.commons.io.FileUtils;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.stream.Stream;
 
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
@@ -70,7 +65,7 @@ public class VanillaTweaks extends JavaPlugin {
 
     public static boolean RAN_CONFIG_MIGRATIONS = false;
 
-    public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text("PaperTweaks", BLUE)).append(text("] ", DARK_GRAY)).build();
+    public static final Component PLUGIN_PREFIX = text().append(text("[", DARK_GRAY)).append(text(LoggerFactory.GLOBAL_PREFIX, BLUE)).append(text("] ", DARK_GRAY)).build();
     public static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(0);

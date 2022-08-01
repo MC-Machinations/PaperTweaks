@@ -1,8 +1,9 @@
+import net.kyori.indra.repository.SonatypeRepositories
 import net.kyori.indra.repository.sonatypeSnapshots
 
 plugins {
     id("vanilla-tweaks.parent-build-logic")
-    id("net.kyori.indra") version "2.0.6"
+    id("net.kyori.indra") version "2.1.1"
     id("net.kyori.indra.license-header") version "2.0.6"
     id("com.github.johnrengelman.shadow") version "7.0.0" apply false
 }
@@ -38,7 +39,12 @@ subprojects {
 
     repositories {
         mavenCentral()
-        sonatypeSnapshots()
+        sonatype.s01Snapshots().mavenContent {
+            includeGroup("net.kyori")
+        }
+        sonatype.ossSnapshots().mavenContent {
+            includeGroup("cloud.commandframework")
+        }
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://maven.enginehub.org/repo/")
@@ -53,9 +59,9 @@ subprojects {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
         implementation("me.machinemaker.mirror:mirror-paper:0.1.0")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1")
-        implementation("net.kyori:adventure-platform-bukkit:4.1.1")
+        implementation("net.kyori:adventure-platform-bukkit:4.1.2-SNAPSHOT") // s01.oss
         implementation("net.kyori:adventure-text-minimessage:4.11.0")
-        implementation(platform("cloud.commandframework:cloud-bom:1.7.0-SNAPSHOT"))
+        implementation(platform("cloud.commandframework:cloud-bom:1.8.0-SNAPSHOT")) // oss
         implementation("cloud.commandframework:cloud-paper")
         implementation("cloud.commandframework:cloud-minecraft-extras")
         implementation("org.bstats:bstats-bukkit:2.2.1")
@@ -76,7 +82,7 @@ subprojects {
         compileOnly("org.xerial:sqlite-jdbc:3.36.0.3")
 
         // Native to minecraft
-        compileOnly("com.mojang:authlib:1.5.25")
+        compileOnly("com.mojang:authlib:3.11.49")
         compileOnly("org.slf4j:slf4j-api:1.7.30")
         compileOnly("com.mojang:brigadier:1.0.18")
 

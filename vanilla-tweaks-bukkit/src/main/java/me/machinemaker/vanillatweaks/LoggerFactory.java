@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 
 public final class LoggerFactory {
 
-    private static final String GLOBAL_PREFIX = "VanillaTweaks";
+    static final String GLOBAL_PREFIX = "PaperTweaks";
     private static final Logger PLUGIN_LOGGER = org.slf4j.LoggerFactory.getLogger(GLOBAL_PREFIX);
 
     private LoggerFactory() {

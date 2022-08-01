@@ -58,7 +58,7 @@ public final class ModuleManager {
         RESEND_DATA_METHOD.invoke(PaperMirror.PLAYER_LIST);
     }
 
-    private static void reSyncCommands() {
+    public static void reSyncCommands() {
         Bukkit.getServer().getHelpMap().clear();
         SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD.invoke(Bukkit.getHelpMap());
         SYNC_COMMANDS_METHOD.invoke(Bukkit.getServer());

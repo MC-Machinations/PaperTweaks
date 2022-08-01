@@ -35,6 +35,11 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import me.machinemaker.mirror.FieldAccessor;
 import me.machinemaker.mirror.MethodInvoker;
 import me.machinemaker.mirror.Mirror;
@@ -52,12 +57,7 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import static java.util.Objects.requireNonNull;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
@@ -136,7 +136,7 @@ public class CloudModule extends AbstractModule {
             manager.registerCommandPostProcessor(new GamemodePostprocessor());
             manager.commandSuggestionProcessor(new SimpleSuggestionProcessor());
 
-            manager.brigadierManager().registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
+            requireNonNull(manager.brigadierManager()).registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
                 builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {
                     case QUOTED -> StringArgumentType.string();
                     case GREEDY -> StringArgumentType.greedyString();
