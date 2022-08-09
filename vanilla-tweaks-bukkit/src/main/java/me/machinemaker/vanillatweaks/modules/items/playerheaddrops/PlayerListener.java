@@ -21,11 +21,10 @@ package me.machinemaker.vanillatweaks.modules.items.playerheaddrops;
 
 import com.google.inject.Inject;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,20 +45,20 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerKilledByPlayer(final PlayerDeathEvent event) {
-        final @Nullable Player killer = event.getEntity().getKiller();
-        if ((this.config.requirePlayerKill && killer == null) || (killer != null && !killer.hasPermission("vanillatweaks.playerheaddrops"))) {
+        final Player player = event.getEntity();
+        final @Nullable Player killer = player.getKiller();
+        if (killer == null || !killer.hasPermission("vanillatweaks.playerheaddrops")) {
             return;
         }
         if (ThreadLocalRandom.current().nextDouble() < this.config.dropChance) {
             final ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-            final SkullMeta meta = (SkullMeta) skull.getItemMeta();
+            final @Nullable SkullMeta meta = (SkullMeta) skull.getItemMeta();
             if (meta == null) return; // shouldn't be possible
-            final GameProfile profile = VTUtils.getGameProfile(event.getEntity());
-            final Property texture = profile.getProperties().get("textures").iterator().next();
-            profile.getProperties().removeAll("textures");
-            profile.getProperties().put("textures", new Property("textures", texture.getValue()));
-            VTUtils.loadMeta(meta, profile);
-            meta.setLore(List.of("Killed by " + event.getEntity().getKiller().getName()));
+
+            final GameProfile profile = PTUtils.getGameProfile(event.getEntity());
+            PTUtils.sanitizeTextures(profile);
+            PTUtils.loadMeta(meta, profile);
+            meta.setLore(List.of("Killed by " + killer.getName()));
             skull.setItemMeta(meta);
             event.getDrops().add(skull);
         }

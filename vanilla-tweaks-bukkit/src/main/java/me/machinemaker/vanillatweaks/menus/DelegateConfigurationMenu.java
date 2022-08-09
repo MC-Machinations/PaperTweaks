@@ -21,42 +21,37 @@ package me.machinemaker.vanillatweaks.menus;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.ComponentLike;
-import org.jetbrains.annotations.NotNull;
 
 public class DelegateConfigurationMenu<S> implements ConfigurationMenu<S> {
 
-    private final ConfigurationMenu<S> menu;
+    private final ConfigurationMenu<? super S> menu;
 
-    protected DelegateConfigurationMenu(@NotNull ConfigurationMenu<S> menu) {
+    protected DelegateConfigurationMenu(final ConfigurationMenu<? super S> menu) {
         this.menu = menu;
     }
 
     @Override
-    public @NotNull ComponentLike[] buildHeader(@NotNull S object) {
+    public ComponentLike[] buildHeader(final S object) {
         return this.menu.buildHeader(object);
     }
 
     @Override
-    public @NotNull Iterable<? extends ComponentLike> buildParts(@NotNull S object) {
+    public Iterable<? extends ComponentLike> buildParts(final S object) {
         return this.menu.buildParts(object);
     }
 
     @Override
-    public @NotNull ComponentLike[] buildFooter(@NotNull S object) {
+    public ComponentLike[] buildFooter(final S object) {
         return this.menu.buildFooter(object);
     }
 
     @Override
-    public @NotNull ComponentLike build(@NotNull S object) {
+    public ComponentLike build(final S object) {
         return this.menu.build(object);
     }
 
     @Override
-    public void send(@NotNull Audience audience, S object) {
+    public void send(final Audience audience, final S object) {
         this.menu.send(audience, object);
-    }
-
-    protected @NotNull ConfigurationMenu<S> menu1() {
-        return this.menu;
     }
 }

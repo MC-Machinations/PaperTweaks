@@ -20,31 +20,29 @@
 package me.machinemaker.vanillatweaks.menus;
 
 import cloud.commandframework.context.CommandContext;
+import java.util.List;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class ReferenceConfigurationMenu<S> extends AbstractConfigurationMenu<S> {
 
     private final S reference;
 
-    public ReferenceConfigurationMenu(@NotNull Component title, String commandPrefix, @NotNull List<MenuPartLike<S>> parts, @NotNull S reference) {
+    public ReferenceConfigurationMenu(final Component title, final String commandPrefix, final List<MenuPartLike<S>> parts, final S reference) {
         super(title, commandPrefix, parts);
         this.reference = reference;
     }
 
-    public void send(@NotNull CommandContext<CommandDispatcher> context) {
+    public void send(final CommandContext<CommandDispatcher> context) {
         this.send(context.getSender(), this.reference);
     }
 
     @Override
-    public void send(@NotNull Audience audience, @NotNull S reference) {
+    public void send(final Audience audience, final S reference) {
         if (audience instanceof Player || audience instanceof PlayerCommandDispatcher) {
             audience.sendMessage(this.build(reference));
         } else {

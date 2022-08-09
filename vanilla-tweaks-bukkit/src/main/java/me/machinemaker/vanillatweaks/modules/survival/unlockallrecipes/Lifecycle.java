@@ -44,4 +44,9 @@ class Lifecycle extends ModuleLifecycle {
     public void onEnable() {
         Bukkit.getOnlinePlayers().forEach(unlockAllRecipes::discoverAllRecipes);
     }
+
+    @Override
+    public void onReload() {
+        this.unlockAllRecipes.getRecipeCache().invalidate();
+    }
 }

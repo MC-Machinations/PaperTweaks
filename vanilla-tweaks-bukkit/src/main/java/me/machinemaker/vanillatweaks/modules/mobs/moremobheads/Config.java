@@ -26,7 +26,6 @@ import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @Menu(commandPrefix = "/moremobheads admin config")
 @VTConfig
@@ -38,7 +37,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     boolean requirePlayerKill = false;
 
     @Override
-    public @NotNull Component title() {
+    public Component title() {
         return buildDefaultTitle("More Mob Heads");
     }
 }

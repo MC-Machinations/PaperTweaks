@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.utils;
 
 import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Caches the hash code of the wrapped object
@@ -27,27 +28,28 @@ import java.util.Objects;
  * @param <T>
  */
 public class CachedHashObjectWrapper<T> {
+
     public final T item;
     private final int hash;
 
-    public CachedHashObjectWrapper(T item) {
+    public CachedHashObjectWrapper(final T item) {
         this.item = item;
         this.hash = Objects.hashCode(item);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (item == null) {
+    public boolean equals(@Nullable Object o) {
+        if (this.item == null) {
             return o == null;
         }
         if (o instanceof CachedHashObjectWrapper<?>) {
             o = ((CachedHashObjectWrapper<?>) o).item;
         }
-        return item.equals(o);
+        return this.item.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return hash;
+        return this.hash;
     }
 }

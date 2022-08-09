@@ -23,50 +23,51 @@ import com.google.inject.Inject;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public abstract class TimerRunnable implements Runnable {
 
     protected final Plugin plugin;
-    private BukkitTask currentTask;
+    private @Nullable BukkitTask currentTask;
 
     @Inject
-    protected TimerRunnable(Plugin plugin) {
+    protected TimerRunnable(final Plugin plugin) {
         this.plugin = plugin;
     }
 
-    public synchronized BukkitTask runTaskTimer(long delay, long period) throws IllegalStateException {
-        checkNotYetScheduled();
-        this.currentTask = Bukkit.getScheduler().runTaskTimer(plugin, this, delay, period);
+    private static void checkScheduled(final @Nullable BukkitTask task) {
+        if (task == null || task.isCancelled()) {
+            throw new IllegalStateException("Not scheduled yet");
+        }
+    }
+
+    private static void checkNotYetScheduled(final @Nullable BukkitTask task) {
+        if (task != null && !task.isCancelled()) {
+            throw new IllegalStateException("Already scheduled as " + task.getTaskId());
+        }
+    }
+
+    public synchronized BukkitTask runTaskTimer(final long delay, final long period) throws IllegalStateException {
+        checkNotYetScheduled(this.currentTask);
+        this.currentTask = Bukkit.getScheduler().runTaskTimer(this.plugin, this, delay, period);
         return this.currentTask;
     }
 
-    public synchronized BukkitTask runTaskTimerAsynchronously(long delay, long period) throws IllegalStateException {
-        checkNotYetScheduled();
-        this.currentTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, delay, period);
+    public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) throws IllegalStateException {
+        checkNotYetScheduled(this.currentTask);
+        this.currentTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, this, delay, period);
         return this.currentTask;
     }
 
     public synchronized void cancel() {
         try {
-            Bukkit.getScheduler().cancelTask(getTaskId());
-        } catch (IllegalStateException ignored) {
+            Bukkit.getScheduler().cancelTask(this.getTaskId());
+        } catch (final IllegalStateException ignored) {
         }
     }
 
     public synchronized int getTaskId() throws IllegalStateException {
-        checkScheduled();
+        checkScheduled(this.currentTask);
         return this.currentTask.getTaskId();
-    }
-
-    private void checkScheduled() {
-        if (this.currentTask == null || this.currentTask.isCancelled()) {
-            throw new IllegalStateException("Not scheduled yet");
-        }
-    }
-
-    private void checkNotYetScheduled() {
-        if (this.currentTask != null && !this.currentTask.isCancelled()) {
-            throw new IllegalStateException("Already scheduled as " + this.currentTask.getTaskId());
-        }
     }
 }

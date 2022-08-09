@@ -20,16 +20,17 @@
 package me.machinemaker.vanillatweaks.modules.mobs.moremobheads;
 
 import com.google.inject.Inject;
+import java.util.Collection;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
-
-import java.util.Collection;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class EntityListener implements ModuleListener {
 
@@ -37,23 +38,24 @@ class EntityListener implements ModuleListener {
     private final Config config;
 
     @Inject
-    EntityListener(MoreMobHeads moreMobHeads, Config config) {
+    EntityListener(final MoreMobHeads moreMobHeads, final Config config) {
         this.moreMobHeads = moreMobHeads;
         this.config = config;
     }
 
-    @SuppressWarnings("unchecked")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityDeath(EntityDeathEvent event) {
-        if (config.requirePlayerKill && event.getEntity().getKiller() == null) {
+    public void onEntityDeath(final EntityDeathEvent event) {
+        final LivingEntity entity = event.getEntity();
+        final @Nullable Player killer = entity.getKiller();
+        if (this.config.requirePlayerKill && killer == null) {
             return;
         }
-        if (event.getEntity().getKiller() != null && !event.getEntity().getKiller().hasPermission("vanillatweaks.moremobheads")){
+        if (killer != null && !entity.getKiller().hasPermission("vanillatweaks.moremobheads")) {
             return;
         }
 
         if (event.getEntity() instanceof Wither) { // Special handling for withers for the moment
-            event.getDrops().add(VTUtils.random(this.moreMobHeads.heads.get(Wither.class)).createSkull());
+            event.getDrops().add(PTUtils.random(this.moreMobHeads.getMobHeads(Wither.class)).createSkull());
             return;
         }
 
@@ -62,11 +64,11 @@ class EntityListener implements ModuleListener {
             lootingLevel = event.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
         }
 
-        Collection<MobHead> heads = this.moreMobHeads.heads.get((Class<? extends LivingEntity>) event.getEntityType().getEntityClass());
-        if (heads == null || heads.isEmpty()) {
+        final Collection<MobHead> heads = this.moreMobHeads.getMobHeads(entity.getClass());
+        if (heads.isEmpty()) {
             return;
         }
-        for (MobHead head : heads) {
+        for (final MobHead head : heads) {
             if (head.test(event.getEntity())) {
                 if (head.chance(lootingLevel)) {
                     event.getDrops().add(head.createSkull());

@@ -20,23 +20,24 @@
 package me.machinemaker.vanillatweaks.modules;
 
 import cloud.commandframework.context.CommandContext;
+import java.util.List;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.ReferenceConfigurationMenu;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
-import java.util.List;
-
+@DefaultQualifier(NonNull.class)
 public abstract class SimpleMenuModuleConfig<C extends SimpleMenuModuleConfig<C>> extends MenuModuleConfig<C, ReferenceConfigurationMenu<C>> {
 
     @Override
-    protected final @NotNull ReferenceConfigurationMenu<C> createMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<C>> configMenuParts) {
+    protected final ReferenceConfigurationMenu<C> createMenu(final Component title, final String commandPrefix, final List<MenuPartLike<C>> configMenuParts) {
         return new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, this.self());
     }
 
     @Override
-    protected final void sendMenu(@NotNull CommandContext<CommandDispatcher> context) {
+    protected final void sendMenu(final CommandContext<CommandDispatcher> context) {
         this.menu().send(context);
     }
 }

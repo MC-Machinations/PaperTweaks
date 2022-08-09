@@ -21,7 +21,6 @@ package me.machinemaker.vanillatweaks.utils;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.jetbrains.annotations.NotNull;
 
 public final class Keys {
 
@@ -31,11 +30,11 @@ public final class Keys {
     }
 
     @SuppressWarnings("deprecation")
-    public static @NotNull NamespacedKey key(@NotNull String string) {
+    public static NamespacedKey key(final String string) {
         return new NamespacedKey(NAMESPACE, string);
     }
 
-    public static @NotNull String itemTranslationKey(@NotNull Material material) {
+    public static String itemTranslationKey(final Material material) {
         return "item." + material.getKey().getNamespace() + "." + material.getKey().getKey().replace('/', '.');
     }
 }

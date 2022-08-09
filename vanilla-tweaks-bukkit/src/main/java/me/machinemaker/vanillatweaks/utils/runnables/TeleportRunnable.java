@@ -24,7 +24,6 @@ import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class TeleportRunnable extends BukkitRunnable {
 
@@ -35,7 +34,7 @@ public abstract class TeleportRunnable extends BukkitRunnable {
     protected final Location teleportLoc;
     private long tickDelay;
 
-    protected TeleportRunnable(@NotNull Player player, @NotNull Location teleportLoc, long tickDelay) {
+    protected TeleportRunnable(final Player player, final Location teleportLoc, final long tickDelay) {
         Preconditions.checkArgument(tickDelay > 0, "tickDelay must be positive");
         this.player = player;
         this.originalLoc = player.getLocation();
@@ -61,7 +60,7 @@ public abstract class TeleportRunnable extends BukkitRunnable {
             this.cancel();
             return;
         }
-        if (this.originalLoc.distanceSquared(player.getLocation()) >= MOVEMENT_THRESHOLD) {
+        if (this.originalLoc.distanceSquared(this.player.getLocation()) >= MOVEMENT_THRESHOLD) {
             this.onMove();
             this.onEnd();
             this.cancel();

@@ -18,10 +18,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * Menu options
+ * More Mob Heads module
  */
 @DefaultQualifier(NonNull.class)
-package me.machinemaker.vanillatweaks.menus.options;
+package me.machinemaker.vanillatweaks.modules.mobs.moremobheads;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

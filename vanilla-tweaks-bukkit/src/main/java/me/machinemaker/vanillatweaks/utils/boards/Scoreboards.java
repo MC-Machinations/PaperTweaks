@@ -25,27 +25,27 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public final class Scoreboards {
 
     private Scoreboards() {
     }
 
-    public static @NotNull ScoreboardManager manager() {
-        var manager = Bukkit.getScoreboardManager();
+    public static ScoreboardManager manager() {
+        final @Nullable ScoreboardManager manager = Bukkit.getScoreboardManager();
         if (manager == null) {
-            throw new IllegalStateException("the ScorebaordManager is null");
+            throw new IllegalStateException("the ScoreboardManager is null");
         }
         return manager;
     }
 
-    public static @NotNull Scoreboard main() {
+    public static Scoreboard main() {
         return manager().getMainScoreboard();
     }
 
-    public static @NotNull Team getTeam(String name, ChatColor color) {
-        Team team = main().getTeam(name);
+    public static Team getTeam(final String name, final ChatColor color) {
+        @Nullable Team team = main().getTeam(name);
         if (team == null) {
             team = main().registerNewTeam(name);
         }
@@ -53,8 +53,8 @@ public final class Scoreboards {
         return team;
     }
 
-    public static @NotNull Objective getDummyObjective(@NotNull String name, @NotNull String displayName) {
-        Objective objective = main().getObjective(name);
+    public static Objective getDummyObjective(final String name, final String displayName) {
+        @Nullable Objective objective = main().getObjective(name);
         if (objective == null) {
             objective = main().registerNewObjective(name, "dummy", displayName);
         }

@@ -19,7 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.modules.experimental.elevators;
 
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import me.machinemaker.vanillatweaks.utils.runnables.ItemDropFinder;
 import org.bukkit.Location;
 import org.bukkit.Tag;
@@ -43,7 +43,7 @@ class ElevatorItemFinder extends ItemDropFinder {
     public boolean successCheck(@NotNull Item item) {
         Location loc = item.getLocation().subtract(0, 0.25, 0);
         if (Tag.WOOL.isTagged(loc.getBlock().getType())) {
-            if (VTUtils.getNearbyEntitiesOfType(Marker.class, loc.getBlock().getLocation().add(0.5, 0.5, 0.5), 0.1, 0.1, 0.1, Elevators.IS_ELEVATOR::has).isEmpty()) {
+            if (Entities.getNearbyEntitiesOfType(Marker.class, loc.getBlock().getLocation().add(0.5, 0.5, 0.5), 0.1, 0.1, 0.1, Elevators.IS_ELEVATOR::has).isEmpty()) {
                 createElevator(item, loc);
                 return true;
             }

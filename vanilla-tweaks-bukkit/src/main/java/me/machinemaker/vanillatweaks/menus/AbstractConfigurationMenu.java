@@ -19,13 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.menus;
 
+import java.util.List;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
@@ -40,44 +38,32 @@ public abstract class AbstractConfigurationMenu<S> implements ConfigurationMenu<
     private final String commandPrefix;
     private final List<MenuPartLike<S>> parts;
 
-    protected AbstractConfigurationMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<S>> parts) {
+    protected AbstractConfigurationMenu(final Component title, final String commandPrefix, final List<MenuPartLike<S>> parts) {
         this.title = title;
         this.commandPrefix = commandPrefix;
         this.parts = parts;
     }
 
     @Override
-    public @NotNull ComponentLike[] buildHeader(@NotNull S object) {
-        return new ComponentLike[] { TITLE_LINE, this.title, TITLE_LINE };
+    public ComponentLike[] buildHeader(final S object) {
+        return new ComponentLike[]{TITLE_LINE, this.title, TITLE_LINE};
     }
 
     @Override
-    public @NotNull Iterable<? extends ComponentLike> buildParts(@NotNull S object) {
+    public Iterable<? extends ComponentLike> buildParts(final S object) {
         return this.parts.stream().map(MenuPartLike::asMenuPart).map(part -> part.build(object, this.commandPrefix)).toList();
     }
 
     @Override
-    public @NotNull ComponentLike[] buildFooter(@NotNull S object) {
-        return new ComponentLike[] { END_LINE };
+    public ComponentLike[] buildFooter(final S object) {
+        return new ComponentLike[]{END_LINE};
     }
 
     @Override
-    public @NotNull ComponentLike build(@NotNull S object) {
+    public ComponentLike build(final S object) {
         return text()
-                .append(buildHeader(object))
-                .append(buildParts(object))
-                .append(buildFooter(object));
-
-        // final ComponentLike[] extras = this.extras();
-        // ComponentLike[] children = new Component[this.parts.size() + extras.length + 4];
-        // children[0] = TITLE_LINE;
-        // children[1] = title;
-        // children[2] = TITLE_LINE;
-        // System.arraycopy(extras, 0, children, 3, extras.length);
-        // for (int i = 0; i < this.parts.size(); i++) {
-        //     children[i + extras.length + 3] = this.parts.get(i).asMenuPart().build(object, this.commandPrefix);
-        // }
-        // children[children.length - 1] = END_LINE;
-        // return Components.join(children);
+                .append(this.buildHeader(object))
+                .append(this.buildParts(object))
+                .append(this.buildFooter(object));
     }
 }

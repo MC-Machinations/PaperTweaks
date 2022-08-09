@@ -41,7 +41,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
@@ -69,7 +69,7 @@ public class TreasureGems extends ModuleBase {
             final Iterator<Map.Entry<String, JsonNode>> iter = heads.fields();
             while (iter.hasNext()) {
                 final Map.Entry<String, JsonNode> entry = iter.next();
-                tempHeads.put(entry.getKey(), VTUtils.getSkull(GsonComponentSerializer.gson().deserialize(entry.getValue().get("name").asText()), UUID.fromString(entry.getValue().get("uuid").asText()), entry.getValue().get("texture").asText(), 1));
+                tempHeads.put(entry.getKey(), PTUtils.getSkull(GsonComponentSerializer.gson().deserialize(entry.getValue().get("name").asText()), UUID.fromString(entry.getValue().get("uuid").asText()), entry.getValue().get("texture").asText(), 1));
             }
 
         } catch (final IOException ex) {

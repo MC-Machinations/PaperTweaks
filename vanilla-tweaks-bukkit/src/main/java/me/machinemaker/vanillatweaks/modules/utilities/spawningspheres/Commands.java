@@ -23,8 +23,9 @@ import cloud.commandframework.arguments.standard.EnumArgument;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import me.machinemaker.vanillatweaks.utils.Keys;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -62,12 +63,12 @@ class Commands extends ConfiguredModuleCommand {
                 .argument(EnumArgument.of(Color.class, "color"))
                 .handler(sync((context, player) -> {
                     Color color = context.get("color");
-                    Collection<ArmorStand> stands = VTUtils.getEntitiesOfType(ArmorStand.class, player.getWorld(), stand -> color == COLOR_KEY.getFrom(stand));
+                    Collection<ArmorStand> stands = Entities.getEntitiesOfType(ArmorStand.class, player.getWorld(), stand -> color == COLOR_KEY.getFrom(stand));
                     if (!stands.isEmpty()) {
                         context.getSender().sendMessage(translatable("modules.spawning-spheres.commands.add.fail", RED, color));
                         return;
                     }
-                    Location center = VTUtils.toBlockLoc(player.getLocation()).add(0.5, 0, 0.5);
+                    Location center = PTUtils.toBlockLoc(player.getLocation()).add(0.5, 0, 0.5);
                     player.getWorld().spawn(center.clone().subtract(0, 1, 0), ArmorStand.class, stand -> {
                         configureStand(stand, context.get("color"), color.center);
                         stand.setCustomName("Center");
@@ -81,7 +82,7 @@ class Commands extends ConfiguredModuleCommand {
                 .argument(EnumArgument.of(Color.class, "color"))
                 .handler(sync((context, player) -> {
                     Color color = context.get("color");
-                    Collection<ArmorStand> sphereStands = VTUtils.getEntitiesOfType(ArmorStand.class, player.getWorld(), stand -> color == COLOR_KEY.getFrom(stand));
+                    Collection<ArmorStand> sphereStands = Entities.getEntitiesOfType(ArmorStand.class, player.getWorld(), stand -> color == COLOR_KEY.getFrom(stand));
                     if (sphereStands.isEmpty()) {
                         context.getSender().sendMessage(translatable("modules.spawning-spheres.commands.remove.fail", RED, color));
                         return;

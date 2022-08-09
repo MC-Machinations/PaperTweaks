@@ -20,7 +20,7 @@
 package me.machinemaker.vanillatweaks.modules.hermitcraft.wanderingtrades;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ class Trade {
     Trade(int maxUses, @NotNull Material secondaryCost, int headCount, @NotNull String name, @NotNull UUID uuid, @NotNull String texture) {
         this.maxUses = maxUses;
         this.secondaryCost = secondaryCost;
-        this.skull = VTUtils.getSkull(GsonComponentSerializer.gson().deserialize(name), uuid, texture, headCount);
+        this.skull = PTUtils.getSkull(GsonComponentSerializer.gson().deserialize(name), uuid, texture, headCount);
     }
 
     public boolean isBlockTrade() {

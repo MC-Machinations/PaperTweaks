@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.modules.survival.workstationhighlights;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.AreaEffectCloud;
@@ -47,7 +47,7 @@ class Commands extends ModuleCommand {
         manager.command(builder
                 .permission(modulePermission("vanillatweaks.workstationhighlights.findworkstation"))
                 .handler(sync((context, player) -> {
-                    Villager villager = VTUtils.getSingleNearbyEntityOfType(Villager.class, player.getLocation(), 3, 3, 3);
+                    Villager villager = Entities.getSingleNearbyEntityOfType(Villager.class, player.getLocation(), 3, 3, 3);
                     if (villager == null) {
                         this.messageService.noVillagerNearby(context.getSender());
                         return;

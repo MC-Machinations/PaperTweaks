@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.modules.hermitcraft.wanderingtrades;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.WanderingTrader;
 import org.bukkit.event.EventHandler;
@@ -56,10 +56,10 @@ class EntityListener implements ModuleListener {
         int blockTrades = this.config.blockTradesEnabled ? ThreadLocalRandom.current().nextInt(this.config.blockMin, this.config.blockMax + 1) : 0;
         List<MerchantRecipe> recipes = new ArrayList<>(trader.getRecipes());
         for (int i = 0; i < blockTrades; i++) {
-            recipes.add(0, VTUtils.random(this.wanderingTrades.blockTrades).createTrade());
+            recipes.add(0, PTUtils.random(this.wanderingTrades.blockTrades).createTrade());
         }
         for (int i = 0; i < headTrades; i++) {
-            recipes.add(0, VTUtils.random(this.wanderingTrades.hermitTrades).createTrade());
+            recipes.add(0, PTUtils.random(this.wanderingTrades.hermitTrades).createTrade());
         }
         trader.setRecipes(recipes);
     }

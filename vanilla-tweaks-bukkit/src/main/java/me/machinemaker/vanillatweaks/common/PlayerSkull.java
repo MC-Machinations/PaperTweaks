@@ -20,7 +20,7 @@
 package me.machinemaker.vanillatweaks.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -34,7 +34,7 @@ public class PlayerSkull {
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public PlayerSkull(@Nullable String name, @Nullable String gameProfileName, @Nullable UUID uuid, @Nullable String texture, @Nullable Integer count) {
-        this.skull = VTUtils.getSkull(GsonComponentSerializer.gson().deserializeOrNull(name), gameProfileName, uuid, texture, count != null ? count : 1);
+        this.skull = PTUtils.getSkull(GsonComponentSerializer.gson().deserializeOrNull(name), gameProfileName, uuid, texture, count != null ? count : 1);
     }
 
     public @NotNull ItemStack cloneWithAmount(int amount) {

@@ -48,6 +48,10 @@ public class UnlockAllRecipes extends ModuleBase {
         humanEntity.discoverRecipes(recipes.get());
     }
 
+    Cacheable<Collection<NamespacedKey>> getRecipeCache() {
+        return this.recipes;
+    }
+
     @Override
     protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;

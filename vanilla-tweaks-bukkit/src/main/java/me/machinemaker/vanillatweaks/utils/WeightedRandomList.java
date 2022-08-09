@@ -24,20 +24,19 @@ import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.function.ToDoubleFunction;
-import org.jetbrains.annotations.NotNull;
 
 public class WeightedRandomList<T> {
 
     private final NavigableMap<Double, T> entries = new TreeMap<>();
     private final Random random;
-    private final ToDoubleFunction<T> toDoubleFunction;
+    private final ToDoubleFunction<? super T> toDoubleFunction;
     private double totalWeight = 0;
 
-    public WeightedRandomList(@NotNull final ToDoubleFunction<T> toDoubleFunction) {
+    public WeightedRandomList(final ToDoubleFunction<? super T> toDoubleFunction) {
         this(new Random(), toDoubleFunction);
     }
 
-    public WeightedRandomList(@NotNull final Random random, @NotNull final ToDoubleFunction<T> toDoubleFunction) {
+    public WeightedRandomList(final Random random, final ToDoubleFunction<? super T> toDoubleFunction) {
         this.random = random;
         this.toDoubleFunction = toDoubleFunction;
     }
@@ -53,7 +52,7 @@ public class WeightedRandomList<T> {
         }
     }
 
-    public @NotNull T next() {
+    public T next() {
         if (this.entries.isEmpty()) {
             throw new IllegalStateException("Must have at least 1 entry");
         }

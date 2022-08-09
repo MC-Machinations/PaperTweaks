@@ -19,24 +19,16 @@
  */
 package me.machinemaker.vanillatweaks.menus.options;
 
-import com.google.common.collect.Lists;
-import java.util.List;
 import java.util.function.Function;
-import me.machinemaker.vanillatweaks.menus.parts.Previewable;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import static me.machinemaker.vanillatweaks.adventure.Components.join;
-import static net.kyori.adventure.text.Component.newline;
-import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class IntegerMenuOption<S> extends MenuOption<Integer, S> implements EditableOption<Integer> {
+public class IntegerMenuOption<S> extends NumberMenuOption<Integer, S> implements EditableOption<Integer> {
 
     protected IntegerMenuOption(final Component label, final Function<S, Integer> typeMapper, final Setting<Integer, ?> setting, final Component extendedDescription, final @Nullable Function<Integer, ClickEvent> previewAction) {
         super(label, typeMapper, setting, extendedDescription, previewAction);
@@ -59,37 +51,8 @@ public class IntegerMenuOption<S> extends MenuOption<Integer, S> implements Edit
     }
 
     @Override
-    public Component build(final S object, final String commandPrefix) {
-        final List<Component> components = Lists.newArrayList(this.createClickComponent(this.selected(object), commandPrefix), space());
-
-        this.previewAction().ifPresent(previewAction -> {
-            components.add(Previewable.createPreviewComponent(this.label(), previewAction.apply(this.selected(object))));
-            components.add(space());
-        });
-
-        components.addAll(List.of(
-                this.label(),
-                space(),
-                translatable("commands.config.current-value", GRAY, text(this.selected(object))),
-                newline()
-        ));
-
-        return join(components.toArray(new ComponentLike[0]));
-    }
-
-    @Override
-    public Component label() {
-        return super.label();
-    }
-
-    @Override
-    public Component defaultValueDescription() {
-        return text(this.setting().defaultValue());
-    }
-
-    @Override
-    public Component validations() {
-        return this.setting().validations();
+    protected Component convertToComponent(final Integer value) {
+        return text(value);
     }
 
     public static class Builder<S> extends MenuOption.Builder<Integer, IntegerMenuOption<S>, S, Builder<S>> {

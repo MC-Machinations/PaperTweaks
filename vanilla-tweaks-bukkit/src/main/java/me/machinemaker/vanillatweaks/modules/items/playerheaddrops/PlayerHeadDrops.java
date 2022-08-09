@@ -19,22 +19,20 @@
  */
 package me.machinemaker.vanillatweaks.modules.items.playerheaddrops;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "PlayerHeadDrops", configPath = "items.player-head-drops", description = "Configurable chance of players dropping their head on death")
 public class PlayerHeadDrops extends ModuleBase {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
@@ -49,7 +47,7 @@ public class PlayerHeadDrops extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 }

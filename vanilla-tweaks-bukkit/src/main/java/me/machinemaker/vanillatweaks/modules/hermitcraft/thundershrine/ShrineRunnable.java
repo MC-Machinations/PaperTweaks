@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.modules.hermitcraft.thundershrine;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import me.machinemaker.vanillatweaks.utils.runnables.TimerRunnable;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
@@ -52,8 +52,8 @@ class ShrineRunnable extends TimerRunnable {
     @Override
     public void run() {
         for (World world : Bukkit.getWorlds()) {
-            for (AreaEffectCloud cloud : VTUtils.getEntitiesOfType(AreaEffectCloud.class, world, ThunderShrine.SHRINE::has)) {
-                Item item = VTUtils.getSingleNearbyEntityOfType(Item.class, cloud.getLocation(), 0.5, 0.5, 0.5, i -> i.getItemStack().getType() == Material.NETHER_STAR && i.getItemStack().getAmount() == 1);
+            for (AreaEffectCloud cloud : Entities.getEntitiesOfType(AreaEffectCloud.class, world, ThunderShrine.SHRINE::has)) {
+                Item item = Entities.getSingleNearbyEntityOfType(Item.class, cloud.getLocation(), 0.5, 0.5, 0.5, i -> i.getItemStack().getType() == Material.NETHER_STAR && i.getItemStack().getAmount() == 1);
                 if (item != null) {
                     item.remove();
                     world.spawnParticle(Particle.FLAME, cloud.getLocation(), 100, 0, 0, 0, 0.5);
@@ -64,7 +64,7 @@ class ShrineRunnable extends TimerRunnable {
                     world.setThunderDuration(6000);
                     world.setStorm(true);
                     world.setThundering(true);
-                    for (Player player : VTUtils.getNearbyEntitiesOfType(Player.class, cloud.getLocation(), 5, 5, 5)) {
+                    for (Player player : Entities.getNearbyEntitiesOfType(Player.class, cloud.getLocation(), 5, 5, 5)) {
                         this.audiences.player(player).sendMessage(translatable("modules.thunder-shrine.ritual.success", RED));
                     }
                 } else {

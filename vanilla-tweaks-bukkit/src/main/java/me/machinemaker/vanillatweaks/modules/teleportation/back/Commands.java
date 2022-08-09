@@ -27,7 +27,7 @@ import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import org.bukkit.Location;
 
 import java.time.Duration;
@@ -64,7 +64,7 @@ class Commands extends ConfiguredModuleCommand {
                         context.getSender().sendMessage(translatable("modules.back.commands.root.fail.no-loc", RED));
                         return;
                     }
-                    loc = VTUtils.toCenter(loc, false);
+                    loc = PTUtils.toCenter(loc, false);
                     context.getSender().sendMessage(translatable("modules.back.commands.root.success", GOLD));
                     if (this.config.delay > 0) {
                         new BackTeleportRunnable(player, loc, this.config.delay * 20L, context.getSender()).start();

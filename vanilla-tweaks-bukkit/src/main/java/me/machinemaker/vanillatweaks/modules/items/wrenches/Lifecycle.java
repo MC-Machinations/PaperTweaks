@@ -26,7 +26,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import me.machinemaker.vanillatweaks.utils.Keys;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.PTUtils;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -51,7 +51,7 @@ class Lifecycle extends ModuleLifecycle {
     static final ItemStack WRENCH = new ItemStack(Material.CARROT_ON_A_STICK, 1);
     static {
         ItemMeta meta = requireNonNull(WRENCH.getItemMeta());
-        VTUtils.loadMeta(meta, text("Redstone Wrench", Style.style().decoration(TextDecoration.ITALIC, false).build()));
+        PTUtils.loadMeta(meta, text("Redstone Wrench", Style.style().decoration(TextDecoration.ITALIC, false).build()));
         meta.setUnbreakable(true);
         meta.setCustomModelData(4321);
         WRENCH.setItemMeta(meta);

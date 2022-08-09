@@ -19,12 +19,12 @@
  */
 package me.machinemaker.vanillatweaks.menus;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.TextComponent;
+import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -35,22 +35,22 @@ public final class MergedMenus {
 
     public static class Menu1<S1, S2> extends DelegateConfigurationMenu<S1> {
 
-        private final BuildablePart<S2> extra1;
+        private final BuildablePart<? super S2> extra1;
 
-        public Menu1(@NotNull ConfigurationMenu<S1> menu1, @NotNull BuildablePart<S2> extra1) {
+        public Menu1(final ConfigurationMenu<S1> menu1, final BuildablePart<? super S2> extra1) {
             super(menu1);
             this.extra1 = extra1;
         }
 
-        public @NotNull ComponentLike build(@NotNull S1 object1, @NotNull S2 object2) {
-            final var builder = text()
+        public ComponentLike build(final S1 object1, final S2 object2) {
+            final TextComponent.Builder builder = text()
                     .append(this.buildHeader(object1))
                     .append(this.buildParts(object1))
                     .append(this.buildFooter(object1));
-            return addExtras(builder, this.extra1.build(object2));
+            return this.addExtras(builder, this.extra1.build(object2));
         }
 
-        public @NotNull ComponentLike addExtras(@NotNull ComponentLike builder, @NotNull ComponentLike @NotNull... components) {
+        public ComponentLike addExtras(final ComponentLike builder, final ComponentLike @NotNull ... components) {
             final List<Component> children = new ArrayList<>(builder.asComponent().children());
             final int offset = children.size() - 1;
             for (int i = 0; i < components.length; i++) {
@@ -60,22 +60,22 @@ public final class MergedMenus {
         }
 
         @Override
-        public @NotNull ComponentLike build(@NotNull S1 object) {
+        public ComponentLike build(final S1 object) {
             throw new UnsupportedOperationException("Not supported on MergedConfigurationMenus");
         }
     }
 
     public static class Menu2<S1, S2, S3> extends Menu1<S1, S2> {
 
-        private final BuildablePart<S3> extra2;
+        private final BuildablePart<? super S3> extra2;
 
-        public Menu2(@NotNull AbstractConfigurationMenu<S1> menu1, @NotNull BuildablePart<S2> extra1, @NotNull BuildablePart<S3> extra2) {
+        public Menu2(final AbstractConfigurationMenu<S1> menu1, final BuildablePart<S2> extra1, final BuildablePart<? super S3> extra2) {
             super(menu1, extra1);
             this.extra2 = extra2;
         }
 
-        protected @NotNull ComponentLike build(@NotNull S1 object1, @NotNull S2 object2, @NotNull S3 object3) {
-            return this.addExtras(super.build(object1, object2), this.extra2.build(object3));
+        protected ComponentLike build(final S1 object1, final S2 object2, final S3 object3) {
+            return this.addExtras(this.build(object1, object2), this.extra2.build(object3));
         }
     }
 

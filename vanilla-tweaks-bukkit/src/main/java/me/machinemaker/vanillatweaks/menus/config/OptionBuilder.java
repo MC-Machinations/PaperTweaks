@@ -24,9 +24,16 @@ import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.menus.options.MenuOption;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 @FunctionalInterface
 public interface OptionBuilder {
 
     <C extends MenuModuleConfig<C, ?>> MenuOption.Builder<?, ?, C, ?> buildOption(ValueNode<?> valueNode, Map<String, ConfigSetting<?, C>> settings);
+
+    @FunctionalInterface
+    interface Factory {
+
+        <C extends MenuModuleConfig<C, ?>> MenuOption.@Nullable Builder<?, ?, C, ?> buildOption(ValueNode<?> valueNode, Map<String, ConfigSetting<?, C>> settings);
+    }
 }

@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.modules.experimental.elevators;
 
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -55,7 +55,7 @@ class PlayerListener implements ModuleListener {
     public void onPlayerMove(PlayerMoveEvent event) {
         if (canUseElevator(event) && event.getPlayer().getVelocity().getY() > 0 && isOnElevator(event.getPlayer().getLocation())) {
             Location elevatorLoc = event.getPlayer().getLocation().subtract(0, 1, 0).getBlock().getLocation();
-            Collection<Marker> elevators = VTUtils.getNearbyEntitiesOfType(Marker.class, elevatorLoc.add(0.5, 0.5, 0.5), 0.01, config.maxVerticalSearch + 0.01, 0.01, marker -> Elevators.IS_ELEVATOR.has(marker) && marker.getLocation().getBlockY() > elevatorLoc.getBlockY());
+            Collection<Marker> elevators = Entities.getNearbyEntitiesOfType(Marker.class, elevatorLoc.add(0.5, 0.5, 0.5), 0.01, config.maxVerticalSearch + 0.01, 0.01, marker -> Elevators.IS_ELEVATOR.has(marker) && marker.getLocation().getBlockY() > elevatorLoc.getBlockY());
             teleportPlayer(event.getPlayer(), elevatorLoc, elevators);
         }
     }
@@ -64,7 +64,7 @@ class PlayerListener implements ModuleListener {
     public void onPlayerSneak(PlayerToggleSneakEvent event) {
         if (canUseElevator(event) && event.isSneaking() && isOnElevator(event.getPlayer().getLocation())) {
             Location elevatorLoc = event.getPlayer().getLocation().subtract(0, 1, 0).getBlock().getLocation();
-            Collection<Marker> elevators = VTUtils.getNearbyEntitiesOfType(Marker.class, elevatorLoc.add(0.5, 0.5, 0.5), 0.01, config.maxVerticalSearch + 0.01, 0.01, marker -> Elevators.IS_ELEVATOR.has(marker) && marker.getLocation().getBlockY() < elevatorLoc.getBlockY());
+            Collection<Marker> elevators = Entities.getNearbyEntitiesOfType(Marker.class, elevatorLoc.add(0.5, 0.5, 0.5), 0.01, config.maxVerticalSearch + 0.01, 0.01, marker -> Elevators.IS_ELEVATOR.has(marker) && marker.getLocation().getBlockY() < elevatorLoc.getBlockY());
             teleportPlayer(event.getPlayer(), elevatorLoc, elevators);
         }
     }
@@ -84,6 +84,6 @@ class PlayerListener implements ModuleListener {
     }
 
     private static boolean isOnElevator(@NotNull Location location) {
-        return VTUtils.getSingleNearbyEntityOfType(Marker.class, location.subtract(0, 1, 0).getBlock().getLocation().add(0.5, 0.5, 0.5), 0.1, 0.1, 0.1, Elevators.IS_ELEVATOR::has) != null;
+        return Entities.getSingleNearbyEntityOfType(Marker.class, location.subtract(0, 1, 0).getBlock().getLocation().add(0.5, 0.5, 0.5), 0.1, 0.1, 0.1, Elevators.IS_ELEVATOR::has) != null;
     }
 }

@@ -22,6 +22,8 @@ package me.machinemaker.vanillatweaks.modules.mobs.moremobheads;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
@@ -30,41 +32,41 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.entity.LivingEntity;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "MoreMobHeads", configPath = "mobs.more-mob-heads", description = "Adds heads for a lot more mobs")
 public class MoreMobHeads extends ModuleBase {
 
     static final Logger LOGGER = LoggerFactory.getModuleLogger(MoreMobHeads.class);
 
-    final Multimap<Class<? extends LivingEntity>, MobHead> heads;
+    private final Multimap<Class<? extends LivingEntity>, MobHead> heads;
 
     @Inject
-    MoreMobHeads(@Named("plugin") ClassLoader loader) {
+    MoreMobHeads(@Named("plugin") final ClassLoader loader) {
         this.heads = MobHead.createMobHeadMap(loader);
     }
 
+    Collection<MobHead> getMobHeads(final Class<? extends LivingEntity> livingEntityClass) {
+        return this.heads.get(livingEntityClass);
+    }
+
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(EntityListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

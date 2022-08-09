@@ -20,7 +20,6 @@
 package me.machinemaker.vanillatweaks.menus;
 
 import net.kyori.adventure.text.ComponentLike;
-import org.jetbrains.annotations.NotNull;
 
 public interface BuildablePart<S> {
 

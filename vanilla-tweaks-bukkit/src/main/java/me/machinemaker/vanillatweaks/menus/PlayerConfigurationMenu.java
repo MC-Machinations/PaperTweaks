@@ -20,28 +20,26 @@
 package me.machinemaker.vanillatweaks.menus;
 
 import cloud.commandframework.context.CommandContext;
+import java.util.List;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class PlayerConfigurationMenu extends AbstractConfigurationMenu<Player> {
 
-    public PlayerConfigurationMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<Player>> parts) {
+    public PlayerConfigurationMenu(final Component title, final String commandPrefix, final List<MenuPartLike<Player>> parts) {
         super(title, commandPrefix, parts);
     }
 
-    public void send(@NotNull CommandContext<CommandDispatcher> context) {
+    public void send(final CommandContext<CommandDispatcher> context) {
         this.send(context.getSender(), PlayerCommandDispatcher.from(context));
     }
 
     @Override
-    public void send(@NotNull Audience audience, @NotNull Player player) {
+    public void send(final Audience audience, final Player player) {
         if (audience instanceof Player || audience instanceof PlayerCommandDispatcher) {
             audience.sendMessage(this.build(player));
         } else {

@@ -21,7 +21,7 @@ package me.machinemaker.vanillatweaks.modules.hermitcraft.thundershrine;
 
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -40,7 +40,7 @@ class Commands extends ConfiguredModuleCommand {
 
         manager.command(literal(builder, "create")
                 .handler(sync((context, player) -> {
-                    ArmorStand stand = VTUtils.getSingleNearbyEntityOfType(ArmorStand.class, player.getLocation(), 3, 3, 3);
+                    ArmorStand stand = Entities.getSingleNearbyEntityOfType(ArmorStand.class, player.getLocation(), 3, 3, 3);
                     if (stand == null) {
                         context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.fail.no-stands", RED));
                     } else {
@@ -59,7 +59,7 @@ class Commands extends ConfiguredModuleCommand {
                 }))
         ).command(literal(builder, "remove")
                 .handler(sync((context, player) -> {
-                    AreaEffectCloud cloud = VTUtils.getSingleNearbyEntityOfType(AreaEffectCloud.class, player.getLocation(), 3, 3, 3, c -> player.getUniqueId().equals(ThunderShrine.SHRINE.getFrom(c)));
+                    AreaEffectCloud cloud = Entities.getSingleNearbyEntityOfType(AreaEffectCloud.class, player.getLocation(), 3, 3, 3, c -> player.getUniqueId().equals(ThunderShrine.SHRINE.getFrom(c)));
                     if (cloud == null) {
                         context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.fail.no-stands", RED));
                     } else {

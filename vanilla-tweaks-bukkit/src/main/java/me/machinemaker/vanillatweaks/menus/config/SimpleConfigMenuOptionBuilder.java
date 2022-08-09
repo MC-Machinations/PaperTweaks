@@ -31,9 +31,9 @@ public abstract class SimpleConfigMenuOptionBuilder<T> extends ConfigMenuOptionB
 
     @Override
     public final <C extends MenuModuleConfig<C, ?>> MenuOption.Builder<T, ?, C, ?> buildOption(final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
-        final var setting = this.<C>createSetting(valueNode);
+        final ConfigSetting<T, C> setting = this.createSetting(valueNode);
         settings.put(setting.indexKey(), setting);
-        final var builder = this.<C>getBuilder().createBuilder(labelKey(valueNode), this.typeMapper(valueNode), setting);
+        final MenuOption.Builder<T, ? extends MenuOption<T, C>, C, ? extends MenuOption.Builder<T, ? extends MenuOption<T, C>, C, ?>> builder = this.<C>getBuilder().createBuilder(labelKey(valueNode), this.typeMapper(valueNode), setting);
         if (valueNode.meta().containsKey("desc")) {
             builder.extendedDescription((String) valueNode.meta().get("desc"));
         }

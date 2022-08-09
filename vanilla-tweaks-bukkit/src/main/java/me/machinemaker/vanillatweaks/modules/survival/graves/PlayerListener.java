@@ -64,10 +64,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import static me.machinemaker.vanillatweaks.utils.VTUtils.getNearbyEntitiesOfType;
-import static me.machinemaker.vanillatweaks.utils.VTUtils.getSingleNearbyEntityOfType;
-import static me.machinemaker.vanillatweaks.utils.VTUtils.nullUnionList;
-import static me.machinemaker.vanillatweaks.utils.VTUtils.toCachedMapCount;
+import static me.machinemaker.vanillatweaks.utils.Entities.getNearbyEntitiesOfType;
+import static me.machinemaker.vanillatweaks.utils.Entities.getSingleNearbyEntityOfType;
+import static me.machinemaker.vanillatweaks.utils.PTUtils.nullUnionList;
+import static me.machinemaker.vanillatweaks.utils.PTUtils.toCachedMapCount;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;

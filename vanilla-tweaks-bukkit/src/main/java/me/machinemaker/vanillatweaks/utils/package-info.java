@@ -18,10 +18,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * Menu options
+ * Utilities
  */
 @DefaultQualifier(NonNull.class)
-package me.machinemaker.vanillatweaks.menus.options;
+package me.machinemaker.vanillatweaks.utils;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

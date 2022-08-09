@@ -20,27 +20,21 @@
 package me.machinemaker.vanillatweaks.utils;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.Map;
 
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 
 public final class ChatWindow {
 
-    private ChatWindow() {
-    }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatWindow.class);
     private static final int MAX_WIDTH = 310;
     private static final int DEFAULT_WIDTH = MAX_WIDTH;
-
     private static final Map<Character, Integer> WIDTHS;
 
     static {
@@ -75,9 +69,12 @@ public final class ChatWindow {
         WIDTHS = builder.build();
     }
 
-    public static int calculateWith(@NotNull String plainText) {
+    private ChatWindow() {
+    }
+
+    public static int calculateWith(final String plainText) {
         int width = 0;
-        for (char c : plainText.toCharArray()) {
+        for (final char c : plainText.toCharArray()) {
             if (WIDTHS.containsKey(c)) {
                 width += WIDTHS.get(c) + 1;
             } else {
@@ -88,13 +85,13 @@ public final class ChatWindow {
         return width;
     }
 
-    public static Component center(@NotNull ComponentLike text) {
+    public static Component center(final ComponentLike text) {
         final String plainText = PlainTextComponentSerializer.plainText().serialize(text.asComponent());
         final int width = calculateWith(plainText);
         if (width > MAX_WIDTH) {
             throw new IllegalArgumentException(plainText + " was longer than the maximum width");
         }
-        int spaceCount = (DEFAULT_WIDTH - width) / (WIDTHS.get(' ') + 1);
+        final int spaceCount = (DEFAULT_WIDTH - width) / (WIDTHS.get(' ') + 1);
         return join(text(" ".repeat(spaceCount - (spaceCount / 2))), text, text(" ".repeat(spaceCount / 2)));
     }
 }

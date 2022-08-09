@@ -19,26 +19,25 @@
  */
 package me.machinemaker.vanillatweaks.utils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.function.Supplier;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public class Cacheable<T> {
 
-    private T object;
-    private long time;
-    private final Supplier<T> objectSupplier;
+    private final Supplier<? extends T> objectSupplier;
     private final long cacheLength;
+    private @Nullable T object;
+    private long time;
 
-    public Cacheable(Supplier<T> objectSupplier, long cacheLength) {
+    public Cacheable(final Supplier<? extends T> objectSupplier, final long cacheLength) {
         this.objectSupplier = objectSupplier;
         this.cacheLength = cacheLength;
     }
 
-    @NotNull
     public T get() {
         if (this.object == null || this.time + this.cacheLength < System.currentTimeMillis()) {
-            this.object = objectSupplier.get();
+            this.object = this.objectSupplier.get();
             this.time = System.currentTimeMillis();
         }
         return this.object;

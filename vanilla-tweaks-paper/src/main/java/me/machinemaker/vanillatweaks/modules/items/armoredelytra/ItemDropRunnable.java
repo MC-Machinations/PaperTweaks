@@ -31,8 +31,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.tags.Tags;
+import me.machinemaker.vanillatweaks.utils.Entities;
 import me.machinemaker.vanillatweaks.utils.Keys;
-import me.machinemaker.vanillatweaks.utils.VTUtils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Location;
@@ -167,7 +167,7 @@ class ItemDropRunnable extends BukkitRunnable {
             }
         } else {
             if (Tag.ANVIL.isTagged(block.getType())) {
-                for (final Item nearbyItem : VTUtils.getNearbyEntitiesOfType(this.item, 0.5, 0.1, 0.5, i -> this.itemPredicate.test(i, block) && !i.isDead())) {
+                for (final Item nearbyItem : Entities.getNearbyEntitiesOfType(this.item, 0.5, 0.1, 0.5, i -> this.itemPredicate.test(i, block) && !i.isDead())) {
                     if (this.lookingFor == LookingFor.CHESTPLATE) {
                         constructArmoredElytra(block, nearbyItem, this.item);
                     }

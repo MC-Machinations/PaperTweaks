@@ -21,7 +21,6 @@ package me.machinemaker.vanillatweaks.utils.runnables;
 
 import org.bukkit.entity.Item;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class ItemDropFinder extends BukkitRunnable {
 
@@ -29,7 +28,7 @@ public abstract class ItemDropFinder extends BukkitRunnable {
     private final long maxRuns;
     private long counter;
 
-    protected ItemDropFinder(@NotNull Item item, long maxRuns) {
+    protected ItemDropFinder(final Item item, final long maxRuns) {
         this.item = item;
         this.maxRuns = maxRuns;
     }
@@ -41,7 +40,7 @@ public abstract class ItemDropFinder extends BukkitRunnable {
             return;
         }
 
-        if (this.counter >= maxRuns) {
+        if (this.counter >= this.maxRuns) {
             this.cancel();
             return;
         }
@@ -57,14 +56,15 @@ public abstract class ItemDropFinder extends BukkitRunnable {
             return;
         }
 
-        counter++;
+        this.counter++;
     }
 
-    public boolean failCheck(@NotNull Item item) {
+    public boolean failCheck(final Item item) {
         return false;
     }
 
-    public abstract boolean successCheck(@NotNull Item item);
+    public abstract boolean successCheck(Item item);
 
-    public void onSuccess(@NotNull Item item) {}
+    public void onSuccess(final Item item) {
+    }
 }

@@ -24,6 +24,7 @@ import java.util.function.Function;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.config.I18nKey;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public abstract class ConfigMenuOptionBuilder<T> implements OptionBuilder {
 
@@ -39,7 +40,7 @@ public abstract class ConfigMenuOptionBuilder<T> implements OptionBuilder {
 
     public abstract Class<T> typeClass();
 
-    protected final <C extends MenuModuleConfig<C, ?>> Function<C, T> typeMapper(final ValueNode<?> valueNode) {
+    protected final <C extends MenuModuleConfig<C, ?>> Function<C, @Nullable T> typeMapper(final ValueNode<?> valueNode) {
         return c -> Objects.requireNonNull(c.rootNode().get(valueNode.path()));
     }
 }

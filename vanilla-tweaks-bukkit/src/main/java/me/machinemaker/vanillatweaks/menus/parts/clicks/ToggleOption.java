@@ -23,7 +23,6 @@ import me.machinemaker.vanillatweaks.menus.options.ClickableOption;
 import me.machinemaker.vanillatweaks.menus.parts.Labelled;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
@@ -34,7 +33,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public interface ToggleOption<T> extends Labelled, ClickableOption<T> {
 
     Component OFF = text("[ ❌ ]", RED);
-    Component ON = text("[ ✔ ]", NamedTextColor.GREEN);
+    Component ON = text("[ ✔ ]", GREEN);
 
     boolean isSelected(T selected);
 

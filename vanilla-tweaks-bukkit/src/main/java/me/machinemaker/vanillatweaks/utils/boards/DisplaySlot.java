@@ -20,8 +20,7 @@
 package me.machinemaker.vanillatweaks.utils.boards;
 
 import org.bukkit.scoreboard.Objective;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public enum DisplaySlot {
 
@@ -30,17 +29,17 @@ public enum DisplaySlot {
     SIDEBAR(org.bukkit.scoreboard.DisplaySlot.SIDEBAR),
     NONE(null);
 
-    private final org.bukkit.scoreboard.DisplaySlot bukkitDisplaySlot;
+    private final org.bukkit.scoreboard.@Nullable DisplaySlot bukkitDisplaySlot;
 
-    DisplaySlot(@Nullable org.bukkit.scoreboard.DisplaySlot bukkitDisplaySlot) {
+    DisplaySlot(final org.bukkit.scoreboard.@Nullable DisplaySlot bukkitDisplaySlot) {
         this.bukkitDisplaySlot = bukkitDisplaySlot;
     }
 
-    public void changeFor(@NotNull Objective objective) {
+    public void changeFor(final Objective objective) {
         objective.setDisplaySlot(this.bukkitDisplaySlot);
     }
 
-    public boolean isDisplayedOn(@NotNull Objective objective) {
+    public boolean isDisplayedOn(final Objective objective) {
         return objective.getDisplaySlot() == this.bukkitDisplaySlot;
     }
 }

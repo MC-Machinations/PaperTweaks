@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.modules.mobs.moremobheads;
 
+import java.util.function.Predicate;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Bee;
@@ -37,44 +38,79 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.entity.TraderLlama;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
-
-import java.util.function.Predicate;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 final class MobHeadCustomizations {
 
     private MobHeadCustomizations() {
     }
 
-    static void addCustomizations(MobHead head) {
+    static void addCustomizations(final MobHead head) {
         if (!head.requiresCustomization()) {
             return;
         }
-        String table = head.lootTable().contains("sheep") ? "sheep.json" : head.lootTable();
+        final String table = head.lootTable().contains("sheep") ? "sheep.json" : head.lootTable();
         switch (table) {
-            case "cat.json": cat(head); break;
-            case "creeper.json": creeper(head); break;
-            case "llama.json": llama(head); break;
-            case "panda.json": panda(head); break;
-            case "trader_llama.json": traderLlama(head); break;
-            case "goat.json": goat(head); break;
-            case "bee.json": bee(head); break;
-            case "fox.json": fox(head); break;
-            case "parrot.json": parrot(head); break;
-            case "horse.json": horse(head); break;
-            case "wither.json": break; // TODO implement wither
-            case "rabbit.json": rabbit(head); break;
-            case "axolotl.json": axolotl(head); break;
-            case "zombie_villager.json": zombieVillager(head); break;
-            case "mooshroom.json": mooshroom(head); break;
-            case "villager.json": villager(head); break;
-            case "sheep.json": sheep(head); break;
-            case "frog.json": frog(head); break;
-            default: MoreMobHeads.LOGGER.error("{} doesn't have a custom handler", head.lootTable());
+            case "cat.json":
+                cat(head);
+                break;
+            case "creeper.json":
+                creeper(head);
+                break;
+            case "llama.json":
+                llama(head);
+                break;
+            case "panda.json":
+                panda(head);
+                break;
+            case "trader_llama.json":
+                traderLlama(head);
+                break;
+            case "goat.json":
+                goat(head);
+                break;
+            case "bee.json":
+                bee(head);
+                break;
+            case "fox.json":
+                fox(head);
+                break;
+            case "parrot.json":
+                parrot(head);
+                break;
+            case "horse.json":
+                horse(head);
+                break;
+            case "wither.json":
+                break; // TODO implement wither
+            case "rabbit.json":
+                rabbit(head);
+                break;
+            case "axolotl.json":
+                axolotl(head);
+                break;
+            case "zombie_villager.json":
+                zombieVillager(head);
+                break;
+            case "mooshroom.json":
+                mooshroom(head);
+                break;
+            case "villager.json":
+                villager(head);
+                break;
+            case "sheep.json":
+                sheep(head);
+                break;
+            case "frog.json":
+                frog(head);
+                break;
+            default:
+                MoreMobHeads.LOGGER.error("{} doesn't have a custom handler", head.lootTable());
         }
     }
 
-    private static void cat(MobHead head) {
-        Cat.Type type = switch (head.name()) {
+    private static void cat(final MobHead head) {
+        final Cat.Type type = switch (head.name()) {
             case "Tabby Cat" -> Cat.Type.TABBY;
             case "Tuxedo Cat" -> Cat.Type.BLACK;
             case "Ginger Cat" -> Cat.Type.RED;
@@ -83,37 +119,38 @@ final class MobHeadCustomizations {
             case "Calico Cat" -> Cat.Type.CALICO;
             case "Persian Cat" -> Cat.Type.PERSIAN;
             case "Ragdoll Cat" -> Cat.Type.RAGDOLL;
-            case "White Cat" -> Cat.Type.RAGDOLL;
+            case "White Cat" -> Cat.Type.WHITE;
             case "Jellie Cat" -> Cat.Type.JELLIE;
-            case "Black Cat" -> Cat.Type.BLACK;
+            case "Black Cat" -> Cat.Type.ALL_BLACK;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid cat name");
         };
-        Predicate<Cat> catPredicate = cat -> cat.getCatType() == type;
+        final Predicate<Cat> catPredicate = cat -> cat.getCatType() == type;
         head.predicate(catPredicate);
     }
 
-    private static void creeper(MobHead head) {
-        Predicate<Creeper> creeperPredicate = switch (head.name()) {
+    private static void creeper(final MobHead head) {
+        //noinspection SwitchStatementWithTooFewBranches
+        final Predicate<Creeper> creeperPredicate = switch (head.name()) {
             case "Charged Creeper" -> Creeper::isPowered;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid creeper name");
         };
         head.predicate(creeperPredicate);
     }
 
-    private static void llama(MobHead head) {
-        Llama.Color color = switch (head.name()) {
+    private static void llama(final MobHead head) {
+        final Llama.Color color = switch (head.name()) {
             case "Creamy Llama" -> Llama.Color.CREAMY;
             case "White Llama" -> Llama.Color.WHITE;
             case "Brown Llama" -> Llama.Color.BROWN;
             case "Gray Llama" -> Llama.Color.GRAY;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid llama name");
         };
-        Predicate<Llama> llamaPredicate = llama -> llama.getColor() == color;
+        final Predicate<Llama> llamaPredicate = llama -> llama.getColor() == color;
         head.predicate(llamaPredicate);
     }
 
-    private static void panda(MobHead head) {
-        Predicate<Panda> pandaPredicate = switch (head.name()) {
+    private static void panda(final MobHead head) {
+        final Predicate<Panda> pandaPredicate = switch (head.name()) {
             case "Aggressive Panda" -> panda -> panda.getMainGene() == Panda.Gene.AGGRESSIVE;
             case "Lazy Panda" -> panda -> panda.getMainGene() == Panda.Gene.LAZY;
             case "Playful Panda" -> panda -> panda.getMainGene() == Panda.Gene.PLAYFUL;
@@ -126,20 +163,20 @@ final class MobHeadCustomizations {
         head.predicate(pandaPredicate);
     }
 
-    private static void traderLlama(MobHead head) {
-        Llama.Color color = switch (head.name()) {
+    private static void traderLlama(final MobHead head) {
+        final Llama.Color color = switch (head.name()) {
             case "Creamy Trader Llama" -> Llama.Color.CREAMY;
             case "White Trader Llama" -> Llama.Color.WHITE;
             case "Brown Trader Llama" -> Llama.Color.BROWN;
             case "Gray Trader Llama" -> Llama.Color.GRAY;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid trader llama name");
         };
-        Predicate<TraderLlama> llamaPredicate = llama -> llama.getColor() == color;
+        final Predicate<TraderLlama> llamaPredicate = llama -> llama.getColor() == color;
         head.predicate(llamaPredicate);
     }
 
-    private static void goat(MobHead head) {
-        Predicate<Goat> goatPredicate = switch (head.name()) {
+    private static void goat(final MobHead head) {
+        final Predicate<Goat> goatPredicate = switch (head.name()) {
             case "Goat" -> Predicate.not(Goat::isScreaming);
             case "Screaming Goat" -> Goat::isScreaming;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid goat name");
@@ -147,8 +184,8 @@ final class MobHeadCustomizations {
         head.predicate(goatPredicate);
     }
 
-    private static void bee(MobHead head) {
-        Predicate<Bee> beePredicate = switch (head.name()) {
+    private static void bee(final MobHead head) {
+        final Predicate<Bee> beePredicate = switch (head.name()) {
             case "Angry Pollinated Bee" -> bee -> bee.hasStung() && bee.hasNectar();
             case "Angry Bee" -> bee -> bee.hasStung() && !bee.hasNectar();
             case "Pollinated Bee" -> bee -> !bee.hasNectar() && bee.hasNectar();
@@ -159,18 +196,18 @@ final class MobHeadCustomizations {
 
     }
 
-    private static void fox(MobHead head) {
-        Fox.Type type = switch (head.name()) {
+    private static void fox(final MobHead head) {
+        final Fox.Type type = switch (head.name()) {
             case "Fox" -> Fox.Type.RED;
             case "Snow Fox" -> Fox.Type.SNOW;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid fox name");
         };
-        Predicate<Fox> foxPredicate = fox -> fox.getFoxType() == type;
+        final Predicate<Fox> foxPredicate = fox -> fox.getFoxType() == type;
         head.predicate(foxPredicate);
     }
 
-    private static void parrot(MobHead head) {
-        Parrot.Variant variant = switch (head.name()) {
+    private static void parrot(final MobHead head) {
+        final Parrot.Variant variant = switch (head.name()) {
             case "Red Parrot" -> Parrot.Variant.RED;
             case "Blue Parrot" -> Parrot.Variant.BLUE;
             case "Green Parrot" -> Parrot.Variant.GREEN;
@@ -178,12 +215,12 @@ final class MobHeadCustomizations {
             case "Gray Parrot" -> Parrot.Variant.GRAY;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid parrot name");
         };
-        Predicate<Parrot> parrotPredicate = parrot -> parrot.getVariant() == variant;
+        final Predicate<Parrot> parrotPredicate = parrot -> parrot.getVariant() == variant;
         head.predicate(parrotPredicate);
     }
 
-    private static void horse(MobHead head) {
-        Horse.Color color = switch (head.name()) {
+    private static void horse(final MobHead head) {
+        final Horse.Color color = switch (head.name()) {
             case "White Horse" -> Horse.Color.WHITE;
             case "Creamy Horse" -> Horse.Color.CREAMY;
             case "Chestnut Horse" -> Horse.Color.CHESTNUT;
@@ -193,16 +230,16 @@ final class MobHeadCustomizations {
             case "Dark Brown Horse" -> Horse.Color.DARK_BROWN;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid horse name");
         };
-        Predicate<Horse> horsePredicate = horse -> horse.getColor() == color;
+        final Predicate<Horse> horsePredicate = horse -> horse.getColor() == color;
         head.predicate(horsePredicate);
     }
 
-    private static void wither(MobHead head) {
-        // TODO
-    }
+    // TODO
+    // private static void wither(final MobHead head) {
+    // }
 
-    private static void rabbit(MobHead head) {
-        Predicate<Rabbit> rabbitPredicate = switch (head.name()) {
+    private static void rabbit(final MobHead head) {
+        final Predicate<Rabbit> rabbitPredicate = switch (head.name()) {
             case "Toast" -> rabbit -> "Toast".equals(rabbit.getCustomName());
             case "Brown Rabbit" -> rabbit -> rabbit.getRabbitType() == Rabbit.Type.BROWN;
             case "White Rabbit" -> rabbit -> rabbit.getRabbitType() == Rabbit.Type.WHITE;
@@ -216,8 +253,8 @@ final class MobHeadCustomizations {
         head.predicate(rabbitPredicate);
     }
 
-    private static void axolotl(MobHead head) {
-        Axolotl.Variant variant = switch (head.name()) {
+    private static void axolotl(final MobHead head) {
+        final Axolotl.Variant variant = switch (head.name()) {
             case "Lucy Axolotl" -> Axolotl.Variant.LUCY;
             case "Wild Axolotl" -> Axolotl.Variant.WILD;
             case "Gold Axolotl" -> Axolotl.Variant.GOLD;
@@ -225,12 +262,12 @@ final class MobHeadCustomizations {
             case "Blue Axolotl" -> Axolotl.Variant.BLUE;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid axolotl name");
         };
-        Predicate<Axolotl> axolotlPredicate = axolotl -> axolotl.getVariant() == variant;
+        final Predicate<Axolotl> axolotlPredicate = axolotl -> axolotl.getVariant() == variant;
         head.predicate(axolotlPredicate);
     }
 
-    private static void zombieVillager(MobHead head) {
-        Villager.Profession profession = switch (head.name()) {
+    private static void zombieVillager(final MobHead head) {
+        final Villager.@Nullable Profession profession = switch (head.name()) {
             case "Zombie Armorer" -> Villager.Profession.ARMORER;
             case "Zombie Butcher" -> Villager.Profession.BUTCHER;
             case "Zombie Cartographer" -> Villager.Profession.CARTOGRAPHER;
@@ -248,22 +285,22 @@ final class MobHeadCustomizations {
             case "Zombie Weaponsmith" -> Villager.Profession.WEAPONSMITH;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid zombie villager name");
         };
-        Predicate<ZombieVillager> zombieVillagerPredicate = zombieVillager -> zombieVillager.getVillagerProfession() == profession;
+        final Predicate<ZombieVillager> zombieVillagerPredicate = zombieVillager -> zombieVillager.getVillagerProfession() == profession;
         head.predicate(zombieVillagerPredicate);
     }
 
-    private static void mooshroom(MobHead head) {
-        MushroomCow.Variant variant = switch (head.name()) {
+    private static void mooshroom(final MobHead head) {
+        final MushroomCow.Variant variant = switch (head.name()) {
             case "Red Mooshroom" -> MushroomCow.Variant.RED;
             case "Brown Mooshroom" -> MushroomCow.Variant.BROWN;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid mooshroom cow name");
         };
-        Predicate<MushroomCow> mushroomCowPredicate = mushroomCow -> mushroomCow.getVariant() == variant;
+        final Predicate<MushroomCow> mushroomCowPredicate = mushroomCow -> mushroomCow.getVariant() == variant;
         head.predicate(mushroomCowPredicate);
     }
 
-    private static void villager(MobHead head) {
-        Villager.Profession profession = switch (head.name()) {
+    private static void villager(final MobHead head) {
+        final Villager.@Nullable Profession profession = switch (head.name()) {
             case "Armorer Villager" -> Villager.Profession.ARMORER;
             case "Butcher Villager" -> Villager.Profession.BUTCHER;
             case "Cartographer Villager" -> Villager.Profession.CARTOGRAPHER;
@@ -281,17 +318,17 @@ final class MobHeadCustomizations {
             case "Weaponsmith Villager" -> Villager.Profession.WEAPONSMITH;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid villager name");
         };
-        Predicate<Villager> villagerPredicate = villager -> villager.getProfession() == profession;
+        final Predicate<Villager> villagerPredicate = villager -> villager.getProfession() == profession;
         head.predicate(villagerPredicate);
     }
 
-    private static void sheep(MobHead head) {
+    private static void sheep(final MobHead head) {
         if (head.name().equals("jeb_ Sheep")) {
-            Predicate<Sheep> sheepPredicate = sheep -> "jeb_".equals(sheep.getCustomName());
+            final Predicate<Sheep> sheepPredicate = sheep -> "jeb_".equals(sheep.getCustomName());
             head.predicate(sheepPredicate);
             return;
         }
-        DyeColor dyeColor = switch (head.name()) {
+        final DyeColor dyeColor = switch (head.name()) {
             case "Green Sheep" -> DyeColor.GREEN;
             case "White Sheep" -> DyeColor.WHITE;
             case "Blue Sheep" -> DyeColor.BLUE;
@@ -310,18 +347,18 @@ final class MobHeadCustomizations {
             case "Gray Sheep" -> DyeColor.GRAY;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid sheep name");
         };
-        Predicate<Sheep> sheepPredicate = sheep -> sheep.getColor() == dyeColor;
+        final Predicate<Sheep> sheepPredicate = sheep -> sheep.getColor() == dyeColor;
         head.predicate(sheepPredicate);
     }
 
-    private static void frog(MobHead head) {
-        Frog.Variant variant = switch (head.name()) {
+    private static void frog(final MobHead head) {
+        final Frog.Variant variant = switch (head.name()) {
             case "Cold Frog" -> Frog.Variant.COLD;
             case "Temperate Frog" -> Frog.Variant.TEMPERATE;
             case "Warm Frog" -> Frog.Variant.WARM;
             default -> throw new IllegalArgumentException(head.name() + " isn't a valid frog name");
         };
-        Predicate<Frog> frogPredicate = frog -> frog.getVariant() == variant;
+        final Predicate<Frog> frogPredicate = frog -> frog.getVariant() == variant;
         head.predicate(frogPredicate);
     }
 

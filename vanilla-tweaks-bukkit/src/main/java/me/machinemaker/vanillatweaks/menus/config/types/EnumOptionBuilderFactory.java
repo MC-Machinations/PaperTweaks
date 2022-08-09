@@ -31,7 +31,7 @@ import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public class EnumOptionBuilderFactory implements OptionBuilder {
+public class EnumOptionBuilderFactory implements OptionBuilder.Factory {
 
     @Override
     public <C extends MenuModuleConfig<C, ?>> MenuOption.@Nullable Builder<? extends Enum<?>, ?, C, ?> buildOption(final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
@@ -45,16 +45,16 @@ public class EnumOptionBuilderFactory implements OptionBuilder {
 
     @SuppressWarnings("unchecked")
     private <E extends Enum<E> & MenuEnum<E>, C extends MenuModuleConfig<C, ?>> MenuOption.Builder<E, ?, C, ?> createMenuEnumOption(final Class<?> enumClass, final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
-        final var setting = ConfigSetting.<E, C>ofEnum(valueNode, (Class<E>) enumClass);
+        final ConfigSetting<E, C> setting = ConfigSetting.ofEnum(valueNode, (Class<E>) enumClass);
         settings.put(setting.indexKey(), setting);
         return SelectableEnumMenuOption.builder(setting.valueType(), ConfigMenuOptionBuilder.labelKey(valueNode), setting);
     }
 
     @SuppressWarnings("unchecked")
     private <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> MenuOption.Builder<E, ?, C, ?> createEnumOption(final Class<?> enumClass, final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
-        final var setting = ConfigSetting.<E, C>ofEnum(valueNode, (Class<E>) enumClass);
+        final ConfigSetting<E, C> setting = ConfigSetting.ofEnum(valueNode, (Class<E>) enumClass);
         settings.put(setting.indexKey(), setting);
-        final var builder = EnumMenuOption.builder(ConfigMenuOptionBuilder.labelKey(valueNode), setting);
+        final EnumMenuOption.Builder<E, C> builder = EnumMenuOption.builder(ConfigMenuOptionBuilder.labelKey(valueNode), setting);
         if (valueNode.meta().containsKey("desc")) {
             builder.extendedDescription(valueNode.meta().get("desc").toString());
         }
