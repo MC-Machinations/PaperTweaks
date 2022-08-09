@@ -19,16 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.menus.config;
 
+import java.util.Map;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.menus.options.MenuOption;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 @FunctionalInterface
 public interface OptionBuilder {
 
-    <C extends MenuModuleConfig<C, ?>> MenuOption.Builder<?, ?, C, ?> buildOption(@NotNull ValueNode<?> valueNode, final @NotNull Map<String, ConfigSetting<?, C>> settings);
+    <C extends MenuModuleConfig<C, ?>> MenuOption.Builder<?, ?, C, ?> buildOption(ValueNode<?> valueNode, Map<String, ConfigSetting<?, C>> settings);
 }

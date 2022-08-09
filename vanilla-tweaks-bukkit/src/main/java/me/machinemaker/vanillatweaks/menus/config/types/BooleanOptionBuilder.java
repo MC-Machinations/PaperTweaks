@@ -24,22 +24,21 @@ import me.machinemaker.vanillatweaks.menus.config.SimpleConfigMenuOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.options.BooleanMenuOption;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
-import org.jetbrains.annotations.NotNull;
 
 public class BooleanOptionBuilder extends SimpleConfigMenuOptionBuilder<Boolean> {
 
     @Override
-    public @NotNull Class<Boolean> typeClass() {
+    public Class<Boolean> typeClass() {
         return boolean.class;
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<Boolean, C> getBuilder() {
+    protected <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<Boolean, C> getBuilder() {
         return BooleanMenuOption::newBuilder;
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> createSetting(ValueNode<?> valueNode) {
+    protected <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> createSetting(final ValueNode<?> valueNode) {
         return ConfigSetting.ofBoolean(valueNode);
     }
 }

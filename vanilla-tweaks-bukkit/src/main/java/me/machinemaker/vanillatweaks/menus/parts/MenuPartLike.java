@@ -19,13 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.menus.parts;
 
-import org.jetbrains.annotations.NotNull;
-
 public interface MenuPartLike<S> {
 
-    @NotNull MenuPart<S> asMenuPart();
+    MenuPart<S> asMenuPart();
 
-    default @NotNull MenuPart.Configured<S> configure(@NotNull String commandPrefix) {
+    default MenuPart.Configured<S> configure(final String commandPrefix) {
         return new MenuPart.Configured<>(this.asMenuPart(), commandPrefix);
     }
 }

@@ -19,50 +19,48 @@
  */
 package me.machinemaker.vanillatweaks.menus.options;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.menus.parts.enums.MenuEnum;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
 
 public class SelectableEnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extends MenuOption<E, S> {
 
     private final String labelKey;
     private final List<E> options;
 
-    private SelectableEnumMenuOption(@NotNull Function<S, @NotNull E> typeMapper, @NotNull Setting<E, ?> setting, String labelKey, @NotNull Class<E> classOfE) {
+    private SelectableEnumMenuOption(final Function<S, E> typeMapper, final Setting<E, ?> setting, final String labelKey, final Class<E> classOfE) {
         super(Component.empty(), typeMapper, setting, Component.empty(), null);
         this.labelKey = labelKey;
         this.options = Arrays.stream(classOfE.getEnumConstants()).toList();
     }
 
-    @Override
-    public @NotNull Component build(@NotNull S object, @NotNull String commandPrefix) {
-        Component[] components = new Component[this.options.size()];
-        for (int i = 0; i < options.size(); i++) {
-            components[i] = this.options.get(i).build(this.selected(object), this.labelKey, commandPrefix, this.optionKey());
-        }
-        return Components.join(components);
-    }
-
-    public static <E extends Enum<E> & MenuEnum<E>, S> @NotNull Builder<E, S> builder(@NotNull Class<E> classOfE, @NotNull String labelKey, @NotNull Function<S, @NotNull E> typeMapper, @NotNull Setting<E, ?> setting) {
+    public static <E extends Enum<E> & MenuEnum<E>, S> Builder<E, S> builder(final Class<E> classOfE, final String labelKey, final Function<S, E> typeMapper, final Setting<E, ?> setting) {
         return new Builder<>(classOfE, labelKey, typeMapper, setting);
     }
 
-    public static <E extends Enum<E> & MenuEnum<E>, S> @NotNull Builder<E, S> builder(@NotNull Class<E> classOfE, @NotNull String labelKey, @NotNull Setting<E, S> setting) {
+    public static <E extends Enum<E> & MenuEnum<E>, S> Builder<E, S> builder(final Class<E> classOfE, final String labelKey, final Setting<E, S> setting) {
         return builder(classOfE, labelKey, setting::getOrDefault, setting);
     }
 
-    public static <E extends Enum<E> & MenuEnum<E>, S> @NotNull SelectableEnumMenuOption<E, S> of(@NotNull Class<E> classOfE, @NotNull String labelKey, @NotNull Function<S, @NotNull E> typeMapper, @NotNull Setting<E, ?> setting) {
+    public static <E extends Enum<E> & MenuEnum<E>, S> SelectableEnumMenuOption<E, S> of(final Class<E> classOfE, final String labelKey, final Function<S, E> typeMapper, final Setting<E, ?> setting) {
         return builder(classOfE, labelKey, typeMapper, setting).build();
     }
 
-    public static <E extends Enum<E> & MenuEnum<E>, S> @NotNull SelectableEnumMenuOption<E, S> of(@NotNull Class<E> classOfE, @NotNull String labelKey, @NotNull Setting<E, S> setting) {
+    public static <E extends Enum<E> & MenuEnum<E>, S> SelectableEnumMenuOption<E, S> of(final Class<E> classOfE, final String labelKey, final Setting<E, S> setting) {
         return of(classOfE, labelKey, setting::getOrDefault, setting);
+    }
+
+    @Override
+    public Component build(final S object, final String commandPrefix) {
+        final Component[] components = new Component[this.options.size()];
+        for (int i = 0; i < this.options.size(); i++) {
+            components[i] = this.options.get(i).build(this.selected(object), this.labelKey, commandPrefix, this.optionKey());
+        }
+        return Components.join(components);
     }
 
     public static class Builder<E extends Enum<E> & MenuEnum<E>, S> extends MenuOption.Builder<E, SelectableEnumMenuOption<E, S>, S, Builder<E, S>> {
@@ -70,27 +68,27 @@ public class SelectableEnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extend
         private final Class<E> classOfE;
         private String labelKey;
 
-        private Builder(@NotNull Class<E> classOfE, @NotNull String labelKey, @NotNull Function<S, @NotNull E> typeMapper, @NotNull Setting<E, ?> setting) {
+        private Builder(final Class<E> classOfE, final String labelKey, final Function<S, E> typeMapper, final Setting<E, ?> setting) {
             super(Component.empty(), typeMapper, setting);
             this.classOfE = classOfE;
             this.labelKey = labelKey;
         }
 
-        public @NotNull Class<E> getClassOfE() {
-            return classOfE;
+        public Class<E> getClassOfE() {
+            return this.classOfE;
         }
 
-        public @NotNull String getLabelKey() {
-            return labelKey;
+        public String getLabelKey() {
+            return this.labelKey;
         }
 
-        public @NotNull Builder<E, S> labelKey(@NotNull String labelKey) {
+        public Builder<E, S> labelKey(final String labelKey) {
             this.labelKey = labelKey;
             return this;
         }
 
         @Override
-        public @NotNull SelectableEnumMenuOption<E, S> build() {
+        public SelectableEnumMenuOption<E, S> build() {
             return new SelectableEnumMenuOption<>(
                     this.getTypeMapper(),
                     this.getSetting(),

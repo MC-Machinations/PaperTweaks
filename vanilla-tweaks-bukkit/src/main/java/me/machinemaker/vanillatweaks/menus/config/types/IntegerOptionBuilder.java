@@ -24,22 +24,21 @@ import me.machinemaker.vanillatweaks.menus.config.SimpleConfigMenuOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.options.IntegerMenuOption;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
-import org.jetbrains.annotations.NotNull;
 
 public class IntegerOptionBuilder extends SimpleConfigMenuOptionBuilder<Integer> {
 
     @Override
-    public @NotNull Class<Integer> typeClass() {
+    public Class<Integer> typeClass() {
         return int.class;
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<Integer, C> getBuilder() {
+    protected <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<Integer, C> getBuilder() {
         return IntegerMenuOption::builder;
     }
 
     @Override
-    protected @NotNull <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> createSetting(ValueNode<?> valueNode) {
+    protected <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> createSetting(final ValueNode<?> valueNode) {
         return ConfigSetting.ofInt(valueNode);
     }
 }

@@ -22,19 +22,19 @@ package me.machinemaker.vanillatweaks.menus.parts;
 import me.machinemaker.vanillatweaks.menus.BuildablePart;
 import me.machinemaker.vanillatweaks.menus.MergedMenus;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 public interface MenuPart<S> extends MenuPartLike<S> {
 
-    @NotNull Component build(@NotNull S object, @NotNull String commandPrefix);
+    Component build(S object, String commandPrefix);
 
     @Override
-    default @NotNull MenuPart<S> asMenuPart() {
+    default MenuPart<S> asMenuPart() {
         return this;
     }
 
     /**
      * For use with {@link MergedMenus.Menu1}s.
+     *
      * @param <S>
      * @see MenuPart#configure(String)
      */
@@ -43,13 +43,13 @@ public interface MenuPart<S> extends MenuPartLike<S> {
         private final MenuPart<S> part;
         private final String commandPrefix;
 
-        Configured(MenuPart<S> part, String commandPrefix) {
+        Configured(final MenuPart<S> part, final String commandPrefix) {
             this.part = part;
             this.commandPrefix = commandPrefix;
         }
 
         @Override
-        public @NotNull Component build(@NotNull S object) {
+        public Component build(final S object) {
             return this.part.build(object, this.commandPrefix);
         }
     }

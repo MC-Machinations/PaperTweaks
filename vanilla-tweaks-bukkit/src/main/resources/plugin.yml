@@ -178,6 +178,9 @@ permissions:
   vanillatweaks.playerheaddrops:
     default: true
     description: Players killed by this player will drop heads
+  vanillatweaks.playerheaddrops.admin.config:
+    default: op
+    description: Configure PlayerHeadDrops in-game
 
   vanillatweaks.mobdeathcount.start:
     default: false

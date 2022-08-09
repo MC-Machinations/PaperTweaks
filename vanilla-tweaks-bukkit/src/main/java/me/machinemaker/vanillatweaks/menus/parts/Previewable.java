@@ -22,7 +22,6 @@ package me.machinemaker.vanillatweaks.menus.parts;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -34,15 +33,16 @@ public interface Previewable {
 
     Component PREVIEW_COMPONENT = text("[ ℹ ]", GRAY).hoverEvent(showText(translatable("commands.config.click-to-preview", GRAY)));
 
-    default void preview(Player player) { }
-
-    static Component createPreviewComponent(@NotNull Component label, @NotNull String previewCommandPrefix, @NotNull String name) {
+    static Component createPreviewComponent(final Component label, final String previewCommandPrefix, final String name) {
         return createPreviewComponent(label, runCommand(previewCommandPrefix + " " + name));
     }
 
-    static Component createPreviewComponent(@NotNull Component label, @NotNull ClickEvent previewAction) {
+    static Component createPreviewComponent(final Component label, final ClickEvent previewAction) {
         return PREVIEW_COMPONENT
                 .hoverEvent(showText(translatable("commands.config.click-to-preview.label", label.color(WHITE))))
                 .clickEvent(previewAction);
+    }
+
+    default void preview(final Player player) {
     }
 }

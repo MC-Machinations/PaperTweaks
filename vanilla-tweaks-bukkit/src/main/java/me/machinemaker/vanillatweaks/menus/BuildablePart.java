@@ -24,5 +24,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BuildablePart<S> {
 
-    @NotNull ComponentLike build(@NotNull S object);
+    ComponentLike build(S object);
 }

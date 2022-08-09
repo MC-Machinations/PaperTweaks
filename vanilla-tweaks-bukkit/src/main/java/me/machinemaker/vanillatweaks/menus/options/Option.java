@@ -19,9 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.menus.options;
 
-import org.jetbrains.annotations.NotNull;
-
 public interface Option {
 
-    @NotNull String optionKey();
+    String optionKey();
 }

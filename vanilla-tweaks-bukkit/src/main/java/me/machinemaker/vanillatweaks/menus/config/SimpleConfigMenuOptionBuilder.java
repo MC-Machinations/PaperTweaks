@@ -19,36 +19,34 @@
  */
 package me.machinemaker.vanillatweaks.menus.config;
 
+import java.util.Map;
+import java.util.function.Function;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.menus.options.MenuOption;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.function.Function;
 
 public abstract class SimpleConfigMenuOptionBuilder<T> extends ConfigMenuOptionBuilder<T> {
 
     @Override
-    public final <C extends MenuModuleConfig<C, ?>> MenuOption.@NotNull Builder<T, ?, C, ?> buildOption(@NotNull ValueNode<?> valueNode, final @NotNull Map<String, ConfigSetting<?, C>> settings) {
-        var setting = this.<C>createSetting(valueNode);
+    public final <C extends MenuModuleConfig<C, ?>> MenuOption.Builder<T, ?, C, ?> buildOption(final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
+        final var setting = this.<C>createSetting(valueNode);
         settings.put(setting.indexKey(), setting);
-        var builder =  this.<C>getBuilder().createBuilder(labelKey(valueNode), typeMapper(valueNode), setting);
+        final var builder = this.<C>getBuilder().createBuilder(labelKey(valueNode), this.typeMapper(valueNode), setting);
         if (valueNode.meta().containsKey("desc")) {
             builder.extendedDescription((String) valueNode.meta().get("desc"));
         }
         return builder;
     }
 
-    protected abstract <C extends MenuModuleConfig<C, ?>> @NotNull MenuOptionBuilderCreator<T, C> getBuilder();
+    protected abstract <C extends MenuModuleConfig<C, ?>> MenuOptionBuilderCreator<T, C> getBuilder();
 
-    protected abstract <C extends MenuModuleConfig<C, ?>> @NotNull ConfigSetting<T, C> createSetting(ValueNode<?> valueNode);
+    protected abstract <C extends MenuModuleConfig<C, ?>> ConfigSetting<T, C> createSetting(ValueNode<?> valueNode);
 
     @FunctionalInterface
     protected interface MenuOptionBuilderCreator<T, S> {
 
-        @NotNull MenuOption.Builder<T, ?, S, ?> createBuilder(@NotNull String labelKey, @NotNull Function<S, T> typeMapper, @NotNull Setting<T, S> setting);
+        MenuOption.Builder<T, ?, S, ?> createBuilder(String labelKey, Function<S, T> typeMapper, Setting<T, S> setting);
     }
 }

@@ -21,7 +21,6 @@ package me.machinemaker.vanillatweaks.menus.parts.enums;
 
 import me.machinemaker.vanillatweaks.menus.parts.Previewable;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
@@ -30,21 +29,20 @@ import static net.kyori.adventure.text.Component.text;
 public interface PreviewableMenuEnum<E extends Enum<E> & PreviewableMenuEnum<E>> extends MenuEnum<E>, Previewable {
 
     @Override
-    @NotNull
-    default Component build(@NotNull E selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
+    default Component build(final E selected, final String labelKey, final String commandPrefix, final String optionKey) {
         return join(
-                createClickComponent(selected, commandPrefix, optionKey),
+                this.createClickComponent(selected, commandPrefix, optionKey),
                 text(' '),
-                Previewable.createPreviewComponent(createLabel(labelKey), previewCommandPrefix(), this.name()),
+                Previewable.createPreviewComponent(this.createLabel(labelKey), this.previewCommandPrefix(), this.name()),
                 text(' '),
-                createLabel(labelKey),
+                this.createLabel(labelKey),
                 newline()
         );
     }
 
-    default @NotNull Component buildWithoutPreview(@NotNull E selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
+    default Component buildWithoutPreview(final E selected, final String labelKey, final String commandPrefix, final String optionKey) {
         return MenuEnum.super.build(selected, labelKey, commandPrefix, optionKey);
     }
 
-    @NotNull String previewCommandPrefix();
+    String previewCommandPrefix();
 }

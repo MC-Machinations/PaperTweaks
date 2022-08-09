@@ -21,6 +21,8 @@ package me.machinemaker.vanillatweaks.modules.items.playerheaddrops;
 
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import me.machinemaker.vanillatweaks.modules.ModuleCommand;
+import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,16 @@ public class PlayerHeadDrops extends ModuleBase {
     @Override
     protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleCommand>> commands() {
+        return Set.of(Commands.class);
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleConfig>> configs() {
+        return Set.of(Config.class);
     }
 
     @Override

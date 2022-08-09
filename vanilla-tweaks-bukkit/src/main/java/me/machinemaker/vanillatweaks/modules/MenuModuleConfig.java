@@ -39,6 +39,7 @@ import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.menus.config.ConfigMenuOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.OptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.types.BooleanOptionBuilder;
+import me.machinemaker.vanillatweaks.menus.config.types.DoubleOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.types.EnumOptionBuilderFactory;
 import me.machinemaker.vanillatweaks.menus.config.types.IntegerOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.options.MenuOption;
@@ -73,6 +74,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
     static {
         registerOptionBuilder(new BooleanOptionBuilder());
         registerOptionBuilder(new IntegerOptionBuilder());
+        registerOptionBuilder(new DoubleOptionBuilder());
         FACTORIES.add(new EnumOptionBuilderFactory());
     }
 

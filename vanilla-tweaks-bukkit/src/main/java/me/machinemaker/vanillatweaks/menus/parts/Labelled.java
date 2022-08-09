@@ -20,9 +20,8 @@
 package me.machinemaker.vanillatweaks.menus.parts;
 
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 public interface Labelled {
 
-    @NotNull Component label();
+    Component label();
 }

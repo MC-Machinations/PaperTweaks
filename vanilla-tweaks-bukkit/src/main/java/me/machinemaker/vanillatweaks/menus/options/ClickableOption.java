@@ -21,31 +21,30 @@ package me.machinemaker.vanillatweaks.menus.options;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import org.jetbrains.annotations.NotNull;
 
 public interface ClickableOption<T> extends Option {
 
-    @NotNull Component extendedDescription();
-
-    @NotNull Component defaultValueDescription();
-
-    @NotNull Component createClickComponent(T selected, String commandPrefix);
-
-    @NotNull Component createClickHoverComponent(T selected);
-
-    default @NotNull ClickEvent createRunCommand(@NotNull String commandPrefix, @NotNull Object value) {
-        return createRunCommand(commandPrefix, optionKey(), value);
-    }
-
-    default @NotNull ClickEvent createSuggestCommand(@NotNull String commandPrefix) {
-        return createSuggestCommand(commandPrefix, optionKey());
-    }
-
-    static @NotNull ClickEvent createRunCommand(@NotNull String commandPrefix, @NotNull String optionKey, @NotNull Object value) {
+    static ClickEvent createRunCommand(final String commandPrefix, final String optionKey, final Object value) {
         return ClickEvent.runCommand(String.join(" ", commandPrefix, optionKey, value.toString()));
     }
 
-    static @NotNull ClickEvent createSuggestCommand(@NotNull String commandPrefix, @NotNull String optionKey) {
+    static ClickEvent createSuggestCommand(final String commandPrefix, final String optionKey) {
         return ClickEvent.suggestCommand(String.join(" ", commandPrefix, optionKey) + " ");
+    }
+
+    Component extendedDescription();
+
+    Component defaultValueDescription();
+
+    Component createClickComponent(T selected, String commandPrefix);
+
+    Component createClickHoverComponent(T selected);
+
+    default ClickEvent createRunCommand(final String commandPrefix, final Object value) {
+        return createRunCommand(commandPrefix, this.optionKey(), value);
+    }
+
+    default ClickEvent createSuggestCommand(final String commandPrefix) {
+        return createSuggestCommand(commandPrefix, this.optionKey());
     }
 }

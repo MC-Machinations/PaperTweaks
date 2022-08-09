@@ -20,18 +20,17 @@
 package me.machinemaker.vanillatweaks.menus.parts;
 
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
 
-public record LabelLine<S>(@NotNull Component label) implements MenuPart<S> {
+public record LabelLine<S>(Component label) implements MenuPart<S> {
 
-    public static <S> LabelLine<S> of(String label) {
+    public static <S> LabelLine<S> of(final String label) {
         return new LabelLine<>(text(label.endsWith("\n") ? label : label + "\n"));
     }
 
     @Override
-    public @NotNull Component build(@NotNull S object, @NotNull String commandPrefix) {
+    public Component build(final S object, final String commandPrefix) {
         return this.label;
     }
 

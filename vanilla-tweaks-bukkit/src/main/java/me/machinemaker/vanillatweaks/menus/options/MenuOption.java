@@ -19,16 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.menus.options;
 
+import java.util.Optional;
+import java.util.function.Function;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPart;
 import me.machinemaker.vanillatweaks.menus.parts.MenuPartLike;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
-import java.util.function.Function;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.translatable;
 
@@ -38,9 +36,9 @@ public abstract class MenuOption<T, S> implements MenuPart<S>, Option {
     private final Function<S, T> typeMapper;
     private final Setting<T, ?> setting;
     private final Component extendedDescription;
-    private final Function<T, ClickEvent> previewAction;
+    private final @Nullable Function<T, ClickEvent> previewAction;
 
-    protected MenuOption(@NotNull Component label, @NotNull Function<S, T> typeMapper, @NotNull Setting<T, ?> setting, @NotNull Component extendedDescription, @Nullable Function<T, ClickEvent> previewAction) {
+    protected MenuOption(final Component label, final Function<S, T> typeMapper, final Setting<T, ?> setting, final Component extendedDescription, @Nullable final Function<T, ClickEvent> previewAction) {
         this.label = label;
         this.typeMapper = typeMapper;
         this.setting = setting;
@@ -48,28 +46,28 @@ public abstract class MenuOption<T, S> implements MenuPart<S>, Option {
         this.previewAction = previewAction;
     }
 
-    protected @NotNull Component label() {
+    protected Component label() {
         return this.label;
     }
 
-    protected @NotNull Setting<T, ?> setting() {
+    protected Setting<T, ?> setting() {
         return this.setting;
     }
 
     @Override
-    public @NotNull String optionKey() {
+    public String optionKey() {
         return this.setting.indexKey();
     }
 
-    protected @NotNull T selected(@NotNull S object) {
+    protected T selected(final S object) {
         return this.typeMapper.apply(object);
     }
 
-    public @NotNull Component extendedDescription() {
+    public Component extendedDescription() {
         return this.extendedDescription;
     }
 
-    protected @NotNull Optional<Function<T, ClickEvent>> previewAction() {
+    protected Optional<Function<T, ClickEvent>> previewAction() {
         return Optional.ofNullable(this.previewAction);
     }
 
@@ -79,27 +77,27 @@ public abstract class MenuOption<T, S> implements MenuPart<S>, Option {
         private final Function<S, T> typeMapper;
         private final Setting<T, ?> setting;
         private Component extendedDescription = Component.empty();
-        private Function<T, ClickEvent> previewAction;
+        private @Nullable Function<T, ClickEvent> previewAction;
 
-        protected Builder(@NotNull Component label, @NotNull Function<S, T> typeMapper, @NotNull Setting<T, ?> setting) {
+        protected Builder(final Component label, final Function<S, T> typeMapper, final Setting<T, ?> setting) {
             this.label = label;
             this.typeMapper = typeMapper;
             this.setting = setting;
         }
 
-        public @NotNull Component getLabel() {
+        public Component getLabel() {
             return this.label;
         }
 
-        public @NotNull Function<S, T> getTypeMapper() {
+        public Function<S, T> getTypeMapper() {
             return this.typeMapper;
         }
 
-        public @NotNull Setting<T, ?> getSetting() {
+        public Setting<T, ?> getSetting() {
             return this.setting;
         }
 
-        public @NotNull Component getExtendedDescription() {
+        public Component getExtendedDescription() {
             return this.extendedDescription;
         }
 
@@ -112,24 +110,24 @@ public abstract class MenuOption<T, S> implements MenuPart<S>, Option {
             return (B) this;
         }
 
-        public B extendedDescription(@NotNull Component extendedDescription) {
+        public B extendedDescription(final Component extendedDescription) {
             this.extendedDescription = extendedDescription;
-            return self();
+            return this.self();
         }
 
-        public B extendedDescription(@NotNull String extendedDescriptionKey) {
-            return extendedDescription(translatable(extendedDescriptionKey));
+        public B extendedDescription(final String extendedDescriptionKey) {
+            return this.extendedDescription(translatable(extendedDescriptionKey));
         }
 
-        public B previewAction(@NotNull Function<T, ClickEvent> previewAction) {
+        public B previewAction(final Function<T, ClickEvent> previewAction) {
             this.previewAction = previewAction;
-            return self();
+            return this.self();
         }
 
-        public abstract @NotNull O build();
+        public abstract O build();
 
         @Override
-        public @NotNull MenuPart<S> asMenuPart() {
+        public MenuPart<S> asMenuPart() {
             return this.build();
         }
     }

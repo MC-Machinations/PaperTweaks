@@ -24,7 +24,6 @@ import me.machinemaker.vanillatweaks.menus.parts.Labelled;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
@@ -37,28 +36,28 @@ public interface ToggleOption<T> extends Labelled, ClickableOption<T> {
     Component OFF = text("[ ❌ ]", RED);
     Component ON = text("[ ✔ ]", NamedTextColor.GREEN);
 
-    boolean isSelected(@NotNull T selected);
+    boolean isSelected(T selected);
 
-    @NotNull String clickCommandValue(@NotNull T selected);
+    String clickCommandValue(T selected);
 
     @Override
-    default @NotNull Component createClickComponent(T selected, String commandPrefix) {
-        return createClickComponent(selected, createRunCommand(commandPrefix, clickCommandValue(selected)), true);
+    default Component createClickComponent(final T selected, final String commandPrefix) {
+        return this.createClickComponent(selected, this.createRunCommand(commandPrefix, this.clickCommandValue(selected)), true);
     }
 
-    default @NotNull Component createClickComponent(@NotNull T selected, @NotNull ClickEvent clickEvent, boolean actionIfSelected) {
-        Component component = isSelected(selected) ? ON : OFF;
-        if (!isSelected(selected) || (isSelected(selected) && actionIfSelected)) {
-            component = component.hoverEvent(showText(createClickHoverComponent(selected))).clickEvent(clickEvent);
+    default Component createClickComponent(final T selected, final ClickEvent clickEvent, final boolean actionIfSelected) {
+        Component component = this.isSelected(selected) ? ON : OFF;
+        if (!this.isSelected(selected) || (this.isSelected(selected) && actionIfSelected)) {
+            component = component.hoverEvent(showText(this.createClickHoverComponent(selected))).clickEvent(clickEvent);
         }
         return component;
     }
 
     @Override
-    default @NotNull Component createClickHoverComponent(T selected) {
-        Component component = translatable("commands.config.bool-toggle." + isSelected(selected), isSelected(selected) ? RED : GREEN, this.label().color(WHITE));
-        if (extendedDescription() != Component.empty()) {
-            component = component.append(newline()).append(extendedDescription().color(GRAY)).append(newline()).append(translatable("commands.config.default-value", DARK_GRAY, defaultValueDescription()));
+    default Component createClickHoverComponent(final T selected) {
+        Component component = translatable("commands.config.bool-toggle." + this.isSelected(selected), this.isSelected(selected) ? RED : GREEN, this.label().color(WHITE));
+        if (this.extendedDescription() != Component.empty()) {
+            component = component.append(newline()).append(this.extendedDescription().color(GRAY)).append(newline()).append(translatable("commands.config.default-value", DARK_GRAY, this.defaultValueDescription()));
         }
         return component;
     }

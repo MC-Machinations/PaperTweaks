@@ -19,11 +19,9 @@
  */
 package me.machinemaker.vanillatweaks.menus.options;
 
+import java.util.function.Function;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Function;
 
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
@@ -36,25 +34,41 @@ public class EnumMenuOption<E extends Enum<E>, S> extends MenuOption<E, S> imple
 
     private final Function<E, Component> optionLabelFunction;
 
-    protected EnumMenuOption(@NotNull Component label, @NotNull Function<S, E> typeMapper, Setting<E, ?> setting, @NotNull Component extendedDescription, Function<E, @NotNull Component> optionLabelFunction) {
+    protected EnumMenuOption(final Component label, final Function<S, E> typeMapper, final Setting<E, ?> setting, final Component extendedDescription, final Function<E, Component> optionLabelFunction) {
         super(label, typeMapper, setting, extendedDescription, null);
         this.optionLabelFunction = optionLabelFunction;
     }
 
+    public static <E extends Enum<E>, S> Builder<E, S> builder(final String labelKey, final Function<S, E> typeMapper, final Setting<E, ?> setting) {
+        return new Builder<>(translatable(labelKey), typeMapper, setting);
+    }
+
+    public static <E extends Enum<E>, S> Builder<E, S> builder(final String labelKey, final Setting<E, S> setting) {
+        return new Builder<>(translatable(labelKey), setting::getOrDefault, setting);
+    }
+
+    public static <E extends Enum<E>, S> EnumMenuOption<E, S> of(final String labelKey, final Function<S, E> typeMapper, final Setting<E, ?> setting) {
+        return builder(labelKey, typeMapper, setting).build();
+    }
+
+    public static <E extends Enum<E>, S> EnumMenuOption<E, S> of(final String labelKey, final Setting<E, S> setting) {
+        return builder(labelKey, setting::getOrDefault, setting).build();
+    }
+
     @Override
-    public @NotNull Component defaultValueDescription() {
+    public Component defaultValueDescription() {
         return this.optionLabelFunction.apply(this.setting().defaultValue());
     }
 
     @Override
-    public @NotNull Component label() {
+    public Component label() {
         return super.label();
     }
 
     @Override
-    public @NotNull Component build(@NotNull S object, @NotNull String commandPrefix) {
+    public Component build(final S object, final String commandPrefix) {
         return join(
-                createClickComponent(this.selected(object), commandPrefix),
+                this.createClickComponent(this.selected(object), commandPrefix),
                 space(),
                 this.label(),
                 space(),
@@ -63,41 +77,25 @@ public class EnumMenuOption<E extends Enum<E>, S> extends MenuOption<E, S> imple
         );
     }
 
-    public static <E extends Enum<E>, S> @NotNull Builder<E, S> builder(@NotNull String labelKey, @NotNull Function<S, E> typeMapper, @NotNull Setting<E, ?> setting) {
-        return new Builder<>(translatable(labelKey), typeMapper, setting);
-    }
-
-    public static <E extends Enum<E>, S> @NotNull Builder<E, S> builder(@NotNull String labelKey, @NotNull Setting<E, S> setting) {
-        return new Builder<>(translatable(labelKey), setting::getOrDefault, setting);
-    }
-
-    public static <E extends Enum<E>, S> @NotNull EnumMenuOption<E, S> of(@NotNull String labelKey, @NotNull Function<S, E> typeMapper, @NotNull Setting<E, ?> setting) {
-        return builder(labelKey, typeMapper, setting).build();
-    }
-
-    public static <E extends Enum<E>, S> @NotNull EnumMenuOption<E, S> of(@NotNull String labelKey, @NotNull Setting<E, S> setting) {
-        return builder(labelKey, setting::getOrDefault, setting).build();
-    }
-
     public static class Builder<E extends Enum<E>, S> extends MenuOption.Builder<E, EnumMenuOption<E, S>, S, Builder<E, S>> {
 
         private Function<E, Component> optionLabelFunction = e -> text(e.name());
 
-        private Builder(@NotNull Component label, @NotNull Function<S, E> typeMapper, @NotNull Setting<E, ?> setting) {
+        private Builder(final Component label, final Function<S, E> typeMapper, final Setting<E, ?> setting) {
             super(label, typeMapper, setting);
         }
 
-        public @NotNull Builder<E, S> optionLabelFunction(@NotNull Function<E, @NotNull Component> currentLabelFunction) {
+        public Builder<E, S> optionLabelFunction(final Function<E, Component> currentLabelFunction) {
             this.optionLabelFunction = currentLabelFunction;
             return this;
         }
 
-        public @NotNull Function<E, @NotNull Component> getOptionLabelFunction() {
+        public Function<E, Component> getOptionLabelFunction() {
             return this.optionLabelFunction;
         }
 
         @Override
-        public @NotNull EnumMenuOption<E, S> build() {
+        public EnumMenuOption<E, S> build() {
             return new EnumMenuOption<>(
                     this.getLabel(),
                     this.getTypeMapper(),

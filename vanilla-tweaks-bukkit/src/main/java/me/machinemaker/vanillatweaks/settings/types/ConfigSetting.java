@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.settings.types;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
+import cloud.commandframework.arguments.standard.DoubleArgument;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.arguments.standard.IntegerArgument;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -50,6 +51,10 @@ public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(@NotNull ValueN
 
     public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> ofInt(@NotNull ValueNode<?> valueNode) {
         return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerArgument.IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerArgument.IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerArgument.IntegerParser.DEFAULT_MAXIMUM).toString())));
+    }
+
+    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Double, C> ofDouble(@NotNull ValueNode<?> valueNode) {
+        return new ConfigSetting<>((ValueNode<Double>) valueNode, new DoubleArgument.DoubleParser<>(Double.parseDouble(valueNode.meta().getOrDefault("min", DoubleArgument.DoubleParser.DEFAULT_MINIMUM).toString()), Double.parseDouble(valueNode.meta().getOrDefault("max", DoubleArgument.DoubleParser.DEFAULT_MAXIMUM).toString())));
     }
 
     public ConfigSetting(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) {

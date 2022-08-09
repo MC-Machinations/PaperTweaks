@@ -20,6 +20,8 @@
 package me.machinemaker.vanillatweaks.menus.options;
 
 import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.function.Function;
 import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.menus.parts.Previewable;
 import me.machinemaker.vanillatweaks.menus.parts.clicks.ToggleOption;
@@ -27,11 +29,7 @@ import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.event.ClickEvent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.function.Function;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
@@ -39,14 +37,38 @@ import static net.kyori.adventure.text.Component.translatable;
 
 public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements ToggleOption<Boolean> {
 
-    private BooleanMenuOption(@NotNull Component label, @NotNull Function<S, @NotNull Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting, @NotNull Component extendedDescription, @Nullable Function<Boolean, ClickEvent> previewAction) {
+    private BooleanMenuOption(final Component label, final Function<S, Boolean> typeMapper, final Setting<Boolean, ?> setting, final Component extendedDescription, final @Nullable Function<Boolean, ClickEvent> previewAction) {
         super(label, typeMapper, setting, extendedDescription, previewAction);
     }
 
+    public static <S> BooleanMenuOption<S> of(final String labelKey, final Function<S, Boolean> typeMapper, final Setting<Boolean, ?> setting) {
+        return new Builder<>(translatable(labelKey), typeMapper, setting).build();
+    }
+
+    public static <S> Builder<S> newBuilder(final Component label, final Function<S, Boolean> typeMapper, final Setting<Boolean, ?> setting) {
+        return new Builder<>(label, typeMapper, setting);
+    }
+
+    public static <S> Builder<S> newBuilder(final String labelKey, final Function<S, Boolean> typeMapper, final Setting<Boolean, ?> setting) {
+        return new Builder<>(translatable(labelKey), typeMapper, setting);
+    }
+
+    public static <S> BooleanMenuOption<S> of(final String labelKey, final Setting<Boolean, S> setting) {
+        return of(labelKey, setting::getOrDefault, setting);
+    }
+
+    public static <S> Builder<S> newBuilder(final Component label, final Setting<Boolean, S> setting) {
+        return newBuilder(label, setting::getOrDefault, setting);
+    }
+
+    public static <S> Builder<S> newBuilder(final String labelKey, final Setting<Boolean, S> setting) {
+        return newBuilder(translatable(labelKey), setting::getOrDefault, setting);
+    }
+
     @Override
-    public @NotNull Component build(@NotNull S object, @NotNull String commandPrefix) {
+    public Component build(final S object, final String commandPrefix) {
         final List<Component> components = Lists.newArrayList(
-                createClickComponent(Boolean.TRUE.equals(this.selected(object)), commandPrefix),
+                this.createClickComponent(Boolean.TRUE.equals(this.selected(object)), commandPrefix),
                 text(' ')
         );
 
@@ -61,57 +83,33 @@ public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements Togg
     }
 
     @Override
-    public @NotNull Component label() {
+    public Component label() {
         return super.label();
     }
 
     @Override
-    public @NotNull String clickCommandValue(@NotNull Boolean selected) {
+    public String clickCommandValue(final Boolean selected) {
         return Boolean.toString(!selected);
     }
 
     @Override
-    public boolean isSelected(@NotNull Boolean selected) {
+    public boolean isSelected(final Boolean selected) {
         return selected;
     }
 
     @Override
-    public @NotNull Component defaultValueDescription() {
+    public Component defaultValueDescription() {
         return translatable("commands.config.default-value.bool." + this.setting().defaultValue());
-    }
-
-    public static <S> @NotNull BooleanMenuOption<S> of(@NotNull String labelKey, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
-        return new Builder<>(translatable(labelKey), typeMapper, setting).build();
-    }
-
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull Component label, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
-        return new Builder<>(label, typeMapper, setting);
-    }
-
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
-        return new Builder<>(translatable(labelKey), typeMapper, setting);
-    }
-
-    public static <S> @NotNull BooleanMenuOption<S> of(@NotNull String labelKey, @NotNull Setting<Boolean, S> setting) {
-        return of(labelKey, setting::getOrDefault, setting);
-    }
-
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull Component label, @NotNull Setting<Boolean, S> setting) {
-        return newBuilder(label, setting::getOrDefault, setting);
-    }
-
-    public static <S> @NotNull Builder<S> newBuilder(@NotNull String labelKey, @NotNull Setting<Boolean, S> setting) {
-        return newBuilder(translatable(labelKey), setting::getOrDefault, setting);
     }
 
     public static class Builder<S> extends MenuOption.Builder<Boolean, BooleanMenuOption<S>, S, Builder<S>> {
 
-        protected Builder(@NotNull Component label, @NotNull Function<S, Boolean> typeMapper, @NotNull Setting<Boolean, ?> setting) {
+        protected Builder(final Component label, final Function<S, Boolean> typeMapper, final Setting<Boolean, ?> setting) {
             super(label, typeMapper, setting);
         }
 
         @Override
-        public @NotNull BooleanMenuOption<S> build() {
+        public BooleanMenuOption<S> build() {
             return new BooleanMenuOption<>(
                     this.getLabel(),
                     this.getTypeMapper(),

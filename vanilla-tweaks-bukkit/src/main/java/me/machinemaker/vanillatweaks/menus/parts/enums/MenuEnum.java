@@ -22,7 +22,6 @@ package me.machinemaker.vanillatweaks.menus.parts.enums;
 import me.machinemaker.vanillatweaks.menus.options.ClickableOption;
 import me.machinemaker.vanillatweaks.menus.parts.clicks.ToggleOption;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
@@ -31,51 +30,50 @@ import static net.kyori.adventure.text.Component.translatable;
 
 public interface MenuEnum<E extends Enum<E> & MenuEnum<E>> extends ToggleOption<E> {
 
-    @NotNull
-    default Component build(@NotNull E selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
+    default Component build(final E selected, final String labelKey, final String commandPrefix, final String optionKey) {
         return join(
-                createClickComponent(selected, commandPrefix, optionKey),
+                this.createClickComponent(selected, commandPrefix, optionKey),
                 space(),
-                createLabel(labelKey),
+                this.createLabel(labelKey),
                 newline()
         );
     }
 
-    default @NotNull Component createClickComponent(@NotNull E selected, @NotNull String commandPrefix, @NotNull String optionKey) {
-        return createClickComponent(selected, ClickableOption.createRunCommand(commandPrefix, optionKey, name()), false);
+    default Component createClickComponent(final E selected, final String commandPrefix, final String optionKey) {
+        return this.createClickComponent(selected, ClickableOption.createRunCommand(commandPrefix, optionKey, this.name()), false);
     }
 
     @Override
-    default @NotNull String clickCommandValue(@NotNull E selected) {
+    default String clickCommandValue(final E selected) {
         return this.name();
     }
 
     @Override
-    default @NotNull Component extendedDescription() {
+    default Component extendedDescription() {
         return Component.empty();
     }
 
     @Override
-    default @NotNull Component defaultValueDescription() {
+    default Component defaultValueDescription() {
         return Component.empty();
     }
 
     @Override
-    default @NotNull String optionKey() {
+    default String optionKey() {
         throw new UnsupportedOperationException("MenuEnums can't have option keys");
     }
 
     @Override
-    default boolean isSelected(@NotNull E selected) {
+    default boolean isSelected(final E selected) {
         return this == selected;
     }
 
-    default @NotNull Component createLabel(@NotNull String labelKey) {
+    default Component createLabel(final String labelKey) {
         return translatable(labelKey, this.label());
     }
 
-    @NotNull Component label();
+    Component label();
 
-    @NotNull String name(); // Enum will implement this
+    String name(); // Enum will implement this
 
 }

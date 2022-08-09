@@ -19,41 +19,39 @@
  */
 package me.machinemaker.vanillatweaks.menus.config.types;
 
+import java.util.Map;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.menus.config.ConfigMenuOptionBuilder;
 import me.machinemaker.vanillatweaks.menus.config.OptionBuilder;
 import me.machinemaker.vanillatweaks.menus.options.EnumMenuOption;
-import me.machinemaker.vanillatweaks.menus.options.SelectableEnumMenuOption;
 import me.machinemaker.vanillatweaks.menus.options.MenuOption;
+import me.machinemaker.vanillatweaks.menus.options.SelectableEnumMenuOption;
 import me.machinemaker.vanillatweaks.menus.parts.enums.MenuEnum;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class EnumOptionBuilderFactory implements OptionBuilder {
 
     @Override
-    public <C extends MenuModuleConfig<C, ?>> MenuOption.@Nullable Builder<? extends Enum<?>, ?, C, ?> buildOption(@NotNull ValueNode<?> valueNode, @NotNull Map<String, ConfigSetting<?, C>> settings) {
+    public <C extends MenuModuleConfig<C, ?>> MenuOption.@Nullable Builder<? extends Enum<?>, ?, C, ?> buildOption(final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
         if (valueNode.type().isEnumImplType() && MenuEnum.class.isAssignableFrom(valueNode.type().getRawClass())) {
-            return createMenuEnumOption(valueNode.type().getRawClass(), valueNode, settings);
+            return this.createMenuEnumOption(valueNode.type().getRawClass(), valueNode, settings);
         } else if (valueNode.type().isEnumImplType()) {
-            return createEnumOption(valueNode.type().getRawClass(), valueNode, settings);
+            return this.createEnumOption(valueNode.type().getRawClass(), valueNode, settings);
         }
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    private <E extends Enum<E> & MenuEnum<E>, C extends MenuModuleConfig<C, ?>> MenuOption.@NotNull Builder<E, ?, C, ?> createMenuEnumOption(Class<?> enumClass, @NotNull ValueNode<?> valueNode, @NotNull Map<String, ConfigSetting<?, C>> settings) {
+    private <E extends Enum<E> & MenuEnum<E>, C extends MenuModuleConfig<C, ?>> MenuOption.Builder<E, ?, C, ?> createMenuEnumOption(final Class<?> enumClass, final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
         final var setting = ConfigSetting.<E, C>ofEnum(valueNode, (Class<E>) enumClass);
         settings.put(setting.indexKey(), setting);
         return SelectableEnumMenuOption.builder(setting.valueType(), ConfigMenuOptionBuilder.labelKey(valueNode), setting);
     }
 
     @SuppressWarnings("unchecked")
-    private <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> MenuOption.@NotNull Builder<E, ?, C, ?> createEnumOption(Class<?> enumClass, @NotNull ValueNode<?> valueNode, @NotNull Map<String, ConfigSetting<?, C>> settings) {
+    private <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> MenuOption.Builder<E, ?, C, ?> createEnumOption(final Class<?> enumClass, final ValueNode<?> valueNode, final Map<String, ConfigSetting<?, C>> settings) {
         final var setting = ConfigSetting.<E, C>ofEnum(valueNode, (Class<E>) enumClass);
         settings.put(setting.indexKey(), setting);
         final var builder = EnumMenuOption.builder(ConfigMenuOptionBuilder.labelKey(valueNode), setting);

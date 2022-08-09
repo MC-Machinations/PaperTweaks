@@ -21,7 +21,6 @@ package me.machinemaker.vanillatweaks.menus.options;
 
 import me.machinemaker.vanillatweaks.menus.parts.Labelled;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
@@ -29,27 +28,25 @@ import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.event.HoverEvent.showText;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public interface EditableOption<T> extends Labelled, ClickableOption<T>{
+public interface EditableOption<T> extends Labelled, ClickableOption<T> {
 
     Component EDIT = text("[ ✎ ]", GRAY);
 
     @Override
-    @NotNull
-    default Component createClickComponent(T selected, String commandPrefix) {
-        return EDIT.hoverEvent(showText(createClickHoverComponent(selected))).clickEvent(createSuggestCommand(commandPrefix));
+    default Component createClickComponent(final T selected, final String commandPrefix) {
+        return EDIT.hoverEvent(showText(this.createClickHoverComponent(selected))).clickEvent(this.createSuggestCommand(commandPrefix));
     }
 
     @Override
-    @NotNull
-    default Component createClickHoverComponent(T selected) {
-        var builder = translatable().key("commands.config.editable").color(GRAY).args(this.label().color(WHITE));
-        if (extendedDescription() != Component.empty()) {
-            builder.append(newline()).append(extendedDescription().color(GRAY));
+    default Component createClickHoverComponent(final T selected) {
+        final var builder = translatable().key("commands.config.editable").color(GRAY).args(this.label().color(WHITE));
+        if (this.extendedDescription() != Component.empty()) {
+            builder.append(newline()).append(this.extendedDescription().color(GRAY));
         }
-        if (validations() != Component.empty()) {
-            builder.append(newline()).append(validations().color(DARK_GRAY));
+        if (this.validations() != Component.empty()) {
+            builder.append(newline()).append(this.validations().color(DARK_GRAY));
         }
-        builder.append(newline()).append(translatable("commands.config.default-value", DARK_GRAY, defaultValueDescription()));
+        builder.append(newline()).append(translatable("commands.config.default-value", DARK_GRAY, this.defaultValueDescription()));
         return builder.build();
     }
 

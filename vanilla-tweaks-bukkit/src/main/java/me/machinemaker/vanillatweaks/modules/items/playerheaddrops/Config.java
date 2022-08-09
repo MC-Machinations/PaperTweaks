@@ -21,13 +21,34 @@ package me.machinemaker.vanillatweaks.modules.items.playerheaddrops;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
+import me.machinemaker.lectern.annotations.validations.numbers.Max;
+import me.machinemaker.lectern.annotations.validations.numbers.Min;
+import me.machinemaker.vanillatweaks.config.I18nKey;
 import me.machinemaker.vanillatweaks.config.VTConfig;
+import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
+import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
+import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
 
 @VTConfig
-class Config extends ModuleConfig {
+@Menu(commandPrefix = "/playerheaddrops admin config")
+class Config extends SimpleMenuModuleConfig<Config> {
 
     @Key("head-drop-chance")
-    @Description("Chance of player head dropping between 0 and 1 inclusive")
+    @I18nKey("modules.player-head-drops.settings.drop-chance")
+    @Description("modules.player-head-drops.settings.drop-chance.extended")
+    @Min(0)
+    @Max(1)
     public double dropChance = 1d;
+
+    @Key("require-player-kill")
+    @I18nKey("modules.player-head-drops.settings.require-player-kill")
+    @Description("modules.player-head-drops.settings.require-player-kill.extended")
+    public boolean requirePlayerKill = true;
+
+    @Override
+    protected @NotNull Component title() {
+        return buildDefaultTitle("Player Head Drops");
+    }
 }

@@ -19,28 +19,27 @@
  */
 package me.machinemaker.vanillatweaks.menus.config;
 
+import java.util.Objects;
+import java.util.function.Function;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.config.I18nKey;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Function;
 
 public abstract class ConfigMenuOptionBuilder<T> implements OptionBuilder {
 
-    public abstract @NotNull Class<T> typeClass();
-
-    protected final <C extends MenuModuleConfig<C, ?>> @NotNull Function<C, T> typeMapper(ValueNode<?> valueNode) {
-        return c -> c.rootNode().get(valueNode.path());
-    }
-
-    public static @NotNull String labelKey(@NotNull ValueNode<?> valueNode) {
-        String labelKey;
+    public static String labelKey(final ValueNode<?> valueNode) {
+        final String labelKey;
         if (valueNode.meta().containsKey(I18nKey.META_KEY)) {
             labelKey = ((I18nKey) valueNode.meta().get(I18nKey.META_KEY)).value();
         } else {
             labelKey = valueNode.key();
         }
         return labelKey;
+    }
+
+    public abstract Class<T> typeClass();
+
+    protected final <C extends MenuModuleConfig<C, ?>> Function<C, T> typeMapper(final ValueNode<?> valueNode) {
+        return c -> Objects.requireNonNull(c.rootNode().get(valueNode.path()));
     }
 }
