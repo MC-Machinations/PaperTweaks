@@ -57,7 +57,7 @@ subprojects {
 
     dependencies {
         compileOnly("io.leangen.geantyref:geantyref:1.3.11")
-        implementation("me.machinemaker.mirror:mirror-paper:0.1.0")
+        implementation("me.machinemaker.mirror:mirror-paper:0.1.1")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1")
         implementation("net.kyori:adventure-platform-bukkit:4.1.2-SNAPSHOT") // s01.oss
         implementation("net.kyori:adventure-text-minimessage:4.11.0")
