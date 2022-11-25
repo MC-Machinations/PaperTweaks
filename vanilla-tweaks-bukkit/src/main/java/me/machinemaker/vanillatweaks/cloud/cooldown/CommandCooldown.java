@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.cloud.cooldown;
 
 import cloud.commandframework.Command;
 import cloud.commandframework.keys.CloudKey;
+import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.meta.CommandMeta;
 import io.leangen.geantyref.TypeToken;
 import java.time.Duration;
@@ -58,11 +59,11 @@ public interface CommandCooldown<C> {
     CloudKey<Void> key();
 
     /**
-     * Get the {@link CooldownDuration} for this cooldown.
+     * Get the {@link CommandCooldownDuration} for this cooldown.
      *
      * @return duration
      */
-    CooldownDuration<C> cooldownDuration();
+    CommandCooldownDuration<C> cooldownDuration();
 
     /**
      * Get the {@link CommandCooldownNotifier} for this cooldown.
@@ -71,12 +72,58 @@ public interface CommandCooldown<C> {
      */
     @Nullable CommandCooldownNotifier<C> notifier();
 
-    static <C> CommandCooldownBuilder<C> builder(final Duration cooldown) {
-        return CommandCooldownBuilder.create(cooldown);
+    static <C> Builder<C> builder(final Duration cooldown) {
+        return builder(CommandCooldownDuration.constant(cooldown));
     }
 
-    static <C> CommandCooldownBuilder<C> builder(final CooldownDuration<C> cooldownDuration) {
-        return CommandCooldownBuilder.create(cooldownDuration);
+    static <C> Builder<C> builder(final CommandCooldownDuration<C> cooldownDuration) {
+        return new CommandCooldownImpl.BuilderImpl<>(cooldownDuration);
     }
 
+    /**
+     * Builder for {@link CommandCooldown}.
+     *
+     * @param <C> sender type
+     */
+    @DefaultQualifier(NonNull.class)
+    interface Builder<C> {
+
+        /**
+         * Set a custom {@link CommandCooldownNotifier}.
+         *
+         * @param notifier custom notifier
+         * @return this builder
+         */
+        Builder<C> notifier(CommandCooldownNotifier<C> notifier);
+
+        /**
+         * Set the cooldown key.
+         *
+         * <p>If not configured, a random one will be generated on {@link #build()}.</p>
+         *
+         * @param cooldownKey cooldown key
+         * @return this builder
+         */
+        Builder<C> key(CloudKey<Void> cooldownKey);
+
+        /**
+         * Set the cooldown key.
+         *
+         * <p>If not configured, a random one will be generated on {@link #build()}.</p>
+         *
+         * @param cooldownKey cooldown key
+         * @return this builder
+         */
+        default Builder<C> key(final String cooldownKey) {
+            return this.key(SimpleCloudKey.of(cooldownKey));
+        }
+
+        /**
+         * Create a new {@link CommandCooldown} from the current state of this builder.
+         *
+         * @return new cooldown
+         */
+        CommandCooldown<C> build();
+
+    }
 }

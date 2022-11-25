@@ -27,8 +27,8 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 
 @DefaultQualifier(NonNull.class)
 @FunctionalInterface
-public interface CooldownDuration<C> {
-  static <C> CooldownDuration<C> constant(final Duration duration) {
+public interface CommandCooldownDuration<C> {
+  static <C> CommandCooldownDuration<C> constant(final Duration duration) {
     return context -> duration;
   }
 
