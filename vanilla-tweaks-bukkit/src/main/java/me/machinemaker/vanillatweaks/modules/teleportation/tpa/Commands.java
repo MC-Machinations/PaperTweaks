@@ -25,7 +25,7 @@ import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.cloud.SuggestionProviders;
-import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
+import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldown;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
@@ -68,11 +68,12 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         var builder = this.player();
 
-        final var requestCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
+        final var requestCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
                 .key(TPA_REQUEST_COOLDOWN_KEY)
-                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))));
+                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))))
+                .build();
 
-        manager.command(requestCooldownBuilder.applyTo(literal(builder, "request"))
+        manager.command(requestCooldown.applyTo(literal(builder, "request"))
                 .argument(PlayerArgument.<CommandDispatcher>newBuilder("target").withSuggestionsProvider(SuggestionProviders.playersWithoutSelf()))
                 .handler(sync((context, player) -> {
                     Player target = context.get("target");

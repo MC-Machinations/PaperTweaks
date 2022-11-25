@@ -24,7 +24,7 @@ import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
-import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
+import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldown;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.db.dao.teleportation.homes.HomesDAO;
@@ -63,9 +63,10 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         var builder = this.player();
 
-        final var homeCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.sethomeCooldown))
+        final var homeCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.sethomeCooldown))
                 .key(HOME_COMMAND_COOLDOWN_KEY)
-                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))));
+                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))))
+                .build();
 
 
         manager.command(literal(builder, "sethome")
@@ -133,7 +134,7 @@ class Commands extends ConfiguredModuleCommand {
                     }
                     context.getSender().sendMessage(component);
                 })
-        ).command(homeCooldownBuilder.applyTo(this.player("home"))
+        ).command(homeCooldown.applyTo(this.player("home"))
                 .argument(this.argumentFactory.home(false, "home"))
                 .handler(sync((context, player) -> {
                     if (HomeTeleportRunnable.AWAITING_TELEPORT.containsKey(player.getUniqueId())) {

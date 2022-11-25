@@ -19,18 +19,16 @@
  */
 package me.machinemaker.vanillatweaks.cloud.cooldown;
 
-import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
-import java.time.Duration;
+import cloud.commandframework.keys.CloudKey;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
 @DefaultQualifier(NonNull.class)
-@FunctionalInterface
-public interface CooldownDuration<C> {
-  static <C> CooldownDuration<C> constant(final Duration duration) {
-    return context -> duration;
-  }
+record CommandCooldownImpl<C>(
+        CloudKey<Void> key,
+        CooldownDuration<C> cooldownDuration,
+        @Nullable CommandCooldownNotifier<C> notifier
+) implements CommandCooldown<C> {
 
-  @Nullable Duration getDuration(CommandPostprocessingContext<C> context);
 }

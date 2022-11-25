@@ -28,7 +28,7 @@ import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
-import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
+import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldown;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
@@ -66,15 +66,16 @@ class Commands extends ModuleCommand {
     protected void registerCommands() {
         var builder = this.player();
 
-        final var cooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
+        final var commandCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
                 .key(SPAWN_CMD_COOLDOWN_KEY)
-                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.spawn.teleporting.cooldown", RED, text(secondsLeft))));
+                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.spawn.teleporting.cooldown", RED, text(secondsLeft))))
+                .build();
 
 
-        this.manager.command(cooldownBuilder.applyTo(builder)
+        this.manager.command(commandCooldown.applyTo(builder)
                 .permission(modulePermission("vanillatweaks.spawn.current"))
                 .handler(handleSpawnCmd())
-        ).command(cooldownBuilder.applyTo(builder)
+        ).command(commandCooldown.applyTo(builder)
                 .permission(modulePermission("vanillatweaks.spawn.other"))
                 .argument(WORLD_ARG, RichDescription.translatable("modules.spawn.commands.other"))
                 .handler(handleSpawnCmd())
