@@ -29,23 +29,23 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 @DefaultQualifier(NonNull.class)
 record CommandCooldownImpl<C>(
         CloudKey<Void> key,
-        CommandCooldownDuration<C> cooldownDuration,
-        @Nullable CommandCooldownNotifier<C> notifier
+        DurationFunction<C> duration,
+        @Nullable Notifier<C> notifier
 ) implements CommandCooldown<C> {
 
     @DefaultQualifier(NonNull.class)
     static final class BuilderImpl<C> implements Builder<C> {
 
-        private final CommandCooldownDuration<C> cooldownDuration;
-        private @Nullable CommandCooldownNotifier<C> notifier;
+        private final DurationFunction<C> cooldownDuration;
+        private @Nullable Notifier<C> notifier;
         private @Nullable CloudKey<Void> cooldownKey;
 
-        BuilderImpl(final CommandCooldownDuration<C> cooldownDuration) {
+        BuilderImpl(final DurationFunction<C> cooldownDuration) {
             this.cooldownDuration = cooldownDuration;
         }
 
         @Override
-        public Builder<C> notifier(final CommandCooldownNotifier<C> notifier) {
+        public Builder<C> notifier(final Notifier<C> notifier) {
             this.notifier = notifier;
             return this;
         }

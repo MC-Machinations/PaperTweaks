@@ -47,13 +47,13 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 public final class CommandCooldownManager<C, I> {
 
     private final Function<C, @Nullable I> identificationMapper;
-    private final CommandCooldownNotifier<C> defaultNotifier;
+    private final CommandCooldown.Notifier<C> defaultNotifier;
     private final Map<I, Map<CloudKey<Void>, Long>> commandsOnCooldown;
     private final ScheduledExecutorService executorService;
 
     private CommandCooldownManager(
             final Function<C, @Nullable I> identificationMapper,
-            final CommandCooldownNotifier<C> defaultNotifier,
+            final CommandCooldown.Notifier<C> defaultNotifier,
             final ScheduledExecutorService executorService
     ) {
         this.identificationMapper = identificationMapper;
@@ -74,7 +74,7 @@ public final class CommandCooldownManager<C, I> {
      */
     public static <C, I> CommandCooldownManager<C, I> create(
             final Function<C, @Nullable I> identificationMapper,
-            final CommandCooldownNotifier<C> defaultNotifier,
+            final CommandCooldown.Notifier<C> defaultNotifier,
             final ScheduledExecutorService executorService
     ) {
         return new CommandCooldownManager<>(identificationMapper, defaultNotifier, executorService);
@@ -122,8 +122,8 @@ public final class CommandCooldownManager<C, I> {
                     if (senderCooldownMap.containsKey(commandCooldownKey)) {
                         final Long blockedUntil = senderCooldownMap.get(commandCooldownKey);
                         if (currentMillis < blockedUntil) {
-                            final @Nullable CommandCooldownNotifier<C> customNotifier = commandCooldown.notifier();
-                            final @Nullable CommandCooldownNotifier<C> notifier = customNotifier == null
+                            final CommandCooldown.@Nullable Notifier<C> customNotifier = commandCooldown.notifier();
+                            final CommandCooldown.@Nullable Notifier<C> notifier = customNotifier == null
                                     ? CommandCooldownManager.this.defaultNotifier
                                     : customNotifier;
                             notifier.notify(context, cooldownDuration.get(), (blockedUntil - currentMillis) / 1000);
@@ -153,7 +153,7 @@ public final class CommandCooldownManager<C, I> {
         private Optional<Duration> cooldownDuration(final CommandPostprocessingContext<C> context) {
             return context.getCommand().getCommandMeta()
                     .get(CommandCooldown.COMMAND_META_KEY)
-                    .map(cooldown -> cooldown.cooldownDuration().getDuration((CommandPostprocessingContext) context));
+                    .map(cooldown -> cooldown.duration().getDuration((CommandPostprocessingContext) context));
         }
 
         private @Nullable I mapToId(final C sender) {

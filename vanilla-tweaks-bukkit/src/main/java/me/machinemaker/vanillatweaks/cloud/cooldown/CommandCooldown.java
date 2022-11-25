@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.cloud.cooldown;
 
 import cloud.commandframework.Command;
+import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.meta.CommandMeta;
@@ -59,25 +60,45 @@ public interface CommandCooldown<C> {
     CloudKey<Void> key();
 
     /**
-     * Get the {@link CommandCooldownDuration} for this cooldown.
+     * Get the {@link DurationFunction} for this cooldown.
      *
      * @return duration
      */
-    CommandCooldownDuration<C> cooldownDuration();
+    DurationFunction<C> duration();
 
     /**
-     * Get the {@link CommandCooldownNotifier} for this cooldown.
+     * Get the {@link Notifier} for this cooldown.
      *
      * @return notifier
      */
-    @Nullable CommandCooldownNotifier<C> notifier();
+    @Nullable Notifier<C> notifier();
 
     static <C> Builder<C> builder(final Duration cooldown) {
-        return builder(CommandCooldownDuration.constant(cooldown));
+        return builder(DurationFunction.constant(cooldown));
     }
 
-    static <C> Builder<C> builder(final CommandCooldownDuration<C> cooldownDuration) {
+    static <C> Builder<C> builder(final DurationFunction<C> cooldownDuration) {
         return new CommandCooldownImpl.BuilderImpl<>(cooldownDuration);
+    }
+
+    @FunctionalInterface
+    interface DurationFunction<C> {
+
+        static <C> DurationFunction<C> constant(final Duration duration) {
+            return context -> duration;
+        }
+
+        @Nullable Duration getDuration(CommandPostprocessingContext<C> context);
+    }
+
+    @FunctionalInterface
+    interface Notifier<C> {
+
+        static <C> Notifier<C> empty() {
+            return (context, cooldown, secondsLeft) -> {};
+        }
+
+        void notify(CommandPostprocessingContext<C> context, Duration cooldown, long secondsLeft);
     }
 
     /**
@@ -85,16 +106,15 @@ public interface CommandCooldown<C> {
      *
      * @param <C> sender type
      */
-    @DefaultQualifier(NonNull.class)
     interface Builder<C> {
 
         /**
-         * Set a custom {@link CommandCooldownNotifier}.
+         * Set a custom {@link Notifier}.
          *
          * @param notifier custom notifier
          * @return this builder
          */
-        Builder<C> notifier(CommandCooldownNotifier<C> notifier);
+        Builder<C> notifier(Notifier<C> notifier);
 
         /**
          * Set the cooldown key.
