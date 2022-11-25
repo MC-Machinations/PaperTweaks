@@ -20,16 +20,17 @@
 package me.machinemaker.vanillatweaks.cloud.cooldown;
 
 import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.time.Duration;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
+@DefaultQualifier(NonNull.class)
 @FunctionalInterface
 public interface CommandCooldownNotifier<C> {
 
-    static <C> @NonNull CommandCooldownNotifier<C> empty() {
+    static <C> CommandCooldownNotifier<C> empty() {
         return (context, cooldown, secondsLeft) -> {};
     }
 
-    void notify(@NonNull CommandPostprocessingContext<C> context, @NonNull Duration cooldown, long secondsLeft);
+    void notify(CommandPostprocessingContext<C> context, Duration cooldown, long secondsLeft);
 }

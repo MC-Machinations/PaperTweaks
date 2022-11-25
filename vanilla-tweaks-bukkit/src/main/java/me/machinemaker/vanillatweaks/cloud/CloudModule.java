@@ -88,7 +88,7 @@ public class CloudModule extends AbstractModule {
     @Provides
     @Singleton
     CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager() {
-        return new CommandCooldownManager<>(
+        return CommandCooldownManager.create(
                 CommandDispatcher::getUUID,
                 (context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(text("Cooling down", RED)),
                 executorService);

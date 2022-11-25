@@ -23,7 +23,7 @@ import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
-import me.machinemaker.vanillatweaks.cloud.cooldown.CooldownBuilder;
+import me.machinemaker.vanillatweaks.cloud.cooldown.CommandCooldown;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
@@ -52,11 +52,12 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         var builder = this.player();
 
-        final var backCooldownBuilder = CooldownBuilder.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
+        final var backCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
                         .key(BACK_COMMAND_COOLDOWN_KEY)
-                        .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))));
+                        .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))))
+                        .build();
 
-        manager.command(backCooldownBuilder.applyTo(builder)
+        manager.command(backCooldown.applyTo(builder)
                 .permission(modulePermission("vanillatweaks.back"))
                 .handler(sync((context, player) -> {
                     Location loc = Back.BACK_LOCATION.getFrom(player);
