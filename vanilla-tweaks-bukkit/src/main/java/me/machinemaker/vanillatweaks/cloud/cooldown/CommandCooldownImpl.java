@@ -33,7 +33,6 @@ record CommandCooldownImpl<C>(
         @Nullable Notifier<C> notifier
 ) implements CommandCooldown<C> {
 
-    @DefaultQualifier(NonNull.class)
     static final class BuilderImpl<C> implements Builder<C> {
 
         private final DurationFunction<C> cooldownDuration;
