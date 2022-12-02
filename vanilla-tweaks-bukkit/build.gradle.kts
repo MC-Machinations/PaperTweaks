@@ -10,11 +10,11 @@ repositories {
 }
 
 dependencies {
-    implementation("me.lucko:commodore:2.0") {
+    implementation("me.lucko:commodore:2.2") {
         exclude("com.mojang", "brigadier")
     }
 
-    val adventureVersion = "4.11.0"
+    val adventureVersion = "4.12.0"
     implementation("net.kyori:adventure-text-serializer-plain:$adventureVersion")
     implementation("net.kyori:adventure-api:$adventureVersion")
 

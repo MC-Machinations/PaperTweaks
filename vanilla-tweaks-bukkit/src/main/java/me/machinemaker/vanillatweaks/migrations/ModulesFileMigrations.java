@@ -19,6 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.migrations;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,11 +32,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 
 @DefaultQualifier(NonNull.class)
 public final class ModulesFileMigrations {
@@ -84,21 +83,21 @@ public final class ModulesFileMigrations {
     private ModulesFileMigrations() {
     }
 
-    public static void apply(Path dataPath, Plugin plugin) {
+    public static void apply(final Path dataPath, final Plugin plugin) {
         final Path modulesYml = dataPath.resolve("modules.yml");
         if (Files.exists(modulesYml)) {
             try {
-                FileConfiguration configuration = YamlConfiguration.loadConfiguration(Files.newBufferedReader(modulesYml));
-                if (configuration.contains("item-tools") && configuration.getInt("version") < 1) { // section "item-tools" should only exists on 0.1.x modules.yml files
+                final FileConfiguration configuration = YamlConfiguration.loadConfiguration(Files.newBufferedReader(modulesYml));
+                if (configuration.contains("item-tools") && configuration.getInt("version") < 1) { // section "item-tools" should only exist on 0.1.x modules.yml files
                     Files.copy(modulesYml, dataPath.resolve("modules.yml.bak"));
                     LOGGER.warn("Outdated modules.yml detected. It has been copied and backed up to modules.yml.bak");
                     LOGGER.warn("Starting migration of modules.yml");
-                    for (Migration migration : MIGRATIONS) {
+                    for (final Migration migration : MIGRATIONS) {
                         migration.apply(configuration);
                     }
                     configuration.save(modulesYml.toFile());
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 LOGGER.error("Error migration to new modules.yml! Please try renaming VanillaTweaks/modules.yml to something else so the plugin can create a new one", e);
                 plugin.getPluginLoader().disablePlugin(plugin);
             }
@@ -110,25 +109,25 @@ public final class ModulesFileMigrations {
         protected final String oldPath;
         protected final @Nullable String newPath;
 
-        public Migration(String oldPath, @Nullable String newPath) {
+        public Migration(final String oldPath, @Nullable final String newPath) {
             this.oldPath = oldPath;
             this.newPath = newPath;
         }
 
-        @MustBeInvokedByOverriders
-        public void apply(FileConfiguration configuration) {
-            if (this.newPath != null) {
-                configuration.set(newPath, configuration.get(oldPath));
-            }
-            configuration.set(oldPath, null);
-        }
-
-        public static Migration clear(String oldPath) {
+        public static Migration clear(final String oldPath) {
             return new Migration(oldPath, null);
         }
 
-        public static Migration section(String oldSection, String newSection, String moduleName) {
+        public static Migration section(final String oldSection, final String newSection, final String moduleName) {
             return new Migration(oldSection + "." + moduleName, newSection + "." + moduleName);
+        }
+
+        @MustBeInvokedByOverriders
+        public void apply(final FileConfiguration configuration) {
+            if (this.newPath != null) {
+                configuration.set(this.newPath, configuration.get(this.oldPath));
+            }
+            configuration.set(this.oldPath, null);
         }
     }
 
@@ -136,13 +135,13 @@ public final class ModulesFileMigrations {
 
         private final String newPath;
 
-        public CombiningMigration(String oldPath, String newPath) {
+        public CombiningMigration(final String oldPath, final String newPath) {
             super(oldPath, null);
             this.newPath = newPath;
         }
 
         @Override
-        public void apply(FileConfiguration configuration) {
+        public void apply(final FileConfiguration configuration) {
             if (configuration.getBoolean(this.oldPath)) {
                 configuration.set(this.newPath, true);
             }
@@ -154,13 +153,13 @@ public final class ModulesFileMigrations {
 
         private final String propertyKey;
 
-        public MobGriefingMigration(String oldPath, String propertyKey) {
+        public MobGriefingMigration(final String oldPath, final String propertyKey) {
             super(oldPath, "mobs.mob-griefing");
             this.propertyKey = propertyKey;
         }
 
         @Override
-        public void apply(FileConfiguration configuration) {
+        public void apply(final FileConfiguration configuration) {
             System.setProperty(this.propertyKey, String.valueOf(configuration.getBoolean(this.oldPath)));
             super.apply(configuration);
         }

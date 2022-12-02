@@ -22,24 +22,24 @@ package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 import me.machinemaker.vanillatweaks.utils.runnables.TimerRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.List;
-
 @Singleton
 class StatsRunnable extends TimerRunnable {
 
-    private static final List<List<CalculatedStat>> PARTITIONS = Lists.partition(Lists.newArrayList(Stats.REGISTRY.values()), Stats.REGISTRY.values().size() / 3);
+    private static final List<List<CalculatedStat>> PARTITIONS = Lists.partition(new ArrayList<>(Stats.REGISTRY.values()), Stats.REGISTRY.values().size() / 3);
 
     private final Scoreboard board;
     private int count = 0;
 
     @Inject
-    StatsRunnable(Plugin plugin, Scoreboard board) {
+    StatsRunnable(final Plugin plugin, final Scoreboard board) {
         super(plugin);
         this.board = board;
     }
@@ -47,8 +47,8 @@ class StatsRunnable extends TimerRunnable {
 
     @Override
     public void run() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            for (CalculatedStat stat : PARTITIONS.get(this.count % 3)) {
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            for (final CalculatedStat stat : PARTITIONS.get(this.count % 3)) {
                 stat.updateScore(this.board, player);
             }
         }

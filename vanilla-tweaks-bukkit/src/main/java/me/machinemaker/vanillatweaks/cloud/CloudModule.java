@@ -22,6 +22,7 @@ package me.machinemaker.vanillatweaks.cloud;
 import cloud.commandframework.Command;
 import cloud.commandframework.CommandManager;
 import cloud.commandframework.arguments.StaticArgument;
+import cloud.commandframework.brigadier.CloudBrigadierManager;
 import cloud.commandframework.bukkit.CloudBukkitCapabilities;
 import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
 import cloud.commandframework.minecraft.extras.AudienceProvider;
@@ -56,8 +57,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import static java.util.Objects.requireNonNull;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
@@ -127,7 +128,7 @@ public class CloudModule extends AbstractModule {
                 manager.registerAsynchronousCompletions();
             }
 
-            if (manager.hasCapability(CloudBukkitCapabilities.BRIGADIER)) {
+            if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER) || manager.hasCapability(CloudBukkitCapabilities.COMMODORE_BRIGADIER)) {
                 manager.registerBrigadier();
             }
 
@@ -136,13 +137,16 @@ public class CloudModule extends AbstractModule {
             manager.registerCommandPostProcessor(new GamemodePostprocessor());
             manager.commandSuggestionProcessor(new SimpleSuggestionProcessor());
 
-            requireNonNull(manager.brigadierManager()).registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
-                builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {
-                    case QUOTED -> StringArgumentType.string();
-                    case GREEDY -> StringArgumentType.greedyString();
-                    default -> StringArgumentType.word();
+            final @Nullable CloudBrigadierManager<CommandDispatcher, ?> brigManager = manager.brigadierManager();
+            if (brigManager != null) {
+                brigManager.registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
+                    builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {
+                        case QUOTED -> StringArgumentType.string();
+                        case GREEDY -> StringArgumentType.greedyString();
+                        default -> StringArgumentType.word();
+                    });
                 });
-            });
+            }
 
             return manager;
         } catch (Exception e) {

@@ -38,12 +38,12 @@ class ItemListener implements ModuleListener {
     private final Plugin plugin;
 
     @Inject
-    ItemListener(Plugin plugin) {
+    ItemListener(final Plugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onItemDrop(PlayerDropItemEvent event) {
+    public void onItemDrop(final PlayerDropItemEvent event) {
         if (event.getItemDrop().getItemStack().getType() == Material.ELYTRA) {
             ItemDropRunnable.LookingFor lookingFor = null;
             if (!IS_ARMORED_ELYTRA.has(event.getItemDrop().getItemStack()) && event.getPlayer().hasPermission("vanillatweaks.armoredelytra.create")) {
@@ -58,7 +58,7 @@ class ItemListener implements ModuleListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onItemBurn(EntityDamageEvent event) {
+    public void onItemBurn(final EntityDamageEvent event) {
         if (event.getEntity() instanceof Item item && Boolean.TRUE.equals(IS_ARMORED_ELYTRA.has(item.getItemStack()))) {
             ItemDropRunnable.breakArmoredElytra(item.getWorld(), item.getLocation(), item, false);
         }

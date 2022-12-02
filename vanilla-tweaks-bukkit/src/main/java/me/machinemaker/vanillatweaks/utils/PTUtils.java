@@ -158,14 +158,14 @@ public final class PTUtils {
     /**
      * Replaces all occurrences of items from {unioned} that are not in {with} with null.
      */
-    public static <T> List<T> nullUnionList(final List<T> unioned, final List<T> with) {
+    public static <T> List<@Nullable T> nullUnionList(final List<T> unioned, final List<T> with) {
         final Map<CachedHashObjectWrapper<T>, MutableInt> withCount = toCachedMapCount(with);
         return nullUnionList(unioned, withCount);
     }
 
-    public static <T> List<T> nullUnionList(final List<T> unioned,
+    public static <T> List<@Nullable T> nullUnionList(final List<T> unioned,
                                             final Map<CachedHashObjectWrapper<T>, MutableInt> with) {
-        final List<T> result = new ArrayList<>();
+        final List<@Nullable T> result = new ArrayList<>();
         for (final T item : unioned) {
             final MutableInt x = with.get(new CachedHashObjectWrapper<>(item));
             if (x == null || x.intValue() <= 0) {
