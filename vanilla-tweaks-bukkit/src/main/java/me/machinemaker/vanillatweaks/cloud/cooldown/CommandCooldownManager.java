@@ -89,7 +89,7 @@ public final class CommandCooldownManager<C, I> {
 
     public synchronized void invalidate(final I id, final Command<C> command) {
         command.getCommandMeta().get(CommandCooldown.COMMAND_META_KEY)
-                .ifPresent(cooldown -> invalidate(id, cooldown.key()));
+                .ifPresent(cooldown -> this.invalidate(id, cooldown.key()));
     }
 
     public synchronized void invalidate(final I id, final CloudKey<Void> cloudKey) {
