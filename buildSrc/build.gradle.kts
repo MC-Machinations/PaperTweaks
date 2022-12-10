@@ -7,11 +7,11 @@ repositories {
 }
 
 dependencies {
-    implementation("gradle.plugin.com.github.jengelman.gradle.plugins", "shadow", "7.0.0")
+    implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
 }
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }

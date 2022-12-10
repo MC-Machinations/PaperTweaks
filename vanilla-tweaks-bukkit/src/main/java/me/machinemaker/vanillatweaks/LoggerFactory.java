@@ -21,8 +21,11 @@ package me.machinemaker.vanillatweaks;
 
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 import org.slf4j.Logger;
 
+@DefaultQualifier(NonNull.class)
 public final class LoggerFactory {
 
     static final String GLOBAL_PREFIX = "PaperTweaks";
@@ -35,15 +38,15 @@ public final class LoggerFactory {
         return PLUGIN_LOGGER;
     }
 
-    public static Logger getModuleLogger(Class<? extends ModuleBase> moduleClass) {
+    public static Logger getModuleLogger(final Class<? extends ModuleBase> moduleClass) {
         return getLogger(moduleClass.getAnnotation(ModuleInfo.class).name());
     }
 
-    public static Logger getLogger(Class<?> clazz) {
+    public static Logger getLogger(final Class<?> clazz) {
         return getLogger(clazz.getSimpleName());
     }
 
-    public static Logger getLogger(String name) {
+    public static Logger getLogger(final String name) {
         return org.slf4j.LoggerFactory.getLogger(PLUGIN_LOGGER.getName() + ": " + name);
     }
 }

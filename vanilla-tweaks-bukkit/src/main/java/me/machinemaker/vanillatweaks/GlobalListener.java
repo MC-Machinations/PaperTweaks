@@ -35,15 +35,15 @@ public class GlobalListener implements Listener {
     private final PaperCommandManager<CommandDispatcher> commandManager;
 
     @Inject
-    public GlobalListener(ModuleManager moduleManager, PaperCommandManager<CommandDispatcher> commandManager) {
+    public GlobalListener(final ModuleManager moduleManager, final PaperCommandManager<CommandDispatcher> commandManager) {
         this.moduleManager = moduleManager;
         this.commandManager = commandManager;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBukkitReload(ServerLoadEvent event) {
+    public void onBukkitReload(final ServerLoadEvent event) {
         if (event.getType() == ServerLoadEvent.LoadType.RELOAD) {
-           moduleManager.reloadModules();
+            this.moduleManager.reloadModules();
         } else if (event.getType() == ServerLoadEvent.LoadType.STARTUP && this.commandManager.hasCapability(CloudBukkitCapabilities.COMMODORE_BRIGADIER)) {
             // This is very annoying
             ModuleManager.reSyncCommands();

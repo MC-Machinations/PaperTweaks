@@ -29,13 +29,11 @@ public class VanillaTweaksMetrics {
 
     private static final int PLUGIN_ID = 8141;
 
-    private final VanillaTweaksConfig config;
     private Metrics metrics;
 
     @Inject
-    VanillaTweaksMetrics(VanillaTweaksConfig config, JavaPlugin plugin) {
-        this.config = config;
-        if (this.config.metricsEnabled) {
+    VanillaTweaksMetrics(final VanillaTweaksConfig config, final JavaPlugin plugin) {
+        if (config.metricsEnabled) {
             this.metrics = new Metrics(plugin, PLUGIN_ID);
         }
     }

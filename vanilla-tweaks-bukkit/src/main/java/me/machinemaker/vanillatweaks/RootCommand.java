@@ -26,6 +26,9 @@ import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.vanillatweaks.adventure.Components;
 import me.machinemaker.vanillatweaks.cloud.VanillaTweaksCommand;
@@ -33,22 +36,22 @@ import me.machinemaker.vanillatweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.menus.AbstractConfigurationMenu;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleManager;
-import me.machinemaker.vanillatweaks.modules.ModuleManager.ReloadResult;
+import me.machinemaker.vanillatweaks.modules.ModuleState;
 import me.machinemaker.vanillatweaks.utils.ChatWindow;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.newline;
@@ -57,6 +60,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
+@DefaultQualifier(NonNull.class)
 public class RootCommand extends VanillaTweaksCommand {
 
     private static final int PAGE_SIZE = 6;
@@ -68,7 +72,7 @@ public class RootCommand extends VanillaTweaksCommand {
     private Command.@MonotonicNonNull Builder<CommandDispatcher> builder;
 
     @Inject
-    public RootCommand(ModuleManager moduleManager, @Named("modules") ConfigurationNode modulesConfig, BukkitAudiences audiences) {
+    public RootCommand(final ModuleManager moduleManager, @Named("modules") final ConfigurationNode modulesConfig, final BukkitAudiences audiences) {
         this.moduleManager = moduleManager;
         this.modulesConfig = modulesConfig;
         this.audiences = audiences;
@@ -79,46 +83,43 @@ public class RootCommand extends VanillaTweaksCommand {
         this.builder = this.manager.commandBuilder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks");
 
         this.manager.command(this.simple("reload")
-                .handler(sync(this::reloadEverything))
+            .handler(this.sync(this::reloadEverything))
         ).command(this.simple("reload")
-                .literal("module")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.reload.module")) // Override default meta from #simple(String)
-                .argument(this.argumentFactory.module(true))
-                .handler(sync(context -> context.getSender().sendMessage(this.moduleManager.reloadModule(ModuleArgument.getModule(context).getName()))))
+            .literal("module")
+            .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.reload.module")) // Override default meta from #simple(String)
+            .argument(this.argumentFactory.module(true))
+            .handler(this.sync(context -> context.getSender().sendMessage(this.moduleManager.reloadModule(ModuleArgument.getModule(context).getName()))))
         ).command(this.simple("enable")
-                .argument(this.argumentFactory.module(false))
-                .handler(sync(context -> {
-                    final Component enableMsg = this.moduleManager.enableModule(ModuleArgument.getModule(context).getName());
-                    context.getSender().sendMessage(enableMsg);
-                    this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, enableMsg));
-                }))
+            .argument(this.argumentFactory.module(false))
+            .handler(this.sync(context -> {
+                final Component enableMsg = this.moduleManager.enableModule(ModuleArgument.getModule(context).getName());
+                context.getSender().sendMessage(enableMsg);
+                this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, enableMsg));
+            }))
         ).command(this.simple("disable")
-                .argument(this.argumentFactory.module(true))
-                .handler(sync(context -> {
-                    final Component disableMsg = this.moduleManager.disableModule(ModuleArgument.getModule(context).getName());
-                    context.getSender().sendMessage(disableMsg);
-                    this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, disableMsg));
-                }))
+            .argument(this.argumentFactory.module(true))
+            .handler(this.sync(context -> {
+                final Component disableMsg = this.moduleManager.disableModule(ModuleArgument.getModule(context).getName());
+                context.getSender().sendMessage(disableMsg);
+                this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, disableMsg));
+            }))
         ).command(this.simple("list")
-                .argument(IntegerArgument.<CommandDispatcher>newBuilder("page").withMin(1).withMax(this.maxPageCount).asOptionalWithDefault(1))
-                .handler(this::sendModuleList)
+            .argument(IntegerArgument.<CommandDispatcher>newBuilder("page").withMin(1).withMax(this.maxPageCount).asOptionalWithDefault(1))
+            .handler(this::sendModuleList)
         ).command(this.simple("version")
-                .handler(this::showVersion)
+            .handler(this::showVersion)
         );
     }
 
-    private Command. @NonNull Builder<CommandDispatcher> simple(@NonNull String name) {
-        return this.builder
-                .literal(name)
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands." + name))
-                .permission("vanillatweaks.main." + name);
+    private Command.Builder<CommandDispatcher> simple(final String name) {
+        return this.builder.literal(name).meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands." + name)).permission("vanillatweaks.main." + name);
     }
 
-    private void reloadEverything(@NonNull CommandContext<CommandDispatcher> context) {
+    private void reloadEverything(final CommandContext<CommandDispatcher> context) {
         final Audience audience = context.getSender();
         this.modulesConfig.reloadAndSave();
         // TODO reload more stuff
-        ReloadResult result = moduleManager.reloadModules();
+        final ModuleManager.ReloadResult result = this.moduleManager.reloadModules();
         boolean noModuleChange = true;
         if (result.disableCount() > 0) {
             audience.sendMessage(translatable("commands.reload.all.disabled.success", RED, text(result.disableCount(), GRAY)));
@@ -137,25 +138,21 @@ public class RootCommand extends VanillaTweaksCommand {
         }
     }
 
-    private void sendModuleList(@NonNull CommandContext<CommandDispatcher> context) {
+    private void sendModuleList(final @NonNull CommandContext<CommandDispatcher> context) {
         final boolean showAll = context.getSender().hasPermission("vanillatweaks.main.list.all");
         final int page = context.get("page");
-        final var list = text();
+        final TextComponent.Builder list = text();
         final List<ModuleBase> modules = this.moduleManager.getModules().values().stream().filter(module -> showAll || this.moduleManager.getLifecycle(module.getName()).orElseThrow().getState().isRunning()).toList();
-        final var header = createHeader(page, modules);
+        final ComponentLike header = this.createHeader(page, modules);
         final int max = Math.min(modules.size(), page * PAGE_SIZE);
-        for (ModuleBase moduleBase : new ArrayList<>(modules).subList(Math.min(max, (page - 1) * PAGE_SIZE), max)) {
-            final var lifecycle = this.moduleManager.getLifecycle(moduleBase.getName());
+        for (final ModuleBase moduleBase : new ArrayList<>(modules).subList(Math.min(max, (page - 1) * PAGE_SIZE), max)) {
+            final Optional<ModuleLifecycle> lifecycle = this.moduleManager.getLifecycle(moduleBase.getName());
             if (lifecycle.isEmpty()) continue;
-            final var state = lifecycle.get().getState();
+            final ModuleState state = lifecycle.get().getState();
             if (showAll || state.isRunning()) {
-                final var builder = text().color(TextColor.color(0x8F8F8F)).append(text(" - "));
+                final TextComponent.Builder builder = text().color(TextColor.color(0x8F8F8F)).append(text(" - "));
                 if ((state.isRunning() && context.getSender().hasPermission("vanillatweaks.main.disable")) || (!state.isRunning() && context.getSender().hasPermission("vanillatweaks.main.enable"))) {
-                    builder.append(text("[" + (state.isRunning() ? "■" : "▶") + "]", state.isRunning() ? RED : GREEN)
-                                    .hoverEvent(HoverEvent.showText(translatable("commands.config.bool-toggle." + state.isRunning(), state.isRunning() ? RED : GREEN, text(moduleBase.getName(), GOLD))))
-                                    .clickEvent(ClickEvent.runCommand("/vanillatweaks " + (state.isRunning() ? "disable " : "enable ") + moduleBase.getName()))
-                            )
-                            .append(space());
+                    builder.append(text("[" + (state.isRunning() ? "■" : "▶") + "]", state.isRunning() ? RED : GREEN).hoverEvent(HoverEvent.showText(translatable("commands.config.bool-toggle." + state.isRunning(), state.isRunning() ? RED : GREEN, text(moduleBase.getName(), GOLD)))).clickEvent(ClickEvent.runCommand("/vanillatweaks " + (state.isRunning() ? "disable " : "enable ") + moduleBase.getName()))).append(space());
                 }
 
                 builder.append(text(moduleBase.getName(), state.isRunning() ? GREEN : RED).hoverEvent(HoverEvent.showText(text(moduleBase.getDescription(), GRAY))));
@@ -165,21 +162,12 @@ public class RootCommand extends VanillaTweaksCommand {
         context.getSender().sendMessage(join(JoinConfiguration.noSeparators(), header, list, AbstractConfigurationMenu.END_LINE));
     }
 
-    private @NonNull ComponentLike createHeader(int page, List<ModuleBase> modules) {
-        return text()
-                .append(AbstractConfigurationMenu.TITLE_LINE)
-                .append(ChatWindow.center(text("Modules - Page " + page + "/" + ((int) Math.ceil(modules.size() / (double) PAGE_SIZE))).hoverEvent(HoverEvent.showText(translatable("commands.list.success.header.hover", GRAY)))).append(newline()))
-                .append(AbstractConfigurationMenu.TITLE_LINE);
+    private ComponentLike createHeader(final int page, final List<ModuleBase> modules) {
+        return text().append(AbstractConfigurationMenu.TITLE_LINE).append(ChatWindow.center(text("Modules - Page " + page + "/" + ((int) Math.ceil(modules.size() / (double) PAGE_SIZE))).hoverEvent(HoverEvent.showText(translatable("commands.list.success.header.hover", GRAY)))).append(newline())).append(AbstractConfigurationMenu.TITLE_LINE);
     }
 
-    private void showVersion(CommandContext<CommandDispatcher> context) {
-        final var component = text()
-                .append(VanillaTweaks.PLUGIN_PREFIX)
-                .append(
-                        translatable("commands.version.success", GRAY, text(VanillaTweaks.class.getPackage().getImplementationVersion(), GOLD))
-                                .hoverEvent(HoverEvent.showText(translatable("commands.version.success.hover", GRAY)))
-                                .clickEvent(ClickEvent.copyToClipboard(VanillaTweaks.class.getPackage().getImplementationVersion()))
-                );
+    private void showVersion(final CommandContext<CommandDispatcher> context) {
+        final TextComponent.Builder component = text().append(VanillaTweaks.PLUGIN_PREFIX).append(translatable("commands.version.success", GRAY, text(VanillaTweaks.class.getPackage().getImplementationVersion(), GOLD)).hoverEvent(HoverEvent.showText(translatable("commands.version.success.hover", GRAY))).clickEvent(ClickEvent.copyToClipboard(VanillaTweaks.class.getPackage().getImplementationVersion())));
         context.getSender().sendMessage(component);
     }
 

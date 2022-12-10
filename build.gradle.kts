@@ -31,9 +31,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        sonatype.s01Snapshots().mavenContent {
-            includeGroup("net.kyori")
-        }
         sonatype.ossSnapshots().mavenContent {
             includeGroup("cloud.commandframework")
         }
@@ -50,12 +47,12 @@ subprojects {
     dependencies {
         implementation("me.machinemaker.mirror:mirror-paper:0.1.1")
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1")
-        implementation("net.kyori:adventure-platform-bukkit:4.1.2")
+        implementation("net.kyori:adventure-platform-bukkit:4.2.0")
         implementation("net.kyori:adventure-text-minimessage:4.12.0")
         implementation(platform("cloud.commandframework:cloud-bom:1.8.0-SNAPSHOT")) // oss
         implementation("cloud.commandframework:cloud-paper")
         implementation("cloud.commandframework:cloud-minecraft-extras")
-        implementation("org.bstats:bstats-bukkit:2.2.1")
+        implementation("org.bstats:bstats-bukkit:3.0.0")
         implementation("io.papermc:paperlib:1.0.6")
         implementation("net.kyori.moonshine:moonshine-standard:2.0.4")
 
@@ -75,7 +72,7 @@ subprojects {
 
         // Native to minecraft
         compileOnly("com.mojang:authlib:3.11.49")
-        compileOnly("org.slf4j:slf4j-api:1.8.0-beta4")
+        compileOnly("org.slf4j:slf4j-api:2.0.5")
         compileOnly("com.mojang:brigadier:1.0.18")
 
         // soft dependencies

@@ -60,7 +60,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class CloudModule extends AbstractModule {
 
@@ -68,16 +68,16 @@ public class CloudModule extends AbstractModule {
     private static final MethodInvoker.Typed<SimpleCommandMap> CRAFT_SERVER_GET_COMMAND_MAP = Mirror.typedFuzzyMethod(PaperMirror.CRAFT_SERVER_CLASS, SimpleCommandMap.class).names("getCommandMap").find();
     private static final FieldAccessor.Typed<Map<String, org.bukkit.command.Command>> COMMAND_MAP_KNOWN_COMMANDS_FIELD = Mirror.typedFuzzyField(SimpleCommandMap.class, new TypeToken<Map<String, org.bukkit.command.Command>>() {}).names("knownCommands").find();
 
-    private static Map<String, org.bukkit.command.Command> getCommandMap() {
-        return COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer()));
-    }
-
     private final JavaPlugin plugin;
     private final ScheduledExecutorService executorService;
 
-    public CloudModule(JavaPlugin plugin, ScheduledExecutorService executorService) {
+    public CloudModule(final JavaPlugin plugin, final ScheduledExecutorService executorService) {
         this.plugin = plugin;
         this.executorService = executorService;
+    }
+
+    private static Map<String, org.bukkit.command.Command> getCommandMap() {
+        return COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer()));
     }
 
     @Override
@@ -89,34 +89,34 @@ public class CloudModule extends AbstractModule {
     @Singleton
     CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager() {
         return CommandCooldownManager.create(
-                CommandDispatcher::getUUID,
-                (context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(text("Cooling down", RED)),
-                executorService);
+            CommandDispatcher::getUUID,
+            (context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(text("Cooling down", RED)),
+            this.executorService);
     }
 
     @Provides
     @Singleton
-    PaperCommandManager<CommandDispatcher> paperCommandManager(CommandDispatcherFactory commandDispatcherFactory,
-                                                               CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager,
-                                                               MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
+    PaperCommandManager<CommandDispatcher> paperCommandManager(final CommandDispatcherFactory commandDispatcherFactory,
+                                                               final CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager,
+                                                               final MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
         final LoadingCache<CommandSender, CommandDispatcher> senderCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build(commandDispatcherFactory);
         try {
             final PaperCommandManager<CommandDispatcher> manager = new PaperCommandManager<>(
-                    plugin,
-                    AsynchronousCommandExecutionCoordinator.<CommandDispatcher>newBuilder().build(),
-                    commandSender -> {
-                        try {
-                            return senderCache.get(commandSender);
-                        } catch (ExecutionException e) {
-                            throw new IllegalArgumentException("Error mapping command sender", e);
-                        }
-                    },
-                    CommandDispatcher::sender
+                this.plugin,
+                AsynchronousCommandExecutionCoordinator.<CommandDispatcher>newBuilder().build(),
+                commandSender -> {
+                    try {
+                        return senderCache.get(commandSender);
+                    } catch (final ExecutionException e) {
+                        throw new IllegalArgumentException("Error mapping command sender", e);
+                    }
+                },
+                CommandDispatcher::sender
             ) {
                 @Override
-                public @NonNull CommandManager<CommandDispatcher> command(@NonNull Command<CommandDispatcher> command) {
+                public @NonNull CommandManager<CommandDispatcher> command(@NonNull final Command<CommandDispatcher> command) {
                     if (command.getArguments().get(0) instanceof StaticArgument<?> staticArgument) {
-                        String main = staticArgument.getName();
+                        final String main = staticArgument.getName();
                         if (VANILLA_COMMAND_WRAPPER_CLASS.isInstance(getCommandMap().get(main))) {
                             getCommandMap().remove(main);
                         }
@@ -149,7 +149,7 @@ public class CloudModule extends AbstractModule {
             }
 
             return manager;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException("Failed to initialize cloud!", e);
         }
     }
@@ -158,10 +158,10 @@ public class CloudModule extends AbstractModule {
     @Singleton
     private MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler() {
         return new MinecraftExceptionHandler<CommandDispatcher>()
-                .withArgumentParsingHandler()
-                .withCommandExecutionHandler()
-                .withInvalidSenderHandler()
-                .withInvalidSyntaxHandler()
-                .withNoPermissionHandler();
+            .withArgumentParsingHandler()
+            .withCommandExecutionHandler()
+            .withInvalidSenderHandler()
+            .withInvalidSyntaxHandler()
+            .withNoPermissionHandler();
     }
 }

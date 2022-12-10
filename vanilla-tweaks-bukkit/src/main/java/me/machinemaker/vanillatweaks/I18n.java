@@ -19,14 +19,6 @@
  */
 package me.machinemaker.vanillatweaks;
 
-import me.machinemaker.vanillatweaks.adventure.TranslationRegistry;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -34,62 +26,73 @@ import java.nio.file.Path;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import me.machinemaker.vanillatweaks.adventure.TranslationRegistry;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 public final class I18n {
 
     private static final Configurations CONFIGS = new Configurations();
-
     private static final Logger LOGGER = LoggerFactory.getLogger("I18n");
+
     private final Path i18nPath;
     private final ClassLoader pluginClassLoader;
-    private I18n(Path i18nPath, ClassLoader pluginClassLoader) {
+
+    private I18n(final Path i18nPath, final ClassLoader pluginClassLoader) {
         this.i18nPath = i18nPath;
         this.pluginClassLoader = pluginClassLoader;
     }
 
-    private static @MonotonicNonNull I18n instance;
+    static I18n create(final @NotNull Path i18nPath, final @NotNull ClassLoader pluginClassLoader) {
+         return new I18n(i18nPath, pluginClassLoader);
+    }
 
-    static I18n create(@NotNull Path i18nPath, @NotNull ClassLoader pluginClassLoader) {
-        if (instance == null) {
-            instance = new I18n(i18nPath, pluginClassLoader);
-        }
-        return instance;
+    private static String inJarResourceName(final Locale locale) {
+        return "i18n/lang_" + locale + ".properties";
+    }
+
+    private static String i18nFolderFileName(final Locale locale) {
+        return locale + ".properties";
     }
 
     public void setupI18n() {
-        ClassLoader previousLoader = Thread.currentThread().getContextClassLoader();
+        final ClassLoader previousLoader = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(this.pluginClassLoader);
             VanillaTweaks.SUPPORTED_LOCALES.forEach(locale -> {
                 this.updateI18nFile(locale);
-                TranslationRegistry.registerAll(locale, createBundle(locale));
+                TranslationRegistry.registerAll(locale, this.createBundle(locale));
             });
-            TranslationRegistry.registerAll(Locale.US, createBundle(Locale.ENGLISH));
+            TranslationRegistry.registerAll(Locale.US, this.createBundle(Locale.ENGLISH));
         } finally {
             Thread.currentThread().setContextClassLoader(previousLoader);
         }
     }
 
-    private void updateI18nFile(Locale locale) {
-        Path localeFile = this.i18nPath.resolve(getI18nFolderFileName(locale));
+    private void updateI18nFile(final Locale locale) {
+        final Path localeFile = this.i18nPath.resolve(i18nFolderFileName(locale));
         if (Files.notExists(localeFile)) {
-            InputStream inputStream = this.pluginClassLoader.getResourceAsStream(getInJarResourceName(locale));
+            final InputStream inputStream = this.pluginClassLoader.getResourceAsStream(inJarResourceName(locale));
             if (inputStream == null) {
                 throw new IllegalArgumentException("Couldn't find a resource for " + locale);
             }
             try {
                 Files.createDirectories(localeFile.getParent());
                 Files.copy(inputStream, localeFile);
-            } catch (IOException exception) {
+            } catch (final IOException exception) {
                 LOGGER.error("Could not copy the locale file for {} to {}", locale, localeFile, exception);
             }
         } else {
             try {
-                var localeFileBuilder = CONFIGS.propertiesBuilder(localeFile.toFile());
-                PropertiesConfiguration localeConfig = localeFileBuilder.getConfiguration();
-                PropertiesConfiguration inJarLocaleConfig = CONFIGS.properties(this.pluginClassLoader.getResource(getInJarResourceName(locale)));
+                final FileBasedConfigurationBuilder<PropertiesConfiguration> localeFileBuilder = CONFIGS.propertiesBuilder(localeFile.toFile());
+                final PropertiesConfiguration localeConfig = localeFileBuilder.getConfiguration();
+                final PropertiesConfiguration inJarLocaleConfig = CONFIGS.properties(this.pluginClassLoader.getResource(inJarResourceName(locale)));
                 if (!inJarLocaleConfig.getLayout().getKeys().containsAll(localeConfig.getLayout().getKeys())) {
-                    for (String key : localeConfig.getLayout().getKeys()) {
+                    for (final String key : localeConfig.getLayout().getKeys()) {
                         if (!inJarLocaleConfig.containsKey(key)) {
                             LOGGER.warn("{} is not a recognized key, it should be removed from {}", key, localeFile);
                         }
@@ -97,33 +100,25 @@ public final class I18n {
                 }
                 if (!localeConfig.getLayout().getKeys().containsAll(inJarLocaleConfig.getLayout().getKeys())) {
                     LOGGER.info("Found new additions to {}, updating that file with latest changes. This will not overwrite changes you have made", localeFile);
-                    for (String key : inJarLocaleConfig.getLayout().getKeys()) {
+                    for (final String key : inJarLocaleConfig.getLayout().getKeys()) {
                         if (!localeConfig.containsKey(key)) {
                             localeConfig.setProperty(key, inJarLocaleConfig.getProperty(key));
                         }
                     }
                     localeFileBuilder.save();
                 }
-            } catch (ConfigurationException exception) {
+            } catch (final ConfigurationException exception) {
                 LOGGER.error("Error reading/writing to {}", localeFile, exception);
             }
         }
     }
 
-    private ResourceBundle createBundle(Locale locale) {
-        Path localeFile = this.i18nPath.resolve(getI18nFolderFileName(locale));
-        try (InputStream inputStream = Files.newInputStream(localeFile)) {
+    private ResourceBundle createBundle(final Locale locale) {
+        final Path localeFile = this.i18nPath.resolve(i18nFolderFileName(locale));
+        try (final InputStream inputStream = Files.newInputStream(localeFile)) {
             return new PropertyResourceBundle(inputStream);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Could not load language from " + getInJarResourceName(locale), e);
+        } catch (final IOException e) {
+            throw new IllegalArgumentException("Could not load language from " + inJarResourceName(locale), e);
         }
-    }
-
-    private static String getInJarResourceName(Locale locale) {
-        return "i18n/lang_" + locale + ".properties";
-    }
-
-    private static String getI18nFolderFileName(Locale locale) {
-        return locale + ".properties";
     }
 }
