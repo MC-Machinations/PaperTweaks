@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.modules.teleportation.tpa;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
@@ -27,14 +28,12 @@ import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
-
 class Lifecycle extends ModuleLifecycle {
 
     private final TPARunnable tpaRunnable;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, TPARunnable tpaRunnable) {
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes, final TPARunnable tpaRunnable) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.tpaRunnable = tpaRunnable;
     }
@@ -45,7 +44,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable(boolean isShutdown) {
+    public void onDisable(final boolean isShutdown) {
         this.tpaRunnable.cancel();
     }
 }

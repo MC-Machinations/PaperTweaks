@@ -24,34 +24,35 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import java.util.Objects;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 
 abstract class Tracked implements ComponentLike {
 
     private final String name;
-    private final String criteria;
+    private final Criteria criteria;
     private final String displayName;
-    private Objective objective;
+    private @MonotonicNonNull Objective objective;
 
-    protected Tracked(String name, String stat, String displayName) {
+    protected Tracked(final String name, final String stat, final String displayName) {
         Preconditions.checkArgument(name.length() <= 16, name + " must be 16 characters of less");
         this.name = name;
-        this.criteria = stat;
+        this.criteria = Criteria.create(stat);
         this.displayName = displayName;
     }
 
-    boolean register(@NotNull Scoreboard board) {
+    boolean register(final Scoreboard board) {
         this.objective = board.getObjective(this.name);
         if (this.objective == null) {
             this.objective = board.registerNewObjective(this.name, this.criteria, this.displayName);
@@ -61,75 +62,75 @@ abstract class Tracked implements ComponentLike {
     }
 
     public String name() {
-        return name;
+        return this.name;
     }
 
-    public String criteria() {
-        return criteria;
+    public Criteria criteria() {
+        return this.criteria;
     }
 
     public String displayName() {
-        return displayName;
+        return this.displayName;
     }
 
-    public @NotNull Objective objective() {
+    public Objective objective() {
         if (this.objective == null) {
             throw new IllegalArgumentException("unregistered");
         }
-        return objective;
+        return this.objective;
     }
 
     abstract int constructValue(JsonObject object);
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tracked that = (Tracked) o;
-        return name.equals(that.name) && criteria.equals(that.criteria) && displayName.equals(that.displayName);
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final Tracked that = (Tracked) o;
+        return this.name.equals(that.name) && this.criteria.equals(that.criteria) && this.displayName.equals(that.displayName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, criteria, displayName);
+        return Objects.hash(this.name, this.criteria, this.displayName);
     }
 
-    abstract static class Criteria extends Tracked {
+    abstract static class CriteriaType extends Tracked {
 
         private final String translationKey;
 
-        protected Criteria(String name, String criteria, String displayName, String translationKey) {
+        protected CriteriaType(final String name, final String criteria, final String displayName, final String translationKey) {
             super(name, criteria, displayName);
             this.translationKey = translationKey;
         }
 
         @Override
-        public @NotNull Component asComponent() {
+        public Component asComponent() {
             return translatable(this.translationKey, GOLD);
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final @Nullable Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (o == null || this.getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            Criteria criteria = (Criteria) o;
-            return translationKey.equals(criteria.translationKey);
+            final CriteriaType criteriaType = (CriteriaType) o;
+            return this.translationKey.equals(criteriaType.translationKey);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(super.hashCode(), translationKey);
+            return Objects.hash(super.hashCode(), this.translationKey);
         }
 
     }
 
-    static class Statistic extends Tracked {
+    static class StatisticType extends Tracked {
 
         private final String type;
         private final String value;
 
-        public Statistic(String name, String stat, String displayName) {
+        public StatisticType(final String name, final String stat, final String displayName) {
             super(name, stat, displayName);
             Preconditions.checkArgument(stat.contains(":"), stat + " is not a statistic");
             this.type = stat.split(":")[0];
@@ -137,11 +138,11 @@ abstract class Tracked implements ComponentLike {
         }
 
         public String type() {
-            return type;
+            return this.type;
         }
 
         public String value() {
-            return value;
+            return this.value;
         }
 
         public boolean isCustom() {
@@ -149,11 +150,11 @@ abstract class Tracked implements ComponentLike {
         }
 
         @Override
-        public @NotNull Component asComponent() {
+        public Component asComponent() {
             if (this.isCustom()) {
                 return translatable("stat." + this.value, GOLD);
             } else {
-                Pair<String, String> typeKey = switch (this.type.split("\\.")[1]) {
+                final Pair<String, String> typeKey = switch (this.type.split("\\.")[1]) {
                     case "crafted", "used", "broken" -> Pair.of("stat_type." + this.type, "item.");
                     case "killed" -> Pair.of("modules.track-raw-stats.stat-type.minecraft.killed", "entity.");
                     case "killed_by" -> Pair.of("modules.track-raw-stats.stat-type.minecraft.killed-by", "entity.");
@@ -162,18 +163,18 @@ abstract class Tracked implements ComponentLike {
                 };
 
                 return join(
-                        translatable(typeKey.getFirst()),
-                        text(": "),
-                        translatable(typeKey.getSecond() + this.value)
+                    translatable(typeKey.getFirst()),
+                    text(": "),
+                    translatable(typeKey.getSecond() + this.value)
                 ).color(GOLD);
             }
         }
 
         @Override
-        int constructValue(JsonObject object) {
-            var typeElement = object.get(this.type.replace('.', ':'));
+        int constructValue(final JsonObject object) {
+            final JsonElement typeElement = object.get(this.type.replace('.', ':'));
             if (typeElement instanceof JsonObject typeObj) {
-                JsonElement valueElement = typeObj.get(this.value.replace('.', ':'));
+                final JsonElement valueElement = typeObj.get(this.value.replace('.', ':'));
                 if (valueElement instanceof JsonPrimitive valuePrimitive && valuePrimitive.isNumber()) {
                     return valuePrimitive.getAsInt();
                 }
@@ -182,17 +183,17 @@ abstract class Tracked implements ComponentLike {
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final @Nullable Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (o == null || this.getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            Statistic statistic = (Statistic) o;
-            return type.equals(statistic.type) && value.equals(statistic.value);
+            final StatisticType statisticType = (StatisticType) o;
+            return this.type.equals(statisticType.type) && this.value.equals(statisticType.value);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(super.hashCode(), type, value);
+            return Objects.hash(super.hashCode(), this.type, this.value);
         }
     }
 }

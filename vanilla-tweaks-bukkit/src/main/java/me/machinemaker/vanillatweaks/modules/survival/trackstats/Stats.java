@@ -19,12 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 
-import org.bukkit.Material;
-import org.bukkit.Statistic;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.IntUnaryOperator;
+import org.bukkit.Material;
+import org.bukkit.Statistic;
 
 final class Stats {
 
@@ -64,11 +63,11 @@ final class Stats {
     private Stats() {
     }
 
-    private static ScaledStat createScaled(Statistic stat, IntUnaryOperator scaleFunction, String displayName, String objectiveName) {
+    private static ScaledStat createScaled(final Statistic stat, final IntUnaryOperator scaleFunction, final String displayName, final String objectiveName) {
         return new ScaledStat(stat, scaleFunction, displayName, objectiveName);
     }
 
-    private static CombinedStat.Builder createCombined(String objectiveName, String displayName) {
+    private static CombinedStat.Builder createCombined(final String objectiveName, final String displayName) {
         return new CombinedStat.Builder(objectiveName, displayName);
     }
 }

@@ -20,17 +20,18 @@
 package me.machinemaker.vanillatweaks.modules.mobs.countmobdeaths;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
-
+import static java.util.Objects.requireNonNull;
 import static net.kyori.adventure.text.Component.translatable;
 
 final class Lifecycle extends ModuleLifecycle {
@@ -39,7 +40,7 @@ final class Lifecycle extends ModuleLifecycle {
     private final BukkitAudiences audiences;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, CountMobDeaths countMobDeaths, BukkitAudiences audiences) {
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes, final CountMobDeaths countMobDeaths, final BukkitAudiences audiences) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.countMobDeaths = countMobDeaths;
         this.audiences = audiences;
@@ -51,14 +52,14 @@ final class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable(boolean isShutdown) {
+    public void onDisable(final boolean isShutdown) {
         this.resetBoards("modules.mob-death-count.disabled-msg");
     }
 
-    private void resetBoards(String msg) {
+    private void resetBoards(final String msg) {
         this.countMobDeaths.scoreboardPlayerMap.forEach((player, countingBoard) -> {
             if (player.getScoreboard() == countingBoard.scoreboard()) {
-                player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                player.setScoreboard(Scoreboards.main());
             }
             if (countingBoard.isCounting()) {
                 this.audiences.player(player).sendMessage(translatable(msg));

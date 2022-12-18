@@ -19,15 +19,13 @@
  */
 package me.machinemaker.vanillatweaks.modules.teleportation.tpa;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "TPA", configPath = "teleportation.tpa", description = "Request teleports to other players")
 public class TPA extends ModuleBase {
@@ -35,21 +33,21 @@ public class TPA extends ModuleBase {
     @Override
     protected void configure() {
         super.configure();
-        requestStaticInjection(Request.class);
+        this.requestStaticInjection(Request.class);
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 }

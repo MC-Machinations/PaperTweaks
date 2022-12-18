@@ -26,7 +26,6 @@ import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
 
 @ModuleInfo(name = "CustomNetherPortals", configPath = "survival.custom-nether-portals", description = "Create non-rectangular nether portals")
 public class CustomNetherPortals extends ModuleBase {

@@ -70,6 +70,6 @@ public class ModuleRegistry extends AbstractModule {
         this.modules.forEach((name, moduleClass) -> moduleMapBinder.addBinding(name).to(moduleClass).in(Scopes.SINGLETON));
         this.modules.forEach((name, moduleClass) -> this.bind(moduleClass).in(Scopes.SINGLETON));
         this.bind(ConfigurationNode.class).annotatedWith(Names.named("modules")).toInstance(this.moduleConfig);
-        this.bind(ModuleManager.class).in(Scopes.SINGLETON);
+        this.bind(ModuleManager.class);
     }
 }

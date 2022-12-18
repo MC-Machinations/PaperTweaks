@@ -19,29 +19,28 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.ToIntFunction;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Score;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.ToIntFunction;
-
 final class CombinedStat extends CalculatedStat {
 
     private final List<ToIntFunction<Player>> stats;
 
-    private CombinedStat(String objectiveName, String displayName, List<ToIntFunction<Player>> stats) {
+    private CombinedStat(final String objectiveName, final String displayName, final List<ToIntFunction<Player>> stats) {
         super(objectiveName, displayName);
         this.stats = List.copyOf(stats);
     }
 
     @Override
-    protected int computeScore(Score score, Player player) {
+    protected int computeScore(final Score score, final Player player) {
         int value = 0;
-        for (ToIntFunction<Player> stat : this.stats) {
+        for (final ToIntFunction<Player> stat : this.stats) {
             value += stat.applyAsInt(player);
         }
         return value;
@@ -58,23 +57,23 @@ final class CombinedStat extends CalculatedStat {
         private final String displayName;
         private final List<ToIntFunction<Player>> stats = new ArrayList<>();
 
-        Builder(String objectiveName, String displayName) {
+        Builder(final String objectiveName, final String displayName) {
             this.objectiveName = objectiveName;
             this.displayName = displayName;
         }
 
-        Builder add(Statistic stat, Material material) {
+        Builder add(final Statistic stat, final Material material) {
             this.stats.add(player -> player.getStatistic(stat, material));
             return this;
         }
 
-        Builder add(Statistic stat, EntityType entityType) {
-            this.stats.add(player -> player.getStatistic( stat, entityType));
+        Builder add(final Statistic stat, final EntityType entityType) {
+            this.stats.add(player -> player.getStatistic(stat, entityType));
             return this;
         }
 
-        Builder addMined(Material...materials) {
-            for (Material material : materials) {
+        Builder addMined(final Material... materials) {
+            for (final Material material : materials) {
                 this.add(Statistic.MINE_BLOCK, material);
             }
             return this;

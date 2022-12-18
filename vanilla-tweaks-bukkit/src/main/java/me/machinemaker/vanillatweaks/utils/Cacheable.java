@@ -21,7 +21,6 @@ package me.machinemaker.vanillatweaks.utils;
 
 import java.util.function.Supplier;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.jetbrains.annotations.NotNull;
 
 public class Cacheable<T> {
 

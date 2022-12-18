@@ -33,18 +33,18 @@ class EntityListener implements ModuleListener {
     private final Config config;
 
     @Inject
-    EntityListener(CountMobDeaths countMobDeaths, Config config) {
+    EntityListener(final CountMobDeaths countMobDeaths, final Config config) {
         this.countMobDeaths = countMobDeaths;
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityDeath(EntityDeathEvent event) {
+    public void onEntityDeath(final EntityDeathEvent event) {
         if (this.config.countedMobs.contains(event.getEntityType()) && event.getEntity().getCustomName() == null) {
             final String entry = ChatColor.YELLOW + event.getEntity().getName();
-            for (CountMobDeaths.CountingBoard countingBoard : this.countMobDeaths.scoreboardPlayerMap.values()) {
+            for (final CountMobDeaths.CountingBoard countingBoard : this.countMobDeaths.scoreboardPlayerMap.values()) {
                 if (countingBoard.isCounting()) {
-                    Objective objective = this.countMobDeaths.getDeathCountObjective(countingBoard.scoreboard());
+                    final Objective objective = this.countMobDeaths.getDeathCountObjective(countingBoard.scoreboard());
                     objective.getScore(entry).setScore(objective.getScore(entry).getScore() + 1);
                 }
             }

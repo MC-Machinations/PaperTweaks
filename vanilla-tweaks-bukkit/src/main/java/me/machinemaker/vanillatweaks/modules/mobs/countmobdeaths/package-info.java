@@ -18,10 +18,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * Adventure utilities
+ * Count Mob Deaths
  */
 @DefaultQualifier(NonNull.class)
-package me.machinemaker.vanillatweaks.adventure;
+package me.machinemaker.vanillatweaks.modules.mobs.countmobdeaths;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

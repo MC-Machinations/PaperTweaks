@@ -27,7 +27,6 @@ import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @Menu(commandPrefix = "/tpa admin config")
 @VTConfig
@@ -40,7 +39,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     int cooldown = 0;
 
     @Override
-    public @NotNull Component title() {
+    public Component title() {
         return buildDefaultTitle("TPA");
     }
 }

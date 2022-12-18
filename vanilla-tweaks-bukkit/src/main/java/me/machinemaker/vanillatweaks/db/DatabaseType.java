@@ -20,6 +20,10 @@
 package me.machinemaker.vanillatweaks.db;
 
 import com.google.common.io.Resources;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.Objects;
 import me.machinemaker.vanillatweaks.VanillaTweaksConfig;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -27,40 +31,34 @@ import org.h2.jdbcx.JdbcConnectionPool;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.util.Objects;
-
 @DefaultQualifier(NonNull.class)
 public enum DatabaseType {
     H2("h2.sql") {
         @Override
-        public Jdbi createJdbiInstance(Path dataPath, VanillaTweaksConfig config) {
+        public Jdbi createJdbiInstance(final Path dataPath, final VanillaTweaksConfig config) {
             return Jdbi.create(JdbcConnectionPool.create("jdbc:h2:file:" + dataPath.resolve("vanillatweaks").toAbsolutePath() + ";TRACE_LEVEL_FILE=0;", config.database.user, config.database.password));
         }
     },
     SQLITE("sqlite.sql") {
         @Override
-        public Jdbi createJdbiInstance(Path dataPath, VanillaTweaksConfig config) {
+        public Jdbi createJdbiInstance(final Path dataPath, final VanillaTweaksConfig config) {
             return Jdbi.create("jdbc:sqlite:" + dataPath.resolve("vanillatweaks.sqlite.db").toAbsolutePath(), config.database.user, config.database.password);
         }
     };
 
     private final String schema;
 
-    DatabaseType(String schema) {
+    DatabaseType(final String schema) {
         this.schema = schema;
     }
 
-    @SuppressWarnings("UnstableApiUsage")
+    public static Jdbi installPlugins(final Jdbi jdbi) {
+        return jdbi.installPlugin(new SqlObjectPlugin());
+    }
+
     public String readSchema(final ClassLoader classLoader) throws IOException {
         return Resources.toString(Objects.requireNonNull(classLoader.getResource("db/schema/" + this.schema), "Could not find schema for " + this.name() + " database"), StandardCharsets.UTF_8);
     }
 
     public abstract Jdbi createJdbiInstance(Path dataPath, VanillaTweaksConfig config);
-
-    public static Jdbi installPlugins(Jdbi jdbi) {
-        return jdbi.installPlugin(new SqlObjectPlugin());
-    }
 }

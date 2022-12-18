@@ -19,20 +19,19 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 
+import java.util.Objects;
 import net.kyori.adventure.translation.Translatable;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.Objects;
-
 abstract class CalculatedStat implements Translatable {
 
     private final String objectiveName;
     private final String displayName;
 
-    protected CalculatedStat(String objectiveName, String displayName) {
+    protected CalculatedStat(final String objectiveName, final String displayName) {
         Stats.REGISTRY.put(objectiveName, this);
         this.objectiveName = objectiveName;
         this.displayName = displayName;
@@ -48,16 +47,16 @@ abstract class CalculatedStat implements Translatable {
 
     protected abstract int computeScore(Score score, Player player);
 
-    public final Score getScore(Scoreboard board, Player player) {
+    public final Score getScore(final Scoreboard board, final Player player) {
         return this.getObjective(board).getScore(player.getName());
     }
 
-    public final Objective getObjective(Scoreboard board) {
+    public final Objective getObjective(final Scoreboard board) {
         return Objects.requireNonNull(board.getObjective(this.objectiveName()), "Could not find objective for " + this.displayName());
     }
 
-    public final void updateScore(Scoreboard board, Player player) {
-        Score score = this.getScore(board, player);
+    public final void updateScore(final Scoreboard board, final Player player) {
+        final Score score = this.getScore(board, player);
         score.setScore(this.computeScore(score, player));
     }
 

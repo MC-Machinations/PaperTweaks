@@ -43,7 +43,7 @@ class Commands extends ConfiguredModuleCommand {
 
         manager.command(literal(builder, "give")
                 .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))
-                .argument(IntegerArgument.<CommandDispatcher>newBuilder("count").asOptionalWithDefault(1).withMin(1))
+                .argument(IntegerArgument.<CommandDispatcher>builder("count").asOptionalWithDefault(1).withMin(1))
                 .handler(sync((context, player) -> {
                     ItemStack head = this.treasureGems.heads.get((String) context.get("head")).clone();
                     head.setAmount(context.get("count"));

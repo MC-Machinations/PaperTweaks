@@ -21,29 +21,31 @@ package me.machinemaker.vanillatweaks.modules.teleportation.tpa;
 
 import com.google.inject.Inject;
 import io.papermc.lib.PaperLib;
+import java.util.Optional;
+import java.util.UUID;
 import me.machinemaker.vanillatweaks.modules.teleportation.back.Back;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Optional;
-import java.util.UUID;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
-record Request(@NotNull UUID from, @NotNull UUID to, long cancelAfter) {
+record Request(UUID from, UUID to, long cancelAfter) {
 
-    @Inject private static BukkitAudiences audiences;
+    @Inject
+    private static BukkitAudiences audiences;
 
     boolean complete() {
         if (!Bukkit.isPrimaryThread()) {
             throw new IllegalStateException("Must be accessed from main thread");
         }
-        Player from = Bukkit.getPlayer(this.from);
-        Player to = Bukkit.getPlayer(this.to);
+        final @Nullable Player from = Bukkit.getPlayer(this.from);
+        final @Nullable Player to = Bukkit.getPlayer(this.to);
         if (from == null || to == null) {
             if (from == null && to != null) {
                 audiences.player(to).sendMessage(translatable("modules.tpa.teleport.fail.sender-offline", RED));

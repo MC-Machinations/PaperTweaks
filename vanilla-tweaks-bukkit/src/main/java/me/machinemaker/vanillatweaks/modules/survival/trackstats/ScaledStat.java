@@ -19,12 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 
+import java.util.function.IntUnaryOperator;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Score;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-
-import java.util.function.IntUnaryOperator;
 
 final class ScaledStat extends CalculatedStat {
 
@@ -32,14 +31,14 @@ final class ScaledStat extends CalculatedStat {
     private final IntUnaryOperator scaleFunction;
     private @MonotonicNonNull String translationKey;
 
-    ScaledStat(Statistic stat, IntUnaryOperator scaleFunction, String displayName, String objectiveName) {
+    ScaledStat(final Statistic stat, final IntUnaryOperator scaleFunction, final String displayName, final String objectiveName) {
         super(objectiveName, displayName);
         this.stat = stat;
         this.scaleFunction = scaleFunction;
     }
 
     @Override
-    public int computeScore(Score score, Player player) {
+    public int computeScore(final Score score, final Player player) {
         return this.scaleFunction.applyAsInt(score.getScore());
     }
 

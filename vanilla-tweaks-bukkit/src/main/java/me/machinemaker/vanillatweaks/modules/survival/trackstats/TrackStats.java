@@ -19,17 +19,16 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackstats;
 
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import org.bukkit.Bukkit;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.Scoreboard;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
 
 @ModuleInfo(name = "TrackStats", configPath = "survival.track-stats", description = "Adds several pre-processed stats")
 public class TrackStats extends ModuleBase {
@@ -37,9 +36,9 @@ public class TrackStats extends ModuleBase {
     final Scoreboard board = Objects.requireNonNull(Bukkit.getScoreboardManager(), "null ScoreboardManager").getMainScoreboard();
 
     TrackStats() {
-        for (CalculatedStat stat : Stats.REGISTRY.values()) {
-            if (board.getObjective(stat.objectiveName()) == null) {
-                board.registerNewObjective(stat.objectiveName(), "dummy", stat.displayName());
+        for (final CalculatedStat stat : Stats.REGISTRY.values()) {
+            if (this.board.getObjective(stat.objectiveName()) == null) {
+                this.board.registerNewObjective(stat.objectiveName(), Criteria.DUMMY, stat.displayName());
             }
         }
     }
@@ -47,16 +46,16 @@ public class TrackStats extends ModuleBase {
     @Override
     protected void configure() {
         super.configure();
-        bind(Scoreboard.class).toInstance(board);
+        this.bind(Scoreboard.class).toInstance(this.board);
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

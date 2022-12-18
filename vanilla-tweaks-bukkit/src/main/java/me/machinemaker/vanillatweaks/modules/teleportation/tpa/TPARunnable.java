@@ -21,6 +21,9 @@ package me.machinemaker.vanillatweaks.modules.teleportation.tpa;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
 import me.machinemaker.vanillatweaks.utils.runnables.TimerRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -31,16 +34,16 @@ class TPARunnable extends TimerRunnable {
     private final TPAManager manager;
 
     @Inject
-    TPARunnable(Plugin plugin, TPAManager manager) {
+    TPARunnable(final Plugin plugin, final TPAManager manager) {
         super(plugin);
         this.manager = manager;
     }
 
     @Override
     public void run() {
-        var iter = this.manager.requestsBySender.entrySet().iterator();
+        final Iterator<Map.Entry<UUID, Request>> iter = this.manager.requestsBySender.entrySet().iterator();
         while (iter.hasNext()) {
-            var entry = iter.next();
+            final Map.Entry<UUID, Request> entry = iter.next();
             if (System.currentTimeMillis() > entry.getValue().cancelAfter()) {
                 Bukkit.getScheduler().runTask(this.plugin, () -> this.manager.cancelRequest(entry.getValue()));
                 iter.remove();

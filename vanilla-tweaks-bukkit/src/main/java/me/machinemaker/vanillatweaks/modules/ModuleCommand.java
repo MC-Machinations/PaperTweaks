@@ -168,7 +168,7 @@ public abstract class ModuleCommand extends VanillaTweaksCommand {
             this.manager.command(this.rootBuilder
                     .literal("help")
                     .permission(ModulePermission.of(this.lifecycle))
-                    .argument(StringArgument.<CommandDispatcher>newBuilder("query").greedy().asOptional().withDefaultDescription(RichDescription.translatable("commands.help.query")))
+                    .argument(StringArgument.<CommandDispatcher>builder("query").greedy().asOptional().withDefaultDescription(RichDescription.translatable("commands.help.query")))
                     .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.help", text(this.moduleBase.getName())))
                     .handler(createHelpHandler(help)));
         }

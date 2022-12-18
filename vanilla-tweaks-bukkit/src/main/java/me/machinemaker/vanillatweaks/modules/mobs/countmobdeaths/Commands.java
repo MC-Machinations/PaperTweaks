@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.modules.mobs.countmobdeaths;
 
+import cloud.commandframework.Command;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.execution.CommandExecutionHandler;
 import com.google.inject.Inject;
@@ -27,7 +28,6 @@ import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
@@ -38,50 +38,51 @@ class Commands extends ConfiguredModuleCommand {
     private final CountMobDeaths countMobDeaths;
 
     @Inject
-    Commands(CountMobDeaths countMobDeaths) {
+    Commands(final CountMobDeaths countMobDeaths) {
         this.countMobDeaths = countMobDeaths;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = this.player();
+        final Command.Builder<CommandDispatcher> builder = this.player();
 
-        manager.command(literal(builder, "start")
-                .handler(sync((player, context, countingBoard) -> {
-                    countingBoard.setCounting(true);
+        this.manager.command(this.literal(builder, "start")
+            .handler(this.sync((player, context, countingBoard) -> {
+                countingBoard.setCounting(true);
+                player.setScoreboard(countingBoard.scoreboard());
+                context.getSender().sendMessage(translatable("modules.mob-death-count.started", GREEN));
+            }))
+        ).command(this.literal(builder, "stop")
+            .handler(this.sync((player, context, countingBoard) -> {
+                countingBoard.setCounting(false);
+                context.getSender().sendMessage(translatable("modules.mob-death-count.stopped", YELLOW));
+            }))
+        ).command(this.literal(builder, "reset")
+            .handler(this.sync((player, context, countingBoard) -> {
+                countingBoard.scoreboard().getEntries().forEach(countingBoard.scoreboard()::resetScores);
+                context.getSender().sendMessage(translatable("modules.mob-death-count.reset", GREEN));
+            }))
+        ).command(this.literal(builder, "toggle")
+            .handler(this.sync((player, context, countingBoard) -> {
+                if (player.getScoreboard() == countingBoard.scoreboard()) {
+                    player.setScoreboard(Scoreboards.main());
+                } else {
                     player.setScoreboard(countingBoard.scoreboard());
-                    context.getSender().sendMessage(translatable("modules.mob-death-count.started", GREEN));
-                }))
-        ).command(literal(builder, "stop")
-                .handler(sync((player, context, countingBoard) -> {
-                    countingBoard.setCounting(false);
-                    context.getSender().sendMessage(translatable("modules.mob-death-count.stopped", YELLOW));
-                }))
-        ).command(literal(builder, "reset")
-                .handler(sync((player, context, countingBoard) -> {
-                    countingBoard.scoreboard().getEntries().forEach(countingBoard.scoreboard()::resetScores);
-                    context.getSender().sendMessage(translatable("modules.mob-death-count.reset", GREEN));
-                }))
-        ).command(literal(builder, "toggle")
-                .handler(sync((player, context, countingBoard) -> {
-                    if (player.getScoreboard() == countingBoard.scoreboard()) {
-                        player.setScoreboard(Scoreboards.main());
-                    } else {
-                        player.setScoreboard(countingBoard.scoreboard());
-                    }
-                }))
+                }
+            }))
         );
+    }
+
+    private CommandExecutionHandler<CommandDispatcher> sync(final BoardHandle boardHandle) {
+        return this.sync((context, player) -> {
+            final CountMobDeaths.CountingBoard board = this.countMobDeaths.getOrCreateBoard(player);
+            boardHandle.handle(player, context, board);
+        });
     }
 
     @FunctionalInterface
     interface BoardHandle {
-        void handle(@NotNull Player player, @NotNull CommandContext<CommandDispatcher> context, @NotNull CountMobDeaths.CountingBoard countingBoard);
-    }
 
-    private CommandExecutionHandler<CommandDispatcher> sync(@NotNull BoardHandle boardHandle) {
-        return sync((context, player) -> {
-            CountMobDeaths.CountingBoard board = this.countMobDeaths.getOrCreateBoard(player);
-            boardHandle.handle(player, context, board);
-        });
+        void handle(Player player, CommandContext<CommandDispatcher> context, CountMobDeaths.CountingBoard countingBoard);
     }
 }

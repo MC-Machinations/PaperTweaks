@@ -21,6 +21,7 @@ package me.machinemaker.vanillatweaks.utils.boards;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -56,7 +57,7 @@ public final class Scoreboards {
     public static Objective getDummyObjective(final String name, final String displayName) {
         @Nullable Objective objective = main().getObjective(name);
         if (objective == null) {
-            objective = main().registerNewObjective(name, "dummy", displayName);
+            objective = main().registerNewObjective(name, Criteria.DUMMY, displayName);
         }
         return objective;
     }

@@ -24,23 +24,27 @@ import cloud.commandframework.arguments.parser.ArgumentParseResult;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.minecraft.extras.RichDescription;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class ObjectiveArgument extends CommandArgument<CommandDispatcher, Tracked> {
 
-    private ObjectiveArgument(@NonNull String name) {
+    private ObjectiveArgument(final String name) {
         super(true, name, new Parser(), "", Tracked.class, null, RichDescription.translatable("modules.track-raw-stats.commands.arguments.objective"));
+    }
+
+    static ObjectiveArgument of(final String name) {
+        return new ObjectiveArgument(name);
     }
 
     private static class Parser implements ArgumentParser<CommandDispatcher, Tracked> {
@@ -48,12 +52,12 @@ class ObjectiveArgument extends CommandArgument<CommandDispatcher, Tracked> {
         private static final Set<String> SUGGESTIONS = Collections.unmodifiableSet(RawStats.OBJECTIVE_DATA.keySet());
 
         @Override
-        public @NonNull ArgumentParseResult<@NonNull Tracked> parse(@NonNull CommandContext<@NonNull CommandDispatcher> commandContext, @NonNull Queue<@NonNull String> inputQueue) {
-            final String input = inputQueue.peek();
-            if (!RawStats.OBJECTIVE_DATA.containsKey(input)) {
+        public ArgumentParseResult<Tracked> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
+            final @Nullable String input = inputQueue.peek();
+            if (!RawStats.OBJECTIVE_DATA.containsKey(input) || input == null) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(input + " does not match a valid criteria"));
             }
-            Objective objective = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(input);
+            final @Nullable Objective objective = Scoreboards.main().getObjective(input);
             if (objective == null) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(input + " does not match a valid criteria"));
             }
@@ -62,9 +66,9 @@ class ObjectiveArgument extends CommandArgument<CommandDispatcher, Tracked> {
         }
 
         @Override
-        public @NonNull List<@NonNull String> suggestions(@NonNull CommandContext<CommandDispatcher> commandContext, @NonNull String input) {
-            Objective currentObjective = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(DisplaySlot.SIDEBAR);
-            Set<String> suggestions;
+        public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
+            final @Nullable Objective currentObjective = Scoreboards.main().getObjective(DisplaySlot.SIDEBAR);
+            final Set<String> suggestions;
             if (currentObjective != null && SUGGESTIONS.contains(currentObjective.getName())) {
                 suggestions = new LinkedHashSet<>(SUGGESTIONS);
                 suggestions.remove(currentObjective.getName());
@@ -78,9 +82,5 @@ class ObjectiveArgument extends CommandArgument<CommandDispatcher, Tracked> {
         public boolean isContextFree() {
             return true;
         }
-    }
-
-    static @NonNull ObjectiveArgument of(@NonNull String name) {
-        return new ObjectiveArgument(name);
     }
 }

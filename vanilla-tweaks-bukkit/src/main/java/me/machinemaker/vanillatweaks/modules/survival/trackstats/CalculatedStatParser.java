@@ -23,16 +23,15 @@ import cloud.commandframework.arguments.parser.ArgumentParseResult;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.exceptions.parsing.NoInputProvidedException;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import java.util.List;
 import java.util.Queue;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class CalculatedStatParser implements ArgumentParser<CommandDispatcher, CalculatedStat> {
 
     @Override
-    public ArgumentParseResult<CalculatedStat> parse(CommandContext<CommandDispatcher> commandContext, Queue<String> inputQueue) {
+    public ArgumentParseResult<CalculatedStat> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
         final @Nullable String input = inputQueue.peek();
         if (input == null) {
             return ArgumentParseResult.failure(new NoInputProvidedException(CalculatedStatParser.class, commandContext));
@@ -47,7 +46,7 @@ public class CalculatedStatParser implements ArgumentParser<CommandDispatcher, C
     }
 
     @Override
-    public List<String> suggestions(CommandContext<CommandDispatcher> commandContext, String input) {
+    public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
         return List.copyOf(Stats.REGISTRY.keySet());
     }
 }

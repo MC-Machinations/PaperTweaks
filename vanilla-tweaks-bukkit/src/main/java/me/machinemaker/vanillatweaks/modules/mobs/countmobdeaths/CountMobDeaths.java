@@ -20,7 +20,8 @@
 package me.machinemaker.vanillatweaks.modules.mobs.countmobdeaths;
 
 import com.google.inject.Inject;
-import me.machinemaker.vanillatweaks.LoggerFactory;
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
@@ -28,42 +29,41 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.utils.PlayerMapFactory;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Collection;
-import java.util.Set;
+import static java.util.Objects.requireNonNull;
 
 @ModuleInfo(name = "CountMobDeaths", configPath = "mobs.count-mob-deaths", description = "Toggleable scoreboard for counting mob deaths")
 public class CountMobDeaths extends ModuleBase {
 
-    static final Logger LOGGER = LoggerFactory.getModuleLogger(CountMobDeaths.class);
     static final String DEATH_COUNT_OBJECTIVE = "mobDeathCount";
 
     final PlayerMapFactory.PlayerMap<CountingBoard> scoreboardPlayerMap;
 
     @Inject
-    public CountMobDeaths(PlayerMapFactory factory) {
+    public CountMobDeaths(final PlayerMapFactory factory) {
         this.scoreboardPlayerMap = factory.concurrent(PlayerMapFactory.Key.of("mdc_scoreboard", CountingBoard.class));
     }
 
-    @NotNull CountingBoard getOrCreateBoard(Player player) {
+    CountingBoard getOrCreateBoard(final Player player) {
         return this.scoreboardPlayerMap.computeIfAbsent(player, p -> {
-            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-            Objective objective = scoreboard.registerNewObjective(DEATH_COUNT_OBJECTIVE, "dummy", ChatColor.GOLD + "No. Mob Deaths");
+            final Scoreboard scoreboard = Scoreboards.manager().getNewScoreboard();
+            final Objective objective = scoreboard.registerNewObjective(DEATH_COUNT_OBJECTIVE, Criteria.DUMMY, ChatColor.GOLD + "No. Mob Deaths");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             return new CountingBoard(scoreboard);
         });
     }
 
-    @NotNull Objective getDeathCountObjective(Scoreboard board) {
-        Objective objective = board.getObjective(DEATH_COUNT_OBJECTIVE);
+    Objective getDeathCountObjective(final Scoreboard board) {
+        final @Nullable Objective objective = board.getObjective(DEATH_COUNT_OBJECTIVE);
         if (objective == null) {
             throw new IllegalArgumentException(board + " does not contain the required objective");
         }
@@ -71,45 +71,43 @@ public class CountMobDeaths extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(EntityListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     static final class CountingBoard {
 
-        @NotNull
         private final Scoreboard scoreboard;
         private boolean counting;
 
-        CountingBoard(@NotNull Scoreboard scoreboard) {
+        CountingBoard(final Scoreboard scoreboard) {
             this.scoreboard = scoreboard;
         }
 
-        @NotNull
         public Scoreboard scoreboard() {
-            return scoreboard;
+            return this.scoreboard;
         }
 
         public boolean isCounting() {
-            return counting;
+            return this.counting;
         }
 
-        public void setCounting(boolean counting) {
+        public void setCounting(final boolean counting) {
             this.counting = counting;
         }
     }

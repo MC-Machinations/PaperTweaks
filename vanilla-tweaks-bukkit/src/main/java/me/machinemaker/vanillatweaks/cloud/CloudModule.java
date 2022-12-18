@@ -103,7 +103,7 @@ public class CloudModule extends AbstractModule {
         try {
             final PaperCommandManager<CommandDispatcher> manager = new PaperCommandManager<>(
                 this.plugin,
-                AsynchronousCommandExecutionCoordinator.<CommandDispatcher>newBuilder().build(),
+                AsynchronousCommandExecutionCoordinator.<CommandDispatcher>builder().build(),
                 commandSender -> {
                     try {
                         return senderCache.get(commandSender);

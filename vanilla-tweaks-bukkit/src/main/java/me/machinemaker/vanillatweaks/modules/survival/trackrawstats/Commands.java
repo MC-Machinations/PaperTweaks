@@ -19,44 +19,48 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackrawstats;
 
+import cloud.commandframework.Command;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 @ModuleCommand.Info(value = "trackrawstats", aliases = {"trackrs", "trs"}, i18n = "track-raw-stats", perm = "trackrawstats")
 class Commands extends ConfiguredModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = this.player();
+        final Command.Builder<CommandDispatcher> builder = this.player();
 
-        manager.command(this.literal(builder, "display")
-                .argument(ObjectiveArgument.of("objective"))
-                .handler(sync((context, player) -> {
-                    player.setScoreboard(Scoreboards.main());
-                    Tracked tracked = context.get("objective");
-                    if (tracked.objective().getDisplaySlot() == DisplaySlot.SIDEBAR) {
-                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.already-displayed", YELLOW, tracked));
-                    } else {
-                        tracked.objective().setDisplaySlot(DisplaySlot.SIDEBAR);
-                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.success", GREEN, tracked));
-                    }
-                }))
+        this.manager.command(this.literal(builder, "display")
+            .argument(ObjectiveArgument.of("objective"))
+            .handler(this.sync((context, player) -> {
+                player.setScoreboard(Scoreboards.main());
+                final Tracked tracked = context.get("objective");
+                if (tracked.objective().getDisplaySlot() == DisplaySlot.SIDEBAR) {
+                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.already-displayed", YELLOW, tracked));
+                } else {
+                    tracked.objective().setDisplaySlot(DisplaySlot.SIDEBAR);
+                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.success", GREEN, tracked));
+                }
+            }))
         ).command(this.literal(builder, "clear")
-                .handler(sync(context -> {
-                    Objective currentlyDisplayed = Scoreboards.main().getObjective(DisplaySlot.SIDEBAR);
-                    if (currentlyDisplayed == null || !RawStats.OBJECTIVE_DATA.containsKey(currentlyDisplayed.getName())) {
-                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.no-display", YELLOW));
-                    } else {
-                        currentlyDisplayed.setDisplaySlot(null);
-                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.success", GREEN, RawStats.OBJECTIVE_DATA.get(currentlyDisplayed.getName())));
-                    }
-                }))
+            .handler(this.sync(context -> {
+                final @Nullable Objective currentlyDisplayed = Scoreboards.main().getObjective(DisplaySlot.SIDEBAR);
+                if (currentlyDisplayed == null || !RawStats.OBJECTIVE_DATA.containsKey(currentlyDisplayed.getName())) {
+                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.no-display", YELLOW));
+                } else {
+                    currentlyDisplayed.setDisplaySlot(null);
+                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.success", GREEN, RawStats.OBJECTIVE_DATA.get(currentlyDisplayed.getName())));
+                }
+            }))
         );
     }
 }

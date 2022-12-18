@@ -19,17 +19,15 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.trackrawstats;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
+import me.machinemaker.vanillatweaks.utils.boards.Scoreboards;
 import org.slf4j.Logger;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "TrackRawStats", configPath = "survival.track-raw-stats", description = "Adds scoreboard objectives for every statistic so players can easily view stats")
 public class TrackRawStats extends ModuleBase {
@@ -37,16 +35,16 @@ public class TrackRawStats extends ModuleBase {
     static final Logger LOGGER = LoggerFactory.getModuleLogger(TrackRawStats.class);
 
     TrackRawStats() {
-        RawStats.registerStats(Bukkit.getScoreboardManager().getMainScoreboard());
+        RawStats.registerStats(Scoreboards.main());
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }
