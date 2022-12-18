@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.settings.types;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
+import cloud.commandframework.arguments.standard.BooleanArgument;
 import cloud.commandframework.arguments.standard.DoubleArgument;
 import cloud.commandframework.arguments.standard.EnumArgument;
 import cloud.commandframework.arguments.standard.IntegerArgument;
@@ -27,7 +28,6 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.leangen.geantyref.GenericTypeReflector;
 import me.machinemaker.lectern.ValueNode;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.cloud.parsers.BooleanParser;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
@@ -42,7 +42,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser, @NotNull Component validations) implements Setting<T, C> {
 
     public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> ofBoolean(@NotNull ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanParser());
+        return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanArgument.BooleanParser<>(false));
     }
 
     public static <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> ConfigSetting<E, C> ofEnum(@NotNull ValueNode<?> valueNode, @NotNull Class<E> classOfE) {

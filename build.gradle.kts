@@ -31,9 +31,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        sonatype.ossSnapshots().mavenContent {
-            includeGroup("cloud.commandframework")
-        }
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://maven.enginehub.org/repo/")
@@ -49,7 +46,7 @@ subprojects {
         implementation("me.machinemaker.lectern:lectern-yaml:0.2.1")
         implementation("net.kyori:adventure-platform-bukkit:4.2.0")
         implementation("net.kyori:adventure-text-minimessage:4.12.0")
-        implementation(platform("cloud.commandframework:cloud-bom:1.8.0-SNAPSHOT")) // oss
+        implementation(platform("cloud.commandframework:cloud-bom:1.8.0"))
         implementation("cloud.commandframework:cloud-paper")
         implementation("cloud.commandframework:cloud-minecraft-extras")
         implementation("org.bstats:bstats-bukkit:3.0.0")

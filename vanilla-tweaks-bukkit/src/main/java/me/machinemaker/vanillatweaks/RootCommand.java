@@ -104,7 +104,7 @@ public class RootCommand extends VanillaTweaksCommand {
                 this.audiences.console().sendMessage(Components.join(VanillaTweaks.PLUGIN_PREFIX, disableMsg));
             }))
         ).command(this.simple("list")
-            .argument(IntegerArgument.<CommandDispatcher>newBuilder("page").withMin(1).withMax(this.maxPageCount).asOptionalWithDefault(1))
+            .argument(IntegerArgument.<CommandDispatcher>builder("page").withMin(1).withMax(this.maxPageCount).asOptionalWithDefault(1))
             .handler(this::sendModuleList)
         ).command(this.simple("version")
             .handler(this::showVersion)

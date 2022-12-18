@@ -21,17 +21,17 @@ package me.machinemaker.vanillatweaks.modules.survival.customnetherportals;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.function.ToIntFunction;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.function.ToIntFunction;
 
 class PortalShapeFinder {
 
@@ -42,19 +42,33 @@ class PortalShapeFinder {
     private final Set<Long> checkedLocations;
     private final IgniteListener.Axis axis;
 
-    PortalShapeFinder(Block first, IgniteListener.Axis axis) {
+    PortalShapeFinder(final Block first, final IgniteListener.Axis axis) {
         this.portalInterior = Sets.newConcurrentHashSet(Set.of(first));
         this.checkedLocations = Sets.newConcurrentHashSet();
         this.axis = axis;
     }
 
+    static boolean isReplaceable(final Block block) {
+        final Material type = block.getType();
+        return type == Material.AIR || type == Material.CAVE_AIR || type == Material.VOID_AIR || type == Material.FIRE;
+    }
+
+    static long toLong(final Block block) {
+        return toLong(block.getLocation());
+    }
+
+    static long toLong(final Location location) {
+        return (((long) location.getBlockX() & 67108863L) << 38) | (((long) location.getBlockY() & 4095L)) | (((long) location.getZ() & 67108863L) << 12);
+    }
+
     boolean start() {
         boolean build = true;
 
-        while (portalInterior.size() <= config.maxPortalHeight * config.maxPortalWidth && this.checkedLocations.size() < this.portalInterior.size()) {
-            var interiorIter = this.portalInterior.iterator();
+        while (this.portalInterior.size() <= config.maxPortalHeight * config.maxPortalWidth && this.checkedLocations.size() < this.portalInterior.size()) {
+            final Iterator<Block> interiorIter = this.portalInterior.iterator();
 
-            finished: {
+            finished:
+            {
                 Block currentBlock;
                 do {
                     do {
@@ -78,59 +92,44 @@ class PortalShapeFinder {
 
         if (build && this.portalInterior.size() >= config.minPortalSize) {
 
-            int maxY = Collections.max(this.portalInterior, Comparator.comparingInt(Block::getY)).getY();
-            int minY = Collections.min(this.portalInterior, Comparator.comparingInt(Block::getY)).getY();
+            final int maxY = Collections.max(this.portalInterior, Comparator.comparingInt(Block::getY)).getY();
+            final int minY = Collections.min(this.portalInterior, Comparator.comparingInt(Block::getY)).getY();
 
             if (maxY - minY > config.maxPortalHeight) {
                 return false;
             }
 
-            ToIntFunction<Block> flatFunction = this.axis == IgniteListener.Axis.X ? Block::getX : Block::getZ;
+            final ToIntFunction<Block> flatFunction = this.axis == IgniteListener.Axis.X ? Block::getX : Block::getZ;
 
-            Block maxFlatBlock = Collections.max(this.portalInterior, Comparator.comparingInt(flatFunction));
-            Block minFlatBlock = Collections.max(this.portalInterior, Comparator.comparingInt(flatFunction));
+            final Block maxFlatBlock = Collections.max(this.portalInterior, Comparator.comparingInt(flatFunction));
+            final Block minFlatBlock = Collections.max(this.portalInterior, Comparator.comparingInt(flatFunction));
 
             if (flatFunction.applyAsInt(maxFlatBlock) - flatFunction.applyAsInt(minFlatBlock) > config.maxPortalWidth) {
                 return false;
             }
 
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                this.portalInterior.forEach(block -> {
-                    block.setType(Material.NETHER_PORTAL);
-                    this.axis.setOrientation(block);
-                });
-            }, 1L);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> this.portalInterior.forEach(block -> {
+                block.setType(Material.NETHER_PORTAL);
+                this.axis.setOrientation(block);
+            }), 1L);
             return true;
         }
         return false;
     }
 
-    boolean checkSurrounding(Block source) {
-        return checkValidPortalInterior(source, BlockFace.UP)
-                && checkValidPortalInterior(source, BlockFace.DOWN)
-                && checkValidPortalInterior(source, this.axis.left)
-                && checkValidPortalInterior(source, this.axis.right);
+    boolean checkSurrounding(final Block source) {
+        return this.checkValidPortalInterior(source, BlockFace.UP)
+            && this.checkValidPortalInterior(source, BlockFace.DOWN)
+            && this.checkValidPortalInterior(source, this.axis.left)
+            && this.checkValidPortalInterior(source, this.axis.right);
     }
 
-    boolean checkValidPortalInterior(Block source, BlockFace face) {
-        Block toCheck = source.getRelative(face);
+    boolean checkValidPortalInterior(final Block source, final BlockFace face) {
+        final Block toCheck = source.getRelative(face);
         if (isReplaceable(toCheck)) {
             this.portalInterior.add(toCheck);
             return true;
         }
         return IgniteListener.isPortalFrame(toCheck);
-    }
-
-    static boolean isReplaceable(Block block) {
-        Material type = block.getType();
-        return type == Material.AIR || type == Material.CAVE_AIR || type == Material.VOID_AIR || type == Material.FIRE;
-    }
-
-    static long toLong(Block block) {
-        return toLong(block.getLocation());
-    }
-
-    static long toLong(Location location) {
-        return (((long) location.getBlockX() & 67108863L) << 38) | (((long) location.getBlockY() & 4095L)) | (((long) location.getZ() & 67108863L) << 12);
     }
 }

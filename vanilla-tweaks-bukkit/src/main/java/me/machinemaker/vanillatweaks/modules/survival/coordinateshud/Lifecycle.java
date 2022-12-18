@@ -26,16 +26,12 @@ import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 class Lifecycle extends ModuleLifecycle {
 
     private final Config config;
     private final HUDRunnable hudRunnable;
-    private BukkitTask task;
 
     @Inject
     public Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Config config, final HUDRunnable hudRunnable, final Set<ModuleRecipe<?>> moduleRecipes) {
@@ -46,32 +42,11 @@ class Lifecycle extends ModuleLifecycle {
 
     @Override
     public void onEnable() {
-        this.startTask();
-        for (final Player player : Bukkit.getOnlinePlayers()) {
-            if (!HUDRunnable.COORDINATES_HUD_KEY.has(player)) {
-                HUDRunnable.COORDINATES_HUD_KEY.setTo(player, this.config.enabledByDefault);
-            }
-            if (Boolean.TRUE.equals(HUDRunnable.COORDINATES_HUD_KEY.getFrom(player))) {
-                this.hudRunnable.addPlayer(player);
-            }
-        }
+        this.hudRunnable.runTaskTimerAsynchronously( 1L, this.config.ticks);
     }
-
-    @Override
-    public void onReload() {
-        this.startTask();
-    }
-
-    private void startTask() {
-        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(this.getPlugin(), this.hudRunnable, 1L, this.config.ticks);
-    }
-
     @Override
     public void onDisable(final boolean isShutdown) {
-        if (this.task != null) {
-            this.task.cancel();
-        }
-        this.hudRunnable.clearPlayers();
+        this.hudRunnable.cancel();
     }
 
 }

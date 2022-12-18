@@ -21,26 +21,23 @@ package me.machinemaker.vanillatweaks.adventure;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 import static net.kyori.adventure.text.JoinConfiguration.noSeparators;
 
-@DefaultQualifier(NonNull.class)
 public final class Components {
 
     private Components() {
     }
 
-    public static Component join(ComponentLike ...components) {
+    public static Component join(final ComponentLike... components) {
         return Component.join(noSeparators(), components);
     }
 
-    public static Component join(Iterable<? extends ComponentLike> components) {
+    public static Component join(final Iterable<? extends ComponentLike> components) {
         return Component.join(noSeparators(), components);
     }
 
-    public static Component mini(String key) {
-        return new MiniComponent(key);
+    public static Component mini(final String key) {
+        return MiniComponent.create(key);
     }
 }

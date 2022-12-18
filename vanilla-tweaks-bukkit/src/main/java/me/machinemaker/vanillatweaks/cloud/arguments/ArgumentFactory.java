@@ -19,11 +19,8 @@
  */
 package me.machinemaker.vanillatweaks.cloud.arguments;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-@DefaultQualifier(NonNull.class)
 public interface ArgumentFactory {
 
     HomeArgument home(boolean required, String name);

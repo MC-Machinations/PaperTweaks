@@ -27,20 +27,19 @@ import cloud.commandframework.exceptions.parsing.NoInputProvidedException;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.db.dao.teleportation.homes.HomesDAO;
 import me.machinemaker.vanillatweaks.db.model.teleportation.homes.Home;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class HomeArgument extends CommandArgument<CommandDispatcher, Home> {
 
     @Inject
-    HomeArgument(HomesDAO homesDAO, @Assisted boolean required, @Assisted String name) {
+    HomeArgument(final HomesDAO homesDAO, @Assisted final boolean required, @Assisted final String name) {
         super(required, name, new Parser(homesDAO), "home", Home.class, null, RichDescription.translatable("modules.homes.commands.arguments.home"));
     }
 
@@ -48,20 +47,20 @@ public class HomeArgument extends CommandArgument<CommandDispatcher, Home> {
 
         private final HomesDAO homesDAO;
 
-        private Parser(HomesDAO homesDAO) {
+        private Parser(final HomesDAO homesDAO) {
             this.homesDAO = homesDAO;
         }
 
         @Override
-        public @NonNull ArgumentParseResult<@NonNull Home> parse(@NonNull CommandContext<@NonNull CommandDispatcher> commandContext, @NonNull Queue<@NonNull String> inputQueue) {
-            final String input = inputQueue.peek();
+        public ArgumentParseResult<Home> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
+            final @Nullable String input = inputQueue.peek();
             if (input == null || input.isBlank()) {
                 return ArgumentParseResult.failure(new NoInputProvidedException(Parser.class, commandContext));
             }
             if (!commandContext.getSender().isPlayer()) {
                 return ArgumentParseResult.failure(new IllegalStateException("Must be player"));
             }
-            Home home = this.homesDAO.getPlayerHome(commandContext.getSender().getUUID(), input);
+            final Home home = this.homesDAO.getPlayerHome(commandContext.getSender().getUUID(), input);
             if (home == null) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(input + " is not a valid home"));
             }
@@ -71,7 +70,7 @@ public class HomeArgument extends CommandArgument<CommandDispatcher, Home> {
         }
 
         @Override
-        public @NonNull List<@NonNull String> suggestions(@NonNull CommandContext<CommandDispatcher> commandContext, @NonNull String input) {
+        public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
             if (commandContext.getSender() instanceof PlayerCommandDispatcher playerCommandDispatcher) {
                 return List.copyOf(this.homesDAO.getHomesForPlayer(playerCommandDispatcher.getUUID()).keySet());
             }

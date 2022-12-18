@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -33,8 +34,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.loot.LootTables;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,9 +47,9 @@ class MixinsTest {
     @BeforeAll
     static void beforeEach() {
         Mixins.registerMixins(mapper);
-        World mockWorld = mock(World.class);
+        final World mockWorld = mock(World.class);
         when(mockWorld.getName()).thenReturn("world");
-        Server mockServer = mock(Server.class);
+        final Server mockServer = mock(Server.class);
         when(mockServer.getWorld("world")).thenReturn(mockWorld);
         when(mockServer.getLogger()).thenReturn(Logger.getLogger("MockServer"));
         Bukkit.setServer(mockServer);

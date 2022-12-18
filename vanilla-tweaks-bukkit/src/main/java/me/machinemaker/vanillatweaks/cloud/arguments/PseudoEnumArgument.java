@@ -29,123 +29,88 @@ import cloud.commandframework.captions.StandardCaptionKeys;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.exceptions.parsing.NoInputProvidedException;
 import cloud.commandframework.exceptions.parsing.ParserException;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.BiFunction;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
 
-    private final cloud.commandframework.arguments.standard.StringArgument.StringMode stringMode;
+    private final StringArgument.StringMode stringMode;
 
-    protected PseudoEnumArgument(
-            final boolean required,
-            final @NonNull String name,
-            final cloud.commandframework.arguments.standard.StringArgument.@NonNull StringMode stringMode,
-            final @NonNull String defaultValue,
-            final @NonNull Set<String> allowedValues,
-            final @Nullable BiFunction<@NonNull CommandContext<C>, @NonNull String,
-                    @NonNull List<@NonNull String>> suggestionsProvider,
-            final @NonNull ArgumentDescription defaultDescription
-    ) {
-        super(
-                required,
-                name,
-                new PseudoEnumParser<>(stringMode, allowedValues),
-                defaultValue,
-                String.class,
-                suggestionsProvider,
-                defaultDescription
-        );
+    protected PseudoEnumArgument(final boolean required, final String name, final StringArgument.StringMode stringMode, final String defaultValue, final Set<String> allowedValues, final @Nullable BiFunction<CommandContext<C>, String, List<String>> suggestionsProvider, final ArgumentDescription defaultDescription) {
+        super(required, name, new PseudoEnumParser<>(stringMode, allowedValues), defaultValue, String.class, suggestionsProvider, defaultDescription);
         this.stringMode = stringMode;
     }
 
     /**
      * Create a new builder
      *
-     * @param name Name of the argument
+     * @param name          Name of the argument
      * @param allowedValues Allowed values
-     * @param <C>  Command sender type
+     * @param <C>           Command sender type
      * @return Created builder
      * @since 1.6.0
      */
-    public static <C> PseudoEnumArgument.@NonNull Builder<C> builder(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues
-    ) {
+    public static <C> PseudoEnumArgument.Builder<C> builder(final String name, final Set<String> allowedValues) {
         return new Builder<>(name, allowedValues);
     }
 
     /**
      * Create a new required single string command argument
      *
-     * @param name Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param <C>  Command sender type
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> of(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues
-    ) {
+    public static <C> CommandArgument<C, String> of(final String name, final Set<String> allowedValues) {
         return PseudoEnumArgument.<C>builder(name, allowedValues).single().asRequired().build();
     }
 
     /**
      * Create a new required command argument
      *
-     * @param name       Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param stringMode String mode
-     * @param <C>        Command sender type
+     * @param stringMode    String mode
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> of(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues,
-            final cloud.commandframework.arguments.standard.StringArgument.@NonNull StringMode stringMode
-    ) {
+    public static <C> CommandArgument<C, String> of(final String name, final Set<String> allowedValues, final StringArgument.StringMode stringMode) {
         return PseudoEnumArgument.<C>builder(name, allowedValues).withMode(stringMode).asRequired().build();
     }
 
     /**
      * Create a new optional single string command argument
      *
-     * @param name Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param <C>  Command sender type
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> optional(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues
-    ) {
+    public static <C> CommandArgument<C, String> optional(final String name, final Set<String> allowedValues) {
         return PseudoEnumArgument.<C>builder(name, allowedValues).single().asOptional().build();
     }
 
     /**
      * Create a new optional command argument
      *
-     * @param name       Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param stringMode String mode
-     * @param <C>        Command sender type
+     * @param stringMode    String mode
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> optional(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues,
-            final cloud.commandframework.arguments.standard.StringArgument.@NonNull StringMode stringMode
-    ) {
+    public static <C> CommandArgument<C, String> optional(final String name, final Set<String> allowedValues, final StringArgument.StringMode stringMode) {
         return PseudoEnumArgument.<C>builder(name, allowedValues).withMode(stringMode).asOptional().build();
     }
 
@@ -159,60 +124,47 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> optional(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues,
-            final @NonNull String defaultString
-    ) {
+    public static <C> CommandArgument<C, String> optional(final String name, final Set<String> allowedValues, final String defaultString) {
         return PseudoEnumArgument.<C>builder(name, allowedValues).asOptionalWithDefault(defaultString).build();
     }
 
     /**
      * Create a new required command argument with the 'single' parsing mode
      *
-     * @param name Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param <C>  Command sender type
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> single(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues
-    ) {
-        return of(name, allowedValues, cloud.commandframework.arguments.standard.StringArgument.StringMode.SINGLE);
+    public static <C> CommandArgument<C, String> single(final String name, final Set<String> allowedValues) {
+        return of(name, allowedValues, StringArgument.StringMode.SINGLE);
     }
 
     /**
      * Create a new required command argument with the 'greedy' parsing mode
      *
-     * @param name Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param <C>  Command sender type
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> greedy(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues
-    ) {
-        return of(name, allowedValues, cloud.commandframework.arguments.standard.StringArgument.StringMode.GREEDY);
+    public static <C> CommandArgument<C, String> greedy(final String name, final Set<String> allowedValues) {
+        return of(name, allowedValues, StringArgument.StringMode.GREEDY);
     }
 
     /**
      * Create a new required command argument with the 'quoted' parsing mode
      *
-     * @param name Argument name
+     * @param name          Argument name
      * @param allowedValues Allowed values
-     * @param <C>  Command sender type
+     * @param <C>           Command sender type
      * @return Created argument
      * @since 1.6.0
      */
-    public static <C> @NonNull CommandArgument<C, String> quoted(
-            final @NonNull String name,
-            final @NonNull Set<String> allowedValues
-    ) {
-        return of(name, allowedValues, cloud.commandframework.arguments.standard.StringArgument.StringMode.QUOTED);
+    public static <C> CommandArgument<C, String> quoted(final String name, final Set<String> allowedValues) {
+        return of(name, allowedValues, StringArgument.StringMode.QUOTED);
     }
 
     /**
@@ -221,7 +173,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
      * @return String mode
      * @since 1.6.0
      */
-    public cloud.commandframework.arguments.standard.StringArgument.@NonNull StringMode getStringMode() {
+    public StringArgument.StringMode getStringMode() {
         return this.stringMode;
     }
 
@@ -229,16 +181,15 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
     /**
      * Builder for {@link PseudoEnumArgument}.
      *
-     *
      * @param <C> Command sender type
      * @since 1.6.0
      */
     public static final class Builder<C> extends CommandArgument.TypedBuilder<C, String, Builder<C>> {
 
-        private cloud.commandframework.arguments.standard.StringArgument.StringMode stringMode = cloud.commandframework.arguments.standard.StringArgument.StringMode.SINGLE;
         private final Set<String> allowedValues;
+        private StringArgument.StringMode stringMode = StringArgument.StringMode.SINGLE;
 
-        private Builder(final @NonNull String name, final Set<String> allowedValues) {
+        private Builder(final String name, final Set<String> allowedValues) {
             super(String.class, name);
             this.allowedValues = allowedValues;
         }
@@ -250,7 +201,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return Builder instance
          * @since 1.6.0
          */
-        private @NonNull Builder<C> withMode(final cloud.commandframework.arguments.standard.StringArgument.@NonNull StringMode stringMode) {
+        private Builder<C> withMode(final StringArgument.StringMode stringMode) {
             this.stringMode = stringMode;
             return this;
         }
@@ -261,8 +212,8 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return Builder instance
          * @since 1.6.0
          */
-        public @NonNull Builder<C> greedy() {
-            this.stringMode = cloud.commandframework.arguments.standard.StringArgument.StringMode.GREEDY;
+        public Builder<C> greedy() {
+            this.stringMode = StringArgument.StringMode.GREEDY;
             return this;
         }
 
@@ -272,8 +223,8 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return Builder instance
          * @since 1.6.0
          */
-        public @NonNull Builder<C> single() {
-            this.stringMode = cloud.commandframework.arguments.standard.StringArgument.StringMode.SINGLE;
+        public Builder<C> single() {
+            this.stringMode = StringArgument.StringMode.SINGLE;
             return this;
         }
 
@@ -283,8 +234,8 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return Builder instance
          * @since 1.6.0
          */
-        public @NonNull Builder<C> quoted() {
-            this.stringMode = cloud.commandframework.arguments.standard.StringArgument.StringMode.QUOTED;
+        public Builder<C> quoted() {
+            this.stringMode = StringArgument.StringMode.QUOTED;
             return this;
         }
 
@@ -295,9 +246,9 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @since 1.6.0
          */
         @Override
-        public @NonNull PseudoEnumArgument<C> build() {
+        public PseudoEnumArgument<C> build() {
             return new PseudoEnumArgument<>(this.isRequired(), this.getName(), this.stringMode,
-                    this.getDefaultValue(), this.allowedValues, this.getSuggestionsProvider(), this.getDefaultDescription()
+                this.getDefaultValue(), this.allowedValues, this.getSuggestionsProvider(), this.getDefaultDescription()
             );
         }
 
@@ -313,27 +264,21 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
     public static final class PseudoEnumParser<C> implements ArgumentParser<C, String> {
 
         private final Set<String> allowedValues;
-        private final cloud.commandframework.arguments.standard.StringArgument.StringParser<C> stringParser;
+        private final StringArgument.StringParser<C> stringParser;
 
-        public PseudoEnumParser(
-                final cloud.commandframework.arguments.standard.StringArgument.@NonNull StringMode stringMode,
-                final @NonNull Set<String> allowedValues
-        ) {
-            this.stringParser = new cloud.commandframework.arguments.standard.StringArgument.StringParser<>(stringMode, (context, s) -> new ArrayList<>(allowedValues));
+        public PseudoEnumParser(final StringArgument.StringMode stringMode, final Set<String> allowedValues) {
+            this.stringParser = new StringArgument.StringParser<>(stringMode, (context, s) -> new ArrayList<>(allowedValues));
             this.allowedValues = allowedValues;
         }
 
         @Override
-        public @NonNull ArgumentParseResult<@NonNull String> parse(
-                @NonNull final CommandContext<@NonNull C> commandContext,
-                @NonNull final Queue<@NonNull String> inputQueue
-        ) {
-            ArgumentParseResult<String> result = this.stringParser.parse(commandContext, inputQueue);
+        public ArgumentParseResult<String> parse(final CommandContext<C> commandContext, final Queue<String> inputQueue) {
+            final ArgumentParseResult<String> result = this.stringParser.parse(commandContext, inputQueue);
             if (result.getFailure().isPresent()) {
                 return result;
             } else if (result.getParsedValue().isPresent()) {
-                String input = result.getParsedValue().get();
-                if (!allowedValues.contains(input)) {
+                final String input = result.getParsedValue().get();
+                if (!this.allowedValues.contains(input)) {
                     return ArgumentParseResult.failure(new PseudoEnumParseException(input, this.allowedValues, commandContext));
                 } else {
                     return result;
@@ -344,10 +289,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
         }
 
         @Override
-        public @NonNull List<@NonNull String> suggestions(
-                final @NonNull CommandContext<C> commandContext,
-                final @NonNull String input
-        ) {
+        public List<String> suggestions(final CommandContext<C> commandContext, final String input) {
             return this.stringParser.suggestions(commandContext, input);
         }
 
@@ -362,7 +304,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return String mode
          * @since 1.6.0
          */
-        public StringArgument.@NonNull StringMode getStringMode() {
+        public StringArgument.StringMode getStringMode() {
             return this.stringParser.getStringMode();
         }
     }
@@ -370,6 +312,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
 
     public static final class PseudoEnumParseException extends ParserException {
 
+        @Serial
         private static final long serialVersionUID = 5198435213837796433L;
         private final String input;
         private final Set<String> acceptableValues;
@@ -377,23 +320,13 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
         /**
          * Construct a new pseudo-enum parse exception
          *
-         * @param input Input
+         * @param input            Input
          * @param acceptableValues Acceptable values
-         * @param context Command context
+         * @param context          Command context
          * @since 1.6.0
          */
-        public PseudoEnumParseException(
-                final @NonNull String input,
-                final @NonNull Set<String> acceptableValues,
-                final @NonNull CommandContext<?> context
-        ) {
-            super(
-                    PseudoEnumParser.class,
-                    context,
-                    StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_ENUM,
-                    CaptionVariable.of("input", input),
-                    CaptionVariable.of("acceptableValues", String.join(", ", acceptableValues))
-            );
+        public PseudoEnumParseException(final String input, final Set<String> acceptableValues, final CommandContext<?> context) {
+            super(PseudoEnumParser.class, context, StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_ENUM, CaptionVariable.of("input", input), CaptionVariable.of("acceptableValues", String.join(", ", acceptableValues)));
             this.input = input;
             this.acceptableValues = Collections.unmodifiableSet(acceptableValues);
         }
@@ -404,7 +337,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return Input
          * @since 1.6.0
          */
-        public @NonNull String getInput() {
+        public String getInput() {
             return this.input;
         }
 
@@ -414,7 +347,7 @@ public class PseudoEnumArgument<C> extends CommandArgument<C, String> {
          * @return The acceptable values
          * @since 1.6.0
          */
-        public @NonNull Set<String> getAcceptableValues() {
+        public Set<String> getAcceptableValues() {
             return this.acceptableValues;
         }
 

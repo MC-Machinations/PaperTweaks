@@ -30,7 +30,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -42,75 +41,75 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
     public static final SettingWrapper.PDC<DisplaySetting> DISPLAY = SettingWrapper.pdc(Keys.key("dp.display_setting"));
 
     @Inject
-    Settings(Config config) {
-        register(PlayerSetting.ofBoolean(HAND_PING, () -> config.defaultHandPing));
-        register(PlayerSetting.ofBoolean(ARMOR_PING, () -> config.defaultArmorPing));
-        register(PlayerSetting.ofBoolean(SOUND, () -> config.defaultPlaySound));
-        register(PlayerSetting.ofEnum(DISPLAY, DisplaySetting.class, () -> config.defaultDisplaySetting));
+    Settings(final Config config) {
+        this.register(PlayerSetting.ofBoolean(HAND_PING, () -> config.defaultHandPing));
+        this.register(PlayerSetting.ofBoolean(ARMOR_PING, () -> config.defaultArmorPing));
+        this.register(PlayerSetting.ofBoolean(SOUND, () -> config.defaultPlaySound));
+        this.register(PlayerSetting.ofEnum(DISPLAY, DisplaySetting.class, () -> config.defaultDisplaySetting));
     }
 
-    static record Instance(boolean handPing, boolean armorPing, boolean sound, @NotNull DisplaySetting displaySetting) { }
-
-    static Instance from(Player player) {
+    static Instance from(final Player player) {
         return new Instance(HAND_PING.getOrDefault(player), ARMOR_PING.getOrDefault(player), SOUND.getOrDefault(player), DISPLAY.getOrDefault(player));
     }
 
     enum DisplaySetting implements PreviewableMenuEnum<DisplaySetting> {
         HIDDEN("Hidden") {
             @Override
-            void sendMessage(Audience audience, ComponentLike componentLike) {
+            void sendMessage(final Audience audience, final ComponentLike componentLike) {
                 // pass
             }
 
             @Override
-            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
-                return super.buildWithoutPreview(selected, labelKey, commandPrefix, optionKey);
+            public Component build(final DisplaySetting selected, final String labelKey, final String commandPrefix, final String optionKey) {
+                return this.buildWithoutPreview(selected, labelKey, commandPrefix, optionKey);
             }
         },
         SUBTITLE("Subtitle") {
             @Override
-            void sendMessage(Audience audience, ComponentLike componentLike) {
+            void sendMessage(final Audience audience, final ComponentLike componentLike) {
                 audience.clearTitle();
                 audience.showTitle(Title.title(Component.empty(), componentLike.asComponent()));
             }
         },
         TITLE("Title") {
             @Override
-            void sendMessage(Audience audience, ComponentLike componentLike) {
+            void sendMessage(final Audience audience, final ComponentLike componentLike) {
                 audience.clearTitle();
                 audience.showTitle(Title.title(componentLike.asComponent(), Component.empty()));
             }
         },
         CHAT("Chat") {
             @Override
-            void sendMessage(Audience audience, ComponentLike componentLike) {
+            void sendMessage(final Audience audience, final ComponentLike componentLike) {
                 audience.sendMessage(componentLike);
             }
 
         },
         ACTION_BAR("Action Bar") {
             @Override
-            void sendMessage(Audience audience, ComponentLike componentLike) {
+            void sendMessage(final Audience audience, final ComponentLike componentLike) {
                 audience.sendActionBar(componentLike);
             }
         };
 
         private final String label;
 
-        DisplaySetting(String label) {
+        DisplaySetting(final String label) {
             this.label = label;
         }
 
         abstract void sendMessage(Audience audience, ComponentLike componentLike);
 
         @Override
-        public @NotNull Component label() {
+        public Component label() {
             return text(this.label);
         }
 
         @Override
-        public @NotNull String previewCommandPrefix() {
+        public String previewCommandPrefix() {
             return "/durabilityping config preview_display";
         }
     }
+
+    record Instance(boolean handPing, boolean armorPing, boolean sound, DisplaySetting displaySetting) {}
 }

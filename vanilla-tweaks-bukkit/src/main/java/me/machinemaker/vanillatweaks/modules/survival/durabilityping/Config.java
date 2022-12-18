@@ -27,7 +27,6 @@ import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.menus.Menu;
 import me.machinemaker.vanillatweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @VTConfig
 @Menu(commandPrefix = "/durabilityping admin config")
@@ -71,7 +70,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     public boolean enabledByDefault = true;
 
     @Override
-    protected @NotNull Component title() {
+    protected Component title() {
         return buildDefaultTitle("Durability Ping");
     }
 }

@@ -22,28 +22,31 @@ package me.machinemaker.vanillatweaks.modules.survival.afkdisplay;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
+import me.machinemaker.vanillatweaks.utils.runnables.TimerRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-
-import java.util.Map;
-import java.util.UUID;
+import org.bukkit.plugin.Plugin;
 
 @Singleton
-class AFKRunnable implements Runnable {
+class AFKRunnable extends TimerRunnable {
 
     private final Map<UUID, LocationTime> locationMap = Maps.newConcurrentMap();
     private final Config config;
 
     @Inject
-    AFKRunnable(Config config) {
+    AFKRunnable(final Plugin plugin, final Config config) {
+        super(plugin);
         this.config = config;
     }
 
-    public void addPlayer(Player player) {
-        locationMap.put(player.getUniqueId(), new LocationTime(System.currentTimeMillis(), player.getLocation()));
+    public void addPlayer(final Player player) {
+        this.locationMap.put(player.getUniqueId(), new LocationTime(System.currentTimeMillis(), player.getLocation()));
     }
 
     public void clear() {
@@ -52,37 +55,40 @@ class AFKRunnable implements Runnable {
 
     @Override
     public void run() {
-        var iterator = locationMap.entrySet().iterator();
+        final Iterator<Map.Entry<UUID, LocationTime>> iterator = this.locationMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            var entry = iterator.next();
-            OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-            if (!player.isOnline() || !player.hasPlayedBefore() || player.getPlayer() == null) iterator.remove();
-            else if (!player.getPlayer().hasPermission("vanillatweaks.afkdisplay")) iterator.remove();
-            else if (notEqual(entry.getValue().loc, player.getPlayer().getLocation())) {
+            final Map.Entry<UUID, LocationTime> entry = iterator.next();
+            final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+            if (!player.isOnline() || !player.hasPlayedBefore() || player.getPlayer() == null) {
+                iterator.remove();
+            } else if (!player.getPlayer().hasPermission("vanillatweaks.afkdisplay")) {
+                iterator.remove();
+            } else if (this.notEqual(entry.getValue().loc, player.getPlayer().getLocation())) {
                 entry.getValue().loc = player.getPlayer().getLocation();
                 entry.getValue().time = System.currentTimeMillis();
-            } else if (entry.getValue().time < System.currentTimeMillis() - (1000L * config.secondsBeforeAFK)) {
+            } else if (entry.getValue().time < System.currentTimeMillis() - (1000L * this.config.secondsBeforeAFK)) {
                 player.getPlayer().setDisplayName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
                 player.getPlayer().setPlayerListName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
                 AFKDisplay.AFK_DISPLAY.setTo(player.getPlayer(), true);
-                locationMap.remove(entry.getKey());
+                this.locationMap.remove(entry.getKey());
             }
         }
     }
 
+    private boolean notEqual(final Location loc1, final Location loc2) {
+        return loc1.getBlockX() != loc2.getBlockX()
+            || loc1.getBlockY() != loc2.getBlockY()
+            || loc1.getBlockZ() != loc2.getBlockZ();
+    }
+
     private static class LocationTime {
-        public Long time;
+
+        public long time;
         public Location loc;
 
-        private LocationTime(Long time, Location loc) {
+        private LocationTime(final long time, final Location loc) {
             this.time = time;
             this.loc = loc;
         }
-    }
-
-    private boolean notEqual(Location loc1, Location loc2) {
-        return loc1.getBlockX() != loc2.getBlockX()
-                || loc1.getBlockY() != loc2.getBlockY()
-                || loc1.getBlockZ() != loc2.getBlockZ();
     }
 }

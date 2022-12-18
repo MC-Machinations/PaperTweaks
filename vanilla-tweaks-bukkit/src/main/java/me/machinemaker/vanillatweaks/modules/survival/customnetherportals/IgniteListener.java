@@ -33,46 +33,46 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class IgniteListener implements ModuleListener {
 
     @Inject
     private static Config config;
 
+    static boolean isPortalFrameResult(final @Nullable RayTraceResult result) {
+        if (result == null) return false;
+        return isPortalFrame(result.getHitBlock());
+    }
+
+    static boolean isPortalFrame(final @Nullable Block block) {
+        if (block == null) return false;
+        return config.portalFrameMaterials.contains(block.getType());
+    }
+
+    static boolean isInValidDimension(final World world) {
+        return world.getEnvironment() == World.Environment.NETHER || world.getEnvironment() == World.Environment.NORMAL;
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBlockIgnite(BlockIgniteEvent event) {
-        Block block = event.getBlock();
-        World world = block.getWorld();
+    public void onBlockIgnite(final BlockIgniteEvent event) {
+        final Block block = event.getBlock();
+        final World world = block.getWorld();
         if (isInValidDimension(world) && isPortalFrame(block.getRelative(BlockFace.DOWN))) {
-            Axis portalAxis = findPortalAxis(world, block);
+            final @Nullable Axis portalAxis = this.findPortalAxis(world, block);
             if (portalAxis == null) return;
 
             event.setCancelled(new PortalShapeFinder(block, portalAxis).start());
         }
     }
 
-    Axis findPortalAxis(World world, Block source) {
-        for (Axis axis : Axis.values()) {
+    @Nullable Axis findPortalAxis(final World world, final Block source) {
+        for (final Axis axis : Axis.values()) {
             if (axis.rayTraceBlock(world, source.getLocation())) {
                 return axis;
             }
         }
         return null;
-    }
-
-    static boolean isPortalFrameResult(@Nullable RayTraceResult result) {
-        if (result == null) return false;
-        return isPortalFrame(result.getHitBlock());
-    }
-
-    static boolean isPortalFrame(@Nullable Block block) {
-        if (block == null) return false;
-        return config.portalFrameMaterials.contains(block.getType());
-    }
-
-    static boolean isInValidDimension(World world) {
-        return world.getEnvironment() == World.Environment.NETHER || world.getEnvironment() == World.Environment.NORMAL;
     }
 
     enum Axis {
@@ -85,7 +85,7 @@ class IgniteListener implements ModuleListener {
         final BlockFace left;
         final BlockFace right;
 
-        Axis(org.bukkit.Axis axis, Vector pos, Vector neg, BlockFace left, BlockFace right) {
+        Axis(final org.bukkit.Axis axis, final Vector pos, final Vector neg, final BlockFace left, final BlockFace right) {
             this.axis = axis;
             this.pos = pos;
             this.neg = neg;
@@ -93,16 +93,16 @@ class IgniteListener implements ModuleListener {
             this.right = right;
         }
 
-        boolean rayTraceBlock(World world, Location source) {
-            RayTraceResult positive = world.rayTraceBlocks(source, this.pos, config.maxPortalWidth, FluidCollisionMode.ALWAYS, false);
-            RayTraceResult negative = world.rayTraceBlocks(source, this.neg, config.maxPortalWidth, FluidCollisionMode.ALWAYS, false);
+        boolean rayTraceBlock(final World world, final Location source) {
+            final @Nullable RayTraceResult positive = world.rayTraceBlocks(source, this.pos, config.maxPortalWidth, FluidCollisionMode.ALWAYS, false);
+            final @Nullable RayTraceResult negative = world.rayTraceBlocks(source, this.neg, config.maxPortalWidth, FluidCollisionMode.ALWAYS, false);
 
             return isPortalFrameResult(positive) && isPortalFrameResult(negative);
         }
 
-        void setOrientation(Block block) {
-            BlockData blockData = block.getBlockData();
-            if (blockData instanceof Orientable orientation) {
+        void setOrientation(final Block block) {
+            final BlockData blockData = block.getBlockData();
+            if (blockData instanceof Orientable orientation && orientation.getAxis() != this.axis) {
                 orientation.setAxis(this.axis);
                 block.setBlockData(orientation);
             }

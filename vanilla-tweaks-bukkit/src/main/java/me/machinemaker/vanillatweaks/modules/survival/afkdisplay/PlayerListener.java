@@ -31,12 +31,12 @@ class PlayerListener implements ModuleListener {
     private final AFKRunnable afkRunnable;
 
     @Inject
-    PlayerListener(me.machinemaker.vanillatweaks.modules.survival.afkdisplay.AFKRunnable afkRunnable) {
+    PlayerListener(final AFKRunnable afkRunnable) {
         this.afkRunnable = afkRunnable;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerMove(PlayerMoveEvent event) {
+    public void onPlayerMove(final PlayerMoveEvent event) {
         if (AFKDisplay.AFK_DISPLAY.has(event.getPlayer())) {
             event.getPlayer().setDisplayName(event.getPlayer().getName());
             event.getPlayer().setPlayerListName(event.getPlayer().getName());
@@ -46,7 +46,7 @@ class PlayerListener implements ModuleListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         this.afkRunnable.addPlayer(event.getPlayer());
     }
 }

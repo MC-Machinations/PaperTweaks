@@ -29,27 +29,19 @@ import org.bukkit.event.player.PlayerQuitEvent;
 class PlayerListener implements ModuleListener {
 
     private final HUDRunnable hudRunnable;
-    private final Config config;
 
     @Inject
-    PlayerListener(final HUDRunnable hudRunnable, final Config config) {
+    PlayerListener(final HUDRunnable hudRunnable) {
         this.hudRunnable = hudRunnable;
-        this.config = config;
     }
-
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        if (!HUDRunnable.COORDINATES_HUD_KEY.has(event.getPlayer())) {
-            HUDRunnable.COORDINATES_HUD_KEY.setTo(event.getPlayer(), this.config.enabledByDefault);
-        }
-        if (Boolean.TRUE.equals(HUDRunnable.COORDINATES_HUD_KEY.getFrom(event.getPlayer()))) {
-            this.hudRunnable.addPlayer(event.getPlayer());
-        }
+        this.hudRunnable.add(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(final PlayerQuitEvent event) {
-        this.hudRunnable.removePlayer(event.getPlayer());
+        this.hudRunnable.remove(event.getPlayer());
     }
 }

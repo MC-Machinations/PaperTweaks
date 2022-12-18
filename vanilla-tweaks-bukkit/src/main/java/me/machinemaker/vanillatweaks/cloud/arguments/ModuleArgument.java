@@ -26,38 +26,48 @@ import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.cloud.processors.SimpleSuggestionProcessor;
-import me.machinemaker.vanillatweaks.modules.ModuleBase;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-import me.machinemaker.vanillatweaks.modules.ModuleManager;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.function.Predicate;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.vanillatweaks.cloud.processors.SimpleSuggestionProcessor;
+import me.machinemaker.vanillatweaks.modules.ModuleBase;
+import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
+import me.machinemaker.vanillatweaks.modules.ModuleManager;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-@DefaultQualifier(NonNull.class)
 public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBase> {
 
     private static final String ARGUMENT_NAME = "module";
 
     @Inject
-    private ModuleArgument(ModuleManager manager, @Assisted @Nullable Boolean enabled) {
+    private ModuleArgument(final ModuleManager manager, @Assisted final @Nullable Boolean enabled) {
         super(true, ARGUMENT_NAME, new Parser(enabled, manager), "", ModuleBase.class, null, RichDescription.translatable("commands.arguments.module"));
+    }
+
+    public static ModuleBase getModule(final CommandContext<CommandDispatcher> context) {
+        return context.get(ARGUMENT_NAME);
+    }
+
+    private static Predicate<ModuleLifecycle> predicateFor(final @Nullable Boolean enabled) {
+        if (enabled == null) {
+            return lifecycle -> true;
+        } else if (enabled) {
+            return lifecycle -> lifecycle.getState().isRunning();
+        } else {
+            return lifecycle -> !lifecycle.getState().isRunning();
+        }
     }
 
     private record Parser(@Nullable Boolean enabled, ModuleManager manager) implements ArgumentParser<CommandDispatcher, ModuleBase> {
 
         @Override
-        public ArgumentParseResult<ModuleBase> parse(CommandContext<CommandDispatcher> commandContext, Queue<String> inputQueue) {
-            final String input = inputQueue.peek();
-            Optional<ModuleLifecycle> lifecycle = this.manager.getLifecycle(input);
+        public ArgumentParseResult<ModuleBase> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
+            final @Nullable String input = inputQueue.peek();
+            final Optional<ModuleLifecycle> lifecycle = this.manager.getLifecycle(input);
             if (lifecycle.isEmpty()) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(input + " is not a valid module")); // TODO lang
             }
@@ -72,13 +82,13 @@ public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBas
             inputQueue.remove();
             try {
                 return ArgumentParseResult.success(this.manager.getModule(input).orElseThrow());
-            } catch (NoSuchElementException exception) {
+            } catch (final NoSuchElementException exception) {
                 return ArgumentParseResult.failure(exception);
             }
         }
 
         @Override
-        public List<String> suggestions(CommandContext<CommandDispatcher> commandContext, String input) {
+        public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
             commandContext.set(SimpleSuggestionProcessor.IGNORE_CASE, true);
             final List<String> modules = new ArrayList<>();
             final Predicate<ModuleLifecycle> lifecyclePredicate = predicateFor(this.enabled);
@@ -90,20 +100,6 @@ public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBas
                 });
             }
             return modules;
-        }
-    }
-
-    public static ModuleBase getModule(CommandContext<CommandDispatcher> context) {
-        return context.get(ARGUMENT_NAME);
-    }
-
-    private static Predicate<ModuleLifecycle> predicateFor(@Nullable Boolean enabled) {
-        if (enabled == null) {
-            return lifecycle -> true;
-        } else if (enabled) {
-            return lifecycle -> lifecycle.getState().isRunning();
-        } else {
-            return lifecycle -> !lifecycle.getState().isRunning();
         }
     }
 }

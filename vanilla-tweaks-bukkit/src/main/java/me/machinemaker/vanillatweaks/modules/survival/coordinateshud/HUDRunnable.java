@@ -21,51 +21,89 @@ package me.machinemaker.vanillatweaks.modules.survival.coordinateshud;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import me.machinemaker.vanillatweaks.pdc.PDCKey;
 import me.machinemaker.vanillatweaks.utils.Keys;
+import me.machinemaker.vanillatweaks.utils.runnables.TimerRunnable;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 @Singleton
-class HUDRunnable implements Runnable {
+class HUDRunnable extends TimerRunnable {
 
-    static final PDCKey<Boolean> COORDINATES_HUD_KEY = PDCKey.bool(Keys.key("coordinateshud"));
+    private static final PDCKey<Boolean> COORDINATES_HUD_KEY = PDCKey.bool(Keys.key("coordinateshud"));
 
-    private final Set<Player> enabled = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> enabled = ConcurrentHashMap.newKeySet();
+    private final Config config;
     private final BukkitAudiences audiences;
 
     @Inject
-    HUDRunnable(final BukkitAudiences audiences) {
+    HUDRunnable(final Plugin plugin, final Config config, final BukkitAudiences audiences) {
+        super(plugin);
+        this.config = config;
         this.audiences = audiences;
     }
 
-    public void addPlayer(final Player player) {
-        this.enabled.add(player);
+    public void add(final Player player) {
+        if (!COORDINATES_HUD_KEY.has(player)) {
+            COORDINATES_HUD_KEY.setTo(player, this.config.enabledByDefault);
+        }
+        if (Boolean.TRUE.equals(COORDINATES_HUD_KEY.getFrom(player))) {
+            this.enabled.add(player.getUniqueId());
+        }
     }
 
-    public void removePlayer(final Player player) {
-        this.enabled.remove(player);
+    public void setAndAdd(final Player player) {
+        COORDINATES_HUD_KEY.setTo(player, true);
+        this.enabled.add(player.getUniqueId());
     }
 
-    public void clearPlayers() {
+    public boolean remove(final Player player) {
+        return this.enabled.remove(player.getUniqueId());
+    }
+
+    public void setAndRemove(final Player player) {
+        COORDINATES_HUD_KEY.setTo(player, false);
+        this.enabled.remove(player.getUniqueId());
+    }
+
+    public boolean contains(final Player player) {
+        return this.enabled.contains(player.getUniqueId());
+    }
+
+    @Override
+    protected void start() {
+        Bukkit.getOnlinePlayers().forEach(this::add);
+    }
+
+    @Override
+    public synchronized void cancel() {
+        super.cancel();
         this.enabled.clear();
-    }
-
-    public Set<Player> getPlayers() {
-        return this.enabled;
     }
 
     @Override
     public void run() {
-        this.enabled.forEach(player -> {
+        final Iterator<UUID> iter = this.enabled.iterator();
+        while (iter.hasNext()) {
+            final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(iter.next());
+            if (!offlinePlayer.isOnline()) {
+                iter.remove();
+                continue;
+            }
+            final Player player = Objects.requireNonNull(offlinePlayer.getPlayer());
             final long time = (player.getWorld().getTime() + 6000) % 24000;
             final long hours = time / 1000;
             final Long extra = (time - (hours * 1000)) * 60 / 1000;
@@ -77,6 +115,6 @@ class HUDRunnable implements Runnable {
                     Component.text(String.format("%2s      %02d:%02d", CoordinatesHUD.getDirection(loc.getYaw()).c, hours, extra))
             );
             audience.sendActionBar(builder.build()); // TODO i18n
-        });
+        }
     }
 }

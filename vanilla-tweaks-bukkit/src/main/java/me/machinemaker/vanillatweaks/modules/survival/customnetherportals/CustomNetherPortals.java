@@ -19,6 +19,8 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.customnetherportals;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
@@ -26,31 +28,28 @@ import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Set;
-
 @ModuleInfo(name = "CustomNetherPortals", configPath = "survival.custom-nether-portals", description = "Create non-rectangular nether portals")
 public class CustomNetherPortals extends ModuleBase {
 
     @Override
     protected void configure() {
         super.configure();
-        requestStaticInjection(PortalShapeFinder.class);
-        requestStaticInjection(IgniteListener.class);
+        this.requestStaticInjection(PortalShapeFinder.class);
+        this.requestStaticInjection(IgniteListener.class);
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(IgniteListener.class);
     }
 }

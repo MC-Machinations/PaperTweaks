@@ -41,13 +41,12 @@ class Commands extends ModuleCommand {
         this.manager.command(this.player()
                 .permission(this.modulePermission("vanillatweaks.coordinateshud.togglehud"))
                 .handler(this.sync((context, player) -> {
-                    if (this.hudRunnable.getPlayers().remove(player)) {
+                    if (this.hudRunnable.contains(player)) {
+                        this.hudRunnable.setAndRemove(player);
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", NamedTextColor.GREEN));
                         context.getSender().sendActionBar(Component.empty());
-                        HUDRunnable.COORDINATES_HUD_KEY.setTo(player, false);
                     } else {
-                        this.hudRunnable.getPlayers().add(player);
-                        HUDRunnable.COORDINATES_HUD_KEY.setTo(player, true);
+                        this.hudRunnable.setAndAdd(player);
                         context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", NamedTextColor.GREEN));
                     }
                 }))

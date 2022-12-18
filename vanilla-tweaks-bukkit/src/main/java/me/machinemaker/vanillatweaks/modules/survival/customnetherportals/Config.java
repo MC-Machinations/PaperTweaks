@@ -19,15 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.customnetherportals;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.lectern.annotations.validations.numbers.Positive;
 import me.machinemaker.vanillatweaks.config.VTConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import org.bukkit.Material;
-
-import java.util.LinkedHashSet;
-import java.util.List;
 
 @VTConfig
 class Config extends ModuleConfig {

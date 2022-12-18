@@ -19,45 +19,31 @@
  */
 package me.machinemaker.vanillatweaks.adventure;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
-
 import net.kyori.adventure.internal.Internals;
-import net.kyori.adventure.text.AbstractComponent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.ScopedComponent;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.examination.ExaminableProperty;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
-import org.jetbrains.annotations.NotNull;
+public record MiniComponent(List<Component> children, Style style, String key, Map<String, Component> args) implements ScopedComponent<MiniComponent> {
 
-@DefaultQualifier(NonNull.class)
-public class MiniComponent extends AbstractComponent implements ScopedComponent<MiniComponent> {
-
-    private final String key;
-    private final Map<String, Component> args;
-
-    MiniComponent(String key) {
-        this(key, Collections.emptyMap());
+    public static MiniComponent create(final String key) {
+        return create(Collections.emptyList(), Style.empty(), key, Collections.emptyMap());
     }
 
-    MiniComponent(String key, Map<String, Component> args) {
-        this(key,Collections.emptyList(), Style.empty(), args);
+    public static MiniComponent create(final List<? extends ComponentLike> children, final Style style, final String key, final Map<String, Component> args) {
+        final List<Component> filteredChildren = ComponentLike.asComponents(children, IS_NOT_EMPTY);
+
+        return new MiniComponent(filteredChildren, requireNonNull(style, "style"), requireNonNull(key, "key"), args);
     }
 
-    MiniComponent(String key, List<? extends ComponentLike> children, Style style, Map<String, Component> args) {
-        super(children, style);
-        this.key = key;
-        this.args = args;
-    }
 
     public String key() {
         return this.key;
@@ -68,42 +54,27 @@ public class MiniComponent extends AbstractComponent implements ScopedComponent<
     }
 
     @Override
-    public MiniComponent children(List<? extends ComponentLike> children) {
-        return new MiniComponent(this.key, children, this.style, this.args);
+    public MiniComponent children(final List<? extends ComponentLike> children) {
+        return create(children, this.style, this.key, this.args);
     }
 
     @Override
-    public MiniComponent style(Style style) {
-        return new MiniComponent(this.key, this.children, style, this.args);
+    public MiniComponent style(final Style style) {
+        return create(this.children, style, this.key, this.args);
     }
 
     @Override
-    public boolean equals(final @Nullable Object other) {
-        if (this == other) return true;
-        if (!(other instanceof final MiniComponent that)) return false;
-        if (!super.equals(other)) return false;
-        return Objects.equals(this.key, that.key) && Objects.equals(this.args, that.args);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = (31 * result) + this.key.hashCode();
-        result = (31 * result) + this.args.hashCode();
-        return result;
-    }
-
-    @Override
-    public @NotNull Stream<? extends ExaminableProperty> examinableProperties() {
+    public Stream<? extends ExaminableProperty> examinableProperties() {
         return Stream.concat(
-                Stream.of(
-                        ExaminableProperty.of("key", this.key()),
-                        ExaminableProperty.of("args", this.args())
-                ),
-                super.examinableProperties()
+            Stream.of(
+                ExaminableProperty.of("key", this.key()),
+                ExaminableProperty.of("args", this.args())
+            ),
+            ScopedComponent.super.examinableProperties()
         );
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public String toString() {
         return Internals.toString(this);

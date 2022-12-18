@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.modules.survival.afkdisplay;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
@@ -27,17 +28,13 @@ import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
-
-import java.util.Set;
 
 class Lifecycle extends ModuleLifecycle {
 
     private final AFKRunnable afkRunnable;
-    private BukkitTask task;
 
     @Inject
-    protected Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, AFKRunnable afkRunnable, Set<ModuleRecipe<?>> moduleRecipes) {
+    protected Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final AFKRunnable afkRunnable, final Set<ModuleRecipe<?>> moduleRecipes) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.afkRunnable = afkRunnable;
     }
@@ -45,23 +42,11 @@ class Lifecycle extends ModuleLifecycle {
     @Override
     public void onEnable() {
         Bukkit.getOnlinePlayers().forEach(this.afkRunnable::addPlayer);
-        startTask();
+        this.afkRunnable.runTaskTimer(1L, 20L);
     }
 
     @Override
-    public void onReload() {
-        startTask();
-    }
-
-    @Override
-    public void onDisable(boolean isShutdown) {
-        if (this.task != null) {
-            this.task.cancel();
-        }
-        this.afkRunnable.clear();
-    }
-
-    private void startTask() {
-        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(this.getPlugin(), this.afkRunnable, 1L, 20L);
+    public void onDisable(final boolean isShutdown) {
+        this.afkRunnable.cancel();
     }
 }

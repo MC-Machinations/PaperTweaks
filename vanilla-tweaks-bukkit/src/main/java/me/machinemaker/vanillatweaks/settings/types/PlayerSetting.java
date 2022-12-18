@@ -20,9 +20,10 @@
 package me.machinemaker.vanillatweaks.settings.types;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
+import cloud.commandframework.arguments.standard.BooleanArgument;
 import cloud.commandframework.arguments.standard.EnumArgument;
+import java.util.function.Supplier;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.cloud.parsers.BooleanParser;
 import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.pdc.types.EnumDataType;
 import me.machinemaker.vanillatweaks.settings.Setting;
@@ -34,12 +35,10 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Supplier;
-
 public record PlayerSetting<T>(@NotNull NamespacedKey settingKey, @NotNull PersistentDataType<?, T> dataType, @NotNull Supplier<@NotNull T> defaultSupplier, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, Player> {
 
     public static PlayerSetting<Boolean> ofBoolean(@NotNull SettingWrapper.PDC<Boolean> wrapper, @NotNull Supplier<Boolean> supplier) {
-        return of(wrapper, DataTypes.BOOLEAN, supplier, new BooleanParser());
+        return of(wrapper, DataTypes.BOOLEAN, supplier, new BooleanArgument.BooleanParser<>(false));
     }
 
     public static <E extends Enum<E>> PlayerSetting<E> ofEnum(@NotNull SettingWrapper.PDC<E> wrapper, @NotNull Class<E> classOfE, @NotNull Supplier<E> defaultSupplier) {

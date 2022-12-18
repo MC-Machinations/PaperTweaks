@@ -19,9 +19,13 @@
  */
 package me.machinemaker.vanillatweaks.modules;
 
-import cloud.commandframework.CommandManager.ManagerSettings;
+import cloud.commandframework.CommandManager;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import me.machinemaker.vanillatweaks.VanillaTweaks;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
@@ -31,11 +35,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public abstract class ModuleLifecycle {
 
@@ -51,7 +50,7 @@ public abstract class ModuleLifecycle {
     private ModuleInfo moduleInfo;
 
     @Inject
-    protected ModuleLifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
+    protected ModuleLifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes) {
         this.plugin = plugin;
         this.commands = commands;
         this.listeners = listeners;
@@ -59,14 +58,17 @@ public abstract class ModuleLifecycle {
         this.moduleRecipes = moduleRecipes.stream().collect(Collectors.toMap(ModuleRecipe::key, ModuleRecipe::recipe));
     }
 
-    public void onEnable() { }
+    public void onEnable() {
+    }
 
-    public void onDisable(boolean isShutdown) { }
+    public void onDisable(final boolean isShutdown) {
+    }
 
-    public void onReload() { }
+    public void onReload() {
+    }
 
     public final ModuleState getState() {
-        return state;
+        return this.state;
     }
 
     protected final JavaPlugin getPlugin() {
@@ -74,92 +76,92 @@ public abstract class ModuleLifecycle {
     }
 
     public @NotNull ModuleInfo moduleInfo() {
-        return moduleInfo;
+        return this.moduleInfo;
     }
 
     final void enable() {
         try {
-            enableCommands();
-            registerListeners();
-            configs.forEach(ModuleConfig::reloadAndSave);
-            registerRecipes();
-            onEnable();
-            state = ModuleState.ENABLED;
-        } catch (Exception e) {
+            this.enableCommands();
+            this.registerListeners();
+            this.configs.forEach(ModuleConfig::reloadAndSave);
+            this.registerRecipes();
+            this.onEnable();
+            this.state = ModuleState.ENABLED;
+        } catch (final Exception e) {
             VanillaTweaks.LOGGER.error("Failed to enable {}", this.moduleInfo.name(), e);
             e.printStackTrace();
-            state = ModuleState.ENABLED_FAILED;
+            this.state = ModuleState.ENABLED_FAILED;
             // TODO disable commands
-            unregisterListeners();
-            onDisable(false);
+            this.unregisterListeners();
+            this.onDisable(false);
         }
     }
 
-    final void disable(boolean isShutdown) {
+    final void disable(final boolean isShutdown) {
         this.disable(true, isShutdown);
     }
 
-    final void disable(boolean changeState, boolean isShutdown) {
+    final void disable(final boolean changeState, final boolean isShutdown) {
         try {
             // TODO disable commands
-            unregisterListeners();
-            unregisterRecipes();
-            onDisable(isShutdown);
-            if (changeState) state = ModuleState.DISABLED;
-        } catch (Exception e) {
+            this.unregisterListeners();
+            this.unregisterRecipes();
+            this.onDisable(isShutdown);
+            if (changeState) this.state = ModuleState.DISABLED;
+        } catch (final Exception e) {
             VanillaTweaks.LOGGER.error("Failed to disable {}", this.moduleInfo.name(), e);
-            if (changeState) state = ModuleState.DISABLE_FAILED;
+            if (changeState) this.state = ModuleState.DISABLE_FAILED;
         }
     }
 
     final void reload() {
         try {
-            if (state.isRunning()) {
-                configs.forEach(ModuleConfig::reloadAndSave);
-                registerRecipes();
-                onReload();
-                state = ModuleState.ENABLED;
+            if (this.state.isRunning()) {
+                this.configs.forEach(ModuleConfig::reloadAndSave);
+                this.registerRecipes();
+                this.onReload();
+                this.state = ModuleState.ENABLED;
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             VanillaTweaks.LOGGER.error("Failed to reload {}", this.moduleInfo.name(), e);
-            state = ModuleState.RELOAD_FAILED;
+            this.state = ModuleState.RELOAD_FAILED;
         }
     }
 
     private void enableCommands() {
-        commandManager.setSetting(ManagerSettings.ALLOW_UNSAFE_REGISTRATION, true);
-        commands.stream().filter(Predicate.not(ModuleCommand::isRegistered)).forEach(moduleCommand -> moduleCommand.registerCommands0(this));
-        commandManager.setSetting(ManagerSettings.ALLOW_UNSAFE_REGISTRATION, false);
+        this.commandManager.setSetting(CommandManager.ManagerSettings.ALLOW_UNSAFE_REGISTRATION, true);
+        this.commands.stream().filter(Predicate.not(ModuleCommand::isRegistered)).forEach(moduleCommand -> moduleCommand.registerCommands0(this));
+        this.commandManager.setSetting(CommandManager.ManagerSettings.ALLOW_UNSAFE_REGISTRATION, false);
     }
 
     private void registerListeners() {
-        listeners.forEach(listener -> plugin.getServer().getPluginManager().registerEvents(listener, plugin));
+        this.listeners.forEach(listener -> this.plugin.getServer().getPluginManager().registerEvents(listener, this.plugin));
     }
 
     private void unregisterListeners() {
-        listeners.forEach(HandlerList::unregisterAll);
+        this.listeners.forEach(HandlerList::unregisterAll);
     }
 
     private void registerRecipes() {
-        moduleRecipes.forEach((key, recipe) -> {
+        this.moduleRecipes.forEach((key, recipe) -> {
             if (Bukkit.getRecipe(key) == null) {
                 Bukkit.addRecipe(recipe);
             }
         });
-        Bukkit.getOnlinePlayers().forEach(p -> p.discoverRecipes(moduleRecipes.keySet()));
+        Bukkit.getOnlinePlayers().forEach(p -> p.discoverRecipes(this.moduleRecipes.keySet()));
     }
 
     private void unregisterRecipes() {
-        moduleRecipes.forEach((key, recipe) -> {
+        this.moduleRecipes.forEach((key, recipe) -> {
             Bukkit.removeRecipe(key);
         });
-        Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(moduleRecipes.keySet()));
+        Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(this.moduleRecipes.keySet()));
     }
 
     public static class Empty extends ModuleLifecycle {
 
         @Inject
-        protected Empty(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
+        protected Empty(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes) {
             super(plugin, commands, listeners, configs, moduleRecipes);
         }
     }

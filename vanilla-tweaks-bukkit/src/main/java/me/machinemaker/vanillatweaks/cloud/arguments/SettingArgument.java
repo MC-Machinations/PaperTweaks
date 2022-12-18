@@ -33,6 +33,12 @@ import cloud.commandframework.types.tuples.Pair;
 import com.google.common.collect.Lists;
 import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
@@ -42,29 +48,49 @@ import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
 import me.machinemaker.vanillatweaks.settings.types.PlayerSetting;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Queue;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.translatable;
 
+@SuppressWarnings("Convert2Diamond")
 public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<CommandDispatcher, S, Object, SettingArgument.SettingChange<C, S>> {
 
     public static final String SETTING_CHANGE_KEY_STRING = "setting";
     public static final CloudKey<SettingChange<Player, PlayerSetting<?>>> PLAYER_SETTING_CHANGE_KEY = SimpleCloudKey.of(SETTING_CHANGE_KEY_STRING, new TypeToken<SettingChange<Player, PlayerSetting<?>>>() {});
     private static final TypeToken<PlayerSetting<?>> PLAYER_SETTING_TYPE_TOKEN = new TypeToken<PlayerSetting<?>>() {};
 
-    protected SettingArgument(@NonNull Pair<@NonNull ArgumentParser<CommandDispatcher, S>, @NonNull ArgumentParser<CommandDispatcher, Object>> parsers, @NonNull Class<S> classOfS, @NonNull TypeToken<SettingChange<C, S>> settingChangeTypeToken) {
-        super(true, SETTING_CHANGE_KEY_STRING, Pair.of("key", "value"), Pair.of(classOfS, Object.class), parsers, (sender, pair) -> of( pair), settingChangeTypeToken);
+    protected SettingArgument(final Pair<ArgumentParser<CommandDispatcher, S>, ArgumentParser<CommandDispatcher, Object>> parsers, final Class<S> classOfS, final TypeToken<SettingChange<C, S>> settingChangeTypeToken) {
+        super(true, SETTING_CHANGE_KEY_STRING, Pair.of("key", "value"), Pair.of(classOfS, Object.class), parsers, (sender, pair) -> of(pair), settingChangeTypeToken);
     }
 
-    public static <C, S extends Setting<?, C>> Builder<C, S> newBuilder(@NonNull TypeToken<SettingChange<C, S>> settingsChangeTypeToken, @NonNull Map<String, S> settings, @NonNull TypeToken<S> settingsTypeToken) {
+    public static <C, S extends Setting<?, C>> Builder<C, S> newBuilder(final TypeToken<SettingChange<C, S>> settingsChangeTypeToken, final Map<String, S> settings, final TypeToken<S> settingsTypeToken) {
         return new Builder<>(settingsChangeTypeToken, settings, settingsTypeToken);
+    }
+
+    public static SettingArgument<Player, PlayerSetting<?>> playerSettings(final Map<String, PlayerSetting<?>> settings) {
+        return newBuilder(PLAYER_SETTING_CHANGE_KEY.getType(), settings, PLAYER_SETTING_TYPE_TOKEN).hideSuggestions().build();
+    }
+
+    public static <C extends MenuModuleConfig<C, ?>> SettingArgument<C, ConfigSetting<?, C>> configSettings(final CloudKey<SettingChange<C, ConfigSetting<?, C>>> settingsChangeCloudKey, final Map<String, ConfigSetting<?, C>> settings) {
+        return newBuilder(settingsChangeCloudKey.getType(), settings, new TypeToken<ConfigSetting<?, C>>() {}).hideSuggestions().build(); // the C generic won't be resolved here
+    }
+
+    private static <C, S extends Setting<?, C>> SettingChange<C, S> of(final Pair<S, Object> pair) {
+        return new SettingChange<>(pair.getFirst(), pair.getSecond());
+    }
+
+    public static <C, S extends Setting<?, C>> Command.Builder<CommandDispatcher> resetPlayerSettings(final Command.Builder<CommandDispatcher> builder, final String translationKey, final ModuleSettings<S> settings) {
+        return builder
+            .literal("reset", RichDescription.translatable(translationKey))
+            .handler(context -> {
+                final Player player = PlayerCommandDispatcher.from(context);
+                for (final S setting : settings.index().values()) {
+                    if (setting instanceof PlayerSetting<?> playerSetting) {
+                        playerSetting.reset(player);
+                    }
+                }
+                context.getSender().sendMessage(translatable(translationKey + ".success", NamedTextColor.GREEN));
+            });
     }
 
     public static final class Builder<C, S extends Setting<?, C>> extends CommandArgument.Builder<CommandDispatcher, SettingChange<C, S>> {
@@ -73,7 +99,7 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         private final TypeToken<S> settingsTypeToken;
         private boolean hideSuggestions = false;
 
-        private Builder(@NonNull TypeToken<SettingChange<C, S>> settingsChangeTypeToken, @NonNull Map<String, S> settings, @NonNull TypeToken<S> settingsTypeToken) {
+        private Builder(final TypeToken<SettingChange<C, S>> settingsChangeTypeToken, final Map<String, S> settings, final TypeToken<S> settingsTypeToken) {
             super(settingsChangeTypeToken, SETTING_CHANGE_KEY_STRING);
             this.settings = settings;
             this.settingsTypeToken = settingsTypeToken;
@@ -83,38 +109,30 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
          * Only affects setting key suggestions. Setting
          * value suggestions are left for editable options.
          */
-        public @NonNull Builder<C, S> hideSuggestions() {
+        public Builder<C, S> hideSuggestions() {
             this.hideSuggestions = true;
             return this;
         }
 
         @SuppressWarnings("unchecked")
         @Override
-        public @NonNull SettingArgument<C, S> build() {
-            var key = SimpleCloudKey.of("specifiedSetting", this.settingsTypeToken);
-            var settingParser = new SettingParser<C, S>(this.settings, key, this.hideSuggestions);
-            var parsers = Pair.of((ArgumentParser<CommandDispatcher, S>) settingParser, (ArgumentParser<CommandDispatcher, Object>) new SettingValueParser<>(settingParser, key));
+        public SettingArgument<C, S> build() {
+            final CloudKey<S> key = SimpleCloudKey.of("specifiedSetting", this.settingsTypeToken);
+            final SettingParser<C, S> settingParser = new SettingParser<C, S>(this.settings, key, this.hideSuggestions);
+            final Pair<ArgumentParser<CommandDispatcher, S>, ArgumentParser<CommandDispatcher, Object>> parsers = Pair.of(settingParser, new SettingValueParser<>(settingParser, key));
             return new SettingArgument<>(parsers, (Class<S>) GenericTypeReflector.erase(this.settingsTypeToken.getType()), this.getValueType());
         }
     }
 
-    public static SettingArgument<Player, PlayerSetting<?>> playerSettings(@NonNull Map<String, PlayerSetting<?>> settings) {
-        return newBuilder(PLAYER_SETTING_CHANGE_KEY.getType(), settings, PLAYER_SETTING_TYPE_TOKEN).hideSuggestions().build();
-    }
-
-    public static <C extends MenuModuleConfig<C, ?>> SettingArgument<C, ConfigSetting<?, C>> configSettings(@NonNull CloudKey<SettingChange<C, ConfigSetting<?, C>>> settingsChangeCloudKey, @NonNull Map<String, ConfigSetting<?, C>> settings) {
-        return newBuilder(settingsChangeCloudKey.getType(), settings, new TypeToken<ConfigSetting<?, C>>() {}).hideSuggestions().build(); // the C generic won't be resolved here
-    }
-
-    static final record SettingParser<C, S extends Setting<?, C>>(@NonNull Map<String, S> settings, @NonNull CloudKey<S> key, boolean hideSuggestions) implements ArgumentParser<CommandDispatcher, S> {
+    record SettingParser<C, S extends Setting<?, C>>(Map<String, S> settings, CloudKey<S> key, boolean hideSuggestions) implements ArgumentParser<CommandDispatcher, S> {
 
         @Override
-        public @NonNull ArgumentParseResult<@NonNull S> parse(@NonNull CommandContext<@NonNull CommandDispatcher> commandContext, @NonNull Queue<@NonNull String> inputQueue) {
-            String string = inputQueue.peek();
+        public ArgumentParseResult<S> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
+            final @Nullable String string = inputQueue.peek();
             if (string == null) {
                 return ArgumentParseResult.failure(new NoInputProvidedException(SettingParser.class, commandContext));
             }
-            S value = this.settings.get(string.toLowerCase(Locale.ENGLISH));
+            final S value = this.settings.get(string.toLowerCase(Locale.ENGLISH));
             if (value == null) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(string));
             }
@@ -125,7 +143,7 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         }
 
         @Override
-        public @NonNull List<@NonNull String> suggestions(@NonNull CommandContext<CommandDispatcher> commandContext, @NonNull String input) {
+        public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
             if (this.hideSuggestions) {
                 return Collections.emptyList();
             }
@@ -133,28 +151,24 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         }
     }
 
-    static final record SettingValueParser<C, S extends Setting<?, C>>(@NonNull SettingParser<C, S> settingParser, @NonNull CloudKey<S> key) implements ArgumentParser<CommandDispatcher, Object> {
+    record SettingValueParser<C, S extends Setting<?, C>>(SettingParser<C, S> settingParser, CloudKey<S> key) implements ArgumentParser<CommandDispatcher, Object> {
 
         @SuppressWarnings("unchecked")
         @Override
-        public @NonNull ArgumentParseResult<@NonNull Object> parse(@NonNull CommandContext<@NonNull CommandDispatcher> commandContext, @NonNull Queue<@NonNull String> inputQueue) {
-            String string = inputQueue.peek();
+        public ArgumentParseResult<Object> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
+            final @Nullable String string = inputQueue.peek();
             if (string == null) {
                 return ArgumentParseResult.failure(new NoInputProvidedException(SettingValueParser.class, commandContext));
             }
-            Optional<S> setting = commandContext.getOptional(this.key);
-            if (setting.isEmpty()) {
-                return ArgumentParseResult.failure(new IllegalStateException(string + " isn't preceded by a setting"));
-            }
-
-            return (ArgumentParseResult<Object>) setting.get().argumentParser().parse(commandContext, inputQueue);
+            final Optional<S> setting = commandContext.getOptional(this.key);
+            return setting.map(s -> (ArgumentParseResult<Object>) s.argumentParser().parse(commandContext, inputQueue)).orElseGet(() -> ArgumentParseResult.failure(new IllegalStateException(string + " isn't preceded by a setting")));
         }
 
         @Override
-        public @NonNull List<@NonNull String> suggestions(@NonNull CommandContext<CommandDispatcher> commandContext, @NonNull String input) {
-            List<String> rawInput = commandContext.getRawInput();
-            ArgumentParseResult<S> parseResult = this.settingParser.parse(commandContext, Lists.newLinkedList(rawInput.subList(rawInput.size() - 2, rawInput.size() -1)));
-            Optional<S> setting = parseResult.getParsedValue();
+        public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
+            final List<String> rawInput = commandContext.getRawInput();
+            final ArgumentParseResult<S> parseResult = this.settingParser.parse(commandContext, Lists.newLinkedList(rawInput.subList(rawInput.size() - 2, rawInput.size() - 1)));
+            final Optional<S> setting = parseResult.getParsedValue();
             if (parseResult.getFailure().isPresent() || setting.isEmpty()) {
                 return Collections.emptyList();
             }
@@ -162,28 +176,10 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         }
     }
 
-    public static final record SettingChange<C, S extends Setting<?, C>>(@NonNull S setting, Object value) {
+    public record SettingChange<C, S extends Setting<?, C>>(S setting, Object value) {
 
-        public void apply(C holder) {
-            this.setting.setObject(holder, value);
+        public void apply(final C holder) {
+            this.setting.setObject(holder, this.value);
         }
-    }
-
-    private static <C, S extends Setting<?, C>> SettingChange<C, S> of(Pair<S, Object> pair) {
-        return new SettingChange<>(pair.getFirst(), pair.getSecond());
-    }
-
-    public static <C, S extends Setting<?, C>> Command.Builder<CommandDispatcher> resetPlayerSettings(Command.Builder<CommandDispatcher> builder, String translationKey, ModuleSettings<S> settings) {
-        return builder
-                .literal("reset", RichDescription.translatable(translationKey))
-                .handler(context -> {
-                    Player player = PlayerCommandDispatcher.from(context);
-                    for (S setting : settings.index().values()) {
-                        if (setting instanceof PlayerSetting<?> playerSetting) {
-                            playerSetting.reset(player);
-                        }
-                    }
-                    context.getSender().sendMessage(translatable(translationKey + ".success", NamedTextColor.GREEN));
-                });
     }
 }

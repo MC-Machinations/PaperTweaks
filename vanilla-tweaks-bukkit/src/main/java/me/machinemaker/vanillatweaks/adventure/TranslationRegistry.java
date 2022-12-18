@@ -20,21 +20,21 @@
 package me.machinemaker.vanillatweaks.adventure;
 
 import com.google.common.collect.Maps;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.translation.GlobalTranslator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.translation.GlobalTranslator;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class TranslationRegistry {
 
     private static final Key LANG_KEY = Key.key("vanillatweaks", "lang");
     private static final Map<String, Translation> TRANSLATIONS = Maps.newConcurrentMap();
     private static final net.kyori.adventure.translation.TranslationRegistry ADVENTURE_REGISTRY = net.kyori.adventure.translation.TranslationRegistry.create(LANG_KEY);
+
     static {
         GlobalTranslator.translator().addSource(ADVENTURE_REGISTRY);
     }
@@ -42,15 +42,15 @@ public final class TranslationRegistry {
     private TranslationRegistry() {
     }
 
-    public static void registerAll(Locale locale, ResourceBundle bundle) {
+    public static void registerAll(final Locale locale, final ResourceBundle bundle) {
         ADVENTURE_REGISTRY.registerAll(locale, bundle, true);
         bundle.keySet().forEach(key -> {
             TRANSLATIONS.computeIfAbsent(key, Translation::new).register(locale, bundle.getString(key));
         });
     }
 
-    public static @NotNull Optional<String> translate(@NotNull String key, @NotNull Locale locale) {
-        Translation translation = TRANSLATIONS.get(key);
+    public static @NotNull Optional<String> translate(final @NotNull String key, final @NotNull Locale locale) {
+        final Translation translation = TRANSLATIONS.get(key);
         if (translation == null) {
             return Optional.empty();
         }
@@ -62,15 +62,15 @@ public final class TranslationRegistry {
         private final String key;
         private final Map<Locale, String> messages = Maps.newHashMap();
 
-        private Translation(String key) {
+        private Translation(final String key) {
             this.key = key;
         }
 
-        void register(@NotNull Locale locale, @NotNull String message) {
+        void register(final @NotNull Locale locale, final @NotNull String message) {
             this.messages.put(locale, message);
         }
 
-        @Nullable String translate(@NotNull Locale locale) {
+        @Nullable String translate(final @NotNull Locale locale) {
             String message = this.messages.get(locale);
             if (message == null) {
                 message = this.messages.get(new Locale(locale.getLanguage()));

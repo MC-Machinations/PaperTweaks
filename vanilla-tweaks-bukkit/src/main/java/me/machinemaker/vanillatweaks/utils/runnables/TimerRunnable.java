@@ -55,8 +55,12 @@ public abstract class TimerRunnable implements Runnable {
 
     public synchronized BukkitTask runTaskTimerAsynchronously(final long delay, final long period) throws IllegalStateException {
         checkNotYetScheduled(this.currentTask);
+        this.start();
         this.currentTask = Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, this, delay, period);
         return this.currentTask;
+    }
+
+    protected void start() {
     }
 
     public synchronized void cancel() {

@@ -20,10 +20,13 @@
 package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import com.google.inject.Inject;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
+import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
-import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import net.kyori.adventure.key.Key;
@@ -34,10 +37,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
-
 @ModuleInfo(name = "DurabilityPing", configPath = "survival.durability-ping", description = "Notifies players when their tools are close to breaking")
 public class DurabilityPing extends ModuleBase {
 
@@ -46,26 +45,26 @@ public class DurabilityPing extends ModuleBase {
     final NamespacedKey pingKey;
 
     @Inject
-    DurabilityPing(JavaPlugin plugin) {
-        pingKey = new NamespacedKey(plugin, "ping");
+    DurabilityPing(final JavaPlugin plugin) {
+        this.pingKey = new NamespacedKey(plugin, "ping");
     }
 
     @Override
     protected void configure() {
-        bind(Settings.class).asEagerSingleton();
+        this.bind(Settings.class).asEagerSingleton();
         super.configure();
     }
 
-    boolean shouldPing(Player player) {
-        return Objects.equals(player.getPersistentDataContainer().get(pingKey, PersistentDataType.INTEGER), 1);
+    boolean shouldPing(final Player player) {
+        return Objects.equals(player.getPersistentDataContainer().get(this.pingKey, PersistentDataType.INTEGER), 1);
     }
 
-    void setToPing(Player player) {
-        player.getPersistentDataContainer().set(pingKey, PersistentDataType.INTEGER, 1);
+    void setToPing(final Player player) {
+        player.getPersistentDataContainer().set(this.pingKey, PersistentDataType.INTEGER, 1);
     }
 
-    void stopPinging(Player player) {
-        player.getPersistentDataContainer().set(pingKey, PersistentDataType.INTEGER, 0);
+    void stopPinging(final Player player) {
+        player.getPersistentDataContainer().set(this.pingKey, PersistentDataType.INTEGER, 0);
     }
 
     @Override

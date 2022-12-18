@@ -62,7 +62,8 @@ import static me.machinemaker.vanillatweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
 @DefaultQualifier(NonNull.class)
 public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M extends ConfigurationMenu<C>> extends ModuleConfig {
@@ -160,27 +161,26 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
     protected abstract Component title();
 
     public void createCommands(final ConfiguredModuleCommand command, final Command.Builder<CommandDispatcher> builder) {
-        final var configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME)
-                .senderType(PlayerCommandDispatcher.class);
+        final Command.Builder<CommandDispatcher> configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME).senderType(PlayerCommandDispatcher.class);
         command.manager()
-                .command(configBuilder.handler(this::sendMenu))
-                .command(configBuilder.hidden()
-                        .argument(SettingArgument.configSettings(this.settingChangeCloudKey, this.settings))
-                        .handler(context -> {
-                            context.get(this.settingChangeCloudKey).apply(this.self());
-                            this.save();
-                            this.sendMenu(context);
-                        })
-                ).command(configBuilder
-                        .senderType(CommandDispatcher.class)
-                        .literal("reset")
-                        .meta(MinecraftExtrasMetaKeys.DESCRIPTION, command.buildComponent(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset"))
-                        .handler(context -> {
-                            this.settings.values().forEach(setting -> setting.reset(this.self()));
-                            this.save();
-                            context.getSender().sendMessage(translatable(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset.success", GREEN));
-                        })
-                );
+            .command(configBuilder.handler(this::sendMenu))
+            .command(configBuilder.hidden()
+                .argument(SettingArgument.configSettings(this.settingChangeCloudKey, this.settings))
+                .handler(context -> {
+                    context.get(this.settingChangeCloudKey).apply(this.self());
+                    this.save();
+                    this.sendMenu(context);
+                })
+            ).command(configBuilder
+                .senderType(CommandDispatcher.class)
+                .literal("reset")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, command.buildComponent(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset"))
+                .handler(context -> {
+                    this.settings.values().forEach(setting -> setting.reset(this.self()));
+                    this.save();
+                    context.getSender().sendMessage(translatable(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset.success", GREEN));
+                })
+            );
     }
 
     @SuppressWarnings("unchecked")

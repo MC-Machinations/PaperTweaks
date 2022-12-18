@@ -20,9 +20,10 @@
 package me.machinemaker.vanillatweaks.settings.types;
 
 import cloud.commandframework.arguments.parser.ArgumentParser;
+import cloud.commandframework.arguments.standard.BooleanArgument;
 import cloud.commandframework.arguments.standard.IntegerArgument;
+import java.util.Objects;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.vanillatweaks.cloud.parsers.BooleanParser;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -30,14 +31,12 @@ import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 public record GameRuleSetting<T>(@NotNull GameRule<T> gameRule, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, World> {
 
     private static final World OVERWORLD = Objects.requireNonNull(Bukkit.getWorlds().get(0), "no overworld found");
 
     public static @NotNull GameRuleSetting<Boolean> ofBoolean(@NotNull GameRule<Boolean> gameRule) {
-        return new GameRuleSetting<>(gameRule, new BooleanParser());
+        return new GameRuleSetting<>(gameRule, new BooleanArgument.BooleanParser<>(false));
     }
 
     public static @NotNull GameRuleSetting<Integer> ofInt(@NotNull GameRule<Integer> gameRule, int min, int max) {

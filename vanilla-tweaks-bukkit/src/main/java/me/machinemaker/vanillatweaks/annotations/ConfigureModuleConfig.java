@@ -28,9 +28,9 @@ import java.lang.annotation.Target;
 /**
  * Configure a module config further
  */
+@Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
 public @interface ConfigureModuleConfig {
 
     String folder() default "";

@@ -21,6 +21,8 @@ package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.inject.Inject;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
@@ -29,9 +31,6 @@ import me.machinemaker.vanillatweaks.modules.ModuleRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 class Lifecycle extends ModuleLifecycle {
 
     private final DurabilityPing durabilityPing;
@@ -39,7 +38,7 @@ class Lifecycle extends ModuleLifecycle {
     private final PlayerListener listener;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, DurabilityPing durabilityPing, Config config, PlayerListener listener, Set<ModuleRecipe<?>> moduleRecipes) {
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final DurabilityPing durabilityPing, final Config config, final PlayerListener listener, final Set<ModuleRecipe<?>> moduleRecipes) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.durabilityPing = durabilityPing;
         this.config = config;
@@ -48,7 +47,7 @@ class Lifecycle extends ModuleLifecycle {
 
     @Override
     public void onEnable() {
-        refreshCaches();
+        this.refreshCaches();
         if (this.config.enabledByDefault) {
             Bukkit.getOnlinePlayers().forEach(this.durabilityPing::setToPing);
         }
@@ -56,20 +55,20 @@ class Lifecycle extends ModuleLifecycle {
 
     @Override
     public void onReload() {
-        refreshCaches();
+        this.refreshCaches();
         if (this.config.enabledByDefault) {
             Bukkit.getOnlinePlayers().forEach(this.durabilityPing::setToPing);
         }
     }
 
     @Override
-    public void onDisable(boolean isShutdown) {
+    public void onDisable(final boolean isShutdown) {
         this.listener.cooldownCache.invalidateAll();
         this.listener.settingsCache.invalidateAll();
     }
 
     private void refreshCaches() {
-        this.listener.cooldownCache = CacheBuilder.newBuilder().expireAfterWrite(config.notificationCooldown, TimeUnit.SECONDS).build();
+        this.listener.cooldownCache = CacheBuilder.newBuilder().expireAfterWrite(this.config.notificationCooldown, TimeUnit.SECONDS).build();
         this.listener.settingsCache.invalidateAll();
     }
 }
