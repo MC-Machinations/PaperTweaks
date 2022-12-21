@@ -30,22 +30,21 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
 
-
 class EntityListener implements ModuleListener {
 
     private final Config config;
     private final MessageService messageService;
 
     @Inject
-    EntityListener(Config config, MessageService messageService) {
+    EntityListener(final Config config, final MessageService messageService) {
         this.config = config;
         this.messageService = messageService;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityDeath(EntityDeathEvent event) {
-        if (event.getEntity() instanceof AbstractVillager && config.showMessageOnDeath) {
-            Location loc = event.getEntity().getLocation();
+    public void onEntityDeath(final EntityDeathEvent event) {
+        if (event.getEntity() instanceof AbstractVillager && this.config.showMessageOnDeath && (this.config.includeWanderingTraders || event.getEntity() instanceof Villager)) {
+            final Location loc = event.getEntity().getLocation();
             PTUtils.runIfHasPermission("vanillatweaks.villagerdeathmessages.death", sender -> {
                 this.messageService.onVillagerDeath(sender, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), event.getEntity().getWorld());
             });
@@ -53,9 +52,9 @@ class EntityListener implements ModuleListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityConvert(EntityTransformEvent event) {
-        if (event.getEntity() instanceof Villager && event.getTransformReason() == EntityTransformEvent.TransformReason.INFECTION && config.showMessageOnConversion) {
-            Location loc = event.getEntity().getLocation();
+    public void onEntityConvert(final EntityTransformEvent event) {
+        if (event.getEntity() instanceof Villager && event.getTransformReason() == EntityTransformEvent.TransformReason.INFECTION && this.config.showMessageOnConversion) {
+            final Location loc = event.getEntity().getLocation();
             PTUtils.runIfHasPermission("vanillatweaks.villagerdeathmessages.conversion", sender -> {
                 this.messageService.onVillagerConversion(sender, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), event.getEntity().getWorld());
             });

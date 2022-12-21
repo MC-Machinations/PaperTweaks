@@ -31,4 +31,7 @@ class Config extends ModuleConfig {
 
     @Key("show-message-on-conversion")
     public boolean showMessageOnConversion = true;
+
+    @Key("include-wandering-traders")
+    public boolean includeWanderingTraders = true;
 }

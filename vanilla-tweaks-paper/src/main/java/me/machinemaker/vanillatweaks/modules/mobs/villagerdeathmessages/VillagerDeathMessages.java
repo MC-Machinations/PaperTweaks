@@ -19,31 +19,28 @@
  */
 package me.machinemaker.vanillatweaks.modules.mobs.villagerdeathmessages;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.moonshine.module.MoonshineModuleBase;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "VillagerDeathMessages", configPath = "mobs.villager-death-messages", description = "Notifies players when a villager dies")
 public class VillagerDeathMessages extends MoonshineModuleBase<MessageService> {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(EntityListener.class);
     }
 
     @Override
-    public @Nullable Class<MessageService> messageService() {
+    public Class<MessageService> messageService() {
         return MessageService.class;
     }
 }
