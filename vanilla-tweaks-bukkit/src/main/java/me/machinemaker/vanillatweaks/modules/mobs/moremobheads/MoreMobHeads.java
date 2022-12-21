@@ -31,7 +31,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.EntityType;
 import org.slf4j.Logger;
 
 @ModuleInfo(name = "MoreMobHeads", configPath = "mobs.more-mob-heads", description = "Adds heads for a lot more mobs")
@@ -39,15 +39,15 @@ public class MoreMobHeads extends ModuleBase {
 
     static final Logger LOGGER = LoggerFactory.getModuleLogger(MoreMobHeads.class);
 
-    private final Multimap<Class<? extends LivingEntity>, MobHead> heads;
+    private final Multimap<EntityType, MobHead> heads;
 
     @Inject
     MoreMobHeads(@Named("plugin") final ClassLoader loader) {
         this.heads = MobHead.createMobHeadMap(loader);
     }
 
-    Collection<MobHead> getMobHeads(final Class<? extends LivingEntity> livingEntityClass) {
-        return this.heads.get(livingEntityClass);
+    Collection<MobHead> getMobHeads(final EntityType entityType) {
+        return this.heads.get(entityType);
     }
 
     @Override

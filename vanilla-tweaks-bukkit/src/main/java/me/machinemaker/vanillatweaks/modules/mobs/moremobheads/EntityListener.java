@@ -24,6 +24,7 @@ import java.util.Collection;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import me.machinemaker.vanillatweaks.utils.PTUtils;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
@@ -50,12 +51,12 @@ class EntityListener implements ModuleListener {
         if (this.config.requirePlayerKill && killer == null) {
             return;
         }
-        if (killer != null && !entity.getKiller().hasPermission("vanillatweaks.moremobheads")) {
+        if (killer != null && !killer.hasPermission("vanillatweaks.moremobheads")) {
             return;
         }
 
         if (event.getEntity() instanceof Wither) { // Special handling for withers for the moment
-            event.getDrops().add(PTUtils.random(this.moreMobHeads.getMobHeads(Wither.class)).createSkull());
+            event.getDrops().add(PTUtils.random(this.moreMobHeads.getMobHeads(EntityType.WITHER)).createSkull());
             return;
         }
 
@@ -64,7 +65,7 @@ class EntityListener implements ModuleListener {
             lootingLevel = event.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
         }
 
-        final Collection<MobHead> heads = this.moreMobHeads.getMobHeads(entity.getClass());
+        final Collection<MobHead> heads = this.moreMobHeads.getMobHeads(entity.getType());
         if (heads.isEmpty()) {
             return;
         }

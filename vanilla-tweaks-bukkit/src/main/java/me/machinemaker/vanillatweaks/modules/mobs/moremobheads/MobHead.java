@@ -47,7 +47,8 @@ final class MobHead {
     private final String lootTable;
     private final String name;
     private final ItemStack skull;
-    private final boolean needsPlayer;
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    private final boolean needsPlayer; // TODO
     private final boolean requiresCustomization;
     private final float chance;
     private final float lootingMultiplier;
@@ -64,17 +65,16 @@ final class MobHead {
         this.lootingMultiplier = lootingMultiplier;
     }
 
-    @SuppressWarnings("unchecked")
-    static Multimap<Class<? extends LivingEntity>, MobHead> createMobHeadMap(final ClassLoader loader) {
+    static Multimap<EntityType, MobHead> createMobHeadMap(final ClassLoader loader) {
         final List<MobHead> heads;
         try {
-            heads = MAPPER.readValue(loader.getResourceAsStream("data/more_mob_heads.json"), new TypeReference<List<MobHead>>() {
-            });
+            //noinspection Convert2Diamond
+            heads = MAPPER.readValue(loader.getResourceAsStream("data/more_mob_heads.json"), new TypeReference<List<MobHead>>() {});
         } catch (final IOException e) {
             MoreMobHeads.LOGGER.error("Could not load mob heads from data/more_mob_heads.json. This module will not work properly", e);
             return Multimaps.unmodifiableMultimap(ArrayListMultimap.create());
         }
-        final Multimap<Class<? extends LivingEntity>, MobHead> mobHeadMap = ArrayListMultimap.create();
+        final Multimap<EntityType, MobHead> mobHeadMap = ArrayListMultimap.create();
         for (final MobHead head : heads) {
             final String key = head.lootTable.startsWith("sheep") ? "sheep" : head.lootTable.split("\\.")[0];
             final @Nullable EntityType type = Registry.ENTITY_TYPE.get(NamespacedKey.minecraft(key));
@@ -87,7 +87,7 @@ final class MobHead {
                 continue;
             }
             MobHeadCustomizations.addCustomizations(head);
-            mobHeadMap.put((Class<? extends LivingEntity>) type.getEntityClass(), head);
+            mobHeadMap.put(type, head);
         }
 
         return Multimaps.unmodifiableMultimap(mobHeadMap);
@@ -105,20 +105,8 @@ final class MobHead {
         return this.skull.clone();
     }
 
-    public boolean needsPlayer() {
-        return this.needsPlayer;
-    }
-
     public boolean requiresCustomization() {
         return this.requiresCustomization;
-    }
-
-    public float chance() {
-        return this.chance;
-    }
-
-    public float lootingMultiplier() {
-        return this.lootingMultiplier;
     }
 
     @SuppressWarnings("unchecked")
