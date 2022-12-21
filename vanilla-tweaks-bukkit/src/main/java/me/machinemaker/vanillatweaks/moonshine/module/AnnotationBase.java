@@ -19,18 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.module;
 
+import java.lang.reflect.AnnotatedElement;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-import java.lang.reflect.AnnotatedElement;
-
-@DefaultQualifier(NonNull.class)
 public abstract class AnnotationBase {
 
-    protected final @Nullable TextColor getTextColor(@Nullable AnnotatedElement element) {
+    protected final @Nullable TextColor getTextColor(final @Nullable AnnotatedElement element) {
         if (element != null) {
             if (element.isAnnotationPresent(me.machinemaker.vanillatweaks.moonshine.annotation.TextColor.class)) {
                 return NamedTextColor.NAMES.value(element.getAnnotation(me.machinemaker.vanillatweaks.moonshine.annotation.TextColor.class).value());

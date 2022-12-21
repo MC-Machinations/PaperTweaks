@@ -23,31 +23,30 @@ import io.leangen.geantyref.TypeToken;
 import net.kyori.moonshine.Moonshine;
 import net.kyori.moonshine.MoonshineBuilder;
 import net.kyori.moonshine.exception.scan.UnscannableMethodException;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface MoonshineBuilderAdapter<T, R, I, O, F> {
 
     @Contract(pure = true)
     @Nullable Class<T> messageService();
 
-    MoonshineBuilder.@NotNull Sourced<T, R, I> sourced(final MoonshineBuilder.@NotNull Receivers<T, R> receivers);
+    MoonshineBuilder.Sourced<T, R, I> sourced(final MoonshineBuilder.Receivers<T, R> receivers);
 
-    MoonshineBuilder.@NotNull Rendered<T, R, I, O, F> rendered(final MoonshineBuilder.@NotNull Sourced<T, R, I> sourced);
+    MoonshineBuilder.Rendered<T, R, I, O, F> rendered(final MoonshineBuilder.Sourced<T, R, I> sourced);
 
-    MoonshineBuilder.@NotNull Sent<T, R, I, O, F> sent(final MoonshineBuilder.@NotNull Rendered<T, R, I, O, F> rendered);
+    MoonshineBuilder.Sent<T, R, I, O, F> sent(final MoonshineBuilder.Rendered<T, R, I, O, F> rendered);
 
-    MoonshineBuilder.@NotNull Resolved<T, R, I, O, F> resolved(final MoonshineBuilder.@NotNull Sent<T, R, I, O, F> sent);
+    MoonshineBuilder.Resolved<T, R, I, O, F> resolved(final MoonshineBuilder.Sent<T, R, I, O, F> sent);
 
-    default void placeholderStrategies(final MoonshineBuilder.@NotNull Resolved<T, R, I, O, F> resolved) {
+    default void placeholderStrategies(final MoonshineBuilder.Resolved<T, R, I, O, F> resolved) {
     }
 
-    default @NotNull T create() throws UnscannableMethodException {
+    default T create() throws UnscannableMethodException {
         return this.create(Thread.currentThread().getContextClassLoader());
     }
 
-    default @NotNull T create(final @NotNull ClassLoader classLoader) throws UnscannableMethodException {
+    default T create(final ClassLoader classLoader) throws UnscannableMethodException {
         if (this.messageService() == null) {
             throw new IllegalStateException("No messageService configured");
         }

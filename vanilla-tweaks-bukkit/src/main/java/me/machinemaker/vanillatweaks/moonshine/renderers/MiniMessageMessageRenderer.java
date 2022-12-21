@@ -19,18 +19,16 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.renderers;
 
+import java.util.Map;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 public class MiniMessageMessageRenderer extends AbstractMessageRenderer<String> {
 
     @Override
-    protected @NotNull Component render(@NotNull String intermediateMessage, @NotNull Map<String, ? extends Component> resolvedPlaceholders) {
+    protected Component render(final String intermediateMessage, final Map<String, ? extends Component> resolvedPlaceholders) {
         final TagResolver.Builder builder = TagResolver.builder();
         for (final var entry : resolvedPlaceholders.entrySet()) {
             builder.resolver(Placeholder.component(entry.getKey(), entry.getValue()));

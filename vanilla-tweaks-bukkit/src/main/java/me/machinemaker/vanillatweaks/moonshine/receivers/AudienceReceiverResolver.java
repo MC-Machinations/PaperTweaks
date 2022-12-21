@@ -19,33 +19,35 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.receivers;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
 import me.machinemaker.vanillatweaks.moonshine.annotation.Receiver;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.moonshine.receiver.IReceiverLocator;
 import net.kyori.moonshine.receiver.IReceiverLocatorResolver;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+import static java.util.Objects.requireNonNull;
 
 public class AudienceReceiverResolver implements IReceiverLocatorResolver<Audience> {
 
     @Override
-    public @Nullable IReceiverLocator<Audience> resolve(Method method, Type proxy) {
+    public @Nullable IReceiverLocator<Audience> resolve(final Method method, final Type proxy) {
         return new Resolver();
     }
 
     private static final class Resolver implements IReceiverLocator<Audience> {
 
         @Override
-        public Audience locate(Method method, Object proxy, @Nullable Object[] parameters) {
+        public Audience locate(final Method method, final Object proxy, final @Nullable Object[] parameters) {
             for (int i = 0; i < method.getParameters().length; i++) {
-                final var param = method.getParameters()[i];
+                final Parameter param = method.getParameters()[i];
                 if (param.isAnnotationPresent(Receiver.class)) {
-                    return (Audience) parameters[i];
+                    return requireNonNull((Audience) parameters[i]);
                 }
             }
-            for (Object param : parameters) {
+            for (final Object param : parameters) {
                 if (param instanceof Audience audience) {
                     return audience;
                 }

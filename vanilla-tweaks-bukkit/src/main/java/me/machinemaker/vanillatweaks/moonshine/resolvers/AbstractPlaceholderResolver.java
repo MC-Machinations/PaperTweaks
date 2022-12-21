@@ -19,6 +19,7 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.resolvers;
 
+import java.util.Map;
 import me.machinemaker.vanillatweaks.moonshine.module.AnnotationBase;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -26,15 +27,10 @@ import net.kyori.moonshine.placeholder.ConclusionValue;
 import net.kyori.moonshine.placeholder.ContinuanceValue;
 import net.kyori.moonshine.placeholder.IPlaceholderResolver;
 import net.kyori.moonshine.util.Either;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-import java.util.Map;
-
-@DefaultQualifier(NonNull.class)
 public abstract class AbstractPlaceholderResolver<P> extends AnnotationBase implements IPlaceholderResolver<Audience, P, Component> {
 
-    protected final Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> constant(String placeholderName, Component value) {
+    protected final Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> constant(final String placeholderName, final Component value) {
         return Map.of(placeholderName, Either.left(ConclusionValue.conclusionValue(value)));
     }
 }

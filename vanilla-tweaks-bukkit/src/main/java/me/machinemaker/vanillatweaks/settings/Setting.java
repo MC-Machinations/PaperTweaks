@@ -22,26 +22,24 @@ package me.machinemaker.vanillatweaks.settings;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import net.kyori.adventure.text.Component;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public interface Setting<T, C> {
 
-    @Nullable T get(@NotNull C container);
+    @Nullable T get(C container);
 
-    default @NotNull T getOrDefault(@NotNull C container) {
-        T value = get(container);
+    default T getOrDefault(final C container) {
+        final T value = this.get(container);
         if (value == null) {
-            return defaultValue();
+            return this.defaultValue();
         }
         return value;
     }
 
-    void set(@NotNull C holder, T value);
+    void set(C holder, T value);
 
     @SuppressWarnings("unchecked")
-    default<A extends Setting<T, C>> A loadWrapper(SettingWrapper<T, C> wrapper) {
+    default <A extends Setting<T, C>> A loadWrapper(final SettingWrapper<T, C> wrapper) {
         if (wrapper.wrappedSetting != null) {
             throw new IllegalArgumentException("wrapper has already had its setting set");
         }
@@ -53,26 +51,26 @@ public interface Setting<T, C> {
     }
 
     @SuppressWarnings("unchecked")
-    default void setObject(@NonNull C holder, Object value) {
-        if (!valueType().isInstance(value)) {
-            throw new IllegalArgumentException(value + " could not be cast to " + valueType().getName());
+    default void setObject(final C holder, final Object value) {
+        if (!this.valueType().isInstance(value)) {
+            throw new IllegalArgumentException(value + " could not be cast to " + this.valueType().getName());
         }
-        set(holder, (T) value);
+        this.set(holder, (T) value);
     }
 
-    default void reset(@NotNull C holder) {
-        set(holder, defaultValue());
+    default void reset(final C holder) {
+        this.set(holder, this.defaultValue());
     }
 
-    @NotNull Class<T> valueType();
+    Class<T> valueType();
 
-    @NotNull T defaultValue();
+    T defaultValue();
 
-    @NotNull String indexKey();
+    String indexKey();
 
-    @NotNull ArgumentParser<CommandDispatcher, T> argumentParser();
+    ArgumentParser<CommandDispatcher, T> argumentParser();
 
-    default @NotNull Component validations() {
+    default Component validations() {
         return Component.empty();
     }
 }

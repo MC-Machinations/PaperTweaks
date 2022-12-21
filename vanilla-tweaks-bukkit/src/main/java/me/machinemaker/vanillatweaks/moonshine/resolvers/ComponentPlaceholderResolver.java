@@ -19,6 +19,9 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.resolvers;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Map;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.moonshine.placeholder.ConclusionValue;
@@ -26,14 +29,10 @@ import net.kyori.moonshine.placeholder.ContinuanceValue;
 import net.kyori.moonshine.util.Either;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Map;
-
 public class ComponentPlaceholderResolver extends AbstractPlaceholderResolver<Component> {
 
     @Override
-    public @Nullable Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(String placeholderName, Component value, Audience receiver, Type owner, Method method, @Nullable Object[] parameters) {
+    public @Nullable Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(final String placeholderName, final Component value, final Audience receiver, final Type owner, final Method method, final @Nullable Object[] parameters) {
         return this.constant(placeholderName, value);
     }
 }

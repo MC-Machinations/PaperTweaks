@@ -26,7 +26,7 @@ import net.kyori.moonshine.message.IMessageSender;
 public class AdventureMessageSender implements IMessageSender<Audience, Component> {
 
     @Override
-    public void send(Audience receiver, Component renderedMessage) {
+    public void send(final Audience receiver, final Component renderedMessage) {
         receiver.sendMessage(renderedMessage);
     }
 }

@@ -17,18 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.vanillatweaks.moonshine.resolvers.simple;
+@DefaultQualifier(NonNull.class)
+package me.machinemaker.vanillatweaks.settings.types;
 
-import net.kyori.adventure.text.TextComponent;
-import org.bukkit.World;
-
-import static net.kyori.adventure.text.Component.text;
-
-public class WorldPlaceholderResolver extends SimplePlaceholderResolver<World> {
-
-    @Override
-    public TextComponent.Builder toComponent(final World value) {
-        return text().content(value.getName());
-    }
-
-}
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

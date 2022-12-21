@@ -19,31 +19,27 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.renderers;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Map;
 import me.machinemaker.vanillatweaks.moonshine.module.AnnotationBase;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.moonshine.message.IMessageRenderer;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Map;
 
 import static net.kyori.adventure.text.Component.text;
 
-@DefaultQualifier(NonNull.class)
 abstract class AbstractMessageRenderer<I> extends AnnotationBase implements IMessageRenderer<Audience, I, Component, Component> {
 
     protected abstract Component render(I intermediateMessage, Map<String, ? extends Component> resolvedPlaceholders);
 
     @Override
-    public final Component render(Audience receiver, I intermediateMessage, Map<String, ? extends Component> resolvedPlaceholders, @Nullable Method method, Type owner) {
+    public final Component render(final Audience receiver, final I intermediateMessage, final Map<String, ? extends Component> resolvedPlaceholders, final @Nullable Method method, final Type owner) {
         return text()
-                .color(this.getTextColor(method))
-                .append(this.render(intermediateMessage, resolvedPlaceholders))
-                .build();
+            .color(this.getTextColor(method))
+            .append(this.render(intermediateMessage, resolvedPlaceholders))
+            .build();
     }
 
 

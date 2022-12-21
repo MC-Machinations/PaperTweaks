@@ -28,51 +28,50 @@ import me.machinemaker.vanillatweaks.settings.Setting;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-public record GameRuleSetting<T>(@NotNull GameRule<T> gameRule, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, World> {
+public record GameRuleSetting<T>(GameRule<T> gameRule, ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, World> {
 
     private static final World OVERWORLD = Objects.requireNonNull(Bukkit.getWorlds().get(0), "no overworld found");
 
-    public static @NotNull GameRuleSetting<Boolean> ofBoolean(@NotNull GameRule<Boolean> gameRule) {
+    public static GameRuleSetting<Boolean> ofBoolean(final GameRule<Boolean> gameRule) {
         return new GameRuleSetting<>(gameRule, new BooleanArgument.BooleanParser<>(false));
     }
 
-    public static @NotNull GameRuleSetting<Integer> ofInt(@NotNull GameRule<Integer> gameRule, int min, int max) {
+    public static GameRuleSetting<Integer> ofInt(final GameRule<Integer> gameRule, final int min, final int max) {
         return new GameRuleSetting<>(gameRule, new IntegerArgument.IntegerParser<>(min, max));
     }
 
-    public static @NotNull GameRuleSetting<Integer> ofInt(@NotNull GameRule<Integer> gameRule, int min) {
+    public static GameRuleSetting<Integer> ofInt(final GameRule<Integer> gameRule, final int min) {
         return ofInt(gameRule, min, Integer.MAX_VALUE);
     }
 
-    public static @NotNull GameRuleSetting<Integer> ofInt(@NotNull GameRule<Integer> gameRule) {
+    public static GameRuleSetting<Integer> ofInt(final GameRule<Integer> gameRule) {
         return ofInt(gameRule, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     @Override
-    public @Nullable T get(@NotNull World world) {
+    public @Nullable T get(final World world) {
         return world.getGameRuleValue(this.gameRule);
     }
 
     @Override
-    public void set(@NotNull World world, T value) {
+    public void set(final World world, final T value) {
         world.setGameRule(this.gameRule, value);
     }
 
     @Override
-    public @NotNull Class<T> valueType() {
+    public Class<T> valueType() {
         return this.gameRule.getType();
     }
 
     @Override
-    public @NotNull T defaultValue() {
+    public T defaultValue() {
         return Objects.requireNonNull(OVERWORLD.getGameRuleDefault(this.gameRule), "how does a gamerule have a null default, stupid bukkit"); // All worlds have the same default values
     }
 
     @Override
-    public @NotNull String indexKey() {
+    public String indexKey() {
         return this.gameRule.getName();
     }
 }

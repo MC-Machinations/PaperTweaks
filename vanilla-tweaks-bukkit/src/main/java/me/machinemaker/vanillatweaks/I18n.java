@@ -31,9 +31,12 @@ import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.DefaultQualifier;
 import org.slf4j.Logger;
 
+@DefaultQualifier(NonNull.class)
 public final class I18n {
 
     private static final Configurations CONFIGS = new Configurations();
@@ -47,7 +50,7 @@ public final class I18n {
         this.pluginClassLoader = pluginClassLoader;
     }
 
-    static I18n create(final @NotNull Path i18nPath, final @NotNull ClassLoader pluginClassLoader) {
+    static I18n create(final Path i18nPath, final ClassLoader pluginClassLoader) {
          return new I18n(i18nPath, pluginClassLoader);
     }
 
@@ -76,7 +79,7 @@ public final class I18n {
     private void updateI18nFile(final Locale locale) {
         final Path localeFile = this.i18nPath.resolve(i18nFolderFileName(locale));
         if (Files.notExists(localeFile)) {
-            final InputStream inputStream = this.pluginClassLoader.getResourceAsStream(inJarResourceName(locale));
+            final @Nullable InputStream inputStream = this.pluginClassLoader.getResourceAsStream(inJarResourceName(locale));
             if (inputStream == null) {
                 throw new IllegalArgumentException("Couldn't find a resource for " + locale);
             }

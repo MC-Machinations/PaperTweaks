@@ -19,19 +19,19 @@
  */
 package me.machinemaker.vanillatweaks.moonshine;
 
+import java.util.Locale;
+import java.util.Optional;
 import me.machinemaker.vanillatweaks.adventure.TranslationRegistry;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.moonshine.exception.MissingMessageException;
 import net.kyori.moonshine.message.IMessageSource;
 
-import java.util.Locale;
-
 public final class TranslatableMessageSource implements IMessageSource<Audience, String> {
 
     @Override
-    public String messageOf(Audience receiver, String messageKey) throws MissingMessageException {
-        final var msg = TranslationRegistry.translate(messageKey, receiver.pointers().getOrDefault(Identity.LOCALE, Locale.US));
+    public String messageOf(final Audience receiver, final String messageKey) throws MissingMessageException {
+        final Optional<String> msg = TranslationRegistry.translate(messageKey, receiver.pointers().getOrDefault(Identity.LOCALE, Locale.US));
         if (msg.isEmpty()) {
             throw new MissingMessageException(messageKey);
         }

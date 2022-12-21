@@ -23,46 +23,50 @@ import cloud.commandframework.arguments.parser.ArgumentParser;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class SettingWrapper<T, C> implements Setting<T, C> {
 
-    Setting<T, C> wrappedSetting;
+    @MonotonicNonNull Setting<T, C> wrappedSetting;
+
+    public static <T> PDC<T> pdc(final NamespacedKey key) {
+        return new PDC<>(key);
+    }
 
     @Override
-    public @Nullable T get(@NotNull C container) {
-        validateWrapper();
+    public @Nullable T get(final C container) {
+        this.validateWrapper();
         return this.wrappedSetting.get(container);
     }
 
     @Override
-    public void set(@NotNull C holder, T value) {
-        validateWrapper();
+    public void set(final C holder, final T value) {
+        this.validateWrapper();
         this.wrappedSetting.set(holder, value);
     }
 
     @Override
-    public @NotNull Class<T> valueType() {
-        validateWrapper();
+    public Class<T> valueType() {
+        this.validateWrapper();
         return this.wrappedSetting.valueType();
     }
 
     @Override
-    public @NotNull T defaultValue() {
-        validateWrapper();
+    public T defaultValue() {
+        this.validateWrapper();
         return this.wrappedSetting.defaultValue();
     }
 
     @Override
-    public @NotNull String indexKey() {
-        validateWrapper();
+    public String indexKey() {
+        this.validateWrapper();
         return this.wrappedSetting.indexKey();
     }
 
     @Override
-    public @NotNull ArgumentParser<CommandDispatcher, T> argumentParser() {
-        validateWrapper();
+    public ArgumentParser<CommandDispatcher, T> argumentParser() {
+        this.validateWrapper();
         return this.wrappedSetting.argumentParser();
     }
 
@@ -72,15 +76,11 @@ public class SettingWrapper<T, C> implements Setting<T, C> {
         }
     }
 
-    public static <T> @NotNull PDC<T> pdc(@NotNull NamespacedKey key) {
-        return new PDC<>(key);
-    }
-
     public static class PDC<T> extends SettingWrapper<T, Player> {
 
         public final NamespacedKey key;
 
-        PDC(@NotNull NamespacedKey key) {
+        PDC(final NamespacedKey key) {
             this.key = key;
         }
     }

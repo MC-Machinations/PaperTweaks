@@ -20,24 +20,23 @@
 package me.machinemaker.vanillatweaks.settings;
 
 import com.google.common.collect.Lists;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 public abstract class ModuleSettings<S extends Setting<?, ?>> {
 
-    private @MonotonicNonNull Map<String, S> index;
     private final List<S> settings = Lists.newArrayList();
+    private @MonotonicNonNull Map<String, S> index;
     private boolean acceptingRegistrations = true;
 
-    protected void register(S setting) {
-        if (!acceptingRegistrations) {
+    protected void register(final S setting) {
+        if (!this.acceptingRegistrations) {
             throw new IllegalStateException("Not accepting further setting registrations, the index has already been created");
         }
-        settings.add(setting);
+        this.settings.add(setting);
     }
 
     public Map<String, S> index() {

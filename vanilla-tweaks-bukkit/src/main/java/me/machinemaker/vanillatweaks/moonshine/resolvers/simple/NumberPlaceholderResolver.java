@@ -19,25 +19,21 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.resolvers.simple;
 
-import net.kyori.adventure.text.TextComponent;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
-
 import java.util.function.Function;
+import net.kyori.adventure.text.TextComponent;
 
 import static net.kyori.adventure.text.Component.text;
 
-@DefaultQualifier(NonNull.class)
 public class NumberPlaceholderResolver<N extends Number> extends SimplePlaceholderResolver<N> {
 
     private final Function<N, String> toStringFunction;
 
-    public NumberPlaceholderResolver(Function<N, String> toStringFunction) {
+    public NumberPlaceholderResolver(final Function<N, String> toStringFunction) {
         this.toStringFunction = toStringFunction;
     }
 
     @Override
-    public TextComponent.Builder toComponent(N value) {
+    public TextComponent.Builder toComponent(final N value) {
         return text().content(this.toStringFunction.apply(value));
     }
 }

@@ -19,6 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.moonshine.resolvers.simple;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
+import java.util.Map;
 import me.machinemaker.vanillatweaks.moonshine.resolvers.AbstractPlaceholderResolver;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -26,21 +30,13 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.moonshine.placeholder.ConclusionValue;
 import net.kyori.moonshine.placeholder.ContinuanceValue;
 import net.kyori.moonshine.util.Either;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
-import java.util.Map;
-
-@DefaultQualifier(NonNull.class)
 public abstract class SimplePlaceholderResolver<P> extends AbstractPlaceholderResolver<P> {
 
     public abstract TextComponent.Builder toComponent(P value);
 
-    protected final @Nullable Parameter findParameter(P value, Method method, @Nullable Object[] parameters) {
+    protected final @Nullable Parameter findParameter(final P value, final Method method, final @Nullable Object[] parameters) {
         for (int i = 0; i < parameters.length; i++) {
             if (parameters[i] == value) {
                 return method.getParameters()[i];
@@ -50,8 +46,8 @@ public abstract class SimplePlaceholderResolver<P> extends AbstractPlaceholderRe
     }
 
     @Override
-    public final Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(String placeholderName, P value, Audience receiver, Type owner, Method method, @Nullable Object[] parameters) {
-        final var builder = this.toComponent(value);
+    public final Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(final String placeholderName, final P value, final Audience receiver, final Type owner, final Method method, final @Nullable Object[] parameters) {
+        final TextComponent.Builder builder = this.toComponent(value);
         final @Nullable Parameter param = this.findParameter(value, method, parameters);
 
         if (param != null) {

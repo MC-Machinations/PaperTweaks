@@ -31,66 +31,38 @@ import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.kyori.adventure.text.TextComponent;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 @SuppressWarnings("unchecked")
-public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser, @NotNull Component validations) implements Setting<T, C> {
+public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(ValueNode<T> node, ArgumentParser<CommandDispatcher, T> argumentParser, Component validations) implements Setting<T, C> {
 
-    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> ofBoolean(@NotNull ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanArgument.BooleanParser<>(false));
-    }
-
-    public static <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> ConfigSetting<E, C> ofEnum(@NotNull ValueNode<?> valueNode, @NotNull Class<E> classOfE) {
-        return new ConfigSetting<>((ValueNode<E>) valueNode, new EnumArgument.EnumParser<>(classOfE));
-    }
-
-    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> ofInt(@NotNull ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerArgument.IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerArgument.IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerArgument.IntegerParser.DEFAULT_MAXIMUM).toString())));
-    }
-
-    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Double, C> ofDouble(@NotNull ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Double>) valueNode, new DoubleArgument.DoubleParser<>(Double.parseDouble(valueNode.meta().getOrDefault("min", DoubleArgument.DoubleParser.DEFAULT_MINIMUM).toString()), Double.parseDouble(valueNode.meta().getOrDefault("max", DoubleArgument.DoubleParser.DEFAULT_MAXIMUM).toString())));
-    }
-
-    public ConfigSetting(@NotNull ValueNode<T> node, @NotNull ArgumentParser<CommandDispatcher, T> argumentParser) {
+    public ConfigSetting(final ValueNode<T> node, final ArgumentParser<CommandDispatcher, T> argumentParser) {
         this(node, argumentParser, createValidations(node));
     }
 
-    @Override
-    public @Nullable T get(@NotNull C container) {
-        return container.rootNode().get(this.indexKey());
+    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> ofBoolean(final ValueNode<?> valueNode) {
+        return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanArgument.BooleanParser<>(false));
     }
 
-    @Override
-    public void set(@NotNull C holder, T value) {
-        holder.rootNode().set(this.indexKey(), value);
+    public static <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> ConfigSetting<E, C> ofEnum(final ValueNode<?> valueNode, final Class<E> classOfE) {
+        return new ConfigSetting<>((ValueNode<E>) valueNode, new EnumArgument.EnumParser<>(classOfE));
     }
 
-    @Override
-    public @NotNull Class<T> valueType() {
-        return (Class<T>) GenericTypeReflector.box(TypeFactory.rawClass(node.type()));
+    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> ofInt(final ValueNode<?> valueNode) {
+        return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerArgument.IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerArgument.IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerArgument.IntegerParser.DEFAULT_MAXIMUM).toString())));
     }
 
-    @Override
-    public @NotNull T defaultValue() {
-        if (this.node.defaultValue() == null) {
-            throw new IllegalStateException(this.node.path() + " cannot have a default value for null if used in a menu");
-        }
-        return this.node.defaultValue();
+    public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Double, C> ofDouble(final ValueNode<?> valueNode) {
+        return new ConfigSetting<>((ValueNode<Double>) valueNode, new DoubleArgument.DoubleParser<>(Double.parseDouble(valueNode.meta().getOrDefault("min", DoubleArgument.DoubleParser.DEFAULT_MINIMUM).toString()), Double.parseDouble(valueNode.meta().getOrDefault("max", DoubleArgument.DoubleParser.DEFAULT_MAXIMUM).toString())));
     }
 
-    @Override
-    public @NotNull String indexKey() {
-        return this.node.path();
-    }
-
-    private static @NotNull Component createValidations(ValueNode<?> valueNode) {
-        var builder = text();
+    private static Component createValidations(final ValueNode<?> valueNode) {
+        final TextComponent.Builder builder = text();
         if (valueNode.meta().containsKey("min") && valueNode.meta().containsKey("max")) {
             builder.append(translatable("commands.config.validation.between", text(valueNode.meta().get("min").toString(), GRAY), text(valueNode.meta().get("max").toString(), GRAY)));
         } else if (valueNode.meta().containsKey("min")) {
@@ -103,5 +75,33 @@ public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(@NotNull ValueN
             return Component.empty();
         }
         return builder.build();
+    }
+
+    @Override
+    public @Nullable T get(final C container) {
+        return container.rootNode().get(this.indexKey());
+    }
+
+    @Override
+    public void set(final C holder, final T value) {
+        holder.rootNode().set(this.indexKey(), value);
+    }
+
+    @Override
+    public Class<T> valueType() {
+        return (Class<T>) GenericTypeReflector.box(TypeFactory.rawClass(this.node.type()));
+    }
+
+    @Override
+    public T defaultValue() {
+        if (this.node.defaultValue() == null) {
+            throw new IllegalStateException(this.node.path() + " cannot have a default value for null if used in a menu");
+        }
+        return this.node.defaultValue();
+    }
+
+    @Override
+    public String indexKey() {
+        return this.node.path();
     }
 }

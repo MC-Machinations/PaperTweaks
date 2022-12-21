@@ -20,16 +20,13 @@
 package me.machinemaker.vanillatweaks.moonshine.resolvers.simple;
 
 import net.kyori.adventure.text.TextComponent;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 import static net.kyori.adventure.text.Component.text;
 
-@DefaultQualifier(NonNull.class)
 public class StringPlaceholderResolver extends SimplePlaceholderResolver<String> {
 
     @Override
-    public TextComponent.Builder toComponent(String value) {
+    public TextComponent.Builder toComponent(final String value) {
         return text().content(value);
     }
 }
