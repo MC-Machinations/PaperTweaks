@@ -1,6 +1,6 @@
 # VanillaTweaks
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/MC-Machinations/VanillaTweaks/ci?style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/MC-Machinations/VanillaTweaks/ci.yml?style=for-the-badge)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/MC-Machinations/VanillaTweaks?color=8f52bf&sort=semver&style=for-the-badge)](https://github.com/MC-Machinations/VanillaTweaks/releases)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/MC-Machinations/VanillaTweaks?color=8c07f5&include_prereleases&label=beta&style=for-the-badge)](https://github.com/MC-Machinations/VanillaTweaks/releases)
 
@@ -12,10 +12,6 @@
 ![bStats Servers](https://img.shields.io/bstats/servers/8141?color=f5e407&style=for-the-badge)
 
 A better-performance replacement for the popular VanillaTweaks datapack collection.
-
-<p align="center">
-    <a href="https://dedimc.promo/PaperTweaks"><img width="700" height="140" src="https://cdn.discordapp.com/attachments/851558732537004053/961494045723590656/Spigot_Banner_PaperTweaks.png" alt="DedicatedMC"></a>
-</p>
 
 ```
 Credits:
