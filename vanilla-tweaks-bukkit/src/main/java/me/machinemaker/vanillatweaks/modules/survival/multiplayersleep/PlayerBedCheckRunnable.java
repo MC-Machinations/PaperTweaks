@@ -19,25 +19,24 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
+import java.util.function.Consumer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.function.Consumer;
 
 class PlayerBedCheckRunnable extends BukkitRunnable {
 
     private final Player player;
     private final Consumer<Player> sleepingCallback;
 
-    PlayerBedCheckRunnable(Player player, Consumer<Player> sleepingCallback) {
+    PlayerBedCheckRunnable(final Player player, final Consumer<Player> sleepingCallback) {
         this.player = player;
         this.sleepingCallback = sleepingCallback;
     }
 
     @Override
     public void run() {
-        if (player.getSleepTicks() >= 100) {
-            sleepingCallback.accept(player);
+        if (this.player.getSleepTicks() >= 100) {
+            this.sleepingCallback.accept(this.player);
         }
     }
 }

@@ -21,11 +21,11 @@ package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import java.util.function.Function;
 import me.machinemaker.vanillatweaks.menus.parts.enums.PreviewableMenuEnum;
 import me.machinemaker.vanillatweaks.settings.ModuleSettings;
-import me.machinemaker.vanillatweaks.settings.SettingWrapper;
+import me.machinemaker.vanillatweaks.settings.SettingKey;
 import me.machinemaker.vanillatweaks.settings.types.PlayerSetting;
-import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -34,47 +34,51 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Function;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-class Settings extends ModuleSettings<PlayerSetting<?>> {
+class Settings extends ModuleSettings<Player, PlayerSetting<?>> {
 
-    public static final SettingWrapper.PDC<DisplaySetting> DISPLAY = SettingWrapper.pdc(Keys.key("mps.display_setting"));
-
-    @Inject private static Config config;
-    @Inject private static JavaPlugin plugin;
-    @Inject private static BukkitAudiences audiences;
+    public static final SettingKey<DisplaySetting> DISPLAY = new SettingKey<>("mps.display_setting");
 
     @Inject
-    Settings(Config config) {
-        register(PlayerSetting.ofEnum(DISPLAY, DisplaySetting.class, () -> config.defaultDisplaySetting));
+    private static Config config;
+    @Inject
+    private static JavaPlugin plugin;
+    @Inject
+    private static BukkitAudiences audiences;
+
+    @Inject
+    Settings(final Config config) {
+        this.register(PlayerSetting.ofEnum(DISPLAY, DisplaySetting.class, () -> config.defaultDisplaySetting));
         // register(GameRuleSetting.ofInt(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 0, 100));
+    }
+
+    static Component bossBarName(final long sleepingCount, final long totalCount) {
+        return translatable("modules.multiplayer-sleep.display.boss-bar.title", text(sleepingCount), text(totalCount));
     }
 
     enum DisplaySetting implements PreviewableMenuEnum<DisplaySetting> {
 
         HIDDEN("Hidden") {
             @Override
-            void notify(Player player, SleepContext context, boolean isBedLeave) { /*pass*/ }
+            void notify(final Player player, final SleepContext context, final boolean isBedLeave) { /*pass*/ }
 
             @Override
-            void notifyFinal(Player player, SleepContext context) { /*pass*/ }
+            void notifyFinal(final Player player, final SleepContext context) { /*pass*/ }
 
             @Override
-            public @NotNull Component build(@NotNull DisplaySetting selected, @NotNull String labelKey, @NotNull String commandPrefix, @NotNull String optionKey) {
-                return super.buildWithoutPreview(selected, labelKey, commandPrefix, optionKey);
+            public Component build(final DisplaySetting selected, final String labelKey, final String commandPrefix, final String optionKey) {
+                return this.buildWithoutPreview(selected, labelKey, commandPrefix, optionKey);
             }
 
         },
         BOSS_BAR("Boss Bar") {
             @Override
-            void notify(Player player, SleepContext context, boolean isBedLeave) {
-                Audience audience = audiences.player(player);
+            void notify(final Player player, final SleepContext context, final boolean isBedLeave) {
+                final Audience audience = audiences.player(player);
                 BossBar bossBar = Lifecycle.BOSS_BARS.get(player.getWorld().getUID());
                 if (context.sleepingPlayers().isEmpty()) {
                     if (bossBar != null) {
@@ -83,10 +87,10 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
                     return;
                 } else if (bossBar == null) {
                     bossBar = BossBar.bossBar(
-                            bossBarName(context.sleepingCount(), context.totalPlayerCount()),
-                            context.sleepingCount() / (float) context.totalPlayerCount(),
-                            config.bossBarColor,
-                            BossBar.Overlay.PROGRESS
+                        bossBarName(context.sleepingCount(), context.totalPlayerCount()),
+                        context.sleepingCount() / (float) context.totalPlayerCount(),
+                        config.bossBarColor,
+                        BossBar.Overlay.PROGRESS
                     );
                     Lifecycle.BOSS_BARS.put(player.getWorld().getUID(), bossBar);
                 } else {
@@ -98,29 +102,29 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
             }
 
             @Override
-            void notifyFinal(Player player, SleepContext context) {
-                BossBar bossBar = Lifecycle.BOSS_BARS.get(player.getWorld().getUID());
+            void notifyFinal(final Player player, final SleepContext context) {
+                final BossBar bossBar = Lifecycle.BOSS_BARS.get(player.getWorld().getUID());
                 if (bossBar != null) {
                     bossBar.name(bossBarName(context.totalPlayerCount(), context.totalPlayerCount()));
                     bossBar.color(config.bossBarColor);
                     bossBar.progress(1f);
-                    Audience audience = audiences.player(player);
+                    final Audience audience = audiences.player(player);
                     audience.showBossBar(bossBar);
                     Bukkit.getScheduler().runTaskLater(plugin, () -> audience.hideBossBar(bossBar), 60L);
                 }
             }
 
             @Override
-            public void preview(Player player) {
-                Audience audience = audiences.player(player);
-                BossBar bossBar = BOSS_BAR_PREVIEW.apply(config);
+            public void preview(final Player player) {
+                final Audience audience = audiences.player(player);
+                final BossBar bossBar = BOSS_BAR_PREVIEW.apply(config);
                 audience.showBossBar(bossBar);
                 Bukkit.getScheduler().runTaskLater(plugin, () -> audience.hideBossBar(bossBar), 100L);
             }
         },
         ACTION_BAR("Action Bar") {
             @Override
-            void notify(Player player, SleepContext context, boolean isBedLeave) {
+            void notify(final Player player, final SleepContext context, final boolean isBedLeave) {
                 if (isBedLeave) return; // skip because runnable handles the task
                 new BukkitRunnable() {
                     @Override
@@ -135,38 +139,38 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
             }
 
             @Override
-            void notifyFinal(Player player, SleepContext context) {
-                sendNotification(player, context.sleepingCount(), context.totalPlayerCount());
+            void notifyFinal(final Player player, final SleepContext context) {
+                this.sendNotification(player, context.sleepingCount(), context.totalPlayerCount());
             }
 
             @Override
-            public void preview(Player player) {
-                sendNotification(player, 10, 15);
+            public void preview(final Player player) {
+                this.sendNotification(player, 10, 15);
             }
 
-            private void sendNotification(Player player, long sleepingCount, long totalCount) {
+            private void sendNotification(final Player player, final long sleepingCount, final long totalCount) {
                 audiences.player(player).sendActionBar(translatable("modules.multiplayer-sleep.display.action-bar.player-sleeping", YELLOW, text(sleepingCount), text(totalCount)));
             }
         },
         CHAT("Chat") {
             @Override
-            void notify(Player player, SleepContext context, boolean isBedLeave) {
+            void notify(final Player player, final SleepContext context, final boolean isBedLeave) {
                 if (isBedLeave) return;
-                notify(player, Iterables.getLast(context.sleepingPlayers()).getDisplayName(), context.sleepingCount(), context.totalPlayerCount());
+                this.notify(player, Iterables.getLast(context.sleepingPlayers()).getDisplayName(), context.sleepingCount(), context.totalPlayerCount());
             }
 
-            private void notify(Player player, String playerName, long sleepingCount, long totalCount) {
+            private void notify(final Player player, final String playerName, final long sleepingCount, final long totalCount) {
                 audiences.player(player).sendMessage(translatable("modules.multiplayer-sleep.display.chat.player-sleeping", GOLD, text(playerName, YELLOW), text(sleepingCount, YELLOW), text(totalCount, YELLOW)));
             }
 
             @Override
-            void notifyFinal(Player player, SleepContext context) {
+            void notifyFinal(final Player player, final SleepContext context) {
                 audiences.player(player).sendMessage(translatable("modules.multiplayer-sleep.display.chat.last-player-sleeping", GOLD, text(Iterables.getLast(context.sleepingPlayers()).getDisplayName(), YELLOW)));
             }
 
             @Override
-            public void preview(Player player) {
-                notify(player, "Machine_Maker", 10, 15);
+            public void preview(final Player player) {
+                this.notify(player, "Machine_Maker", 10, 15);
             }
         };
 
@@ -174,12 +178,12 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
 
         private final String label;
 
-        DisplaySetting(String label) {
+        DisplaySetting(final String label) {
             this.label = label;
         }
 
         @Override
-        public @NotNull Component label() {
+        public Component label() {
             return text(this.label);
         }
 
@@ -188,12 +192,8 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
         abstract void notifyFinal(Player player, SleepContext context);
 
         @Override
-        public @NotNull String previewCommandPrefix() {
+        public String previewCommandPrefix() {
             return "/multiplayersleep config preview_display";
         }
-    }
-
-    static Component bossBarName(long sleepingCount, long totalCount) {
-        return translatable("modules.multiplayer-sleep.display.boss-bar.title", text(sleepingCount), text(totalCount));
     }
 }

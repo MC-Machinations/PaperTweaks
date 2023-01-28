@@ -42,6 +42,7 @@ import java.util.Queue;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.vanillatweaks.modules.MenuModuleConfig;
+import me.machinemaker.vanillatweaks.settings.ModuleSetting;
 import me.machinemaker.vanillatweaks.settings.ModuleSettings;
 import me.machinemaker.vanillatweaks.settings.Setting;
 import me.machinemaker.vanillatweaks.settings.types.ConfigSetting;
@@ -79,7 +80,7 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         return new SettingChange<>(pair.getFirst(), pair.getSecond());
     }
 
-    public static <C, S extends Setting<?, C>> Command.Builder<CommandDispatcher> resetPlayerSettings(final Command.Builder<CommandDispatcher> builder, final String translationKey, final ModuleSettings<S> settings) {
+    public static <C, S extends ModuleSetting<?, C>> Command.Builder<CommandDispatcher> resetPlayerSettings(final Command.Builder<CommandDispatcher> builder, final String translationKey, final ModuleSettings<C, S> settings) {
         return builder
             .literal("reset", RichDescription.translatable(translationKey))
             .handler(context -> {

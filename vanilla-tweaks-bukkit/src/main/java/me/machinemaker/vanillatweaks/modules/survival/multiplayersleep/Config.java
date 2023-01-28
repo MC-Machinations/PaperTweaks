@@ -20,6 +20,9 @@
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import cloud.commandframework.context.CommandContext;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
@@ -43,11 +46,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -56,36 +54,32 @@ import static net.kyori.adventure.text.Component.text;
 class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> {
 
     private static final Map<BossBar.Color, TextColor> COLOR_MAP = Map.of(
-            BossBar.Color.PINK, TextColor.color(0xec00b8),
-            BossBar.Color.BLUE, TextColor.color(0x00b7ec),
-            BossBar.Color.RED, TextColor.color(0xec3500),
-            BossBar.Color.GREEN, TextColor.color(0x1dec00),
-            BossBar.Color.YELLOW, TextColor.color(0xe9ec00),
-            BossBar.Color.PURPLE, TextColor.color(0x7b00ec),
-            BossBar.Color.WHITE, TextColor.color(0xececec)
+        BossBar.Color.PINK, TextColor.color(0xec00b8),
+        BossBar.Color.BLUE, TextColor.color(0x00b7ec),
+        BossBar.Color.RED, TextColor.color(0xec3500),
+        BossBar.Color.GREEN, TextColor.color(0x1dec00),
+        BossBar.Color.YELLOW, TextColor.color(0xe9ec00),
+        BossBar.Color.PURPLE, TextColor.color(0x7b00ec),
+        BossBar.Color.WHITE, TextColor.color(0xececec)
     );
-
-    @Key("included-worlds")
-    @Description("Worlds to count player's from")
-    private List<World> includedWorlds = List.of(Bukkit.getWorlds().get(0));
-
     @Key("defaults.display")
     @I18nKey("modules.multiplayer-sleep.settings.default-display")
     @Description("Default display for new players. Can be one of: HIDDEN, BOSS_BAR, ACTION_BAR, CHAT")
     public Settings.DisplaySetting defaultDisplaySetting = Settings.DisplaySetting.CHAT;
-
     @Key("boss-bar-color")
     @I18nKey("modules.multiplayer-sleep.settings.boss-bar-color")
     @Description("modules.multiplayer-sleep.settings.boss-bar-color.extended")
     public BossBar.Color bossBarColor = BossBar.Color.WHITE;
-
     @Key("always-reset-weather-cycle")
     @I18nKey("modules.multiplayer-sleep.settings.always-reset-weather-cycle")
     @Description("modules.multiplayer-sleep.settings.always-reset-weather-cycle.extended")
     public boolean alwaysResetWeatherCycle = false;
+    @Key("included-worlds")
+    @Description("Worlds to count player's from")
+    private List<World> includedWorlds = List.of(Bukkit.getWorlds().get(0));
 
-    public List<World> worlds(boolean log) {
-        for (World world : this.includedWorlds) {
+    public List<World> worlds(final boolean log) {
+        for (final World world : this.includedWorlds) {
             if (log && !Boolean.TRUE.equals(world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE))) {
                 MultiplayerSleep.LOGGER.warn("{} does not have the gamerule doDaylightCycle set to true, passing the night will have no effect there.", world.getName());
             }
@@ -97,21 +91,21 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
     }
 
     @Override
-    protected MergedMenus.@NotNull Menu1<Config, World> createMenu(@NotNull Component title, @NotNull String commandPrefix, @NotNull List<MenuPartLike<Config>> configMenuParts) {
+    protected MergedMenus.Menu1<Config, World> createMenu(final Component title, final String commandPrefix, final List<MenuPartLike<Config>> configMenuParts) {
         return new MergedMenus.Menu1<>(
-                new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, this),
-                IntegerMenuOption.builder("gamerule.playersSleepingPercentage", GameRuleSetting.ofInt(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 0, 100)).extendedDescription("gamerule.playersSleepingPercentage.description").configure("/gamerule")
-                );
+            new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, this),
+            IntegerMenuOption.builder("gamerule.playersSleepingPercentage", GameRuleSetting.ofInt(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 0, 100)).extendedDescription("gamerule.playersSleepingPercentage.description").configure("/gamerule")
+        );
     }
 
     @Override
-    protected void sendMenu(@NotNull CommandContext<CommandDispatcher> context) {
-        Player player = PlayerCommandDispatcher.from(context);
+    protected void sendMenu(final CommandContext<CommandDispatcher> context) {
+        final Player player = PlayerCommandDispatcher.from(context);
         context.getSender().sendMessage(this.menu().build(this, player.getWorld()));
     }
 
     @Override
-    protected @NotNull MenuOption.Builder<?, ?, Config, ?> touchMenuOption(MenuOption.@NotNull Builder<?, ?, Config, ?> optionBuilder) {
+    protected MenuOption.Builder<?, ?, Config, ?> touchMenuOption(final MenuOption.Builder<?, ?, Config, ?> optionBuilder) {
         if (optionBuilder instanceof EnumMenuOption.Builder<?, ?> configBuilder && configBuilder.getSetting().valueType() == BossBar.Color.class) {
             configBuilder.optionLabelFunction((color) -> {
                 return text(Objects.requireNonNull(BossBar.Color.NAMES.key((BossBar.Color) color)), COLOR_MAP.get((BossBar.Color) color), TextDecoration.BOLD);
@@ -121,7 +115,7 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
     }
 
     @Override
-    public @NotNull Component title() {
+    public Component title() {
         return buildDefaultTitle("Multiplayer Sleep");
     }
 }

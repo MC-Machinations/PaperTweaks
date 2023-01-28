@@ -19,16 +19,17 @@
  */
 package me.machinemaker.vanillatweaks.settings;
 
-import com.google.common.collect.Lists;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-public abstract class ModuleSettings<S extends Setting<?, ?>> {
+public abstract class ModuleSettings<C, S extends ModuleSetting<?, C>> {
 
-    private final List<S> settings = Lists.newArrayList();
+    private final Map<SettingKey<?>, S> settings = new HashMap<>();
     private @MonotonicNonNull Map<String, S> index;
     private boolean acceptingRegistrations = true;
 
@@ -36,14 +37,41 @@ public abstract class ModuleSettings<S extends Setting<?, ?>> {
         if (!this.acceptingRegistrations) {
             throw new IllegalStateException("Not accepting further setting registrations, the index has already been created");
         }
-        this.settings.add(setting);
+        this.settings.put(setting.settingKey(), setting);
     }
 
     public Map<String, S> index() {
         if (this.index == null) {
-            this.index = this.settings.stream().collect(Collectors.toMap(Setting::indexKey, Function.identity()));
+            this.index = this.settings.values().stream().collect(Collectors.toMap(Setting::indexKey, Function.identity()));
             this.acceptingRegistrations = false;
         }
         return this.index;
+    }
+
+    public SettingGetter createGetter(final C container) {
+        return new SettingGetter() {
+
+            @Override
+            public <V> @Nullable V get(final SettingKey<V> settingKey) {
+                return ModuleSettings.this.getSetting(settingKey).get(container);
+            }
+
+            @Override
+            public <V> V getOrDefault(final SettingKey<V> settingKey) {
+                return ModuleSettings.this.getSetting(settingKey).getOrDefault(container);
+            }
+        };
+    }
+
+    @SuppressWarnings("unchecked")
+    public <V> Setting<V, C> getSetting(final SettingKey<V> settingKey) {
+        return (Setting<V, C>) Objects.requireNonNull(ModuleSettings.this.settings.get(settingKey));
+    }
+
+    public interface SettingGetter {
+
+        <V> @Nullable V get(final SettingKey<V> settingKey);
+
+        <V> V getOrDefault(final SettingKey<V> settingKey);
     }
 }

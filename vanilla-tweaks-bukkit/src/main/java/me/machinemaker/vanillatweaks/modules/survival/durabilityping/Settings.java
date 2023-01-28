@@ -20,11 +20,11 @@
 package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.machinemaker.vanillatweaks.menus.parts.enums.PreviewableMenuEnum;
 import me.machinemaker.vanillatweaks.settings.ModuleSettings;
-import me.machinemaker.vanillatweaks.settings.SettingWrapper;
+import me.machinemaker.vanillatweaks.settings.SettingKey;
 import me.machinemaker.vanillatweaks.settings.types.PlayerSetting;
-import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -33,12 +33,13 @@ import org.bukkit.entity.Player;
 
 import static net.kyori.adventure.text.Component.text;
 
-class Settings extends ModuleSettings<PlayerSetting<?>> {
+@Singleton
+class Settings extends ModuleSettings<Player, PlayerSetting<?>> {
 
-    public static final SettingWrapper.PDC<Boolean> HAND_PING = SettingWrapper.pdc(Keys.key("dp.hand_ping"));
-    public static final SettingWrapper.PDC<Boolean> ARMOR_PING = SettingWrapper.pdc(Keys.key("dp.armor_ping"));
-    public static final SettingWrapper.PDC<Boolean> SOUND = SettingWrapper.pdc(Keys.key("dp.sound"));
-    public static final SettingWrapper.PDC<DisplaySetting> DISPLAY = SettingWrapper.pdc(Keys.key("dp.display_setting"));
+    static final SettingKey<Boolean> HAND_PING = new SettingKey<>("dp.hand_ping");
+    static final SettingKey<Boolean> ARMOR_PING = new SettingKey<>("dp.armor_ping");
+    static final SettingKey<Boolean> SOUND = new SettingKey<>("dp.sound");
+    static final SettingKey<DisplaySetting> DISPLAY = new SettingKey<>("dp.display_setting");
 
     @Inject
     Settings(final Config config) {
@@ -46,10 +47,6 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
         this.register(PlayerSetting.ofBoolean(ARMOR_PING, () -> config.defaultArmorPing));
         this.register(PlayerSetting.ofBoolean(SOUND, () -> config.defaultPlaySound));
         this.register(PlayerSetting.ofEnum(DISPLAY, DisplaySetting.class, () -> config.defaultDisplaySetting));
-    }
-
-    static Instance from(final Player player) {
-        return new Instance(HAND_PING.getOrDefault(player), ARMOR_PING.getOrDefault(player), SOUND.getOrDefault(player), DISPLAY.getOrDefault(player));
     }
 
     enum DisplaySetting implements PreviewableMenuEnum<DisplaySetting> {
@@ -110,6 +107,4 @@ class Settings extends ModuleSettings<PlayerSetting<?>> {
             return "/durabilityping config preview_display";
         }
     }
-
-    record Instance(boolean handPing, boolean armorPing, boolean sound, DisplaySetting displaySetting) {}
 }

@@ -19,22 +19,14 @@
  */
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
-import com.google.inject.Inject;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.world.WorldUnloadEvent;
 
 class WorldListener implements ModuleListener {
 
-    private final PlayerListener listener;
-
-    @Inject
-    WorldListener(PlayerListener listener) {
-        this.listener = listener;
-    }
-
     @EventHandler
-    public void onWorldUnloadEvent(WorldUnloadEvent event) {
+    public void onWorldUnloadEvent(final WorldUnloadEvent event) {
         MultiplayerSleep.SLEEP_CONTEXT_MAP.remove(event.getWorld().getUID());
     }
 }

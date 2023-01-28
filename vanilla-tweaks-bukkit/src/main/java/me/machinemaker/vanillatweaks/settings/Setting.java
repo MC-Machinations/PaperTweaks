@@ -39,18 +39,6 @@ public interface Setting<T, C> {
     void set(C holder, T value);
 
     @SuppressWarnings("unchecked")
-    default <A extends Setting<T, C>> A loadWrapper(final SettingWrapper<T, C> wrapper) {
-        if (wrapper.wrappedSetting != null) {
-            throw new IllegalArgumentException("wrapper has already had its setting set");
-        }
-        if (this instanceof SettingWrapper<?, ?>) {
-            throw new IllegalArgumentException("cannot wrap a setting wrapper");
-        }
-        wrapper.wrappedSetting = this;
-        return (A) this;
-    }
-
-    @SuppressWarnings("unchecked")
     default void setObject(final C holder, final Object value) {
         if (!this.valueType().isInstance(value)) {
             throw new IllegalArgumentException(value + " could not be cast to " + this.valueType().getName());

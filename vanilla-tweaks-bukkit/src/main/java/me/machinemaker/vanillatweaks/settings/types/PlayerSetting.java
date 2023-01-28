@@ -22,42 +22,40 @@ package me.machinemaker.vanillatweaks.settings.types;
 import cloud.commandframework.arguments.parser.ArgumentParser;
 import cloud.commandframework.arguments.standard.BooleanArgument;
 import cloud.commandframework.arguments.standard.EnumArgument;
+import java.util.function.Supplier;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.pdc.DataTypes;
 import me.machinemaker.vanillatweaks.pdc.types.EnumDataType;
-import me.machinemaker.vanillatweaks.settings.Setting;
-import me.machinemaker.vanillatweaks.settings.SettingWrapper;
-import org.bukkit.NamespacedKey;
+import me.machinemaker.vanillatweaks.settings.ModuleSetting;
+import me.machinemaker.vanillatweaks.settings.SettingKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.function.Supplier;
+public record PlayerSetting<T>(SettingKey<T> settingKey, PersistentDataType<?, T> dataType, Supplier<T> defaultSupplier, ArgumentParser<CommandDispatcher, T> argumentParser) implements ModuleSetting<T, Player> {
 
-public record PlayerSetting<T>(NamespacedKey settingKey, PersistentDataType<?, T> dataType, Supplier<T> defaultSupplier, ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, Player> {
-
-    public static PlayerSetting<Boolean> ofBoolean(final SettingWrapper.PDC<Boolean> wrapper, final Supplier<Boolean> supplier) {
-        return of(wrapper, DataTypes.BOOLEAN, supplier, new BooleanArgument.BooleanParser<>(false));
+    public static PlayerSetting<Boolean> ofBoolean(final SettingKey<Boolean> key, final Supplier<Boolean> supplier) {
+        return of(key, DataTypes.BOOLEAN, supplier, new BooleanArgument.BooleanParser<>(false));
     }
 
-    public static <E extends Enum<E>> PlayerSetting<E> ofEnum(final SettingWrapper.PDC<E> wrapper, final Class<E> classOfE, final Supplier<E> defaultSupplier) {
-        return of(wrapper, EnumDataType.of(classOfE), defaultSupplier, new EnumArgument.EnumParser<>(classOfE));
+    public static <E extends Enum<E>> PlayerSetting<E> ofEnum(final SettingKey<E> key, final Class<E> classOfE, final Supplier<E> defaultSupplier) {
+        return of(key, EnumDataType.of(classOfE), defaultSupplier, new EnumArgument.EnumParser<>(classOfE));
     }
 
-    private static <S> PlayerSetting<S> of(final SettingWrapper.PDC<S> wrapper, final PersistentDataType<?, S> dataType, final Supplier<S> defaultSupplier, final ArgumentParser<CommandDispatcher, S> argumentParser) {
-        return new PlayerSetting<>(wrapper.key, dataType, defaultSupplier, argumentParser).loadWrapper(wrapper);
+    private static <S> PlayerSetting<S> of(final SettingKey<S> key, final PersistentDataType<?, S> dataType, final Supplier<S> defaultSupplier, final ArgumentParser<CommandDispatcher, S> argumentParser) {
+        return new PlayerSetting<>(key, dataType, defaultSupplier, argumentParser);
     }
 
     @Override
     public @Nullable T get(final Player holder) {
         final PersistentDataContainer pdc = holder.getPersistentDataContainer();
-        return pdc.get(this.settingKey, this.dataType);
+        return pdc.get(this.settingKey.key(), this.dataType);
     }
 
     @Override
     public void set(final Player holder, final T value) {
-        holder.getPersistentDataContainer().set(this.settingKey, this.dataType, value);
+        holder.getPersistentDataContainer().set(this.settingKey.key(), this.dataType, value);
     }
 
     @Override
@@ -68,10 +66,5 @@ public record PlayerSetting<T>(NamespacedKey settingKey, PersistentDataType<?, T
     @Override
     public T defaultValue() {
         return this.defaultSupplier().get();
-    }
-
-    @Override
-    public String indexKey() {
-        return this.settingKey.getKey();
     }
 }

@@ -23,48 +23,51 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.format.*;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static java.util.Objects.requireNonNull;
 import static net.kyori.adventure.text.Component.translatable;
 
 final class SleepContext {
 
-    @Inject private static Config config;
-    @Inject private static JavaPlugin plugin;
-    @Inject private static BukkitAudiences audiences;
+    @Inject
+    private static Config config;
+    @Inject
+    private static JavaPlugin plugin;
+    @Inject
+    private static BukkitAudiences audiences;
+    @Inject
+    private static Settings settings;
 
     private final World world;
     private final List<Player> sleepingPlayers = Lists.newArrayList();
     private final Map<Player, BukkitTask> sleepingTasks = Maps.newHashMap();
 
-    private SleepContext(@NotNull World world) {
+    private SleepContext(final World world) {
         this.world = world;
     }
 
-    static SleepContext from(@Nullable World world) {
+    static @Nullable SleepContext from(final @Nullable World world) {
         if (world == null) {
             return null;
         }
         return new SleepContext(world);
     }
 
-    public @NotNull World world() {
-        return world;
+    static double getSleepingPercentage(final World world) {
+        return Math.max(requireNonNull(world.getGameRuleValue(GameRule.PLAYERS_SLEEPING_PERCENTAGE)), 100) / 100D;
     }
 
     public long sleepingCount() {
@@ -83,7 +86,7 @@ final class SleepContext {
         return this.sleepingTasks.keySet();
     }
 
-    public void startSleeping(Player player) {
+    public void startSleeping(final Player player) {
         if (player.isSleepingIgnored()) {
             return;
         }
@@ -97,7 +100,7 @@ final class SleepContext {
         this.sleepingTasks.put(player, new PlayerBedCheckRunnable(player, this::addSleepingPlayer).runTaskTimer(plugin, 99L, 1L));
     }
 
-    public void addSleepingPlayer(Player player) {
+    public void addSleepingPlayer(final Player player) {
         Preconditions.checkArgument(player.getSleepTicks() >= 100, player.getDisplayName() + " is not deeply sleeping");
         if (player.isSleepingIgnored()) {
             this.sleepingPlayers.remove(player);
@@ -108,25 +111,25 @@ final class SleepContext {
         }
         this.sleepingTasks.remove(player).cancel();
         this.sleepingPlayers.add(player);
-        recalculate(false);
+        this.recalculate(false);
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(final Player player) {
         this.sleepingPlayers.remove(player);
         if (this.sleepingTasks.containsKey(player)) {
-            BukkitTask task = this.sleepingTasks.remove(player);
+            final BukkitTask task = this.sleepingTasks.remove(player);
             if (!task.isCancelled()) {
                 task.cancel();
             }
         }
-        recalculate(true);
+        this.recalculate(true);
     }
 
     public long totalPlayerCount() {
         return this.world.getPlayers().size();
     }
 
-    public void reset(boolean kickOut) {
+    public void reset(final boolean kickOut) {
         this.sleepingPlayers.forEach(player -> {
             if (kickOut) {
                 Bukkit.getScheduler().runTaskLater(plugin, () -> player.wakeup(false), 1L);
@@ -144,20 +147,20 @@ final class SleepContext {
             }
         });
         this.sleepingTasks.clear();
-        recalculate(true);
+        this.recalculate(true);
     }
 
     public boolean shouldSkip() {
         if (this.sleepingPlayers.isEmpty() || this.totalPlayerCount() == 0) {
             return false;
         }
-        return (double) this.sleepingPlayers.size() / (double) totalPlayerCount() >= this.requiredPercent();
+        return (double) this.sleepingPlayers.size() / (double) this.totalPlayerCount() >= this.requiredPercent();
     }
 
-    private void recalculate(boolean isRemoval) {
-        if (shouldSkip()) {
+    private void recalculate(final boolean isRemoval) {
+        if (this.shouldSkip()) {
             this.world.getPlayers().forEach(player -> {
-                Settings.DISPLAY.getOrDefault(player).notifyFinal(player, this);
+                settings.getSetting(Settings.DISPLAY).getOrDefault(player).notifyFinal(player, this);
             });
             if (this.world.hasStorm() || config.alwaysResetWeatherCycle) {
                 this.world.setWeatherDuration(0);
@@ -168,12 +171,8 @@ final class SleepContext {
             this.reset(false);
         } else {
             this.world.getPlayers().forEach(player -> {
-                Settings.DISPLAY.getOrDefault(player).notify(player, this, isRemoval);
+                settings.getSetting(Settings.DISPLAY).getOrDefault(player).notify(player, this, isRemoval);
             });
         }
-    }
-
-    static double getSleepingPercentage(World world) {
-        return Math.max(requireNonNull(world.getGameRuleValue(GameRule.PLAYERS_SLEEPING_PERCENTAGE)), 100) / 100D;
     }
 }

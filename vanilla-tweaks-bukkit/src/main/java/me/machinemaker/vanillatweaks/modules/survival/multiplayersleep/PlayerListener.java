@@ -20,6 +20,7 @@
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import com.google.inject.Inject;
+import java.util.UUID;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -27,31 +28,30 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.util.UUID;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class PlayerListener implements ModuleListener {
 
     private final Config config;
 
     @Inject
-    PlayerListener(Config config) {
+    PlayerListener(final Config config) {
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        SleepContext context = MultiplayerSleep.SLEEP_CONTEXT_MAP.get(event.getPlayer().getWorld().getUID());
+    public void onPlayerQuit(final PlayerQuitEvent event) {
+        final SleepContext context = MultiplayerSleep.SLEEP_CONTEXT_MAP.get(event.getPlayer().getWorld().getUID());
         if (context != null) {
             context.removePlayer(event.getPlayer());
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerBedEnter(PlayerBedEnterEvent event) {
+    public void onPlayerBedEnter(final PlayerBedEnterEvent event) {
         if (event.getBedEnterResult() != PlayerBedEnterEvent.BedEnterResult.OK) return;
         this.config.worlds(false).forEach(world -> {
-            SleepContext context = MultiplayerSleep.SLEEP_CONTEXT_MAP.computeIfAbsent(world.getUID(), uuid -> SleepContext.from(Bukkit.getWorld(uuid)));
+            final @Nullable SleepContext context = MultiplayerSleep.SLEEP_CONTEXT_MAP.computeIfAbsent(world.getUID(), uuid -> SleepContext.from(Bukkit.getWorld(uuid)));
             if (context != null) {
                 context.startSleeping(event.getPlayer());
             }
@@ -59,8 +59,8 @@ class PlayerListener implements ModuleListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
-        UUID uuid = event.getPlayer().getWorld().getUID();
+    public void onPlayerBedLeave(final PlayerBedLeaveEvent event) {
+        final UUID uuid = event.getPlayer().getWorld().getUID();
         if (MultiplayerSleep.SLEEP_CONTEXT_MAP.containsKey(uuid)) {
             MultiplayerSleep.SLEEP_CONTEXT_MAP.get(uuid).removePlayer(event.getPlayer());
         }

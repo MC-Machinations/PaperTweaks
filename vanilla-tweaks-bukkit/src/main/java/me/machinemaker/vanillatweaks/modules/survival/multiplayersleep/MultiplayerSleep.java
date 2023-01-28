@@ -20,6 +20,10 @@
 package me.machinemaker.vanillatweaks.modules.survival.multiplayersleep;
 
 import com.google.common.collect.Maps;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import me.machinemaker.vanillatweaks.LoggerFactory;
 import me.machinemaker.vanillatweaks.annotations.ModuleInfo;
 import me.machinemaker.vanillatweaks.modules.ModuleBase;
@@ -27,13 +31,7 @@ import me.machinemaker.vanillatweaks.modules.ModuleCommand;
 import me.machinemaker.vanillatweaks.modules.ModuleConfig;
 import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 @ModuleInfo(name = "MultiplayerSleep", configPath = "survival.multiplayer-sleep", description = "Enables passing the night/weather without everyone in the overworld sleeping")
 public class MultiplayerSleep extends ModuleBase {
@@ -43,29 +41,29 @@ public class MultiplayerSleep extends ModuleBase {
 
     @Override
     protected void configure() {
-        bind(Settings.class).asEagerSingleton();
-        requestStaticInjection(Settings.class);
-        requestStaticInjection(SleepContext.class);
+        this.bind(Settings.class).asEagerSingleton();
+        this.requestStaticInjection(Settings.class);
+        this.requestStaticInjection(SleepContext.class);
         super.configure();
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class, WorldListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

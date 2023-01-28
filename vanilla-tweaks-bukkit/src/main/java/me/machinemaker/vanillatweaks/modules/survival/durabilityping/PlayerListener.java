@@ -22,12 +22,12 @@ package me.machinemaker.vanillatweaks.modules.survival.durabilityping;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Range;
-import com.google.common.util.concurrent.Callables;
 import com.google.inject.Inject;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import me.machinemaker.vanillatweaks.modules.ModuleListener;
+import me.machinemaker.vanillatweaks.settings.ModuleSettings;
 import me.machinemaker.vanillatweaks.tags.Tags;
 import me.machinemaker.vanillatweaks.utils.Keys;
 import net.kyori.adventure.audience.Audience;
@@ -36,6 +36,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerItemDamageEvent;
@@ -51,18 +52,20 @@ import static net.kyori.adventure.text.Component.translatable;
 class PlayerListener implements ModuleListener {
 
     private static final Object INSTANCE = new Object();
-    final Cache<UUID, Settings.Instance> settingsCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build();
+    final Cache<UUID, CachedSettings> settingsCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build();
     private final DurabilityPing durabilityPing;
     private final Config config;
     private final BukkitAudiences audiences;
+    private final Settings settings;
     @MonotonicNonNull Cache<UUID, Object> cooldownCache;
 
     @Inject
-    PlayerListener(final DurabilityPing durabilityPing, final Config config, final BukkitAudiences audiences) {
+    PlayerListener(final DurabilityPing durabilityPing, final Config config, final BukkitAudiences audiences, final Settings settings) {
         this.durabilityPing = durabilityPing;
         this.config = config;
         this.audiences = audiences;
         this.cooldownCache = CacheBuilder.newBuilder().expireAfterWrite(config.notificationCooldown, TimeUnit.SECONDS).build();
+        this.settings = settings;
     }
 
 
@@ -88,7 +91,7 @@ class PlayerListener implements ModuleListener {
                 && event.getPlayer().hasPermission("vanillatweaks.durabilityping.notification")
                 && Range.openClosed(1, this.config.usesLeft + 1).contains(event.getItem().getType().getMaxDurability() - damageable.getDamage())
         ) {
-            final Settings.Instance playerSettings = this.settingsCache.get(event.getPlayer().getUniqueId(), Callables.returning(Settings.from(event.getPlayer())));
+            final CachedSettings playerSettings = this.getCachedSettings(event.getPlayer());
             final Material type = event.getItem().getType();
             if ((!playerSettings.handPing() && Tags.DAMAGEABLE_TOOLS.isTagged(type)) || (!playerSettings.armorPing() && Tags.DAMAGEABLE_ARMOR.isTagged(type))) {
                 return;
@@ -111,4 +114,13 @@ class PlayerListener implements ModuleListener {
             text(type.getMaxDurability(), NamedTextColor.GOLD)
         );
     }
+
+    private CachedSettings getCachedSettings(final Player player) throws ExecutionException {
+        return this.settingsCache.get(player.getUniqueId(), () -> {
+            final ModuleSettings.SettingGetter getter = this.settings.createGetter(player);
+            return new CachedSettings(getter.getOrDefault(Settings.HAND_PING), getter.getOrDefault(Settings.ARMOR_PING), getter.getOrDefault(Settings.SOUND), getter.getOrDefault(Settings.DISPLAY));
+        });
+    }
+
+    record CachedSettings(boolean handPing, boolean armorPing, boolean sound, Settings.DisplaySetting displaySetting) {}
 }
