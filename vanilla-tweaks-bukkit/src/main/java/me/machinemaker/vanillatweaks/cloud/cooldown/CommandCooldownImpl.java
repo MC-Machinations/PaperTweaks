@@ -22,35 +22,28 @@ package me.machinemaker.vanillatweaks.cloud.cooldown;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import java.util.UUID;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-@DefaultQualifier(NonNull.class)
-record CommandCooldownImpl<C>(
-        CloudKey<Void> key,
-        DurationFunction<C> duration,
-        @Nullable Notifier<C> notifier
-) implements CommandCooldown<C> {
+record CommandCooldownImpl<C>(CloudKey<Void> key, CommandCooldown.DurationFunction<C> duration, CommandCooldown.@Nullable Notifier<C> notifier) implements CommandCooldown<C> {
 
-    static final class BuilderImpl<C> implements Builder<C> {
+    static final class BuilderImpl<C> implements CommandCooldown.Builder<C> {
 
-        private final DurationFunction<C> cooldownDuration;
-        private @Nullable Notifier<C> notifier;
+        private final CommandCooldown.DurationFunction<C> cooldownDuration;
+        private CommandCooldown.@Nullable Notifier<C> notifier;
         private @Nullable CloudKey<Void> cooldownKey;
 
-        BuilderImpl(final DurationFunction<C> cooldownDuration) {
+        BuilderImpl(final CommandCooldown.DurationFunction<C> cooldownDuration) {
             this.cooldownDuration = cooldownDuration;
         }
 
         @Override
-        public Builder<C> notifier(final Notifier<C> notifier) {
+        public CommandCooldown.Builder<C> notifier(final CommandCooldown.Notifier<C> notifier) {
             this.notifier = notifier;
             return this;
         }
 
         @Override
-        public Builder<C> key(final CloudKey<Void> cooldownKey) {
+        public CommandCooldown.Builder<C> key(final CloudKey<Void> cooldownKey) {
             this.cooldownKey = cooldownKey;
             return this;
         }

@@ -26,9 +26,7 @@ import cloud.commandframework.keys.SimpleCloudKey;
 import cloud.commandframework.meta.CommandMeta;
 import io.leangen.geantyref.TypeToken;
 import java.time.Duration;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 /**
  * A command cooldown which can be applied to one or more {@link Command.Builder}s.
@@ -37,7 +35,6 @@ import org.checkerframework.framework.qual.DefaultQualifier;
  *
  * @param <C> sender type
  */
-@DefaultQualifier(NonNull.class)
 public interface CommandCooldown<C> {
 
     CommandMeta.Key<CommandCooldown<?>> COMMAND_META_KEY = CommandMeta.Key.of(new TypeToken<>() {}, "vanillatweaks:command_cooldown");

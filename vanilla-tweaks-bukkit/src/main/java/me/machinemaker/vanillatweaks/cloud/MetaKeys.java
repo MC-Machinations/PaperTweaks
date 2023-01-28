@@ -24,8 +24,8 @@ import org.bukkit.GameMode;
 
 public final class MetaKeys {
 
+    public static final CommandMeta.Key<GameMode> GAMEMODE_KEY = CommandMeta.Key.of(GameMode.class, "vanillatweaks:gamemode");
+
     private MetaKeys() {
     }
-
-    public static final CommandMeta.Key<GameMode> GAMEMODE_KEY = CommandMeta.Key.of(GameMode.class, "vanillatweaks:gamemode");
 }

@@ -37,6 +37,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -56,7 +57,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.text;
@@ -77,7 +77,7 @@ public class CloudModule extends AbstractModule {
     }
 
     private static Map<String, org.bukkit.command.Command> getCommandMap() {
-        return COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer()));
+        return Objects.requireNonNull(COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer())));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class CloudModule extends AbstractModule {
                 CommandDispatcher::sender
             ) {
                 @Override
-                public @NonNull CommandManager<CommandDispatcher> command(@NonNull final Command<CommandDispatcher> command) {
+                public CommandManager<CommandDispatcher> command(final Command<CommandDispatcher> command) {
                     if (command.getArguments().get(0) instanceof StaticArgument<?> staticArgument) {
                         final String main = staticArgument.getName();
                         if (VANILLA_COMMAND_WRAPPER_CLASS.isInstance(getCommandMap().get(main))) {

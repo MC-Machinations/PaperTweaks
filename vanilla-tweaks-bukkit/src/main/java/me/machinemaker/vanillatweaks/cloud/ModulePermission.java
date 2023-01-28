@@ -24,23 +24,22 @@ import cloud.commandframework.permission.AndPermission;
 import cloud.commandframework.permission.CommandPermission;
 import cloud.commandframework.permission.Permission;
 import cloud.commandframework.permission.PredicatePermission;
-import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
-
 import java.util.Set;
+import me.machinemaker.vanillatweaks.modules.ModuleLifecycle;
 
 public final class ModulePermission {
 
     private ModulePermission() {
     }
 
-    public static CommandPermission of(ModuleLifecycle lifecycle, String permission) {
+    public static CommandPermission of(final ModuleLifecycle lifecycle, final String permission) {
         return AndPermission.of(Set.of(
-                Permission.of(permission),
-                of(lifecycle)
+            Permission.of(permission),
+            of(lifecycle)
         ));
     }
 
-    public static CommandPermission of(ModuleLifecycle lifecycle) {
+    public static CommandPermission of(final ModuleLifecycle lifecycle) {
         return PredicatePermission.of(SimpleCloudKey.of(lifecycle.moduleInfo().name() + "-lifecycle"), ignored -> lifecycle.getState().isRunning());
     }
 }

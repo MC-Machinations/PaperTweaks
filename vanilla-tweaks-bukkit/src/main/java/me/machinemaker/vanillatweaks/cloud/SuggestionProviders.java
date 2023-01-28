@@ -21,20 +21,19 @@ package me.machinemaker.vanillatweaks.cloud;
 
 import cloud.commandframework.bukkit.parsers.PlayerArgument;
 import cloud.commandframework.context.CommandContext;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import org.bukkit.entity.Player;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import org.bukkit.entity.Player;
 
 public final class SuggestionProviders {
 
-    private SuggestionProviders() {
-    }
-
     private static final BiFunction<?, String, List<String>> EMPTY = (c, s) -> Collections.emptyList();
     private static final PlayerArgument.PlayerParser<CommandDispatcher> DUMMY_PLAYER_PARSER = new PlayerArgument.PlayerParser<>();
+
+    private SuggestionProviders() {
+    }
 
     @SuppressWarnings("unchecked")
     public static <C> BiFunction<C, String, List<String>> empty() {

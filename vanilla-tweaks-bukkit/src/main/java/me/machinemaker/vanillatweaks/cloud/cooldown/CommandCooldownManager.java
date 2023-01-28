@@ -33,9 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 /**
  * Manages {@link CommandCooldown}s.
@@ -43,7 +41,6 @@ import org.checkerframework.framework.qual.DefaultQualifier;
  * @param <C> command sender type
  * @param <I> identification type
  */
-@DefaultQualifier(NonNull.class)
 public final class CommandCooldownManager<C, I> {
 
     private final Function<C, @Nullable I> identificationMapper;

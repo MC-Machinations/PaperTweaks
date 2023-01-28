@@ -29,13 +29,10 @@ import me.machinemaker.vanillatweaks.cloud.arguments.ArgumentFactory;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.vanillatweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 /**
  * Various utility methods for commands to utilize
  */
-@DefaultQualifier(NonNull.class)
 public abstract class VanillaTweaksCommand {
 
     @Inject protected PaperCommandManager<CommandDispatcher> manager;

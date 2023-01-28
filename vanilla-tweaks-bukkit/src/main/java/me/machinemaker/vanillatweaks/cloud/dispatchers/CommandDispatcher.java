@@ -19,13 +19,11 @@
  */
 package me.machinemaker.vanillatweaks.cloud.dispatchers;
 
-import net.kyori.adventure.audience.ForwardingAudience;
-import org.bukkit.command.CommandSender;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 import java.util.UUID;
+import net.kyori.adventure.audience.ForwardingAudience;
+import org.bukkit.command.CommandSender;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Base class for representing command senders.
@@ -34,7 +32,7 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
 
     private final CommandSender bukkitCommandSender;
 
-    protected CommandDispatcher(CommandSender bukkitCommandSender) {
+    protected CommandDispatcher(final CommandSender bukkitCommandSender) {
         this.bukkitCommandSender = bukkitCommandSender;
     }
 
@@ -44,7 +42,7 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
      * @return the Bukkit command sender
      */
     public CommandSender sender() {
-        return bukkitCommandSender;
+        return this.bukkitCommandSender;
     }
 
     public boolean isPlayer() {
@@ -53,20 +51,20 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
 
     public abstract @Nullable UUID getUUID();
 
-    public boolean hasPermission(@NonNull String permission) {
+    public boolean hasPermission(final String permission) {
         return this.bukkitCommandSender.hasPermission(permission);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommandDispatcher that = (CommandDispatcher) o;
-        return bukkitCommandSender.equals(that.bukkitCommandSender);
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final CommandDispatcher that = (CommandDispatcher) o;
+        return this.bukkitCommandSender.equals(that.bukkitCommandSender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bukkitCommandSender);
+        return Objects.hash(this.bukkitCommandSender);
     }
 }

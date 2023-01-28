@@ -19,12 +19,10 @@
  */
 package me.machinemaker.vanillatweaks.cloud.dispatchers;
 
+import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.command.ConsoleCommandSender;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents the console command sender
@@ -35,7 +33,7 @@ public class ConsoleCommandDispatcher extends CommandDispatcher {
 
     private final Audience audience;
 
-    ConsoleCommandDispatcher(ConsoleCommandSender console, Audience audience) {
+    ConsoleCommandDispatcher(final ConsoleCommandSender console, final Audience audience) {
         super(console);
         this.audience = audience;
     }
@@ -46,7 +44,7 @@ public class ConsoleCommandDispatcher extends CommandDispatcher {
     }
 
     @Override
-    public @NotNull Audience audience() {
+    public Audience audience() {
         return this.audience;
     }
 

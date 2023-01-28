@@ -25,7 +25,6 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory for creating implementations of {@link CommandDispatcher}.
@@ -35,28 +34,22 @@ public class CommandDispatcherFactory extends CacheLoader<CommandSender, Command
     private final BukkitAudiences audiences;
 
     @Inject
-    public CommandDispatcherFactory(BukkitAudiences audiences) {
+    public CommandDispatcherFactory(final BukkitAudiences audiences) {
         this.audiences = audiences;
     }
 
-    /**
-     * Create an implementation of {@link CommandDispatcher}.
-     *
-     * @param sender the bukkit sender
-     * @return the created dispatcher
-     */
-    @NotNull
-    public CommandDispatcher from(CommandSender sender) {
+
+    public CommandDispatcher from(final CommandSender sender) {
         if (sender instanceof ConsoleCommandSender consoleCommandSender) {
-            return new ConsoleCommandDispatcher(consoleCommandSender, audiences.console());
+            return new ConsoleCommandDispatcher(consoleCommandSender, this.audiences.console());
         } else if (sender instanceof Player player) {
-            return new PlayerCommandDispatcher(player, audiences::player);
+            return new PlayerCommandDispatcher(player, this.audiences::player);
         }
         throw new IllegalArgumentException(sender + " is unknown");
     }
 
     @Override
-    public CommandDispatcher load(@NotNull CommandSender key) {
-        return from(key);
+    public CommandDispatcher load(final CommandSender key) {
+        return this.from(key);
     }
 }

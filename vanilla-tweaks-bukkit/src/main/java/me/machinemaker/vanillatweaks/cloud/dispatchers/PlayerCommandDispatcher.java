@@ -20,16 +20,14 @@
 package me.machinemaker.vanillatweaks.cloud.dispatchers;
 
 import cloud.commandframework.context.CommandContext;
+import java.util.UUID;
+import java.util.function.Function;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
-import java.util.function.Function;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Represents a player command sender
@@ -40,18 +38,13 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     private final Function<Player, Audience> audienceSupplier;
     private @MonotonicNonNull Audience audience;
 
-    public PlayerCommandDispatcher(Player player, Function<Player, Audience> audienceSupplier) {
+    public PlayerCommandDispatcher(final Player player, final Function<Player, Audience> audienceSupplier) {
         super(player);
         this.player = player;
         this.audienceSupplier = audienceSupplier;
     }
 
-    @Override
-    public Player sender() {
-        return (Player) super.sender();
-    }
-
-    public static @NotNull Player from(@NotNull CommandContext<?> context) {
+    public static Player from(final CommandContext<?> context) {
         if (context.getSender() instanceof PlayerCommandDispatcher playerCommandDispatcher) {
             return playerCommandDispatcher.sender();
         }
@@ -59,14 +52,18 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     }
 
     @Override
-    public @NotNull Audience audience() {
+    public Player sender() {
+        return (Player) super.sender();
+    }
+
+    @Override
+    public Audience audience() {
         if (this.audience == null) {
             this.audience = this.audienceSupplier.apply(this.player);
         }
         return this.audience;
     }
 
-    @NotNull
     @Override
     public PersistentDataContainer getPersistentDataContainer() {
         return this.sender().getPersistentDataContainer();
@@ -74,6 +71,6 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
 
     @Override
     public @Nullable UUID getUUID() {
-        return player.getUniqueId();
+        return this.player.getUniqueId();
     }
 }

@@ -24,22 +24,18 @@ import cloud.commandframework.execution.preprocessor.CommandPreprocessingContext
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import io.leangen.geantyref.TypeToken;
-import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
-import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiPredicate;
+import me.machinemaker.vanillatweaks.cloud.dispatchers.CommandDispatcher;
+import org.apache.commons.lang3.StringUtils;
 
-@DefaultQualifier(NonNull.class)
 public final class SimpleSuggestionProcessor implements CommandSuggestionProcessor<CommandDispatcher> {
 
     public static final CloudKey<Boolean> IGNORE_CASE = SimpleCloudKey.of("vanillatweaks:suggestions/ignore_case", TypeToken.get(Boolean.class));
 
     @Override
-    public List<String> apply(CommandPreprocessingContext<CommandDispatcher> context, List<String> strings) {
+    public List<String> apply(final CommandPreprocessingContext<CommandDispatcher> context, final List<String> strings) {
         final boolean ignoreCase = Boolean.TRUE.equals(context.getCommandContext().getOrDefault(IGNORE_CASE, false));
         final BiPredicate<String, String> predicate = ignoreCase ? StringUtils::startsWithIgnoreCase : StringUtils::startsWith;
         final String input;
@@ -50,7 +46,7 @@ public final class SimpleSuggestionProcessor implements CommandSuggestionProcess
         }
 
         final List<String> suggestions = new LinkedList<>();
-        for (String suggestion : strings) {
+        for (final String suggestion : strings) {
             if (predicate.test(suggestion, input)) {
                 suggestions.add(suggestion);
             }
