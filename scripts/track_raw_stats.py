@@ -19,9 +19,9 @@ def run():
                 words[1] = "minecraft.custom:minecraft.player_kills"
 
             if ":" in words[1]:
-                print(f"new Tracked.Statistic(\"{words[0]}\", \"{words[1]}\", \"{words[2]}\"),")
+                print(f"new Tracked.StatisticType(\"{words[0]}\", \"{words[1]}\", \"{words[2]}\"),")
             else:
-                print(f"new Tracked.Criteria(\"{words[0]}\", \"{words[1]}\", \"{words[2]}\", ),")
+                print(f"new Tracked.CriteriaType(\"{words[0]}\", \"{words[1]}\", \"{words[2]}\", ),")
 
 
 if __name__ == "__main__":
