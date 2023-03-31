@@ -1,20 +1,29 @@
 plugins {
     id("vanilla-tweaks.parent")
-    id("net.kyori.indra") version "2.1.1"
-    id("net.kyori.indra.license-header") version "2.0.6"
+    id("net.kyori.indra") version "3.0.1"
+    id("net.kyori.indra.licenser.spotless") version "3.0.1"
 }
 
 description = "A replacement for the VanillaTweaks datapack"
 
 allprojects {
     apply(plugin="net.kyori.indra")
-    apply(plugin="net.kyori.indra.license-header")
+    apply(plugin="net.kyori.indra.licenser.spotless")
 
     group = "me.machinemaker"
     version = "0.2.0-SNAPSHOT"
 
-    configure<org.cadixdev.gradle.licenser.LicenseExtension> {
-        header(rootProject.file("HEADER"))
+    indraSpotlessLicenser {
+        headerFormat {
+            starSlash()
+            property("name", "Machine_Maker")
+        }
+        licenseHeaderFile(rootProject.file("HEADER"))
+        extraConfig {
+            spotless {
+                updateYearWithLatest(true)
+            }
+        }
     }
 
     tasks {
@@ -26,7 +35,6 @@ allprojects {
 
 subprojects {
     apply(plugin="net.kyori.indra")
-    apply(plugin="net.kyori.indra.license-header")
     apply(plugin="com.github.johnrengelman.shadow")
 
     repositories {
