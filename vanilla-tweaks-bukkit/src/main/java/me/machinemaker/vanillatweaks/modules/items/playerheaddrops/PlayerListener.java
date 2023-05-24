@@ -47,7 +47,9 @@ class PlayerListener implements ModuleListener {
     public void onPlayerKilledByPlayer(final PlayerDeathEvent event) {
         final Player player = event.getEntity();
         final @Nullable Player killer = player.getKiller();
-        if (killer == null || !killer.hasPermission("vanillatweaks.playerheaddrops")) {
+        if (killer == null && this.config.requirePlayerKill) {
+            return;
+        } else if (killer != null && !killer.hasPermission("vanillatweaks.playerheaddrops")) {
             return;
         }
         if (ThreadLocalRandom.current().nextDouble() < this.config.dropChance) {
@@ -58,7 +60,9 @@ class PlayerListener implements ModuleListener {
             final GameProfile profile = PTUtils.getGameProfile(event.getEntity());
             PTUtils.sanitizeTextures(profile);
             PTUtils.loadMeta(meta, profile);
-            meta.setLore(List.of("Killed by " + killer.getName()));
+            if (killer != null) {
+                meta.setLore(List.of("Killed by " + killer.getName()));
+            }
             skull.setItemMeta(meta);
             event.getDrops().add(skull);
         }

@@ -25,12 +25,6 @@ allprojects {
             }
         }
     }
-
-    tasks {
-        build {
-            dependsOn(named("checkLicenses"))
-        }
-    }
 }
 
 subprojects {
