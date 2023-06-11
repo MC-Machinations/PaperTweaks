@@ -14,7 +14,7 @@ dependencies {
         exclude("com.mojang", "brigadier")
     }
 
-    val adventureVersion = "4.13.0"
+    val adventureVersion = "4.14.0"
     implementation("net.kyori:adventure-text-serializer-plain:$adventureVersion")
     implementation("net.kyori:adventure-api:$adventureVersion")
 
