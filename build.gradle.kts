@@ -32,7 +32,6 @@ subprojects {
     apply(plugin="com.github.johnrengelman.shadow")
 
     repositories {
-        mavenLocal()
         mavenCentral()
         maven("https://libraries.minecraft.net/")
         maven("https://papermc.io/repo/repository/maven-public/")

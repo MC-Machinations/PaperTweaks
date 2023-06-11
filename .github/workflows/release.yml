@@ -32,6 +32,5 @@ jobs:
           pre-release: ${{ contains(steps.vars.outputs.tag, '-beta') || contains(steps.vars.outputs.tag, '-dev') }}
           skip-prereleases: true
           files: |
-            PaperTweaks-Bukkit.jar
             PaperTweaks.jar
             LICENSE
