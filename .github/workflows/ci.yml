@@ -32,13 +32,12 @@ jobs:
         run: ./gradlew build --no-daemon --stacktrace
 
       - name: Copy artifacts before uploading
-        run: cp vanilla-tweaks-bukkit/build/libs/PaperTweaks-Bukkit.jar . && cp vanilla-tweaks-paper/build/libs/PaperTweaks.jar .
+        run: cp build/libs/PaperTweaks-*-all.jar ./PaperTweaks.jar
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: VanillaTweaks
           path: |
-            PaperTweaks-Bukkit.jar
             PaperTweaks.jar
             LICENSE

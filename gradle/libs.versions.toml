@@ -1,0 +1,58 @@
+[versions]
+paper = "1.20-R0.1-SNAPSHOT"
+mm-mirror = "0.1.2"
+mm-lectern = "0.3.0" # deprecated
+cloud = "1.8.3"
+bstats = "3.0.2"
+moonshine = "2.0.4"
+guice = "5.1.0"
+jdbi = "3.22.0"
+jackson = "2.15.2"
+
+# compile only
+authlib = "4.0.43"
+slf4j-api = "2.0.1" # only until paper bumps api version
+brigadier = "1.1.8"
+
+# soft deps
+worldguard = "7.0.8"
+griefprevention = "16.17.1"
+
+# plugins
+shadow = "8.1.1"
+indra = "3.1.1"
+
+[libraries]
+paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+
+mm-mirror = { module = "me.machinemaker.mirror:mirror-paper", version.ref = "mm-mirror" }
+mm-lectern = { module = "me.machinemaker.lectern:lectern-yaml", version.ref = "mm-lectern" } # deprecated
+
+cloud-paper = { module = "cloud.commandframework:cloud-paper", version.ref = "cloud" }
+cloud-extras = { module = "cloud.commandframework:cloud-minecraft-extras", version.ref = "cloud" }
+
+guice = { module = "com.google.inject:guice", version.ref = "guice" }
+guice-assistedInject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }
+
+bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+moonshine = { module = "net.kyori.moonshine:moonshine-standard", version.ref = "moonshine" }
+
+jdbi-core = { module = "org.jdbi:jdbi3-core", version.ref = "jdbi" }
+jdbi-sqlobject = { module = "org.jdbi:jdbi3-sqlobject", version.ref = "jdbi" }
+
+jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+jackson-paramNames = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
+
+# compile only
+authlib = { module = "com.mojang:authlib", version.ref = "authlib" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
+brigadier = {module = "com.mojang:brigadier", version.ref = "brigadier" }
+
+# soft deps
+worldguard = { module = "com.sk89q.worldguard:worldguard-bukkit", version.ref = "worldguard" }
+griefprevention = { module = "com.github.TechFortress:GriefPrevention", version.ref = "griefprevention" }
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+indra-licenser-spotless = { id = "net.kyori.indra.licenser.spotless", version.ref = "indra" }
+
