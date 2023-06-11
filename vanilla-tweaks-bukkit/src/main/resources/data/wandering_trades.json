@@ -220,16 +220,16 @@
     "secondaryCost": "minecraft:air",
     "headCount": 1,
     "name": "{\"text\":\"§r§eGeminiTay\"}",
-    "uuid": "bbd72f65-909e-4f58-95e8-8624d805cd23",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2Q2MDQxZWJlYWJmOWMyZTk5YmE5ZWExMjhiYjBjYjNiZTI0YTljNzc3OTRhZTJiNjBiZThlMWJhZWZiMjcxMSJ9fX0="
+    "uuid": "d8e408ba-b759-4dec-aa7b-cd145675bb87",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQ1Mzk0NGRmYmYwY2QxM2JmMWJmZmY5NTU4ZTIyZjc5MGQwYjcyZTE2YzVmZDlhOTQ4NDlhNWRlZjc5YmQifX19"
   },
   {
     "maxUses": 3,
     "secondaryCost": "minecraft:air",
     "headCount": 1,
     "name": "{\"text\":\"§r§ePearlescentMoon\"}",
-    "uuid": "ae596d2d-ed57-40f3-85ba-c8f08da79a8d",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDYwNjdlNzg5MGM4ZmY2ZTE3Yjk1NmY0YjA4ZTcwZjAzM2MzNWU1YzJjMmM2YTU3YjJjODE2MTMwNWNhMzk3YiJ9fX0="
+    "uuid": "6a93f070-c11e-4557-9f79-547d1345287f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjdkOTEwZGI5YjRmOWQ3NWUwOTFkMWI1YWI3NzQ5ZjRhNjUyZGY1MDAxOTZiZWU2YjUxMmQ4NmQ4OWJhNmZhMCJ9fX0="
   },
   {
     "maxUses": 1,
@@ -1694,5 +1694,61 @@
     "name": "{\"text\":\"§r§eSculk\"}",
     "uuid": "3ebd5a56-6f51-4998-92d2-eb11d18e6193",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ2NzJkYjk0MTYwNWZhNjMzYzM1NDgwZDFlOTk2Nzc1ZmFmY2E1ZmM4NGRjMzFlNzUyNDcxNWJlMDUxNmQxOSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:bamboo_block",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBamboo Block\"}",
+    "uuid": "252618c2-a083-40f2-ba0e-ea4f7a9803f0",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFmZGFjOGUyMzkzYzcwZjM1ZDk3MWIwZGRkMjY2ZmJmYWY1NjIxNDFjZjE1NjY2NWZlMjMwMmYyMWUzOGI2OSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:bamboo_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eBamboo Planks\"}",
+    "uuid": "413b8b7b-9f2b-4b1f-9327-09e76e4e0c08",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQwZWYzYTc3NzllMzNiYWMzZjVlYzM5NGIxMTVjZjIyN2NhMjA1ODJlNTZjZjNjYzBjMjNkNzhjMWUyN2U0NCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cherry_planks",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCherry Planks\"}",
+    "uuid": "72ab8923-c936-4913-b5ec-3325410753c8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJiMmY1NWZjOTM3MDQ0NTM4NTEwNzg0ZDZlZmM5ZTE4NjQxZDRiODRmNWNhMDdmOTk0YjJjN2Q2MjEyNGY5In19fQ=="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cherry_log",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCherry Log\"}",
+    "uuid": "902a4cb2-9f8f-49e1-adfc-7b2ac2eae0e8",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2VjNmY4MjVjMDkxMjRiY2NiYjBkY2Q1MjJhOTQzZmYzNmY0N2I2MmVjNzcxM2UwN2JjNTIyODUwZGYxMWI0NSJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:chiseled_bookshelf",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eChiseled Bookshelf\"}",
+    "uuid": "c407b7e4-1549-459c-92e3-3d944dc1ec3f",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjlmNzE0OWM4Y2ViNzljMDQzNTBhYWMwMzRlZjcyNDUwN2E3M2ZhZjljNjM5OWU3OTc2YThkZTVhMTk3MGRkNCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:sniffer_egg",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eSniffer Egg\"}",
+    "uuid": "029d1bf0-849a-4808-bb33-8cd4da9d7835",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWFjMDY4ZTA3YmFiNmM4MTM3MTIyOTZmZWEyMzZlZTcwM2ExY2Y2YzY3YmE0NjVmOTE1NWNmNWFmMWVkYTc3MCJ9fX0="
+  },
+  {
+    "maxUses": 1,
+    "secondaryCost": "minecraft:cherry_leaves",
+    "headCount": 8,
+    "name": "{\"text\":\"§r§eCherry Leaves\"}",
+    "uuid": "6609c653-adc0-4db7-92be-51edfb59d3c4",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjk4YjM4YWViZTdjNGVkNWM4MTllZTQyM2YzYjQ2YzYwNjg0Y2JkM2VkMGZhNGE5ZmQ1OTNhY2E2M2MwYWM4NSJ9fX0="
   }
 ]

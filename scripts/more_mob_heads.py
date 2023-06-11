@@ -83,11 +83,11 @@ def parse_head(entry, conditions, table_name: str, heads: list):
         elif "random_chance_with_looting" == condition["condition"]:
             chance = float(condition["chance"])
             looting_multiplier = float(condition["looting_multiplier"])
-        elif "alternative" == condition["condition"]:
+        elif "any_of" == condition["condition"]:
             requires_customization = True
             for alt in condition["terms"]:
                 if alt["condition"] != "entity_properties":
-                    print(f"Unhandled alternatives condition: {alt['condition']} on {table_name}")
+                    print(f"Unhandled any_of condition: {alt['condition']} on {table_name}")
         elif "inverted" == condition["condition"]:
             requires_customization = True
             if condition["term"]["condition"] != "entity_properties":

@@ -37,6 +37,7 @@ import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.TraderLlama;
 import org.bukkit.entity.Villager;
+import org.bukkit.entity.Wolf;
 import org.bukkit.entity.ZombieVillager;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -103,6 +104,9 @@ final class MobHeadCustomizations {
                 break;
             case "frog.json":
                 frog(head);
+                break;
+            case "wolf.json":
+                wolf(head);
                 break;
             default:
                 MoreMobHeads.LOGGER.error("{} doesn't have a custom handler", head.lootTable());
@@ -312,7 +316,7 @@ final class MobHeadCustomizations {
             case "Librarian Villager" -> Villager.Profession.LIBRARIAN;
             case "Mason Villager" -> Villager.Profession.MASON;
             case "Nitwit Villager" -> Villager.Profession.NITWIT;
-            case "Unemployed Villager" -> null;
+            case "Villager" -> null;
             case "Shepherd Villager" -> Villager.Profession.SHEPHERD;
             case "Toolsmith Villager" -> Villager.Profession.TOOLSMITH;
             case "Weaponsmith Villager" -> Villager.Profession.WEAPONSMITH;
@@ -360,6 +364,17 @@ final class MobHeadCustomizations {
         };
         final Predicate<Frog> frogPredicate = frog -> frog.getVariant() == variant;
         head.predicate(frogPredicate);
+    }
+
+    private static void wolf(final MobHead head) {
+        final Predicate<Wolf> wolfPredicate = wolf -> {
+            if (head.name().equals("Angry Wolf")) {
+                return wolf.isAngry();
+            } else {
+                return true;
+            }
+        };
+        head.predicate(wolfPredicate);
     }
 
 }

@@ -120,6 +120,16 @@
     "lootingMultiplier": 0.0005
   },
   {
+    "tableName": "camel.json",
+    "uuid": "a57bccc1-abdc-47f8-8ea8-a3452cc73f80",
+    "name": "Camel",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTY3ZDQ1OTczNDAxNjZlMTk3OGE2NjhhMDZiZjU3NTZjMTdiNGNiNWI0MGFiOGZmMjQ0MDkzYjZiOGJjNzVkMyJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
     "tableName": "cat.json",
     "uuid": "18d071ee-a17c-46eb-866c-304a4823ac05",
     "name": "Tabby Cat",
@@ -790,16 +800,6 @@
     "lootingMultiplier": 0.001
   },
   {
-    "tableName": "piglin.json",
-    "uuid": "661973b6-702f-42b0-8249-cdb1a39b6f9b",
-    "name": "Piglin",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODFhZmQ4NTM5MTE4MmE5ZjlkZTRmY2UyOWVhZjAyNTE0Y2MyZTA0NDgxNTc3ZGE1ZWRlYjU4YjE3ZTc1NzEzNSJ9fX0=",
-    "needsPlayer": true,
-    "requiresCustomization": false,
-    "chance": 0.04,
-    "lootingMultiplier": 0.01
-  },
-  {
     "tableName": "piglin_brute.json",
     "uuid": "b9b908ef-1962-42b2-ae20-f37e46303887",
     "name": "Piglin Brute",
@@ -1150,6 +1150,16 @@
     "lootingMultiplier": 0.001
   },
   {
+    "tableName": "sniffer.json",
+    "uuid": "f699a97c-84bb-44cf-b66c-f31bdc69568e",
+    "name": "Sniffer",
+    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg0YTdlN2ZlMTk3YjdlNzQxOWI1MWQ0NmNjMjMzNTUxYjllYzg5OWRlMWFmZTdmNjUzZTRmOGZiMjZhNjg2ZSJ9fX0=",
+    "needsPlayer": true,
+    "requiresCustomization": false,
+    "chance": 1.0,
+    "lootingMultiplier": 0.0
+  },
+  {
     "tableName": "snow_golem.json",
     "uuid": "4ff3822f-2323-4e0d-b17c-dfdc3686dba0",
     "name": "Snow Golem",
@@ -1202,7 +1212,7 @@
   {
     "tableName": "strider.json",
     "uuid": "d843d702-9a8c-419a-80d5-da6c51a2c006",
-    "name": "Freezing Strider",
+    "name": "Cold Strider",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjcxMzA4NWE1NzUyN2U0NTQ1OWMzOGZhYTdiYjkxY2FiYjM4MWRmMzFjZjJiZjc5ZDY3YTA3MTU2YjZjMjMwOSJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": false,
@@ -1412,7 +1422,7 @@
   {
     "tableName": "villager.json",
     "uuid": "5625c69c-79b2-4c65-9244-acffeccafa26",
-    "name": "Unemployed Villager",
+    "name": "Villager",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWUwZTk1OTFlMTFhYWVmNGMyYzUxZDlhYzY5NTE0ZTM0MDQ4NWRlZmNjMmMxMmMzOGNkMTIzODZjMmVjNmI3OCJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": true,
@@ -1501,18 +1511,8 @@
   },
   {
     "tableName": "wither.json",
-    "uuid": "3ff7692f-f639-42b1-9ed7-1ce1f22ca6de",
-    "name": "Invulnerable Wither",
-    "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzE5NmViOGQ1OTljNGZlZjUzYTk3MTc2YjcyZmY4ZmM0MWUzMmE2NmExNTlmZDQ1MTkwYTBkYTE1NDU4N2UxMiJ9fX0=",
-    "needsPlayer": true,
-    "requiresCustomization": true,
-    "chance": 1.0,
-    "lootingMultiplier": 0.0
-  },
-  {
-    "tableName": "wither.json",
     "uuid": "0aa676db-c489-4837-b733-55b89714d4f6",
-    "name": "Armored Wither",
+    "name": "Wither Projectile",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjM3YzU4MTRhOTJmOGVjMGY2YWU5OTMzYWJlOTU0MmUxNjUxOTA3NjhlNzYwNDc4NTQzYWViZWVkNDAyN2MyNyJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": true,
@@ -1522,7 +1522,7 @@
   {
     "tableName": "wither.json",
     "uuid": "8e4c90d2-d6b4-419b-a8f6-66bdacb3ab5f",
-    "name": "Armored Invulnerable Wither",
+    "name": "Blue Wither Projectile",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM2ODJiMDYyMDNiOWRlNGMyODU0MTA3MWEyNmNkYzM0MGRkMjVkNGMzNzJiNzAyM2VjMmY0MTIwMjFkNjJmNyJ9fX0=",
     "needsPlayer": true,
     "requiresCustomization": true,
@@ -1535,7 +1535,7 @@
     "name": "Wolf",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY0MzlhNDNlNTY4NzAwODgxNWEyZGQxZmY0YTEzNGMxMjIyMWI3ODIzMzY2NzhiOTc5YWQxM2RjZTM5NjY1ZSJ9fX0=",
     "needsPlayer": true,
-    "requiresCustomization": false,
+    "requiresCustomization": true,
     "chance": 0.2,
     "lootingMultiplier": 0.01
   },
@@ -1545,7 +1545,7 @@
     "name": "Angry Wolf",
     "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQxYWE3ZTNiOTU2NGIzODQ2ZjFkZWExNGYxYjFjY2JmMzk5YmJiMjNiOTUyZGJkN2VlYzQxODAyYTI4OWM5NiJ9fX0=",
     "needsPlayer": true,
-    "requiresCustomization": false,
+    "requiresCustomization": true,
     "chance": 0.2,
     "lootingMultiplier": 0.01
   },
