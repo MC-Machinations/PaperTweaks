@@ -3,3 +3,9 @@
 *.iml
 **/build
 venv
+
+# jdtls
+**/bin
+**/.classpath
+**/.project
+**/.settings
