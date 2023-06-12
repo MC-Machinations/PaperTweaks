@@ -25,7 +25,6 @@ import me.machinemaker.papertweaks.pdc.DataTypes;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.utils.CachedHashObjectWrapper;
 import me.machinemaker.papertweaks.utils.Keys;
-import net.kyori.adventure.audience.Audience;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -73,18 +72,18 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class PlayerListener implements ModuleListener {
 
-    static final NamespacedKey GRAVE_KEY = Keys.key("graves.grave_key");
+    static final NamespacedKey GRAVE_KEY = Keys.legacyKey("graves.grave_key");
 
-    static final NamespacedKey LAST_GRAVE_LOCATION = Keys.key("graves.last_grave_location");
+    static final NamespacedKey LAST_GRAVE_LOCATION = Keys.legacyKey("graves.last_grave_location");
 
-    private static final NamespacedKey PROTECTED = Keys.key("protected");
-    private static final NamespacedKey TIMESTAMP = Keys.key("timestamp");
-    private static final NamespacedKey PLAYER_UUID = Keys.key("player_uuid");
-    private static final NamespacedKey PLAYER_ALL_CONTENTS = Keys.key("player_all_contents");
-    private static final NamespacedKey PLAYER_EXPERIENCE = Keys.key("graves.player_experience");
-    private static final @Deprecated NamespacedKey PLAYER_INV_CONTENTS = Keys.key("player_inventory_contents");
-    private static final @Deprecated NamespacedKey PLAYER_ARM_CONTENTS = Keys.key("player_armor_contents");
-    private static final @Deprecated NamespacedKey PLAYER_EXTRA_CONTENTS = Keys.key("player_extra_contents");
+    private static final NamespacedKey PROTECTED = Keys.legacyKey("protected");
+    private static final NamespacedKey TIMESTAMP = Keys.legacyKey("timestamp");
+    private static final NamespacedKey PLAYER_UUID = Keys.legacyKey("player_uuid");
+    private static final NamespacedKey PLAYER_ALL_CONTENTS = Keys.legacyKey("player_all_contents");
+    private static final NamespacedKey PLAYER_EXPERIENCE = Keys.legacyKey("graves.player_experience");
+    private static final @Deprecated NamespacedKey PLAYER_INV_CONTENTS = Keys.legacyKey("player_inventory_contents");
+    private static final @Deprecated NamespacedKey PLAYER_ARM_CONTENTS = Keys.legacyKey("player_armor_contents");
+    private static final @Deprecated NamespacedKey PLAYER_EXTRA_CONTENTS = Keys.legacyKey("player_extra_contents");
 
     private final JavaPlugin plugin;
     private final Config config;

@@ -48,7 +48,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 @ModuleCommand.Info(value = "spawningspheres", aliases = {"spawnsphere", "ss"}, i18n = "spawning-spheres", perm = "spawningspheres")
 class Commands extends ConfiguredModuleCommand {
 
-    private static final PDCKey<Color> COLOR_KEY = PDCKey.enums(Keys.key("color"), Color.class);
+    private static final PDCKey<Color> COLOR_KEY = PDCKey.enums(Keys.legacyKey("color"), Color.class);
     private static final double PHI =  Math.PI * (3.0 - Math.sqrt(5.0));
 
     private static final DespawnDistances DESPAWN_DISTANCES = Services.service(DespawnDistances.Provider.class)

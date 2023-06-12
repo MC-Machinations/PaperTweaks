@@ -51,7 +51,7 @@ class Commands extends ModuleCommand {
     private static final CommandArgument<CommandDispatcher, World> WORLD_ARG = WorldArgument.of("world");
 
     static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
-    static final CloudKey<Void> SPAWN_CMD_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:spawn_cmd_cooldown");
+    static final CloudKey<Void> SPAWN_CMD_COOLDOWN_KEY = SimpleCloudKey.of("papertweaks:spawn_cmd_cooldown");
 
     private final JavaPlugin plugin;
     private final Config config;

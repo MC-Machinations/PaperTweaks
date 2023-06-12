@@ -33,7 +33,7 @@ import java.util.Set;
 @ModuleInfo(name = "AFKDisplay", configPath = "survival.afk-display", description = "Tracks player AFK status")
 public class AFKDisplay extends ModuleBase {
 
-    public static final PDCKey<Boolean> AFK_DISPLAY = PDCKey.bool(Keys.key("afk"));
+    public static final PDCKey<Boolean> AFK_DISPLAY = PDCKey.bool(Keys.legacyKey("afk"));
 
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {

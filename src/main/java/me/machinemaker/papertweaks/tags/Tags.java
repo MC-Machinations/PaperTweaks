@@ -63,6 +63,6 @@ public final class Tags {
             .endsWith("_CHESTPLATE").verify(6).build();
 
     private static MaterialTag.Builder material(String name) {
-        return MaterialTag.builder(Keys.key(name));
+        return MaterialTag.builder(Keys.legacyKey(name));
     }
 }

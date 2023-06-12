@@ -42,8 +42,8 @@ import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 public class Tag extends ModuleBase {
 
     static final ItemStack TAG_ITEM = new ItemStack(Material.NAME_TAG);
-    static final PDCKey<Boolean> IT = PDCKey.bool(Keys.key("tag"));
-    static final PDCKey<Long> COOLDOWN = PDCKey.forLong(Keys.key("cooldown"));
+    static final PDCKey<Boolean> IT = PDCKey.bool(Keys.legacyKey("tag"));
+    static final PDCKey<Long> COOLDOWN = PDCKey.forLong(Keys.legacyKey("cooldown"));
 
     static {
         final ItemMeta meta = TAG_ITEM.getItemMeta();

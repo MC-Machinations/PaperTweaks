@@ -47,7 +47,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 @ModuleCommand.Info(value = "homes", i18n = "homes", perm = "homes")
 class Commands extends ConfiguredModuleCommand {
 
-    static final CloudKey<Void> HOME_COMMAND_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:home_cmd_cooldown");
+    static final CloudKey<Void> HOME_COMMAND_COOLDOWN_KEY = SimpleCloudKey.of("papertweaks:home_cmd_cooldown");
 
     private final HomesDAO homesDAO;
     private final Config config;

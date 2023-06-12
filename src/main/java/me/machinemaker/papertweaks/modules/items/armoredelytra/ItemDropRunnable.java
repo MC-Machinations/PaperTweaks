@@ -56,8 +56,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 class ItemDropRunnable extends BukkitRunnable {
 
-    static final PDCKey<ItemStack> ELYTRA_ITEM = PDCKey.itemStack(Keys.key("ae.elytra_item"));
-    static final PDCKey<ItemStack> CHESTPLATE_ITEM = PDCKey.itemStack(Keys.key("ae.chestplate_item"));
+    static final PDCKey<ItemStack> ELYTRA_ITEM = PDCKey.itemStack(Keys.legacyKey("ae.elytra_item"));
+    static final PDCKey<ItemStack> CHESTPLATE_ITEM = PDCKey.itemStack(Keys.legacyKey("ae.chestplate_item"));
 
     private final Item item;
     private final LookingFor lookingFor;

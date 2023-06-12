@@ -32,7 +32,7 @@ import me.machinemaker.papertweaks.utils.Keys;
 @ModuleInfo(name = "Elevators", configPath = "experimental.elevators", description = "Create vertical elevators on wool blocks by throwing an enderpearl on the wool block")
 public class Elevators extends ModuleBase {
 
-    static final PDCKey<Boolean> IS_ELEVATOR = PDCKey.bool(Keys.key("is_elevator"));
+    static final PDCKey<Boolean> IS_ELEVATOR = PDCKey.bool(Keys.legacyKey("is_elevator"));
 
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {

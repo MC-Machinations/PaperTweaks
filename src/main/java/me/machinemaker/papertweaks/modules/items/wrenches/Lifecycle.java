@@ -47,7 +47,7 @@ class Lifecycle extends ModuleLifecycle {
     static final byte[] RESOURCE_PACK_HASH = new BigInteger("1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147", 16).toByteArray();
 
     static final ItemStack WRENCH = new ItemStack(Material.CARROT_ON_A_STICK, 1);
-    static final NamespacedKey WRENCH_RECIPE_KEY = Keys.key("redstone_wrench");
+    static final NamespacedKey WRENCH_RECIPE_KEY = Keys.legacyKey("redstone_wrench");
     static final ShapedRecipe WRENCH_RECIPE = new ShapedRecipe(WRENCH_RECIPE_KEY, WRENCH)
         .shape(
             " # ",

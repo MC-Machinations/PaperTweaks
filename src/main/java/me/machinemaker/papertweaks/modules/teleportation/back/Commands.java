@@ -38,7 +38,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 @ModuleCommand.Info(value = "back", i18n = "back", perm = "back", infoOnRoot = false)
 class Commands extends ConfiguredModuleCommand {
 
-    static final CloudKey<Void> BACK_COMMAND_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:back_cmd_cooldown");
+    static final CloudKey<Void> BACK_COMMAND_COOLDOWN_KEY = SimpleCloudKey.of("papertweaks:back_cmd_cooldown");
 
     private final Config config;
 

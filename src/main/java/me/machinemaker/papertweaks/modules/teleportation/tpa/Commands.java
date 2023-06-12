@@ -45,7 +45,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 @ModuleCommand.Info(value = "tpa", i18n = "tpa", perm = "tpa")
 class Commands extends ConfiguredModuleCommand {
 
-    static final CloudKey<Void> TPA_REQUEST_COOLDOWN_KEY = SimpleCloudKey.of("vanillatweaks:tpa_request_cmd_cooldown");
+    static final CloudKey<Void> TPA_REQUEST_COOLDOWN_KEY = SimpleCloudKey.of("papertweaks:tpa_request_cmd_cooldown");
 
     private final TPAManager tpaManager;
     private final Config config;

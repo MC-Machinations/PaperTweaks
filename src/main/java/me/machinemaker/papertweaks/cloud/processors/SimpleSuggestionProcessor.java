@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public final class SimpleSuggestionProcessor implements CommandSuggestionProcessor<CommandDispatcher> {
 
-    public static final CloudKey<Boolean> IGNORE_CASE = SimpleCloudKey.of("vanillatweaks:suggestions/ignore_case", TypeToken.get(Boolean.class));
+    public static final CloudKey<Boolean> IGNORE_CASE = SimpleCloudKey.of("papertweaks:suggestions/ignore_case", TypeToken.get(Boolean.class));
 
     @Override
     public List<String> apply(final CommandPreprocessingContext<CommandDispatcher> context, final List<String> strings) {

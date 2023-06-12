@@ -80,7 +80,7 @@ public class RootCommand extends VanillaTweaksCommand {
     }
 
     public void registerCommands() {
-        this.builder = this.manager.commandBuilder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks");
+        this.builder = this.manager.commandBuilder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks", "pt", "papertweaks", "ptweaks");
 
         this.manager.command(this.simple("reload")
             .handler(this.sync(this::reloadEverything))

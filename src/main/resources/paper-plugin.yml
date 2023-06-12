@@ -1,11 +1,10 @@
-name: VanillaTweaks
+name: PaperTweaks
 version: ${version}
 main: me.machinemaker.papertweaks.PaperTweaks
 api-version: "1.20"
 authors:
   - Machine_Maker
 description: A replacement for the VanillaTweaks datapack
-prefix: PaperTweaks
 
 dependencies:
   server:

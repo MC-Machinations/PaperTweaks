@@ -38,7 +38,7 @@ import java.util.Set;
 @ModuleInfo(name = "Back", configPath = "teleportation.back", description = "Adds a /back command to teleport back to previous locations")
 public class Back extends ModuleBase {
 
-    static final PDCKey<Location> BACK_LOCATION = new PDCKey<>(Keys.key("back/location"), DataTypes.LOCATION);
+    static final PDCKey<Location> BACK_LOCATION = new PDCKey<>(Keys.legacyKey("back/location"), DataTypes.LOCATION);
 
     @Override
     protected void configure() {

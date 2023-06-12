@@ -29,7 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.utils.Keys;
 import me.machinemaker.papertweaks.utils.runnables.TimerRunnable;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -42,7 +41,7 @@ import org.bukkit.plugin.Plugin;
 @Singleton
 class HUDRunnable extends TimerRunnable {
 
-    private static final PDCKey<Boolean> COORDINATES_HUD_KEY = PDCKey.bool(Keys.key("coordinateshud"));
+    private static final PDCKey<Boolean> COORDINATES_HUD_KEY = PDCKey.bool(Keys.legacyKey("coordinateshud"));
 
     private final Set<UUID> enabled = ConcurrentHashMap.newKeySet();
     private final Config config;

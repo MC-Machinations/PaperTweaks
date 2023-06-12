@@ -25,6 +25,6 @@ import org.bukkit.NamespacedKey;
 public record SettingKey<T>(NamespacedKey key) {
 
     public SettingKey(final String key) {
-        this(Keys.key(key));
+        this(Keys.legacyKey(key));
     }
 }

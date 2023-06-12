@@ -24,9 +24,14 @@ import org.bukkit.NamespacedKey;
 
 public final class Keys {
 
-    private static final String NAMESPACE = "vanillatweaks";
+    private static final String LEGACY_NAMESPACE = "vanillatweaks";
+    private static final String NAMESPACE = "papertweaks";
 
     private Keys() {
+    }
+
+    public static NamespacedKey legacyKey(final String string) {
+        return new NamespacedKey(LEGACY_NAMESPACE, string);
     }
 
     public static NamespacedKey key(final String string) {

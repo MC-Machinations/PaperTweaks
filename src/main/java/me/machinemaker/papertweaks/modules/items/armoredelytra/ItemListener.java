@@ -33,7 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 class ItemListener implements ModuleListener {
 
-    static final PDCKey<Boolean> IS_ARMORED_ELYTRA = PDCKey.bool(Keys.key("ae.is_armored_elytra"));
+    static final PDCKey<Boolean> IS_ARMORED_ELYTRA = PDCKey.bool(Keys.legacyKey("ae.is_armored_elytra"));
 
     private final Plugin plugin;
 

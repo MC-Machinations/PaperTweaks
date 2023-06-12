@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public interface CommandCooldown<C> {
 
-    CommandMeta.Key<CommandCooldown<?>> COMMAND_META_KEY = CommandMeta.Key.of(new TypeToken<>() {}, "vanillatweaks:command_cooldown");
+    CommandMeta.Key<CommandCooldown<?>> COMMAND_META_KEY = CommandMeta.Key.of(new TypeToken<>() {}, "papertweaks:command_cooldown");
 
     /**
      * Apply this {@link CommandCooldown} to a {@link Command.Builder} instance.

@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 public final class TranslationRegistry {
 
-    private static final Key LANG_KEY = Key.key("vanillatweaks", "lang");
+    private static final Key LANG_KEY = Key.key("papertweaks", "lang");
     private static final Map<String, Translation> TRANSLATIONS = Maps.newConcurrentMap();
     private static final net.kyori.adventure.translation.TranslationRegistry ADVENTURE_REGISTRY = net.kyori.adventure.translation.TranslationRegistry.create(LANG_KEY);
 

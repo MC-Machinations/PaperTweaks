@@ -32,7 +32,7 @@ import me.machinemaker.papertweaks.utils.Keys;
 @ModuleInfo(name = "ThunderShrine", configPath = "hermitcraft.thunder-shrine", description = "Create a shrine to summon thunderstorms")
 public class ThunderShrine extends ModuleBase {
 
-    static final PDCKey<UUID> SHRINE = PDCKey.uuid(Keys.key("shrine"));
+    static final PDCKey<UUID> SHRINE = PDCKey.uuid(Keys.legacyKey("shrine"));
 
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {

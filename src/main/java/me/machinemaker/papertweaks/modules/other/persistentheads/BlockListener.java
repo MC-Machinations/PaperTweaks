@@ -55,8 +55,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class BlockListener implements ModuleListener {
 
-    private static final PDCKey<Component> HEAD_NAME = new PDCKey<>(Keys.key("head_name"), PaperDataTypes.COMPONENT);
-    private static final PDCKey<List<Component>> HEAD_LORE = new PDCKey<>(Keys.key("head_lore"), PaperDataTypes.COMPONENT_LIST);
+    private static final PDCKey<Component> HEAD_NAME = new PDCKey<>(Keys.legacyKey("head_name"), PaperDataTypes.COMPONENT);
+    private static final PDCKey<List<Component>> HEAD_LORE = new PDCKey<>(Keys.legacyKey("head_lore"), PaperDataTypes.COMPONENT_LIST);
 
     private final Plugin plugin;
 

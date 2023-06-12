@@ -35,7 +35,7 @@ import org.bukkit.inventory.ItemStack;
 @ModuleInfo(name = "XPManagement", configPath = "experimental.xp-management", description = "Store XP in bottles, smelt in furnace to retrieve XP")
 public class XPManagement extends ModuleBase {
 
-    private static final NamespacedKey XP_RECIPE_KEY = Keys.key("xp_management_recipe");
+    private static final NamespacedKey XP_RECIPE_KEY = Keys.legacyKey("xp_management_recipe");
     private static final FurnaceRecipe XP_RECIPE = new FurnaceRecipe(XP_RECIPE_KEY, new ItemStack(Material.GLASS_BOTTLE), Material.EXPERIENCE_BOTTLE, 12, 1);
 
     @Override

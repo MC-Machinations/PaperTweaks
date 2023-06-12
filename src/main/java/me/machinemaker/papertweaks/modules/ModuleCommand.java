@@ -63,7 +63,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public abstract class ModuleCommand extends VanillaTweaksCommand {
 
-    private static final CommandMeta.Key<ModuleBase> MODULE_OWNER = CommandMeta.Key.of(ModuleBase.class, "vanillatweaks:commands/module_owner");
+    private static final CommandMeta.Key<ModuleBase> MODULE_OWNER = CommandMeta.Key.of(ModuleBase.class, "papertweaks:commands/module_owner");
     private static final MinecraftHelp.HelpColors MODULE_HELP_COLORS = MinecraftHelp.HelpColors.of(
             TextColor.color(0x70B3B3),
             NamedTextColor.AQUA,
