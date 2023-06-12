@@ -19,37 +19,35 @@
  */
 package me.machinemaker.papertweaks.modules.items.wrenches;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "RotationWrenches", configPath = "items.rotation-wrenches", description = "A wrench to rotate redstone components and/or terracotta")
 public class RotationWrenches extends ModuleBase {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class, WrenchListener.class);
     }
 
     @Override
-    protected @NotNull Collection<ModuleRecipe<?>> recipes() {
+    protected Collection<ModuleRecipe<?>> recipes() {
         return Set.of(new ModuleRecipe<>(Lifecycle.WRENCH_RECIPE));
     }
 }

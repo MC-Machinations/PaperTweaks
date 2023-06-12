@@ -20,14 +20,12 @@
 package me.machinemaker.papertweaks.modules.hermitcraft.wanderingtrades;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.UUID;
 import me.machinemaker.papertweaks.utils.PTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 class Trade {
 
@@ -36,7 +34,7 @@ class Trade {
     private final ItemStack skull;
 
     @JsonCreator
-    Trade(int maxUses, @NotNull Material secondaryCost, int headCount, @NotNull String name, @NotNull UUID uuid, @NotNull String texture) {
+    Trade(final int maxUses, final Material secondaryCost, final int headCount, final String name, final UUID uuid, final String texture) {
         this.maxUses = maxUses;
         this.secondaryCost = secondaryCost;
         this.skull = PTUtils.getSkull(GsonComponentSerializer.gson().deserialize(name), uuid, texture, headCount);
@@ -46,10 +44,10 @@ class Trade {
         return this.secondaryCost != Material.AIR;
     }
 
-    public @NotNull MerchantRecipe createTrade() {
-        MerchantRecipe recipe = new MerchantRecipe(this.skull.clone(), this.maxUses);
+    public MerchantRecipe createTrade() {
+        final MerchantRecipe recipe = new MerchantRecipe(this.skull.clone(), this.maxUses);
         recipe.addIngredient(new ItemStack(Material.EMERALD, 1));
-        if (secondaryCost != Material.AIR) {
+        if (this.secondaryCost != Material.AIR) {
             recipe.addIngredient(new ItemStack(this.secondaryCost, 1));
         }
         return recipe;

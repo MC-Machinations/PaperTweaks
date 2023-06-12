@@ -68,12 +68,20 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
+spotless {
+    format("javaMisc") {
+        target("src/**/package-info.java")
+        licenseHeaderFile(rootProject.file(".spotless/HEADER_misc"), "(\\/\\*\\*|@DefaultQualifier)")
+            .updateYearWithLatest(true)
+    }
+}
+
 indraSpotlessLicenser {
     headerFormat {
         starSlash()
         property("name", "Machine_Maker")
     }
-    licenseHeaderFile(rootProject.file("HEADER"))
+    licenseHeaderFile(rootProject.file(".spotless/HEADER"))
     extraConfig {
         spotless {
             updateYearWithLatest(true)

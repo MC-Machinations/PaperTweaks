@@ -20,8 +20,8 @@
 package me.machinemaker.papertweaks.modules.hermitcraft.tag;
 
 import com.google.inject.Inject;
+import java.time.Duration;
 import me.machinemaker.papertweaks.modules.ModuleListener;
-import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,11 +29,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import java.time.Duration;
-
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 class PlayerListener implements ModuleListener {
 
@@ -41,18 +40,18 @@ class PlayerListener implements ModuleListener {
     private final Config config;
 
     @Inject
-    PlayerListener(TagManager tagManager, Config config) {
+    PlayerListener(final TagManager tagManager, final Config config) {
         this.tagManager = tagManager;
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerDamage(EntityDamageByEntityEvent event) {
-        if (event.getCause() != EntityDamageEvent.DamageCause.THORNS && event.getDamager() instanceof Player damager && event.getEntity() instanceof Player damagee) {
+    public void onPlayerDamage(final EntityDamageByEntityEvent event) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.THORNS && event.getDamager() instanceof final Player damager && event.getEntity() instanceof final Player damagee) {
             if (!damager.getInventory().getItemInMainHand().isSimilar(Tag.TAG_ITEM)) return;
             if (!Tag.IT.has(damager)) return;
             if (Tag.COOLDOWN.getFromOrDefault(damager, Long.MIN_VALUE) > System.currentTimeMillis()) {
-                Duration timeLeft = Duration.ofSeconds((Tag.COOLDOWN.getFrom(damager) - System.currentTimeMillis()) / 1000);
+                final Duration timeLeft = Duration.ofSeconds((Tag.COOLDOWN.getFrom(damager) - System.currentTimeMillis()) / 1000);
                 damager.sendMessage(translatable("modules.tag.tag.fail.cooldown.notice", RED));
                 damager.sendMessage(translatable("modules.tag.tag.fail.cooldown.time-left", YELLOW, text(String.format("%d:%02d:%02d", timeLeft.toHours(), timeLeft.toMinutesPart(), timeLeft.toSecondsPart()))));
                 return;

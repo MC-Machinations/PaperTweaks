@@ -29,7 +29,7 @@ class Commands extends ConfiguredModuleCommand {
     private final Config config;
 
     @Inject
-    Commands(Config config) {
+    Commands(final Config config) {
         this.config = config;
     }
 

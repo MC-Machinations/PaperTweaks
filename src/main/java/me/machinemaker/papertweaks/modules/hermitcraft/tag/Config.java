@@ -28,7 +28,6 @@ import me.machinemaker.papertweaks.config.VTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @VTConfig
 @Menu(commandPrefix = "/tag admin config")
@@ -47,7 +46,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     public int timeBetweenTags = 0;
 
     @Override
-    public @NotNull Component title() {
+    public Component title() {
         return buildDefaultTitle("Tag");
     }
 }

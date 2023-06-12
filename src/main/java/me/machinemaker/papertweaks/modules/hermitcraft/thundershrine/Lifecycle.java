@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.hermitcraft.thundershrine;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
@@ -27,14 +28,12 @@ import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
-
 class Lifecycle extends ModuleLifecycle {
 
     private final ShrineRunnable runnable;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, ShrineRunnable runnable) {
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes, final ShrineRunnable runnable) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.runnable = runnable;
     }
@@ -45,7 +44,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable(boolean isShutdown) {
+    public void onDisable(final boolean isShutdown) {
         this.runnable.cancel();
     }
 }

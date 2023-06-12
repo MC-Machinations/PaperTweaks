@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.treasuregems;
 
+import cloud.commandframework.Command;
 import cloud.commandframework.arguments.standard.IntegerArgument;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.cloud.arguments.PseudoEnumArgument;
@@ -33,24 +34,24 @@ class Commands extends ConfiguredModuleCommand {
     private final TreasureGems treasureGems;
 
     @Inject
-    Commands(TreasureGems treasureGems) {
+    Commands(final TreasureGems treasureGems) {
         this.treasureGems = treasureGems;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = this.player();
+        final Command.Builder<CommandDispatcher> builder = this.player();
 
-        manager.command(literal(builder, "give")
-                .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))
-                .argument(IntegerArgument.<CommandDispatcher>builder("count").asOptionalWithDefault(1).withMin(1))
-                .handler(sync((context, player) -> {
-                    ItemStack head = this.treasureGems.heads.get((String) context.get("head")).clone();
-                    head.setAmount(context.get("count"));
-                    player.getInventory().addItem(head).values().forEach(extraHead -> player.getWorld().dropItem(player.getLocation(), extraHead, item -> {
-                        item.setOwner(player.getUniqueId());
-                    }));
-                }))
+        this.manager.command(this.literal(builder, "give")
+            .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))
+            .argument(IntegerArgument.<CommandDispatcher>builder("count").asOptionalWithDefault(1).withMin(1))
+            .handler(this.sync((context, player) -> {
+                final ItemStack head = this.treasureGems.heads.get((String) context.get("head")).clone();
+                head.setAmount(context.get("count"));
+                player.getInventory()
+                    .addItem(head).values()
+                    .forEach(extraHead -> player.getWorld().dropItem(player.getLocation(), extraHead, item -> item.setOwner(player.getUniqueId())));
+            }))
         );
     }
 }

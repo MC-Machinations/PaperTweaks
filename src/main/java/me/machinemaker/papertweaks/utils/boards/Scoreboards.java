@@ -19,8 +19,9 @@
  */
 package me.machinemaker.papertweaks.utils.boards;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -34,27 +35,23 @@ public final class Scoreboards {
     }
 
     public static ScoreboardManager manager() {
-        final @Nullable ScoreboardManager manager = Bukkit.getScoreboardManager();
-        if (manager == null) {
-            throw new IllegalStateException("the ScoreboardManager is null");
-        }
-        return manager;
+        return Bukkit.getScoreboardManager();
     }
 
     public static Scoreboard main() {
         return manager().getMainScoreboard();
     }
 
-    public static Team getTeam(final String name, final ChatColor color) {
+    public static Team getTeam(final String name, final NamedTextColor color) {
         @Nullable Team team = main().getTeam(name);
         if (team == null) {
             team = main().registerNewTeam(name);
         }
-        team.setColor(color);
+        team.color(color);
         return team;
     }
 
-    public static Objective getDummyObjective(final String name, final String displayName) {
+    public static Objective getDummyObjective(final String name, final Component displayName) {
         @Nullable Objective objective = main().getObjective(name);
         if (objective == null) {
             objective = main().registerNewObjective(name, Criteria.DUMMY, displayName);

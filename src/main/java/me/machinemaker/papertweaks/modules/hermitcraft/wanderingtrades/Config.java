@@ -27,7 +27,6 @@ import me.machinemaker.papertweaks.config.VTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @Menu(commandPrefix = "/wanderingtrades admin config")
 @VTConfig
@@ -64,7 +63,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     int headMax = 3;
 
     @Override
-    public @NotNull Component title() {
+    public Component title() {
         return buildDefaultTitle("Wandering Trades");
     }
 }

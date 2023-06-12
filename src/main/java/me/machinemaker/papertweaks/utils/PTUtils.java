@@ -58,10 +58,8 @@ public final class PTUtils {
 
     private static final Class<?> CRAFT_PLAYER_CLASS = PaperMirror.getCraftBukkitClass("entity.CraftPlayer");
     private static final Class<?> NMS_PLAYER_CLASS = PaperMirror.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
-    private static final Class<?> CRAFT_META_ITEM_CLASS = PaperMirror.getCraftBukkitClass("inventory.CraftMetaItem");
     private static final Class<?> CRAFT_META_SKULL_CLASS = PaperMirror.getCraftBukkitClass("inventory.CraftMetaSkull");
     private static final FieldAccessor.Typed<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = Mirror.typedFuzzyField(CRAFT_META_SKULL_CLASS, GameProfile.class).names("profile").find();
-    private static final FieldAccessor.Typed<String> CRAFT_META_ITEM_DISPLAY_NAME_JSON = Mirror.typedFuzzyField(CRAFT_META_ITEM_CLASS, String.class).names("displayName").find();
     private static final MethodInvoker CRAFT_PLAYER_GET_HANDLE = Mirror.fuzzyMethod(CRAFT_PLAYER_CLASS, NMS_PLAYER_CLASS).names("getHandle").find();
     private static final MethodInvoker.Typed<GameProfile> NMS_PLAYER_GET_PLAYER_PROFILE = Mirror.typedFuzzyMethod(NMS_PLAYER_CLASS, GameProfile.class).find();
 
@@ -124,7 +122,7 @@ public final class PTUtils {
     }
 
     public static void loadMeta(final ItemMeta meta, final Component displayName) {
-        CRAFT_META_ITEM_DISPLAY_NAME_JSON.set(meta, GsonComponentSerializer.gson().serialize(displayName));
+        meta.displayName(displayName);
     }
 
     public static Location toBlockLoc(final Location location) {

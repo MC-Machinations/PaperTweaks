@@ -32,12 +32,12 @@ class ItemListener implements ModuleListener {
     private final JavaPlugin plugin;
 
     @Inject
-    ItemListener(JavaPlugin plugin) {
+    ItemListener(final JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onItemDrop(PlayerDropItemEvent event) {
+    public void onItemDrop(final PlayerDropItemEvent event) {
         if (event.getPlayer().hasPermission("vanillatweaks.elevators.create") && event.getItemDrop().getItemStack().getType() == Material.ENDER_PEARL) {
             new ElevatorItemFinder(event.getItemDrop()).runTaskTimer(this.plugin, 1L, 1L);
         }

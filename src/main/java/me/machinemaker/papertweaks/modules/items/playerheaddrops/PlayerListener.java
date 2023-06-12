@@ -34,6 +34,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static net.kyori.adventure.text.Component.text;
+
 class PlayerListener implements ModuleListener {
 
     private final Config config;
@@ -61,7 +63,7 @@ class PlayerListener implements ModuleListener {
             PTUtils.sanitizeTextures(profile);
             PTUtils.loadMeta(meta, profile);
             if (killer != null) {
-                meta.setLore(List.of("Killed by " + killer.getName()));
+                meta.lore(List.of(text("Killed by " + killer.getName())));
             }
             skull.setItemMeta(meta);
             event.getDrops().add(skull);

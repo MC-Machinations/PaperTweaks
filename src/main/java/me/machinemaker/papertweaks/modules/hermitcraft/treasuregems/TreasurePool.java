@@ -25,8 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import me.machinemaker.papertweaks.utils.WeightedRandomList;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class TreasurePool {
 
@@ -40,7 +39,7 @@ class TreasurePool {
         this.entries.addAll(entries);
     }
 
-    public void collectLoot(final Map<String, ItemStack> gems, final Consumer<@NotNull ItemStack> stackConsumer) {
+    public void collectLoot(final Map<String, ItemStack> gems, final Consumer<ItemStack> stackConsumer) {
         for (int i = 0; i < ThreadLocalRandom.current().nextInt(this.minRolls, this.maxRolls + 1); i++) {
             this.entries.next().rollSkull(gems, stackConsumer);
         }
@@ -53,7 +52,7 @@ class TreasurePool {
         private final int maxCount;
         private final @Nullable String gem;
 
-        Entry(final int weight, final int minCount, final int maxCount, @Nullable final String head) {
+        Entry(final int weight, final int minCount, final int maxCount, final @Nullable String head) {
             this.weight = weight;
             this.minCount = minCount;
             this.maxCount = maxCount;

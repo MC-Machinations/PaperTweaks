@@ -19,6 +19,8 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.tag;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
@@ -27,14 +29,14 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.utils.Keys;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Set;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static net.kyori.adventure.text.format.Style.style;
+import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 
 @ModuleInfo(name = "Tag", configPath = "hermitcraft.tag", description = "A Tag minigame to play with your friends")
 public class Tag extends ModuleBase {
@@ -44,30 +46,30 @@ public class Tag extends ModuleBase {
     static final PDCKey<Long> COOLDOWN = PDCKey.forLong(Keys.key("cooldown"));
 
     static {
-        ItemMeta meta = TAG_ITEM.getItemMeta();
+        final ItemMeta meta = TAG_ITEM.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.RESET.toString() + ChatColor.YELLOW + "Tag!");
+            meta.displayName(text("Tag!", style(YELLOW, ITALIC.withState(false))));
             TAG_ITEM.setItemMeta(meta);
         }
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 }

@@ -28,6 +28,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.loot.LootTables;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class LootListener implements ModuleListener {
 
@@ -38,8 +39,8 @@ class LootListener implements ModuleListener {
     LootListener(final TreasureGems treasureGems) {
         this.treasureGems = treasureGems;
         final List<TreasurePool.Entry> entries = this.treasureGems.heads.keySet().stream()
-                .map(gem -> new TreasurePool.Entry(1, 1, 2, gem))
-                .collect(Collectors.toList());
+            .map(gem -> new TreasurePool.Entry(1, 1, 2, gem))
+            .collect(Collectors.toList());
         entries.add(new TreasurePool.Entry(2, 0, 0, null));
         this.treasurePool = new TreasurePool(1, 2, entries);
     }
@@ -47,7 +48,7 @@ class LootListener implements ModuleListener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onLootGenerate(final LootGenerateEvent event) {
         if (event.getInventoryHolder() != null) {
-            final LootTables tables = Registry.LOOT_TABLES.get(event.getLootTable().getKey());
+            final @Nullable LootTables tables = Registry.LOOT_TABLES.get(event.getLootTable().getKey());
             if (tables != null && this.treasureGems.tables.contains(tables)) {
                 this.treasurePool.collectLoot(this.treasureGems.heads, event.getLoot()::add);
             }

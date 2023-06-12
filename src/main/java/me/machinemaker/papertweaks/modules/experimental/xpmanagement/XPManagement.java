@@ -19,6 +19,8 @@
  */
 package me.machinemaker.papertweaks.modules.experimental.xpmanagement;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
@@ -29,10 +31,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "XPManagement", configPath = "experimental.xp-management", description = "Store XP in bottles, smelt in furnace to retrieve XP")
 public class XPManagement extends ModuleBase {
@@ -41,17 +39,17 @@ public class XPManagement extends ModuleBase {
     private static final FurnaceRecipe XP_RECIPE = new FurnaceRecipe(XP_RECIPE_KEY, new ItemStack(Material.GLASS_BOTTLE), Material.EXPERIENCE_BOTTLE, 12, 1);
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 
     @Override
-    protected @NotNull Collection<ModuleRecipe<?>> recipes() {
+    protected Collection<ModuleRecipe<?>> recipes() {
         return Set.of(new ModuleRecipe<>(XP_RECIPE));
     }
 }

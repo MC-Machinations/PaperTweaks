@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.machinemaker.papertweaks.modules.survival.afkdisplay.AFKDisplay;
 import me.machinemaker.papertweaks.utils.boards.Scoreboards;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -32,21 +31,21 @@ import org.bukkit.scoreboard.Team;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 @Singleton
 class TagManager {
 
+    final Team tagTeam = Scoreboards.getTeam("tag/redcolor", RED);
+    final Objective tagCounter = Scoreboards.getDummyObjective("tg_timesTagged", text("Times Tagged"));
     private final Config config;
-    final Team tagTeam = Scoreboards.getTeam("tag/redcolor", ChatColor.RED);
-    final Objective tagCounter = Scoreboards.getDummyObjective("tg_timesTagged", "Times Tagged");
 
     @Inject
-    TagManager(Config config) {
+    TagManager(final Config config) {
         this.config = config;
     }
 
-    boolean setAsIt(CommandSender from, Player player) {
+    boolean setAsIt(final CommandSender from, final Player player) {
         if (AFKDisplay.AFK_DISPLAY.has(player)) {
             from.sendMessage(translatable("modules.tag.tag.fail.afk", RED));
             return false;
@@ -59,22 +58,23 @@ class TagManager {
         this.tagCounter.getScore(player.getName()).setScore(this.tagCounter.getScore(player.getName()).getScore() + 1);
         Tag.IT.setTo(player, true);
         Tag.COOLDOWN.setTo(player, System.currentTimeMillis() + (this.config.timeBetweenTags * 1000L));
-        player.setDisplayName(ChatColor.RED + player.getDisplayName());
-        player.setPlayerListName(ChatColor.RED + player.getDisplayName());
-        int firstEmpty = player.getInventory().firstEmpty();
-        if (firstEmpty > -1) player.getInventory().setItem(firstEmpty, Tag.TAG_ITEM.clone());
-        else {
-            Item item = player.getWorld().dropItem(player.getLocation(), Tag.TAG_ITEM.clone());
+        player.displayName(player.displayName().color(RED));
+        player.playerListName(player.displayName().color(RED));
+        final int firstEmpty = player.getInventory().firstEmpty();
+        if (firstEmpty > -1) {
+            player.getInventory().setItem(firstEmpty, Tag.TAG_ITEM.clone());
+        } else {
+            final Item item = player.getWorld().dropItem(player.getLocation(), Tag.TAG_ITEM.clone());
             item.setPickupDelay(0);
             item.setOwner(player.getUniqueId());
         }
         return true;
     }
 
-    void removeAsIt(Player player) {
+    void removeAsIt(final Player player) {
         this.tagTeam.removeEntry(player.getName());
-        player.setDisplayName(player.getName() + ChatColor.RESET);
-        player.setPlayerListName(player.getName() + ChatColor.RESET);
+        player.displayName(null);
+        player.playerListName(null);
         Tag.IT.remove(player);
         Tag.COOLDOWN.remove(player);
         player.getInventory().remove(Tag.TAG_ITEM.clone());

@@ -28,7 +28,8 @@ import org.bukkit.Location;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 @ModuleCommand.Info(value = "gemvillagers", aliases = {"gvillagers", "gv"}, i18n = "gem-villagers", perm = "gemvillagers")
 class Commands extends ConfiguredModuleCommand {
@@ -36,21 +37,21 @@ class Commands extends ConfiguredModuleCommand {
     private final GemVillagers gemVillagers;
 
     @Inject
-    Commands(GemVillagers gemVillagers) {
+    Commands(final GemVillagers gemVillagers) {
         this.gemVillagers = gemVillagers;
     }
 
     @Override
     protected void registerCommands() {
-        manager.command(literal(this.player(), "spawn")
-                .argument(PseudoEnumArgument.single("villager", this.gemVillagers.villagers.keySet()))
-                .argument(LocationArgument.optional("loc"))
-                .handler(sync((context, player) -> {
-                    String villager = context.get("villager");
-                    Location loc = context.<Location>getOptional("loc").orElse(player.getLocation());
-                    this.gemVillagers.villagers.get(villager).spawnVillager(loc.getWorld(), loc);
-                    context.getSender().sendMessage(translatable("modules.gem-villagers.commands.spawn.success", YELLOW, text(villager, GOLD)));
-                }))
+        this.manager.command(this.literal(this.player(), "spawn")
+            .argument(PseudoEnumArgument.single("villager", this.gemVillagers.villagers.keySet()))
+            .argument(LocationArgument.optional("loc"))
+            .handler(this.sync((context, player) -> {
+                final String villager = context.get("villager");
+                final Location loc = context.<Location>getOptional("loc").orElse(player.getLocation());
+                this.gemVillagers.villagers.get(villager).spawnVillager(loc.getWorld(), loc);
+                context.getSender().sendMessage(translatable("modules.gem-villagers.commands.spawn.success", YELLOW, text(villager, GOLD)));
+            }))
         );
     }
 }

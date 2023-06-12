@@ -32,8 +32,8 @@ class PortalParticles extends BukkitRunnable {
 
     @Override
     public void run() {
-        for (World world : Bukkit.getWorlds()) {
-            for (Marker marker : world.getEntitiesByClass(Marker.class)) {
+        for (final World world : Bukkit.getWorlds()) {
+            for (final Marker marker : world.getEntitiesByClass(Marker.class)) {
                 if (Elevators.IS_ELEVATOR.has(marker)) {
                     if (!Tag.WOOL.isTagged(marker.getLocation().getBlock().getType())) {
                         marker.remove();

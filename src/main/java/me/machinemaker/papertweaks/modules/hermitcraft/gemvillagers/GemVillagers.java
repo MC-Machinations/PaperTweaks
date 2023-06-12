@@ -24,20 +24,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 import me.machinemaker.papertweaks.LoggerFactory;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.config.Mixins;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 
 @ModuleInfo(name = "GemVillagers", configPath = "hermitcraft.gem-villagers", description = "Create villager shops to trade gems from TreasureGems")
 public class GemVillagers extends ModuleBase {
@@ -48,11 +46,11 @@ public class GemVillagers extends ModuleBase {
     final Map<String, VillagerData> villagers;
 
     @Inject
-    GemVillagers(@Named("plugin") ClassLoader loader) {
+    GemVillagers(@Named("plugin") final ClassLoader loader) {
         Map<String, VillagerData> tempVillagers;
         try {
             tempVillagers = JSON_MAPPER.readValue(loader.getResourceAsStream("data/gem_villagers.json"), new TypeReference<Map<String, VillagerData>>() {});
-        } catch (IOException e) {
+        } catch (final IOException e) {
             tempVillagers = Collections.emptyMap();
             LOGGER.error("Could not load gem villagers from data/gem_villagers.json. This module will not work properly", e);
         }
@@ -60,12 +58,12 @@ public class GemVillagers extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

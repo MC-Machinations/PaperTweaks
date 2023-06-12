@@ -40,7 +40,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
-import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.requireNonNull;
 
@@ -51,13 +50,13 @@ class VillagerData {
     private final List<Offer> offers;
 
     @JsonCreator
-    private VillagerData(@NotNull String name, @NotNull PlayerSkull head, List<Offer> offers) {
+    private VillagerData(final String name, final PlayerSkull head, final List<Offer> offers) {
         this.name = GsonComponentSerializer.gson().deserialize(name);
         this.head = head;
         this.offers = offers;
     }
 
-    public void spawnVillager(@NotNull World world, @NotNull Location location) {
+    public void spawnVillager(final World world, final Location location) {
         world.spawn(location, Villager.class, villager -> {
             villager.customName(this.name);
             villager.getEquipment().setHelmet(this.head.cloneSingle());
@@ -70,8 +69,8 @@ class VillagerData {
             villager.setSilent(true);
             requireNonNull(villager.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED), "missing movement speed attribute").setBaseValue(0);
             requireNonNull(villager.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "missing knockback attribute").setBaseValue(0);
-            List<MerchantRecipe> recipes = new ArrayList<>();
-            for (Offer offer : this.offers) {
+            final List<MerchantRecipe> recipes = new ArrayList<>();
+            for (final Offer offer : this.offers) {
                 recipes.add(offer.toRecipe());
             }
             villager.setRecipes(recipes);
@@ -84,13 +83,13 @@ class VillagerData {
         private final ItemStack input;
         private final ItemStack output;
 
-        private Offer(ItemStack input, ItemStack output) {
+        private Offer(final ItemStack input, final ItemStack output) {
             this.input = input;
             this.output = output;
         }
 
-        public @NotNull MerchantRecipe toRecipe() {
-            var recipe = new MerchantRecipe(this.output.clone(), Integer.MAX_VALUE);
+        public MerchantRecipe toRecipe() {
+            final MerchantRecipe recipe = new MerchantRecipe(this.output.clone(), Integer.MAX_VALUE);
             recipe.addIngredient(this.input.clone());
             return recipe;
         }
@@ -98,12 +97,12 @@ class VillagerData {
         private static class Deserializer extends JsonDeserializer<Offer> {
 
             @Override
-            public Offer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-                ObjectNode objectNode = p.readValueAsTree();
-                ObjectNode input = (ObjectNode) objectNode.get("input");
-                ItemStack inputStack;
+            public Offer deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
+                final ObjectNode objectNode = p.readValueAsTree();
+                final ObjectNode input = (ObjectNode) objectNode.get("input");
+                final ItemStack inputStack;
                 if (input.has("id")) {
-                    Material material = requireNonNull(Registry.MATERIAL.get(NamespacedKey.fromString(input.get("id").asText())), "Need a valid material");
+                    final Material material = requireNonNull(Registry.MATERIAL.get(requireNonNull(NamespacedKey.fromString(input.get("id").asText()))), "Need a valid material");
                     int count = 1;
                     if (input.has("count")) {
                         count = input.get("count").asInt();
@@ -112,8 +111,8 @@ class VillagerData {
                 } else {
                     inputStack = GemVillagers.JSON_MAPPER.treeToValue(input, PlayerSkull.class).cloneOriginal();
                 }
-                ObjectNode output = (ObjectNode) objectNode.get("output");
-                ItemStack outputStack = GemVillagers.JSON_MAPPER.treeToValue(output, PlayerSkull.class).cloneOriginal();
+                final ObjectNode output = (ObjectNode) objectNode.get("output");
+                final ItemStack outputStack = GemVillagers.JSON_MAPPER.treeToValue(output, PlayerSkull.class).cloneOriginal();
                 return new Offer(inputStack, outputStack);
             }
         }

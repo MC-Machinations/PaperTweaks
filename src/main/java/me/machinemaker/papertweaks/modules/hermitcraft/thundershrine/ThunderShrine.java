@@ -19,17 +19,15 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.thundershrine;
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.utils.Keys;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
 
 @ModuleInfo(name = "ThunderShrine", configPath = "hermitcraft.thunder-shrine", description = "Create a shrine to summon thunderstorms")
 public class ThunderShrine extends ModuleBase {
@@ -37,12 +35,12 @@ public class ThunderShrine extends ModuleBase {
     static final PDCKey<UUID> SHRINE = PDCKey.uuid(Keys.key("shrine"));
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

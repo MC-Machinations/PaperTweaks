@@ -28,7 +28,6 @@ import me.machinemaker.papertweaks.config.VTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @VTConfig
 @Menu(commandPrefix = "/playerheaddrops admin config")
@@ -47,7 +46,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     public boolean requirePlayerKill = true;
 
     @Override
-    protected @NotNull Component title() {
+    protected Component title() {
         return buildDefaultTitle("Player Head Drops");
     }
 }

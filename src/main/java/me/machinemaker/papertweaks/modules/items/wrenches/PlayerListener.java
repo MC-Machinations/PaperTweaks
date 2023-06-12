@@ -31,12 +31,12 @@ class PlayerListener implements ModuleListener {
     private Config config;
 
     @Inject
-    PlayerListener(Config config) {
+    PlayerListener(final Config config) {
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    private void onPlayerJoin(PlayerJoinEvent event) {
+    private void onPlayerJoin(final PlayerJoinEvent event) {
         event.getPlayer().discoverRecipe(Lifecycle.WRENCH_RECIPE_KEY);
         if (this.config.suggestResourcePack) {
             event.getPlayer().setResourcePack(Lifecycle.RESOURCE_PACK_URL, Lifecycle.RESOURCE_PACK_HASH);

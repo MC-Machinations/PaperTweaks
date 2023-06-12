@@ -35,15 +35,15 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
         if (
-                event.getHand() != EquipmentSlot.HAND ||
-                        event.getAction() != Action.RIGHT_CLICK_BLOCK ||
-                        event.getClickedBlock() == null ||
-                        event.getClickedBlock().getType() != Material.ENCHANTING_TABLE ||
-                        event.getItem() == null ||
-                        event.getItem().getType() != Material.GLASS_BOTTLE ||
-                        event.getPlayer().getTotalExperience() <= 11
+            event.getHand() != EquipmentSlot.HAND ||
+                event.getAction() != Action.RIGHT_CLICK_BLOCK ||
+                event.getClickedBlock() == null ||
+                event.getClickedBlock().getType() != Material.ENCHANTING_TABLE ||
+                event.getItem() == null ||
+                event.getItem().getType() != Material.GLASS_BOTTLE ||
+                event.getPlayer().getTotalExperience() <= 11
         ) {
             return;
         }
@@ -51,7 +51,7 @@ public class PlayerListener implements ModuleListener {
         event.setUseInteractedBlock(Event.Result.DENY);
         event.setUseItemInHand(Event.Result.ALLOW);
 
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
         player.giveExp(-12);
         event.getItem().setAmount(event.getItem().getAmount() - 1);
         player.getInventory().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE));

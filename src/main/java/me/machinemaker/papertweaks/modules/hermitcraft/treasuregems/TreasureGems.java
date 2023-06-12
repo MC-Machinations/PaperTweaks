@@ -45,7 +45,6 @@ import me.machinemaker.papertweaks.utils.PTUtils;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 @ModuleInfo(name = "TreasureGems", configPath = "hermitcraft.treasure-gems", description = "Adds several gems to various loot tables")
@@ -58,7 +57,7 @@ public class TreasureGems extends ModuleBase {
     final Map<String, ItemStack> heads;
 
     @Inject
-    TreasureGems(final @Named("plugin") ClassLoader loader) {
+    TreasureGems(@Named("plugin") final ClassLoader loader) {
         Set<LootTables> tempTables;
         final Map<String, ItemStack> tempHeads = new HashMap<>();
         this.heads = Collections.unmodifiableMap(tempHeads);
@@ -81,17 +80,17 @@ public class TreasureGems extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(LootListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

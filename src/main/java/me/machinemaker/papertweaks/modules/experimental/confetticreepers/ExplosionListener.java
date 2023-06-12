@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
 import com.google.inject.Inject;
+import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -30,39 +31,37 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class ExplosionListener implements ModuleListener {
 
     private static final FireworkEffect COLORFUL_EFFECT = FireworkEffect.builder()
-            .flicker(false)
-            .trail(false)
-            .with(FireworkEffect.Type.BURST)
-            .withColor(
-                    Color.fromRGB(11743532),
-                    Color.fromRGB(15435844),
-                    Color.fromRGB(14602026),
-                    Color.fromRGB(4312372),
-                    Color.fromRGB(6719955),
-                    Color.fromRGB(8073150),
-                    Color.fromRGB(14188952)
-            ).build();
+        .flicker(false)
+        .trail(false)
+        .with(FireworkEffect.Type.BURST)
+        .withColor(
+            Color.fromRGB(11743532),
+            Color.fromRGB(15435844),
+            Color.fromRGB(14602026),
+            Color.fromRGB(4312372),
+            Color.fromRGB(6719955),
+            Color.fromRGB(8073150),
+            Color.fromRGB(14188952)
+        ).build();
 
     private final Config config;
 
     @Inject
-    public ExplosionListener(Config config) {
+    public ExplosionListener(final Config config) {
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onExplosionPrime(ExplosionPrimeEvent event) {
+    public void onExplosionPrime(final ExplosionPrimeEvent event) {
         if (event.getEntityType() != EntityType.CREEPER) return;
-        if (ThreadLocalRandom.current().nextDouble() < config.chance) {
+        if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
             event.setFire(false);
             event.setRadius(0);
             event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class, firework -> {
-                FireworkMeta fireworkMeta = firework.getFireworkMeta();
+                final FireworkMeta fireworkMeta = firework.getFireworkMeta();
                 fireworkMeta.setPower(0);
                 fireworkMeta.addEffect(COLORFUL_EFFECT);
                 firework.setFireworkMeta(fireworkMeta);

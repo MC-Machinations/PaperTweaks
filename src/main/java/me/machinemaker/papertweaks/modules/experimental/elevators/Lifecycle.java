@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.experimental.elevators;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
@@ -27,18 +28,16 @@ import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class Lifecycle extends ModuleLifecycle {
 
+    private @Nullable BukkitTask particlesTask;
+
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes) {
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes) {
         super(plugin, commands, listeners, configs, moduleRecipes);
     }
-
-    private @Nullable BukkitTask particlesTask;
 
     @Override
     public void onEnable() {
@@ -46,7 +45,7 @@ class Lifecycle extends ModuleLifecycle {
     }
 
     @Override
-    public void onDisable(boolean isShutdown) {
+    public void onDisable(final boolean isShutdown) {
         if (this.particlesTask != null && !this.particlesTask.isCancelled()) {
             this.particlesTask.cancel();
         }

@@ -19,32 +19,27 @@
  */
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
-import me.machinemaker.papertweaks.modules.ModuleBase;
-import me.machinemaker.papertweaks.modules.ModuleConfig;
-import me.machinemaker.papertweaks.annotations.ModuleInfo;
-import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import me.machinemaker.papertweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 import java.util.Set;
+import me.machinemaker.papertweaks.annotations.ModuleInfo;
+import me.machinemaker.papertweaks.modules.ModuleBase;
+import me.machinemaker.papertweaks.modules.ModuleConfig;
+import me.machinemaker.papertweaks.modules.ModuleLifecycle;
+import me.machinemaker.papertweaks.modules.ModuleListener;
 
 @ModuleInfo(name = "ConfettiCreepers", configPath = "experimental.confetti-creepers", description = "Makes creepers super colorful!")
 public class ConfettiCreepers extends ModuleBase {
 
-    @NotNull
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
-    @NotNull
     @Override
     protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(ExplosionListener.class);
     }
 
-    @NotNull
     @Override
     protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);

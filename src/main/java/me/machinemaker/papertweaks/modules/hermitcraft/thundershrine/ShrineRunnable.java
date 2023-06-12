@@ -33,23 +33,24 @@ import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 @Singleton
 class ShrineRunnable extends TimerRunnable {
 
     @Inject
-    ShrineRunnable(Plugin plugin) {
+    ShrineRunnable(final Plugin plugin) {
         super(plugin);
     }
 
     @Override
     public void run() {
-        for (World world : Bukkit.getWorlds()) {
-            for (AreaEffectCloud cloud : Entities.getEntitiesOfType(AreaEffectCloud.class, world, ThunderShrine.SHRINE::has)) {
-                Item item = Entities.getSingleNearbyEntityOfType(Item.class, cloud.getLocation(), 0.5, 0.5, 0.5, i -> i.getItemStack().getType() == Material.NETHER_STAR && i.getItemStack().getAmount() == 1);
+        for (final World world : Bukkit.getWorlds()) {
+            for (final AreaEffectCloud cloud : Entities.getEntitiesOfType(AreaEffectCloud.class, world, ThunderShrine.SHRINE::has)) {
+                final @Nullable Item item = Entities.getSingleNearbyEntityOfType(Item.class, cloud.getLocation(), 0.5, 0.5, 0.5, i -> i.getItemStack().getType() == Material.NETHER_STAR && i.getItemStack().getAmount() == 1);
                 if (item != null) {
                     item.remove();
                     world.spawnParticle(Particle.FLAME, cloud.getLocation(), 100, 0, 0, 0, 0.5);
@@ -60,7 +61,7 @@ class ShrineRunnable extends TimerRunnable {
                     world.setThunderDuration(6000);
                     world.setStorm(true);
                     world.setThundering(true);
-                    for (Player player : Entities.getNearbyEntitiesOfType(Player.class, cloud.getLocation(), 5, 5, 5)) {
+                    for (final Player player : Entities.getNearbyEntitiesOfType(Player.class, cloud.getLocation(), 5, 5, 5)) {
                         player.sendMessage(translatable("modules.thunder-shrine.ritual.success", RED));
                     }
                 } else {

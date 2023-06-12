@@ -24,6 +24,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 import me.machinemaker.papertweaks.LoggerFactory;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.config.Mixins;
@@ -32,15 +38,7 @@ import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
 
 @ModuleInfo(name = "WanderingTrades", configPath = "hermitcraft.wandering-trades", description = "Adds a bunch of new trades to wandering traders for micro-blocks and player heads")
 public class WanderingTrades extends ModuleBase {
@@ -56,11 +54,11 @@ public class WanderingTrades extends ModuleBase {
     final List<Trade> hermitTrades;
 
     @Inject
-    WanderingTrades(@Named("plugin") ClassLoader loader) {
+    WanderingTrades(@Named("plugin") final ClassLoader loader) {
         List<Trade> tempTrades;
         try {
             tempTrades = JSON_MAPPER.readValue(loader.getResourceAsStream("data/wandering_trades.json"), new TypeReference<List<Trade>>() {});
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.error("Could not load wandering trades from data/wandering_trades.json. This module will not work properly", e);
             tempTrades = Collections.emptyList();
         }
@@ -69,22 +67,22 @@ public class WanderingTrades extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(EntityListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 }
