@@ -125,7 +125,7 @@ class PlayerListener implements ModuleListener {
         final Player player = event.getEntity();
         final Location playerLocation = player.getLocation();
         final World world = requireNonNull(playerLocation.getWorld());
-        if (!player.hasPermission("vanillatweaks.playergraves")) return;
+        if (!player.hasPermission("vanillatweaks.playergraves") || !player.hasPermission("vanillatweaks.graves")) return;
         if (this.config.disabledWorlds.contains(world.getName())) return;
 
         Block spawnBlock = playerLocation.getBlock();

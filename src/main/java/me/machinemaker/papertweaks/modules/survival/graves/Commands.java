@@ -86,7 +86,7 @@ class Commands extends ConfiguredModuleCommand {
                     context.getSender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
                 }
             }))
-        ).command(this.literal(builder, "grave-key").handler(this.sync((context, player) -> player.getInventory().addItem(GRAVE_KEY))));
+        ).command(this.adminLiteral(builder, "grave-key").handler(this.sync((context, player) -> player.getInventory().addItem(GRAVE_KEY))));
 
         this.config.createCommands(this, builder);
     }

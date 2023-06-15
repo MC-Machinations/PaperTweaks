@@ -29,6 +29,7 @@ permissions:
     description: All of the admin commands for all modules
     children:
       vanillatweaks.admin.grave-key: true
+      vanillatweaks.graves.admin.config: true
       vanillatweaks.killboats: true
       vanillatweaks.spawningspheres: true
       vanillatweaks.pillagertools.admin.config: true
@@ -100,9 +101,12 @@ permissions:
     description: (use vanillatweaks.graves)
     children:
       vanillatweaks.graves: true
-  vanillatweaks.admin.grave-key:
+  vanillatweaks.graves.admin.grave-key:
     default: false
     description: Obtain and use a grave key to unlock any grave
+  vanillatweaks.graves.admin.config:
+    default: op
+    description: Configure Graves in-game
 
   vanillatweaks.netherportalcoords:
     default: true
