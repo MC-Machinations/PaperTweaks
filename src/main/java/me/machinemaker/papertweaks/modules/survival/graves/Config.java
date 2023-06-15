@@ -19,33 +19,50 @@
  */
 package me.machinemaker.papertweaks.modules.survival.graves;
 
+import java.util.List;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
+import me.machinemaker.papertweaks.config.I18nKey;
 import me.machinemaker.papertweaks.config.VTConfig;
-import me.machinemaker.papertweaks.modules.ModuleConfig;
-
-import java.util.List;
+import me.machinemaker.papertweaks.menus.Menu;
+import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
+import net.kyori.adventure.text.Component;
 
 @VTConfig
-class Config extends ModuleConfig {
+@Menu(commandPrefix = "/graves admin config")
+class Config extends SimpleMenuModuleConfig<Config> {
 
     @Key("legacy-shift-behavior")
-    @Description("Enable to use crouching on the grave to retrieve it")
+    @I18nKey("modules.graves.settings.legacy-shift-behavior")
+    @Description("modules.graves.settings.legacy-shift-behavior.extended")
     public boolean legacyShiftBehavior = false;
 
     @Key("grave-robbing")
-    @Description("When enabled, players can open graves they don't own")
+    @I18nKey("modules.graves.settings.grave-robbing")
+    @Description("modules.graves.settings.grave-robbing.extended")
     public boolean graveRobbing = false;
 
+    @Key("grave-robbing-timer")
+    @I18nKey("modules.graves.settings.grave-robbing-timer")
+    @Description("modules.graves.settings.grave-robbing-timer.extended")
+    public int graveRobbingTimer = 0;
+
     @Key("grave-locating")
-    @Description("When enabled, players can see the coordinates of their last grave")
+    @I18nKey("modules.graves.settings.grave-locating")
+    @Description("modules.graves.settings.grave-locating.extended")
     public boolean graveLocating = true;
 
     @Key("xp-collection")
-    @Description("When enabled, graves collect experience dropped on death")
+    @I18nKey("modules.graves.settings.xp-collection")
+    @Description("modules.graves.settings.xp-collection.extended")
     public boolean xpCollection = true;
 
     @Key("disabled-worlds")
     @Description("Worlds listed here will not create graves for players")
     public List<String> disabledWorlds = List.of("disabled_world_name");
+
+    @Override
+    protected Component title() {
+        return buildDefaultTitle("Graves");
+    }
 }

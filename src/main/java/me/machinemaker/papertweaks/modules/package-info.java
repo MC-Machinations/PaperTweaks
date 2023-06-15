@@ -18,10 +18,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * Graves module
+ * All modules for PaperTweaks
  */
-@DefaultQualifier(NonNull.class)
-package me.machinemaker.papertweaks.modules.survival.graves;
-
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
+package me.machinemaker.papertweaks.modules;

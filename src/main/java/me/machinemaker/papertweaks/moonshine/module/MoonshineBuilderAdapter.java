@@ -51,14 +51,14 @@ public interface MoonshineBuilderAdapter<T, R, I, O, F> {
             throw new IllegalStateException("No messageService configured");
         }
         final MoonshineBuilder.Resolved<T, R, I, O, F> resolved = this.resolved(
-                this.sent(
-                            this.rendered(
-                                    this.sourced(
-                                            Moonshine.builder(TypeToken.get(this.messageService()))
-                                    )
-                            )
+            this.sent(
+                this.rendered(
+                    this.sourced(
+                        Moonshine.builder(TypeToken.get(this.messageService()))
                     )
-            );
+                )
+            )
+        );
         this.placeholderStrategies(resolved);
         return resolved.create(classLoader);
     }

@@ -20,18 +20,16 @@
 package me.machinemaker.papertweaks.modules.survival.graves;
 
 import com.google.common.collect.Lists;
-import me.machinemaker.papertweaks.modules.ModuleBase;
-import me.machinemaker.papertweaks.modules.ModuleCommand;
-import me.machinemaker.papertweaks.modules.ModuleConfig;
-import me.machinemaker.papertweaks.annotations.ModuleInfo;
-import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import me.machinemaker.papertweaks.modules.ModuleListener;
-import org.bukkit.Material;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import me.machinemaker.papertweaks.annotations.ModuleInfo;
+import me.machinemaker.papertweaks.modules.ModuleBase;
+import me.machinemaker.papertweaks.modules.ModuleCommand;
+import me.machinemaker.papertweaks.modules.ModuleConfig;
+import me.machinemaker.papertweaks.modules.ModuleLifecycle;
+import me.machinemaker.papertweaks.modules.ModuleListener;
+import org.bukkit.Material;
 
 @ModuleInfo(name = "Graves", configPath = "survival.graves", description = "Stores player's items and experience on death in a grave")
 public class Graves extends ModuleBase {
@@ -39,22 +37,22 @@ public class Graves extends ModuleBase {
     static final List<Material> GRAVESTONES = Lists.newArrayList(Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL); // mutable for shuffling
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

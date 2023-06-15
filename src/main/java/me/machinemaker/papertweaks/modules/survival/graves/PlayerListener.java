@@ -21,8 +21,16 @@ package me.machinemaker.papertweaks.modules.survival.graves;
 
 import cloud.commandframework.types.tuples.Pair;
 import com.google.inject.Inject;
-import me.machinemaker.papertweaks.pdc.DataTypes;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import me.machinemaker.papertweaks.modules.ModuleListener;
+import me.machinemaker.papertweaks.pdc.DataTypes;
 import me.machinemaker.papertweaks.utils.CachedHashObjectWrapper;
 import me.machinemaker.papertweaks.utils.Keys;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -51,24 +59,18 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-
+import static java.util.Objects.requireNonNull;
 import static me.machinemaker.papertweaks.utils.Entities.getNearbyEntitiesOfType;
 import static me.machinemaker.papertweaks.utils.Entities.getSingleNearbyEntityOfType;
 import static me.machinemaker.papertweaks.utils.PTUtils.nullUnionList;
 import static me.machinemaker.papertweaks.utils.PTUtils.toCachedMapCount;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 class PlayerListener implements ModuleListener {
 
@@ -81,32 +83,54 @@ class PlayerListener implements ModuleListener {
     private static final NamespacedKey PLAYER_UUID = Keys.legacyKey("player_uuid");
     private static final NamespacedKey PLAYER_ALL_CONTENTS = Keys.legacyKey("player_all_contents");
     private static final NamespacedKey PLAYER_EXPERIENCE = Keys.legacyKey("graves.player_experience");
-    private static final @Deprecated NamespacedKey PLAYER_INV_CONTENTS = Keys.legacyKey("player_inventory_contents");
-    private static final @Deprecated NamespacedKey PLAYER_ARM_CONTENTS = Keys.legacyKey("player_armor_contents");
-    private static final @Deprecated NamespacedKey PLAYER_EXTRA_CONTENTS = Keys.legacyKey("player_extra_contents");
 
     private final JavaPlugin plugin;
     private final Config config;
 
     @Inject
-    PlayerListener(JavaPlugin plugin, Config config) {
+    PlayerListener(final JavaPlugin plugin, final Config config) {
         this.plugin = plugin;
         this.config = config;
     }
 
+    static Optional<GravePair> createGravePair(final Collection<ArmorStand> stands) { // all armor stands should have player uuid and timestamp PDC values
+        if (stands.size() < 2) return Optional.empty();
+        Long timestamp;
+        for (final ArmorStand stand1 : stands) {
+            timestamp = requireNonNull(stand1.getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG));
+            for (final ArmorStand stand2 : stands) {
+                if (stand1 == stand2) continue; // skip same
+                if (Objects.equals(stand2.getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG), timestamp)) {
+                    if (isHeadstone(stand1)) {
+                        return Optional.of(new GravePair(stand1, stand2, timestamp));
+                    } else if (isHeadstone(stand2)) {
+                        return Optional.of(new GravePair(stand2, stand1, timestamp));
+                    }
+                    return Optional.empty();
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    static boolean isHeadstone(final PersistentDataHolder holder) {
+        final PersistentDataContainer pdc = holder.getPersistentDataContainer();
+        return pdc.has(PLAYER_ALL_CONTENTS, DataTypes.ITEMSTACK_ARRAY) || pdc.has(PLAYER_EXPERIENCE, PersistentDataType.INTEGER) || pdc.has(PLAYER_INV_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerDeath(PlayerDeathEvent event) {
+    public void onPlayerDeath(final PlayerDeathEvent event) {
         if (event.getKeepInventory()) return;
         if (event.getDrops().isEmpty() && (!this.config.xpCollection || event.getDroppedExp() == 0)) return;
-        Player player = event.getEntity();
-        Location playerLocation = player.getLocation();
-        World world = Objects.requireNonNull(playerLocation.getWorld());
+        final Player player = event.getEntity();
+        final Location playerLocation = player.getLocation();
+        final World world = requireNonNull(playerLocation.getWorld());
         if (!player.hasPermission("vanillatweaks.playergraves")) return;
-        if (config.disabledWorlds.contains(world.getName())) return;
+        if (this.config.disabledWorlds.contains(world.getName())) return;
 
         Block spawnBlock = playerLocation.getBlock();
         if (playerLocation.getBlockY() <= world.getMinHeight()) {
-            Location bottom = playerLocation.clone();
+            final Location bottom = playerLocation.clone();
             bottom.setY(world.getMinHeight());
             spawnBlock = bottom.getBlock();
             while (spawnBlock.getRelative(BlockFace.UP).getType() != Material.AIR) {
@@ -126,11 +150,11 @@ class PlayerListener implements ModuleListener {
             }
         }
 
-        Location graveLocation = spawnBlock.getRelative(BlockFace.UP).getLocation().add(0.5, 0, 0.5);
-        PlayerInventory inventory = player.getInventory();
-        List<ItemStack> drops = event.getDrops();
-        @NotNull Map<CachedHashObjectWrapper<ItemStack>, MutableInt> cachedDrops = toCachedMapCount(drops);
-        List<ItemStack> allContents = Arrays.asList(inventory.getContents());
+        final Location graveLocation = spawnBlock.getRelative(BlockFace.UP).getLocation().add(0.5, 0, 0.5);
+        final PlayerInventory inventory = player.getInventory();
+        final List<ItemStack> drops = event.getDrops();
+        final Map<CachedHashObjectWrapper<ItemStack>, MutableInt> cachedDrops = toCachedMapCount(drops);
+        List<@Nullable ItemStack> allContents = Arrays.asList(inventory.getContents());
         allContents = nullUnionList(allContents, cachedDrops);
         drops.clear();
         // If plugins add some drops - they should drop on the ground
@@ -139,16 +163,16 @@ class PlayerListener implements ModuleListener {
         );
 
         if (this.config.graveLocating) {
-            player.sendMessage(translatable("modules.graves.last-grave-location", GOLD, translatable("modules.graves.location-format", YELLOW, text(graveLocation.getBlockX()), text(graveLocation.getBlockY()), text(graveLocation.getBlockZ()))));
+            player.sendMessage(translatable("modules.graves.last-grave-location", GOLD, translatable("modules.graves.location-format", YELLOW, text(graveLocation.getBlockX()), text(graveLocation.getBlockY()), text(graveLocation.getBlockZ())), text(graveLocation.getWorld().getName(), YELLOW)));
         }
 
-        Long timestamp = System.nanoTime();
-        ArmorStand block = (ArmorStand) world.spawnEntity(graveLocation.clone().subtract(-0.1, 1.77, 0), EntityType.ARMOR_STAND);
-        setupStand(block, Material.PODZOL);
+        final Long timestamp = System.currentTimeMillis();
+        final ArmorStand block = (ArmorStand) world.spawnEntity(graveLocation.clone().subtract(-0.1, 1.77, 0), EntityType.ARMOR_STAND);
+        this.setupStand(block, Material.PODZOL);
         block.getPersistentDataContainer().set(PLAYER_UUID, DataTypes.UUID, player.getUniqueId());
         block.getPersistentDataContainer().set(TIMESTAMP, PersistentDataType.LONG, timestamp);
-        ArmorStand headstone = (ArmorStand) world.spawnEntity(graveLocation.clone().subtract(0.3, 1.37, 0), EntityType.ARMOR_STAND);
-        PersistentDataContainer headstonePDC = headstone.getPersistentDataContainer();
+        final ArmorStand headstone = (ArmorStand) world.spawnEntity(graveLocation.clone().subtract(0.3, 1.37, 0), EntityType.ARMOR_STAND);
+        final PersistentDataContainer headstonePDC = headstone.getPersistentDataContainer();
         if (event.getDroppedExp() > 0 && this.config.xpCollection) {
             headstonePDC.set(PLAYER_EXPERIENCE, PersistentDataType.INTEGER, event.getDroppedExp());
             event.setDroppedExp(0);
@@ -156,34 +180,35 @@ class PlayerListener implements ModuleListener {
         headstonePDC.set(PLAYER_UUID, DataTypes.UUID, player.getUniqueId());
         headstonePDC.set(PLAYER_ALL_CONTENTS, DataTypes.ITEMSTACK_ARRAY, allContents.toArray(new ItemStack[0]));
         headstonePDC.set(TIMESTAMP, PersistentDataType.LONG, timestamp);
-        setupStand(headstone, Graves.GRAVESTONES.get(0));
+        this.setupStand(headstone, Graves.GRAVESTONES.get(0));
         Collections.shuffle(Graves.GRAVESTONES);
-        headstone.setCustomName(player.getName());
+        headstone.customName(text(player.getName()));
         headstone.setCustomNameVisible(true);
         player.getPersistentDataContainer().set(LAST_GRAVE_LOCATION, DataTypes.LOCATION, headstone.getLocation());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerSneak(PlayerToggleSneakEvent event) {
+    public void onPlayerSneak(final PlayerToggleSneakEvent event) {
         if (!this.config.legacyShiftBehavior) return;
         if (!event.isSneaking()) return;
-        Player player = event.getPlayer();
-        Location location = player.getLocation();
-        Collection<ArmorStand> stands = getNearbyEntitiesOfType(ArmorStand.class, location, 0.5, 1, 0.5, stand -> stand.getPersistentDataContainer().has(PLAYER_UUID, DataTypes.UUID) && stand.getPersistentDataContainer().has(TIMESTAMP, PersistentDataType.LONG));
-        Optional<GravePair> gravePairOptional = createGravePair(stands);
+        final Player player = event.getPlayer();
+        final Location location = player.getLocation();
+        final Collection<ArmorStand> stands = getNearbyEntitiesOfType(ArmorStand.class, location, 0.5, 1, 0.5, stand -> stand.getPersistentDataContainer().has(PLAYER_UUID, DataTypes.UUID) && stand.getPersistentDataContainer().has(TIMESTAMP, PersistentDataType.LONG));
+        final Optional<GravePair> gravePairOptional = createGravePair(stands);
         if (gravePairOptional.isEmpty()) {
             return;
         }
-        handleGrave(gravePairOptional.get(), player);
+        this.handleGrave(gravePairOptional.get(), player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerInteractAtEntityEvent(PlayerInteractAtEntityEvent event) {
+    public void onPlayerInteractAtEntityEvent(final PlayerInteractAtEntityEvent event) {
         if (this.config.legacyShiftBehavior) return;
-        if (event.getRightClicked().getType() != EntityType.ARMOR_STAND || !event.getRightClicked().getPersistentDataContainer().has(TIMESTAMP, PersistentDataType.LONG)) return;
-        ArmorStand headstone;
-        ArmorStand base;
-        Long timestamp = event.getRightClicked().getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG);
+        if (event.getRightClicked().getType() != EntityType.ARMOR_STAND || !event.getRightClicked().getPersistentDataContainer().has(TIMESTAMP, PersistentDataType.LONG))
+            return;
+        final @Nullable ArmorStand headstone;
+        final @Nullable ArmorStand base;
+        final @Nullable Long timestamp = event.getRightClicked().getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG);
         if (isHeadstone(event.getRightClicked())) {
             headstone = (ArmorStand) event.getRightClicked();
             base = getSingleNearbyEntityOfType(ArmorStand.class, event.getRightClicked().getLocation(), 0.5, 0.5, 0, stand -> Objects.equals(timestamp, stand.getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG)) && stand != event.getRightClicked());
@@ -194,16 +219,24 @@ class PlayerListener implements ModuleListener {
         if (headstone == null || base == null) {
             return;
         }
-        handleGrave(new GravePair(headstone, base), event.getPlayer());
+        this.handleGrave(new GravePair(headstone, base, timestamp), event.getPlayer());
     }
 
-    private void handleGrave(GravePair pair, Player player) {
-        if (!this.config.graveRobbing && !player.getUniqueId().equals(pair.playerUUID) && (!player.hasPermission("vanillatweaks.admin.grave-key") || !(player.getInventory().getItemInMainHand().getItemMeta() != null && player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(GRAVE_KEY, DataTypes.BOOLEAN)))) {
-            player.sendMessage(translatable("modules.graves.grave-robbing.disabled", RED));
-            return;
+    private void handleGrave(final GravePair pair, final Player player) {
+        final ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        final boolean isCarryingGraveKey = itemInMainHand.getItemMeta() != null && itemInMainHand.getItemMeta().getPersistentDataContainer().has(GRAVE_KEY, DataTypes.BOOLEAN) && player.hasPermission("vanillatweaks.admin.grave-key");
+        if (!player.getUniqueId().equals(pair.playerUUID) && !isCarryingGraveKey) {
+            if (!this.config.graveRobbing) {
+                player.sendMessage(translatable("modules.graves.grave-robbing.disabled", RED));
+                return;
+            }
+            if (pair.timestamp != null && pair.timestamp + ((long)this.config.graveRobbingTimer * 1_000L) > System.currentTimeMillis()) {
+                player.sendMessage(translatable("modules.graves.grave-robbing.disabled", RED));
+                return;
+            }
         }
 
-        PersistentDataContainer headstone = pair.getHeadstone().getPersistentDataContainer();
+        final PersistentDataContainer headstone = pair.getHeadstone().getPersistentDataContainer();
 
         if (headstone.has(PLAYER_EXPERIENCE, PersistentDataType.INTEGER)) {
             player.getWorld().spawn(player.getLocation(), ExperienceOrb.class, xpOrb -> {
@@ -211,24 +244,19 @@ class PlayerListener implements ModuleListener {
             });
         }
 
-        PlayerInventory inventory = player.getInventory();
-        for (ItemStack stack : inventory.getContents()) {
+        final PlayerInventory inventory = player.getInventory();
+        for (final @Nullable ItemStack stack : inventory.getContents()) {
             if (stack != null) {
                 player.getWorld().dropItem(player.getLocation(), stack).setPickupDelay(0);
             }
         }
 
-        ItemStack[] allContents = headstone.get(PLAYER_ALL_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
+        final ItemStack @Nullable [] allContents = headstone.get(PLAYER_ALL_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
         if (allContents != null) {
             inventory.setContents(allContents);
         } else {
             // legacy
-            ItemStack[] storage = headstone.get(PLAYER_INV_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
-            ItemStack[] armor = headstone.get(PLAYER_ARM_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
-            ItemStack[] extra = headstone.get(PLAYER_EXTRA_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
-            inventory.setStorageContents(storage);
-            inventory.setArmorContents(armor);
-            inventory.setExtraContents(extra);
+            handleLegacyGrave(headstone, inventory);
         }
         player.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, pair.getHeadstone().getLocation().add(0, 1.7, 0), 10, 0, 0, 0, 0.05);
         pair.remove();
@@ -236,7 +264,7 @@ class PlayerListener implements ModuleListener {
             player.getPersistentDataContainer().remove(LAST_GRAVE_LOCATION);
         } else {
             Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
-                OfflinePlayer graveOwner = Bukkit.getOfflinePlayer(pair.playerUUID);
+                final OfflinePlayer graveOwner = Bukkit.getOfflinePlayer(pair.playerUUID);
                 if (graveOwner.getPlayer() != null) {
                     Bukkit.getScheduler().runTask(this.plugin, () -> graveOwner.getPlayer().getPersistentDataContainer().remove(LAST_GRAVE_LOCATION));
                 }
@@ -244,55 +272,47 @@ class PlayerListener implements ModuleListener {
         }
     }
 
+    @Deprecated
+    private static final NamespacedKey PLAYER_INV_CONTENTS = Keys.legacyKey("player_inventory_contents");
+    @Deprecated
+    private static final NamespacedKey PLAYER_ARM_CONTENTS = Keys.legacyKey("player_armor_contents");
+    @Deprecated
+    private static final NamespacedKey PLAYER_EXTRA_CONTENTS = Keys.legacyKey("player_extra_contents");
+    private static void handleLegacyGrave(final PersistentDataContainer headstone, final PlayerInventory inventory) {
+        final ItemStack @Nullable [] storage = headstone.get(PLAYER_INV_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
+        final ItemStack @Nullable [] armor = headstone.get(PLAYER_ARM_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
+        final ItemStack @Nullable [] extra = headstone.get(PLAYER_EXTRA_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
+        if (storage != null) inventory.setStorageContents(storage);
+        inventory.setArmorContents(armor);
+        inventory.setExtraContents(extra);
+    }
+
     // Don't let players mess with the graves
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onArmorStandManipulation(PlayerArmorStandManipulateEvent event) {
-        PersistentDataContainer pdc = event.getRightClicked().getPersistentDataContainer();
+    public void onArmorStandManipulation(final PlayerArmorStandManipulateEvent event) {
+        final PersistentDataContainer pdc = event.getRightClicked().getPersistentDataContainer();
         if (pdc.get(PROTECTED, PersistentDataType.BYTE) != null) event.setCancelled(true);
     }
 
-    private void setupStand(ArmorStand stand, Material head) {
+    private void setupStand(final ArmorStand stand, final Material head) {
         stand.setInvulnerable(true);
         stand.setGravity(false);
         stand.setVisible(false);
         stand.setArms(false);
         stand.setCollidable(false);
-        stand.getPersistentDataContainer().set(PROTECTED, PersistentDataType.BYTE, (byte)1);
+        stand.getPersistentDataContainer().set(PROTECTED, PersistentDataType.BYTE, (byte) 1);
         stand.getEquipment().setHelmet(new ItemStack(head));
-    }
-
-    static Optional<GravePair> createGravePair(Collection<ArmorStand> stands) { // all armor stands should have player uuid and timestamp PDC values
-        if (stands.size() < 2) return Optional.empty();
-        Long timestamp;
-        for (ArmorStand stand1 : stands) {
-            timestamp = stand1.getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG);
-            for (ArmorStand stand2 : stands) {
-                if (stand1 == stand2) continue; // skip same
-                if (Objects.equals(stand2.getPersistentDataContainer().get(TIMESTAMP, PersistentDataType.LONG), timestamp)) {
-                    if (isHeadstone(stand1)) {
-                        return Optional.of(new GravePair(stand1, stand2));
-                    } else if (isHeadstone(stand2)) {
-                        return Optional.of(new GravePair(stand2, stand1));
-                    }
-                    return Optional.empty();
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    static boolean isHeadstone(PersistentDataHolder holder) {
-        PersistentDataContainer pdc = holder.getPersistentDataContainer();
-        return pdc.has(PLAYER_ALL_CONTENTS, DataTypes.ITEMSTACK_ARRAY) || pdc.has(PLAYER_EXPERIENCE, PersistentDataType.INTEGER) || pdc.has(PLAYER_INV_CONTENTS, DataTypes.ITEMSTACK_ARRAY);
     }
 
     static class GravePair extends Pair<ArmorStand, ArmorStand> {
 
-        final @NotNull UUID playerUUID;
+        final @Nullable Long timestamp;
+        final UUID playerUUID;
 
-        GravePair(ArmorStand headStone, ArmorStand base) {
+        GravePair(final ArmorStand headStone, final ArmorStand base, final @Nullable Long timestamp) {
             super(headStone, base);
-            this.playerUUID = headStone.getPersistentDataContainer().get(PLAYER_UUID, DataTypes.UUID);
+            this.timestamp = timestamp;
+            this.playerUUID = requireNonNull(headStone.getPersistentDataContainer().get(PLAYER_UUID, DataTypes.UUID));
         }
 
         ArmorStand getHeadstone() {

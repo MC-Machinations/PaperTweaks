@@ -82,6 +82,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
     }
 
     private final Map<String, ConfigSetting<?, C>> settings = new HashMap<>();
+    @SuppressWarnings("Convert2Diamond")
     private final CloudKey<SettingArgument.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = SimpleCloudKey.of(SettingArgument.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgument.SettingChange<C, ConfigSetting<?, C>>>() {});
     private @MonotonicNonNull M menu;
 
@@ -121,7 +122,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
 
     private void collectMenuParts(final SectionNode section, final List<MenuPartLike<C>> menuParts) {
         section.children().forEach((key, node) -> {
-            if (node instanceof ValueNode<?> valueNode) {
+            if (node instanceof final ValueNode<?> valueNode) {
                 for (final Map.Entry<Class<?>, ConfigMenuOptionBuilder<?>> entry : OPTION_BUILDERS.entrySet()) {
                     if (valueNode.type().getRawClass().equals(entry.getKey())) {
                         menuParts.add(this.touchMenuOption(entry.getValue().<C>buildOption(valueNode, this.settings)));
@@ -135,7 +136,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
                         return;
                     }
                 }
-            } else if (node instanceof SectionNode sectionNode) {
+            } else if (node instanceof final SectionNode sectionNode) {
                 this.collectMenuParts(sectionNode, menuParts);
             }
         });
