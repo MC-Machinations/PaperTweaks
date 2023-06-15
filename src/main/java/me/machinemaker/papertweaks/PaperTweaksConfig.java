@@ -27,7 +27,7 @@ import me.machinemaker.lectern.annotations.YamlConfig;
 import me.machinemaker.papertweaks.db.DatabaseType;
 
 @YamlConfig
-public class VanillaTweaksConfig extends BaseConfig {
+public class PaperTweaksConfig extends BaseConfig {
 
     @Key("enable-bstats")
     public boolean metricsEnabled = true;

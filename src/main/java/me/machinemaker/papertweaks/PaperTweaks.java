@@ -72,8 +72,8 @@ public class PaperTweaks extends JavaPlugin {
     @Inject
     private ModuleManager moduleManager;
     @Inject
-    private VanillaTweaksMetrics metrics;
-    private @MonotonicNonNull VanillaTweaksConfig config;
+    private PaperTweaksMetrics metrics;
+    private @MonotonicNonNull PaperTweaksConfig config;
     private @MonotonicNonNull Jdbi jdbi;
 
     @Override
@@ -89,7 +89,7 @@ public class PaperTweaks extends JavaPlugin {
         this.getLogger().info("If you have any issues, please visit one of the following links for support:");
         this.getLogger().info("  - https://discord.gg/invite/Np6Pcb78rr");
         this.getLogger().info("  - https://github.com/MC-Machinations/VanillaTweaks/issues");
-        this.config = BaseConfig.create(VanillaTweaksConfig.class, this.dataPath);
+        this.config = BaseConfig.create(PaperTweaksConfig.class, this.dataPath);
         this.jdbi = DatabaseType.installPlugins(this.config.database.type.createJdbiInstance(this.dataPath, this.config));
         Integrations.load();
         try (final Handle handle = this.jdbi.open()) {
@@ -118,7 +118,7 @@ public class PaperTweaks extends JavaPlugin {
             pluginInjector = Guice.createInjector(new DatabaseModule(this.jdbi), new AbstractModule() {
                 @Override
                 protected void configure() {
-                    this.bind(VanillaTweaksConfig.class).toInstance(PaperTweaks.this.config);
+                    this.bind(PaperTweaksConfig.class).toInstance(PaperTweaks.this.config);
                     this.bind(PaperTweaks.class).toInstance(PaperTweaks.this);
                     this.bind(JavaPlugin.class).toInstance(PaperTweaks.this);
                     this.bind(Plugin.class).toInstance(PaperTweaks.this);

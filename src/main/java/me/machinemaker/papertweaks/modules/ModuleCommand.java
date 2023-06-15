@@ -33,7 +33,7 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.adventure.Components;
 import me.machinemaker.papertweaks.cloud.ModulePermission;
-import me.machinemaker.papertweaks.cloud.VanillaTweaksCommand;
+import me.machinemaker.papertweaks.cloud.PaperTweaksCommand;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.ConsoleCommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
@@ -61,7 +61,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public abstract class ModuleCommand extends VanillaTweaksCommand {
+public abstract class ModuleCommand extends PaperTweaksCommand {
 
     private static final CommandMeta.Key<ModuleBase> MODULE_OWNER = CommandMeta.Key.of(ModuleBase.class, "papertweaks:commands/module_owner");
     private static final MinecraftHelp.HelpColors MODULE_HELP_COLORS = MinecraftHelp.HelpColors.of(

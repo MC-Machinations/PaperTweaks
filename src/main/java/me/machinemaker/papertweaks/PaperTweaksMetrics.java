@@ -25,14 +25,14 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Singleton
-public class VanillaTweaksMetrics {
+public class PaperTweaksMetrics {
 
     private static final int PLUGIN_ID = 8141;
 
     private Metrics metrics;
 
     @Inject
-    VanillaTweaksMetrics(final VanillaTweaksConfig config, final JavaPlugin plugin) {
+    PaperTweaksMetrics(final PaperTweaksConfig config, final JavaPlugin plugin) {
         if (config.metricsEnabled) {
             this.metrics = new Metrics(plugin, PLUGIN_ID);
         }

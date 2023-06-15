@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.papertweaks.adventure.Components;
-import me.machinemaker.papertweaks.cloud.VanillaTweaksCommand;
+import me.machinemaker.papertweaks.cloud.PaperTweaksCommand;
 import me.machinemaker.papertweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.menus.AbstractConfigurationMenu;
@@ -61,7 +61,7 @@ import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 @DefaultQualifier(NonNull.class)
-public class RootCommand extends VanillaTweaksCommand {
+public class RootCommand extends PaperTweaksCommand {
 
     private static final int PAGE_SIZE = 6;
 

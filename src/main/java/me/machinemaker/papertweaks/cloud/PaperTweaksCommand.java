@@ -33,7 +33,7 @@ import org.bukkit.entity.Player;
 /**
  * Various utility methods for commands to utilize
  */
-public abstract class VanillaTweaksCommand {
+public abstract class PaperTweaksCommand {
 
     @Inject protected PaperCommandManager<CommandDispatcher> manager;
     @Inject protected ArgumentFactory argumentFactory;
