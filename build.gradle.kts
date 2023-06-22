@@ -1,7 +1,10 @@
+import xyz.jpenilla.runpaper.task.RunServer
+
 plugins {
     java
     alias(libs.plugins.shadow)
     alias(libs.plugins.indra.licenser.spotless)
+    alias(libs.plugins.runPaper)
 }
 
 group = "me.machinemaker"
@@ -19,13 +22,16 @@ repositories {
     }
 }
 
+val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper:paper-api:$it-R0.1-SNAPSHOT" }
 dependencies {
-    compileOnly(libs.paper.api)
+    compileOnly(paperApi)
 
     implementation(libs.mm.mirror)
     implementation(libs.mm.lectern) // TODO replace with configurate
     implementation(libs.cloud.paper)
-    implementation(libs.cloud.extras)
+    implementation(libs.cloud.extras) {
+        exclude(group = "net.kyori")
+    }
     implementation(libs.bstats)
     implementation(libs.moonshine)
     implementation(libs.guice)
@@ -53,7 +59,7 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.40.0.0")
 
     // tests
-    testImplementation(libs.paper.api)
+    testImplementation(paperApi)
     testImplementation("org.apache.commons:commons-configuration2:2.8.0")
     testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
     testImplementation(libs.slf4j)
@@ -122,5 +128,13 @@ tasks {
                 "Implementation-Version" to project.version
             )
         }
+    }
+
+    withType<RunServer> { // set for both runServer and runMojangMappedServer
+        systemProperty("com.mojang.eula.agree", "true")
+    }
+
+    runServer {
+        minecraftVersion(libs.versions.minecraft.get())
     }
 }

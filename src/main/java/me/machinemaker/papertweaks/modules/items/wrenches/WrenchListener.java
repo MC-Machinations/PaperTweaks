@@ -57,7 +57,7 @@ class WrenchListener implements ModuleListener {
             && event.getAction() == Action.RIGHT_CLICK_BLOCK
             && event.getClickedBlock() != null
             && event.getItem() != null
-            && event.getItem().equals(Lifecycle.WRENCH)
+            && RotationWrenches.isWrench(event.getItem())
         ) {
             final Block block = event.getClickedBlock();
             final BlockData blockData = block.getBlockData();

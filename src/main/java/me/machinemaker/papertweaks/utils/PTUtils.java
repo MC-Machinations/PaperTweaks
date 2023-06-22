@@ -21,6 +21,7 @@ package me.machinemaker.papertweaks.utils;
 
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -39,7 +40,9 @@ import me.machinemaker.mirror.MethodInvoker;
 import me.machinemaker.mirror.Mirror;
 import me.machinemaker.mirror.paper.PaperMirror;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -52,6 +55,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
+import org.jetbrains.annotations.Contract;
+
+import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 
 @DefaultQualifier(NonNull.class)
 public final class PTUtils {
@@ -66,6 +72,29 @@ public final class PTUtils {
     private static final Gson GSON = new Gson();
 
     private PTUtils() {
+    }
+
+    @Contract("null -> null; !null -> !null")
+    public static @Nullable Component sanitizeName(final @Nullable String name) {
+        if (name == null) {
+            return null;
+        }
+        final JsonElement tree = GsonComponentSerializer.gson().serializer().fromJson(name, JsonElement.class);
+        if (tree instanceof final JsonObject object && object.has("text")) {
+            final String text = object.getAsJsonPrimitive("text").getAsString();
+            if (text.contains("§")) {
+                if (object.size() == 1) {
+                    final TextComponent deserialized = LegacyComponentSerializer.legacySection().deserialize(text);
+                    if (text.contains("§r")) {
+                        return deserialized.decoration(ITALIC, false);
+                    }
+                    return deserialized;
+                } else {
+                    throw new IllegalStateException("This is a bug. Report to PaperTweaks Discord or GitHub: %s".formatted(name));
+                }
+            }
+        }
+        return GsonComponentSerializer.gson().deserializeFromTree(tree);
     }
 
     public static GameProfile getGameProfile(final Player player) {

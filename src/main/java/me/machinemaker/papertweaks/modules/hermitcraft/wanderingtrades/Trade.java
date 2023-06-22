@@ -37,7 +37,7 @@ class Trade {
     Trade(final int maxUses, final Material secondaryCost, final int headCount, final String name, final UUID uuid, final String texture) {
         this.maxUses = maxUses;
         this.secondaryCost = secondaryCost;
-        this.skull = PTUtils.getSkull(GsonComponentSerializer.gson().deserialize(name), uuid, texture, headCount);
+        this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), uuid, texture, headCount);
     }
 
     public boolean isBlockTrade() {

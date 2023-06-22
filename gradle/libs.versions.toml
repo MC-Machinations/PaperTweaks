@@ -1,5 +1,5 @@
 [versions]
-paper = "1.20-R0.1-SNAPSHOT"
+minecraft = "1.20.1"
 mm-mirror = "0.1.2"
 mm-lectern = "0.3.0" # deprecated
 cloud = "1.8.3"
@@ -21,10 +21,9 @@ griefprevention = "16.17.1"
 # plugins
 shadow = "8.1.1"
 indra = "3.1.1"
+runPaper = "2.1.0"
 
 [libraries]
-paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
-
 mm-mirror = { module = "me.machinemaker.mirror:mirror-paper", version.ref = "mm-mirror" }
 mm-lectern = { module = "me.machinemaker.lectern:lectern-yaml", version.ref = "mm-lectern" } # deprecated
 
@@ -55,4 +54,5 @@ griefprevention = { module = "com.github.TechFortress:GriefPrevention", version.
 [plugins]
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 indra-licenser-spotless = { id = "net.kyori.indra.licenser.spotless", version.ref = "indra" }
+runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 

@@ -9,3 +9,6 @@ venv
 **/.classpath
 **/.project
 **/.settings
+
+### Run Paper ###
+run/

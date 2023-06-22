@@ -20,25 +20,23 @@
 package me.machinemaker.papertweaks.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.UUID;
 import me.machinemaker.papertweaks.utils.PTUtils;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class PlayerSkull {
 
     private final ItemStack skull;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public PlayerSkull(@Nullable String name, @Nullable String gameProfileName, @Nullable UUID uuid, @Nullable String texture, @Nullable Integer count) {
-        this.skull = PTUtils.getSkull(GsonComponentSerializer.gson().deserializeOrNull(name), gameProfileName, uuid, texture, count != null ? count : 1);
+    public PlayerSkull(final @Nullable String name, final @Nullable String gameProfileName, final @Nullable UUID uuid, final @Nullable String texture, final @Nullable Integer count) {
+        this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), gameProfileName, uuid, texture, count != null ? count : 1);
     }
 
-    public @NotNull ItemStack cloneWithAmount(int amount) {
-        ItemStack clone = this.skull.clone();
+    public @NotNull ItemStack cloneWithAmount(final int amount) {
+        final ItemStack clone = this.skull.clone();
         clone.setAmount(amount);
         return clone;
     }

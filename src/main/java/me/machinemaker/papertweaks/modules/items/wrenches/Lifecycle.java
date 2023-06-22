@@ -20,49 +20,21 @@
 package me.machinemaker.papertweaks.modules.items.wrenches;
 
 import com.google.inject.Inject;
-import java.math.BigInteger;
 import java.util.Set;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
-import me.machinemaker.papertweaks.utils.Keys;
-import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static java.util.Objects.requireNonNull;
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.Style.style;
 
 class Lifecycle extends ModuleLifecycle {
 
-    static final String RESOURCE_PACK_URL = "https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip";
-    static final byte[] RESOURCE_PACK_HASH = new BigInteger("1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147", 16).toByteArray();
-
-    static final ItemStack WRENCH = new ItemStack(Material.CARROT_ON_A_STICK, 1);
-    static final NamespacedKey WRENCH_RECIPE_KEY = Keys.legacyKey("redstone_wrench");
-    static final ShapedRecipe WRENCH_RECIPE = new ShapedRecipe(WRENCH_RECIPE_KEY, WRENCH)
-        .shape(
-            " # ",
-            " ##",
-            "$  "
-        ).setIngredient('#', Material.GOLD_INGOT)
-        .setIngredient('$', Material.IRON_INGOT);
-
-    static {
-        final ItemMeta meta = requireNonNull(WRENCH.getItemMeta());
-        meta.displayName(text("Redstone Wrench", style(TextDecoration.ITALIC.withState(false))));
-        meta.setUnbreakable(true);
-        meta.setCustomModelData(4321);
-        WRENCH.setItemMeta(meta);
-    }
+    static final Component PACK_PROMPT = text("This resource pack adds a texture for the Redstone Wrench");
 
     private final Config config;
 
@@ -76,7 +48,7 @@ class Lifecycle extends ModuleLifecycle {
     public void onEnable() {
         if (this.config.suggestResourcePack) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                player.setResourcePack(RESOURCE_PACK_URL, RESOURCE_PACK_HASH);
+                player.setResourcePack(RotationWrenches.RESOURCE_PACK_URL, RotationWrenches.RESOURCE_PACK_HASH, PACK_PROMPT);
             });
         }
 
@@ -86,7 +58,7 @@ class Lifecycle extends ModuleLifecycle {
     public void onReload() {
         if (this.config.suggestResourcePack) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                player.setResourcePack(RESOURCE_PACK_URL, RESOURCE_PACK_HASH);
+                player.setResourcePack(RotationWrenches.RESOURCE_PACK_URL, RotationWrenches.RESOURCE_PACK_HASH, PACK_PROMPT);
             });
         }
     }

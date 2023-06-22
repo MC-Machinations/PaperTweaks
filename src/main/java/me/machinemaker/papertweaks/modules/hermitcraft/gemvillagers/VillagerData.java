@@ -29,8 +29,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import me.machinemaker.papertweaks.common.PlayerSkull;
+import me.machinemaker.papertweaks.utils.PTUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -51,7 +51,7 @@ class VillagerData {
 
     @JsonCreator
     private VillagerData(final String name, final PlayerSkull head, final List<Offer> offers) {
-        this.name = GsonComponentSerializer.gson().deserialize(name);
+        this.name = PTUtils.sanitizeName(name);
         this.head = head;
         this.offers = offers;
     }

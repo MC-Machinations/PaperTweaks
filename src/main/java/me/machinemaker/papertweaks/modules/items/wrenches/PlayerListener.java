@@ -37,9 +37,9 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onPlayerJoin(final PlayerJoinEvent event) {
-        event.getPlayer().discoverRecipe(Lifecycle.WRENCH_RECIPE_KEY);
+        event.getPlayer().discoverRecipe(RotationWrenches.WRENCH_RECIPE_KEY);
         if (this.config.suggestResourcePack) {
-            event.getPlayer().setResourcePack(Lifecycle.RESOURCE_PACK_URL, Lifecycle.RESOURCE_PACK_HASH);
+            event.getPlayer().setResourcePack(RotationWrenches.RESOURCE_PACK_URL, RotationWrenches.RESOURCE_PACK_HASH, Lifecycle.PACK_PROMPT);
         }
     }
 }
