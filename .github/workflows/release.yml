@@ -18,7 +18,7 @@ jobs:
           workflow: ci.yml
           commit: ${{ github.sha }}
           event: push
-          name: VanillaTweaks
+          name: PaperTweaks
 
       - name: Parse tag
         id: vars
@@ -33,4 +33,5 @@ jobs:
           skip-prereleases: true
           files: |
             PaperTweaks.jar
+            PaperTweaks.jar.sha256
             LICENSE

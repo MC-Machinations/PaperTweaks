@@ -34,10 +34,15 @@ jobs:
       - name: Copy artifacts before uploading
         run: cp build/libs/PaperTweaks-*-all.jar ./PaperTweaks.jar
 
+      - name: Generate SHA-256 hash
+        run: sha256sum PaperTweaks.jar > PaperTweaks.jar.sha256
+
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: PaperTweaks
           path: |
             PaperTweaks.jar
+            PaperTweaks.jar.sha256
             LICENSE
