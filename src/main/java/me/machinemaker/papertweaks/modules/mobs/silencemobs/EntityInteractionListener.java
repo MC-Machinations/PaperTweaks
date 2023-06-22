@@ -21,34 +21,42 @@ package me.machinemaker.papertweaks.modules.mobs.silencemobs;
 
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.modules.ModuleListener;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+import static net.kyori.adventure.text.Component.text;
 
 class EntityInteractionListener implements ModuleListener {
 
     private final Plugin plugin;
 
     @Inject
-    EntityInteractionListener(Plugin plugin) {
+    EntityInteractionListener(final Plugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+    public void onPlayerInteractEntity(final PlayerInteractEntityEvent event) {
         if (!event.getPlayer().hasPermission("vanillatweaks.silencemobs")) return;
-        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        final ItemStack item = event.getPlayer().getInventory().getItem(event.getHand());
         if (item.getType() == Material.NAME_TAG) {
-            if (item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
-                String name = item.getItemMeta().getDisplayName();
-                boolean toSilent = name.equalsIgnoreCase("silence me") || name.equalsIgnoreCase("silence_me");
+            final @Nullable ItemMeta meta = item.getItemMeta();
+            if (meta != null && meta.displayName() != null) {
+                final String name = PlainTextComponentSerializer.plainText().serializeOr(meta.displayName(), "");
+                final boolean toSilent = name.equalsIgnoreCase("silence me") || name.equalsIgnoreCase("silence_me");
                 if (toSilent) {
-                    event.getRightClicked().setSilent(true);
-                    Bukkit.getScheduler().runTaskLater(this.plugin, () -> event.getRightClicked().setCustomName("silenced"), 10L);
+                    final Entity clickedEntity = event.getRightClicked();
+                    clickedEntity.setSilent(true);
+                    Bukkit.getScheduler().runTaskLater(this.plugin, () -> clickedEntity.customName(text("silenced")), 10L);
                 }
             }
         }
