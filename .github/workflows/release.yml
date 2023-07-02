@@ -28,7 +28,7 @@ jobs:
         uses: MC-Machinations/auto-release-changelog@v1.1.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: Vanilla Tweaks ${{ steps.vars.outputs.tag }}
+          title: Paper Tweaks ${{ steps.vars.outputs.tag }}
           pre-release: ${{ contains(steps.vars.outputs.tag, '-beta') || contains(steps.vars.outputs.tag, '-dev') }}
           skip-prereleases: true
           files: |

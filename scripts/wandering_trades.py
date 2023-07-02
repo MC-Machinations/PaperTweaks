@@ -16,7 +16,6 @@ def run():
     if len(argv) < 2:
         print("Need to specify .mcfunction file containing the list of trades (usually add_trade.mcfunction)")
         exit(1)
-        return
     with open(argv[1], "r") as file:
         lines = file.readlines()
         heads = []
@@ -33,7 +32,7 @@ def run():
                 "uuid": str(array_to_uuid(sell_tag["tag"]["SkullOwner"]["Id"])),
                 "texture": sell_tag["tag"]["SkullOwner"]["Properties"]["textures"][0]["Value"]
             })
-        with open("../vanilla-tweaks-bukkit/src/main/resources/data/wandering_trades.json", "w") as out:
+        with open("../src/main/resources/data/wandering_trades.json", "w") as out:
             out.write(dumps(heads, ensure_ascii=False, indent=2))
 
 

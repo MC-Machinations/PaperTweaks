@@ -5,7 +5,6 @@ def run():
     if len(argv) < 2:
         print("Need to specify .mcfunction file containing all the objectives")
         exit(1)
-        return
     with open(argv[1], "r") as file:
         lines = file.readlines()
         for line in lines:

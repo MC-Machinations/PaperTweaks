@@ -1,4 +1,4 @@
-# VanillaTweaks
+# PaperTweaks
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/MC-Machinations/VanillaTweaks/ci.yml?style=for-the-badge)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/MC-Machinations/VanillaTweaks?color=8f52bf&sort=semver&style=for-the-badge)](https://github.com/MC-Machinations/VanillaTweaks/releases)

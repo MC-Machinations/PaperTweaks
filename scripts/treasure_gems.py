@@ -1,7 +1,6 @@
 from glob import iglob
 from json import load, dumps
 from os.path import abspath
-from pathlib import Path
 from sys import argv, exit
 from uuid import UUID
 
@@ -46,7 +45,6 @@ def run():
                 else:
                     print(f"Unrecognized loot function {func['function']} in {loot_table_name}")
                     exit(1)
-                    return
 
             if name is None or uuid is None or texture is None:
                 print(f"{loot_table_name} did not meet the check for a treasure gem loot table")
@@ -78,54 +76,11 @@ def run():
                     exit(1)
             tables.append(mc_name)
 
-    with open("../vanilla-tweaks-bukkit/src/main/resources/data/treasure_gems/heads.json", "w") as out:
+    with open("../src/main/resources/data/treasure_gems/heads.json", "w") as out:
         out.write(dumps(heads, ensure_ascii=False, indent=2) + "\n")
 
-    with open("../vanilla-tweaks-bukkit/src/main/resources/data/treasure_gems/loot_tables.json", "w") as out:
+    with open("../src/main/resources/data/treasure_gems/loot_tables.json", "w") as out:
         out.write(dumps(tables, ensure_ascii=True, indent=2) + "\n")
-    #         if len(json["pools"][-1]["entries"]) == 6:
-    #             current_pool = json["pools"][-1]
-    #             pool = {
-    #                 "rolls": current_pool["rolls"],
-    #                 "entries": []
-    #             }
-    #             for entry in current_pool["entries"]:
-    #                 weight = entry["weight"]
-    #                 pool["entries"].append({
-    #                     "weight": weight,
-    #                     "head": None
-    #                 })
-    #                 if "functions" in entry:
-    #                     tag = parse_nbt(entry["functions"][0]["tag"])
-    #                     pool["entries"][-1]["count"] = entry["functions"][-1]["count"]
-    #                     pool["entries"][-1]["head"] = {
-    #                         "uuid": str(array_to_uuid(tag["SkullOwner"]["Id"])),
-    #                         "texture": str(tag["SkullOwner"]["Properties"]["textures"][0]["Value"]),
-    #                         "name": str(tag["display"]["Name"])
-    #                     }
-    #             pools[actual_name] = pool
-    #         else:
-    #             print(f"{loot_table_name} did not meet the check for a treasure gem loot table")
-    #
-    # heads = {}
-    # for filename in iglob(abspath(argv[1]) + "/**/functions/**/*.mcfunction", recursive=True):
-    #     with open(filename, "r") as file:
-    #         head_name = filename.split('/')[-1].split('.')[0]
-    #         nbt = parse_nbt(file.readline().split("player_head")[1])
-    #         heads[head_name] = {
-    #             "name": nbt["display"]["Name"],
-    #             "uuid": str(array_to_uuid(nbt["SkullOwner"]["Id"])),
-    #             "texture": nbt["SkullOwner"]["Properties"]["textures"][0]["Value"]
-    #         }
-    #
-    # print(f"Read from {len(pools)} loot tables, and parsed {len(heads)} heads")
-    #
-    # Path("../vanilla-tweaks-bukkit/src/main/resources/data/treasure_gems").mkdir(parents=True, exist_ok=True)
-    # with open("../vanilla-tweaks-bukkit/src/main/resources/data/treasure_gems/loot_pools.json", "w") as out:
-    #     out.write(dumps(pools, ensure_ascii=False, indent=2))
-    #
-    # with open("../vanilla-tweaks-bukkit/src/main/resources/data/treasure_gems/heads.json", "w") as out:
-    #     out.write(dumps(heads, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

@@ -64,5 +64,5 @@ body:
     attributes:
       value: |
         Before submitting this issue, please ensure the following:
-        1. You are running the latest version of VanillaTweaks/PaperTweaks from [our downloads page](https://github.com/MC-Machinations/VanillaTweaks/releases).
+        1. You are running the latest version of PaperTweaks from [our downloads page](https://github.com/MC-Machinations/VanillaTweaks/releases).
         2. You searched for and ensured there isn't already an open issue regarding this.

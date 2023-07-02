@@ -35,7 +35,7 @@ def run():
         print("Address missing tables, and re-run script")
         return
 
-    with open("../vanilla-tweaks-bukkit/src/main/resources/data/more_mob_heads.json", "w") as out:
+    with open("../src/main/resources/data/more_mob_heads.json", "w") as out:
         out.write(dumps(sorted(heads, key=lambda d: d["tableName"]), ensure_ascii=False, indent=2))
 
 

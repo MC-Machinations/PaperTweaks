@@ -120,7 +120,7 @@ tasks {
     jar {
         manifest {
             attributes(
-                "Implementation-Title" to "VanillaTweaks",
+                "Implementation-Title" to "PaperTweaks",
                 "Implementation-Version" to project.version
             )
         }

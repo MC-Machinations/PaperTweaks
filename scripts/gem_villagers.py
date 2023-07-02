@@ -17,7 +17,6 @@ def run():
     if len(argv) < 2:
         print("Need to specify a directory containing gem villager mcfunction files")
         exit(1)
-        return
     print(f"Root directory for gem villager mcfunction files: {abspath(argv[1])}")
 
     villagers = {}
@@ -77,7 +76,7 @@ def run():
 
             villagers[villager_name] = villager
 
-    with open("../vanilla-tweaks-bukkit/src/main/resources/data/gem_villagers.json", "w") as out:
+    with open("../src/main/resources/data/gem_villagers.json", "w") as out:
         out.write(dumps(villagers, ensure_ascii=False, indent=2))
 
 
