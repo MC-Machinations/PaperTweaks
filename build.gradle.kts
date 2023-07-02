@@ -100,10 +100,6 @@ tasks {
         dependsOn(shadowJar)
     }
 
-    shadowJar {
-        relocate("org.bstats", "me.machinemaker.libs.org.bstats") // bstats requires being relocated
-    }
-
     processResources {
         filteringCharset = Charsets.UTF_8.name()
         filesMatching(listOf("plugin.yml", "paper-plugin.yml")) {
@@ -127,6 +123,51 @@ tasks {
                 "Implementation-Title" to "VanillaTweaks",
                 "Implementation-Version" to project.version
             )
+        }
+    }
+
+    shadowJar {
+        dependencies {
+            exclude(dependency("org.checkerframework:checker-qual"))
+            exclude(dependency("org.apache.commons:commons-lang3"))
+            listOf("guava", "errorprone", "j2objc").forEach {
+                exclude(dependency("com.google.$it:"))
+            }
+            exclude(dependency("com.google.code.findbugs:jsr305"))
+            exclude(dependency("org.slf4j:slf4j-api"))
+            exclude(dependency("org.yaml:snakeyaml"))
+        }
+
+        listOf(
+            "cloud.commandframework", // cloud
+            "com.fasterxml.jackson", // jackson
+            "com.github.benmanes", // caffeine
+            "com.google.inject", // guice
+            "io.github.classgraph", // classgraph
+            "nonapi.io.github.classgraph", // classgraph
+            "io.leangen.geantyref", // geantyref
+            "javax.inject", // javax
+            "me.machinemaker.mirror", // mirror
+            "me.machinemaker.lectern", // lectern
+            "net.kyori.moonshine", // moonshine
+            "org.antlr", // antlr (jdbi)
+            "org.aopalliance", // aopalliance (guice)
+            "org.bstats", // bStats
+            "org.h2", // h2 db
+            "org.jdbi.v3", // jdbi v3
+            "org.sqlite" // sqlite db
+        ).forEach {
+            relocate(it, "me.machinemaker.papertweaks.libs.$it")
+        }
+
+        listOf(
+            "beanutils",
+            "collections",
+            "configuration2",
+            "logging",
+            "text",
+        ).map { "org.apache.commons.$it" }.forEach {
+            relocate(it, "me.machinemaker.papertweaks.libs.$it")
         }
     }
 
