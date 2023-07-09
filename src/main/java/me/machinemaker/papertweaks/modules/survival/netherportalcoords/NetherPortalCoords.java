@@ -19,7 +19,8 @@
  */
 package me.machinemaker.papertweaks.modules.survival.netherportalcoords;
 
-import me.machinemaker.papertweaks.LoggerFactory;
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
@@ -28,30 +29,23 @@ import me.machinemaker.papertweaks.moonshine.module.MoonshineModuleBase;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.moonshine.MoonshineBuilder;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "NetherPortalCoords", configPath = "survival.nether-portal-coords", description = "Helper for determining portal locations in other dimensions")
 public class NetherPortalCoords extends MoonshineModuleBase<MessageService> {
 
-    static final Logger LOGGER = LoggerFactory.getModuleLogger(NetherPortalCoords.class);
-
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
@@ -61,7 +55,7 @@ public class NetherPortalCoords extends MoonshineModuleBase<MessageService> {
     }
 
     @Override
-    public void placeholderStrategies(MoonshineBuilder.@NotNull Resolved<MessageService, Audience, String, Component, Component> resolved) {
+    public void placeholderStrategies(final MoonshineBuilder.Resolved<MessageService, Audience, String, Component, Component> resolved) {
         super.placeholderStrategies(resolved);
         resolved.weightedPlaceholderResolver(MessageService.CoordinatesComponent.class, new MessageService.CoordinatesComponentPlaceholderResolver(), 0);
     }

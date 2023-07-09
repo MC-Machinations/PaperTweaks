@@ -48,7 +48,7 @@ public class AudienceReceiverResolver implements IReceiverLocatorResolver<Audien
                 }
             }
             for (final Object param : parameters) {
-                if (param instanceof Audience audience) {
+                if (param instanceof final Audience audience) {
                     return audience;
                 }
             }

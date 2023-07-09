@@ -24,14 +24,16 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import org.intellij.lang.annotations.Subst;
 
 public class MiniMessageMessageRenderer extends AbstractMessageRenderer<String> {
 
     @Override
     protected Component render(final String intermediateMessage, final Map<String, ? extends Component> resolvedPlaceholders) {
         final TagResolver.Builder builder = TagResolver.builder();
-        for (final var entry : resolvedPlaceholders.entrySet()) {
-            builder.resolver(Placeholder.component(entry.getKey(), entry.getValue()));
+        for (final Map.Entry<String, ? extends Component> entry : resolvedPlaceholders.entrySet()) {
+            @Subst("some-key") final String key = entry.getKey();
+            builder.resolver(Placeholder.component(key, entry.getValue()));
         }
 
         return MiniMessage.miniMessage().deserialize(intermediateMessage, builder.build());

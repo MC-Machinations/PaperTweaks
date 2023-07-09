@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
+import java.util.Locale;
 import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.command.ConsoleCommandSender;
@@ -51,5 +52,10 @@ public class ConsoleCommandDispatcher extends CommandDispatcher {
     @Override
     public @Nullable UUID getUUID() {
         return CONSOLE_UUID;
+    }
+
+    @Override
+    public Locale locale() {
+        return Locale.US;
     }
 }

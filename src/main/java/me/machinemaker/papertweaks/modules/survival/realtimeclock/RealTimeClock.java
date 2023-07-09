@@ -19,31 +19,28 @@
  */
 package me.machinemaker.papertweaks.modules.survival.realtimeclock;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.moonshine.module.MoonshineModuleBase;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "RealTimeClock", configPath = "survival.real-time-clock", description = "Tracks how long the world has been active for")
 public class RealTimeClock extends MoonshineModuleBase<MessageService> {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    public @Nullable Class<MessageService> messageService() {
+    public Class<MessageService> messageService() {
         return MessageService.class;
     }
 }

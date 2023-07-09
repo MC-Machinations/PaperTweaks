@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
 import cloud.commandframework.context.CommandContext;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
 import net.kyori.adventure.audience.Audience;
@@ -72,5 +73,10 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     @Override
     public @Nullable UUID getUUID() {
         return this.player.getUniqueId();
+    }
+
+    @Override
+    public Locale locale() {
+        return this.player.locale();
     }
 }

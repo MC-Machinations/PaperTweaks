@@ -36,8 +36,4 @@ public final class Components {
     public static Component join(final Iterable<? extends ComponentLike> components) {
         return Component.join(noSeparators(), components);
     }
-
-    public static Component mini(final String key) {
-        return MiniComponent.create(key);
-    }
 }

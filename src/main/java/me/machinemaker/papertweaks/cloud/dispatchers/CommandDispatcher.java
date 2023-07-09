@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 import net.kyori.adventure.audience.ForwardingAudience;
@@ -50,6 +51,8 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
     }
 
     public abstract @Nullable UUID getUUID();
+
+    public abstract Locale locale();
 
     public boolean hasPermission(final String permission) {
         return this.bukkitCommandSender.hasPermission(permission);

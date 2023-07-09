@@ -19,11 +19,11 @@
  */
 package me.machinemaker.papertweaks.modules;
 
+import cloud.commandframework.ArgumentDescription;
 import cloud.commandframework.Command;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import io.leangen.geantyref.TypeToken;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -163,6 +163,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
 
     public void createCommands(final ConfiguredModuleCommand command, final Command.Builder<CommandDispatcher> builder) {
         final Command.Builder<CommandDispatcher> configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME).senderType(PlayerCommandDispatcher.class);
+        final ArgumentDescription resetDescription = command.buildDescription(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset");
         command.manager()
             .command(configBuilder.handler(this::sendMenu))
             .command(configBuilder.hidden()
@@ -172,10 +173,9 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
                     this.save();
                     this.sendMenu(context);
                 })
-            ).command(configBuilder
+            ).command(command.addDescription(configBuilder, resetDescription)
                 .senderType(CommandDispatcher.class)
-                .literal("reset")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, command.buildComponent(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset"))
+                .literal("reset", resetDescription)
                 .handler(context -> {
                     this.settings.values().forEach(setting -> setting.reset(this.self()));
                     this.save();

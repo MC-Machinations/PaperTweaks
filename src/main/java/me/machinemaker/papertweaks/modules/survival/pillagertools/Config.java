@@ -47,7 +47,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     @Description("modules.pillager-tools.settings.patrols.extended")
     public boolean patrols = true;
 
-    boolean getSettingValue(PillagerTools.ToggleOption option) {
+    boolean getSettingValue(final PillagerTools.ToggleOption option) {
         return switch (option) {
             case PATROLS -> this.patrols;
             case BAD_OMEN -> this.badOmen;

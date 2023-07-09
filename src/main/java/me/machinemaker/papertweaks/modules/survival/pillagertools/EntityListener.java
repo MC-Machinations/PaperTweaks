@@ -32,25 +32,26 @@ class EntityListener implements ModuleListener {
     private final Config config;
 
     @Inject
-    EntityListener(Config config) {
+    EntityListener(final Config config) {
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL && event.getEntity() instanceof Pillager pillager) {
-            if (!config.patrolLeaders && pillager.isPatrolLeader() && pillager.getPatrolTarget() != null) {
+    public void onCreatureSpawn(final CreatureSpawnEvent event) {
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL && event.getEntity() instanceof final Pillager pillager) {
+            if (!this.config.patrolLeaders && pillager.isPatrolLeader() && pillager.getPatrolTarget() != null) {
                 event.setCancelled(true);
             }
-            if (!config.patrols && pillager.getPatrolTarget() != null) {
+            if (!this.config.patrols && pillager.getPatrolTarget() != null) {
                 event.setCancelled(true);
             }
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onStatusEffectChange(EntityPotionEffectEvent event) {
-        if (!config.badOmen && event.getCause() == EntityPotionEffectEvent.Cause.PATROL_CAPTAIN) event.setCancelled(true);
+    public void onStatusEffectChange(final EntityPotionEffectEvent event) {
+        if (!this.config.badOmen && event.getCause() == EntityPotionEffectEvent.Cause.PATROL_CAPTAIN)
+            event.setCancelled(true);
     }
 
 }

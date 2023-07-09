@@ -19,7 +19,9 @@
  */
 package me.machinemaker.papertweaks.modules.survival.netherportalcoords;
 
+import cloud.commandframework.Command;
 import com.google.inject.Inject;
+import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import org.bukkit.Location;
@@ -32,28 +34,28 @@ class Commands extends ModuleCommand {
     private final MessageService messageService;
 
     @Inject
-    Commands(Config config, MessageService messageService) {
+    Commands(final Config config, final MessageService messageService) {
         this.config = config;
         this.messageService = messageService;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = this.player();
+        final Command.Builder<CommandDispatcher> builder = this.player();
 
         this.manager.command(builder
-                .permission(modulePermission("vanillatweaks.netherportalcoords"))
-                .handler(context -> {
-                    Player player = PlayerCommandDispatcher.from(context);
-                    Location loc = player.getLocation();
-                    if (this.config.overWorlds().contains(player.getWorld())) {
-                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether"); // TODO use coord scale from DimensionType
-                    } else if (this.config.netherWorlds().contains(player.getWorld())) {
-                        this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld"); // TODO use coord scale from DimensionType
-                    } else {
-                        this.messageService.invalidWorld(context.getSender());
-                    }
-                })
+            .permission(this.modulePermission("vanillatweaks.netherportalcoords"))
+            .handler(context -> {
+                final Player player = PlayerCommandDispatcher.from(context);
+                final Location loc = player.getLocation();
+                if (this.config.overWorlds().contains(player.getWorld())) {
+                    this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether"); // TODO use coord scale from DimensionType
+                } else if (this.config.netherWorlds().contains(player.getWorld())) {
+                    this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld"); // TODO use coord scale from DimensionType
+                } else {
+                    this.messageService.invalidWorld(context.getSender());
+                }
+            })
         );
     }
 }

@@ -19,6 +19,12 @@
  */
 package me.machinemaker.papertweaks.modules.survival.netherportalcoords;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.IntUnaryOperator;
 import me.machinemaker.papertweaks.adventure.TranslationRegistry;
 import me.machinemaker.papertweaks.modules.ModuleMessageService;
 import me.machinemaker.papertweaks.moonshine.annotation.TextColor;
@@ -35,34 +41,27 @@ import net.kyori.moonshine.placeholder.ContinuanceValue;
 import net.kyori.moonshine.util.Either;
 import org.bukkit.Location;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.IntUnaryOperator;
 
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.minimessage.tag.resolver.Placeholder.component;
 
 interface MessageService extends ModuleMessageService {
 
     @Message("modules.nether-portal-coords.invalid-world")
     @TextColor(TextColor.RED)
-    void invalidWorld(final Audience audience);
+    void invalidWorld(Audience audience);
 
     @Message("modules.nether-portal-coords.msg-format")
-    void coordinatesMsg(final Audience audience, @Placeholder final CoordinatesComponent coords, @Placeholder @TextColor(TextColor.YELLOW) final String world);
+    void coordinatesMsg(Audience audience, @Placeholder CoordinatesComponent coords, @TextColor(TextColor.YELLOW) @Placeholder String world);
 
-    record CoordinatesComponent(@NotNull Location loc, @NotNull IntUnaryOperator op) { }
+    record CoordinatesComponent(Location loc, IntUnaryOperator op) {}
 
     class CoordinatesComponentPlaceholderResolver extends AbstractPlaceholderResolver<CoordinatesComponent> {
 
         @Override
-        public @Nullable Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(String placeholderName, CoordinatesComponent value, Audience receiver, Type owner, Method method, @Nullable Object[] parameters) {
+        public @Nullable Map<String, Either<ConclusionValue<? extends Component>, ContinuanceValue<?>>> resolve(final String placeholderName, final CoordinatesComponent value, final Audience receiver, final Type owner, final Method method, final @Nullable Object[] parameters) {
             final Location loc = value.loc;
             final IntUnaryOperator op = value.op;
             final Optional<String> miniMessage = TranslationRegistry.translate("modules.nether-portal-coords.coord-format", receiver.pointers().getOrDefault(Identity.LOCALE, Locale.US));

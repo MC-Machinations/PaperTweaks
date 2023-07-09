@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2022-2023 Machine_Maker
+ * Copyright (C) 2023 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * Moonshine audience receiver resolvers
+ * Kill Empty Boats module
  */
 @DefaultQualifier(NonNull.class)
-package me.machinemaker.papertweaks.moonshine.receivers;
+package me.machinemaker.papertweaks.modules.utilities.killemptyboats;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

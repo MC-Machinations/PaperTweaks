@@ -20,17 +20,17 @@
 package me.machinemaker.papertweaks.modules.survival.netherportalcoords;
 
 import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.papertweaks.config.VTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 @VTConfig
 class Config extends ModuleConfig {
@@ -43,26 +43,16 @@ class Config extends ModuleConfig {
     @Description("World's listed here will qualify as nethers for purposes of calculating coordinates")
     public List<String> netherWorlds = Lists.newArrayList("world_nether");
 
-    void validateWorlds() {
-        overWorlds.forEach(s -> this.validateWorld(s, true));
-        netherWorlds.forEach(s -> this.validateWorld(s, true));
-    }
-
-    private World validateWorld(String s, boolean log) {
-        World world = Bukkit.getWorld(s);
-        if (world == null) {
-            if (log) NetherPortalCoords.LOGGER.warn("{} did not match an existing world", s);
-            return null;
-        }
-        return world;
+    private @Nullable World validateWorld(final String s) {
+        return Bukkit.getWorld(s);
     }
 
     Set<World> overWorlds() {
-        return this.overWorlds.stream().map(s -> this.validateWorld(s, false)).filter(Objects::nonNull).collect(Collectors.toUnmodifiableSet());
+        return this.overWorlds.stream().map(this::validateWorld).filter(Objects::nonNull).collect(Collectors.toUnmodifiableSet());
     }
 
     Set<World> netherWorlds() {
-        return this.netherWorlds.stream().map(s -> this.validateWorld(s, false)).filter(Objects::nonNull).collect(Collectors.toUnmodifiableSet());
+        return this.netherWorlds.stream().map(this::validateWorld).filter(Objects::nonNull).collect(Collectors.toUnmodifiableSet());
     }
 
 }

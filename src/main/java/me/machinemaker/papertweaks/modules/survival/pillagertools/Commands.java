@@ -19,16 +19,19 @@
  */
 package me.machinemaker.papertweaks.modules.survival.pillagertools;
 
+import cloud.commandframework.Command;
 import com.google.inject.Inject;
+import java.util.Locale;
+import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
-
-import java.util.Locale;
+import net.kyori.adventure.text.TextComponent;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 
 @ModuleCommand.Info(value = "pillagertools", aliases = "ptools", i18n = "pillager-tools", perm = "pillagertools")
@@ -37,27 +40,27 @@ class Commands extends ConfiguredModuleCommand {
     private final Config config;
 
     @Inject
-    Commands(Config config) {
+    Commands(final Config config) {
         this.config = config;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = this.builder();
+        final Command.Builder<CommandDispatcher> builder = this.builder();
 
-        manager.command(literal(builder, "status")
-                .handler(context -> {
-                    var txtBuilder = text()
-                            .append(translatable("modules.pillager-tools.commands.status.success.header", YELLOW, BOLD));
-                    for (PillagerTools.ToggleOption option : PillagerTools.ToggleOption.values()) {
-                        txtBuilder.append(newline()).append(translatable("modules.pillager-tools.commands.status.success.setting",
-                                YELLOW,
-                                translatable("modules.pillager-tools.settings." + option.name().toLowerCase(Locale.ENGLISH)),
-                                translatable("commands.config.default-value.bool." + this.config.getSettingValue(option), GREEN)
-                                ));
-                    }
-                    context.getSender().sendMessage(txtBuilder);
-                })
+        this.manager.command(this.literal(builder, "status")
+            .handler(context -> {
+                final TextComponent.Builder txtBuilder = text()
+                    .append(translatable("modules.pillager-tools.commands.status.success.header", YELLOW, BOLD));
+                for (final PillagerTools.ToggleOption option : PillagerTools.ToggleOption.values()) {
+                    txtBuilder.append(newline()).append(translatable("modules.pillager-tools.commands.status.success.setting",
+                        YELLOW,
+                        translatable("modules.pillager-tools.settings." + option.name().toLowerCase(Locale.ENGLISH)),
+                        translatable("commands.config.default-value.bool." + this.config.getSettingValue(option), GREEN)
+                    ));
+                }
+                context.getSender().sendMessage(txtBuilder);
+            })
         );
 
         this.config.createCommands(this, builder);

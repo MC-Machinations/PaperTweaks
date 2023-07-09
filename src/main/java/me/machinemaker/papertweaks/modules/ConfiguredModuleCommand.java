@@ -19,17 +19,21 @@
  */
 package me.machinemaker.papertweaks.modules;
 
+import cloud.commandframework.ArgumentDescription;
 import cloud.commandframework.Command;
+import cloud.commandframework.Description;
+import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.common.base.Preconditions;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
 import static net.kyori.adventure.text.Component.text;
 
+@DefaultQualifier(NonNull.class)
 public abstract class ConfiguredModuleCommand extends ModuleCommand {
 
     private static final String ADMIN = "admin";
@@ -40,50 +44,62 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
         Preconditions.checkArgument(!this.commandInfo.perm().isBlank(), "Must supply a permissions name for this command");
     }
 
-    protected final <C> Command.@NonNull Builder<C> literal(Command.@NonNull Builder<C> builder, @NonNull String name) {
-        return builder
-                .literal(name)
-                .permission(this.modulePermission(this.permValue(name)))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, buildDescriptionComponent(name));
+    protected final <C> Command.Builder<C> literal(final Command.Builder<C> parent, final String name) {
+        final ArgumentDescription literalDescription = this.buildSimpleDescription(name);
+        final Command.Builder<C> builder = parent
+            .literal(name, literalDescription)
+            .permission(this.modulePermission(this.permValue(name)));
+        return this.addDescription(builder, literalDescription);
     }
 
-    protected final <C> Command.@NonNull Builder<C> adminLiteral(Command.@NonNull Builder<C> builder, @NonNull String name) {
-        return builder
-                .literal(ADMIN, RichDescription.translatable("commands.admin", text(this.moduleBase.getName())))
-                .literal(name)
-                .permission(this.modulePermission(this.permValue(ADMIN + "." + name)))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, this.buildDescriptionComponent(ADMIN + "." + name));
+    protected final <C> Command.Builder<C> adminLiteral(final Command.Builder<C> parent, final String name) {
+        final ArgumentDescription literalDescription = this.buildSimpleDescription(ADMIN + "." + name);
+        final Command.Builder<C> builder = parent
+            .literal(ADMIN, RichDescription.translatable("commands.admin", text(this.moduleBase.getName())))
+            .literal(name, literalDescription)
+            .permission(this.modulePermission(this.permValue(ADMIN + "." + name)));
+        return this.addDescription(builder, literalDescription);
     }
 
-    protected final Command.@NonNull Builder<CommandDispatcher> builder(@NonNull String name, @NonNull String @NonNull...aliases) {
-        return this.manager()
-                .commandBuilder(name, this.buildRootMeta(), RichDescription.of(this.buildDescriptionComponent(name)), aliases)
-                .permission(this.modulePermission(this.permValue(name)))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, buildDescriptionComponent(name));
+    protected final Command.Builder<CommandDispatcher> builder(final String name, final String... aliases) {
+        final ArgumentDescription literalDescription = this.buildSimpleDescription(name);
+        final Command.Builder<CommandDispatcher> builder = this.manager()
+            .commandBuilder(name, this.buildRootMeta(), literalDescription, aliases)
+            .permission(this.modulePermission(this.permValue(name)));
+        return this.addDescription(builder, literalDescription);
     }
 
-    protected final Command.@NonNull Builder<CommandDispatcher> player(@NonNull String name, @NonNull String @NonNull...aliases) {
+    protected final <C> Command.Builder<C> addDescription(final Command.Builder<C> builder, final ArgumentDescription description) {
+        builder.meta(CommandMeta.DESCRIPTION, ""); // clear existing description
+        if (this.commandInfo.miniMessage()) {
+            return builder.meta(CommandMeta.DESCRIPTION, description.getDescription());
+        } else {
+            return builder.meta(MinecraftExtrasMetaKeys.DESCRIPTION, ((RichDescription) description).getContents());
+        }
+    }
+
+    protected final Command.Builder<CommandDispatcher> player(final String name, final String... aliases) {
         return this.builder(name, aliases).senderType(PlayerCommandDispatcher.class);
     }
 
-    final @NonNull Component buildDescriptionComponent(@NonNull String name) {
-        return this.buildComponent(this.i18nValue(name));
+    final ArgumentDescription buildSimpleDescription(final String name) {
+        return this.buildDescription(this.i18nValue(name));
     }
 
-    final @NonNull Component buildComponent(@NonNull String i18nKey) {
-        return translatableComponentBuilder(this.commandInfo.miniMessage()).apply(i18nKey);
+    final ArgumentDescription buildDescription(final String i18nKey) {
+        return translatableDescriptionFactory(this.commandInfo.miniMessage()).apply(i18nKey);
     }
 
     @Override
-    Component buildRootDescriptionComponent() {
-        return this.buildDescriptionComponent("root");
+    ArgumentDescription buildRootDescription() {
+        return this.buildSimpleDescription("root");
     }
 
-    @NonNull String i18nValue(@NonNull String name) {
+    String i18nValue(final String name) {
         return String.join(".", "modules", this.commandInfo.i18n(), "commands", name);
     }
 
-    @NonNull String permValue(@NonNull String name) {
+    String permValue(final String name) {
         return String.join(".", "vanillatweaks", this.commandInfo.perm(), name);
     }
 }

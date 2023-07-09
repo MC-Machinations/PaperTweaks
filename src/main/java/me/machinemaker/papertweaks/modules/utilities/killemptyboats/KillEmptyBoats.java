@@ -19,25 +19,23 @@
  */
 package me.machinemaker.papertweaks.modules.utilities.killemptyboats;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "KillEmptyBoats", configPath = "utilities.kill-empty-boats", description = "Destroy all empty boats currently loaded")
 public class KillEmptyBoats extends ModuleBase {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }
