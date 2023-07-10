@@ -42,35 +42,38 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.player();
 
-        this.manager.command(this.literal(builder, "create")
-            .handler(this.sync((context, player) -> {
-                final @Nullable ArmorStand stand = Entities.getSingleNearbyEntityOfType(ArmorStand.class, player.getLocation(), 3, 3, 3);
-                if (stand == null) {
-                    context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.fail.no-stands", RED));
-                } else {
-                    stand.getWorld().spawnParticle(Particle.TOTEM, stand.getLocation(), 100, 0, 0, 0, 0.5);
-                    stand.getWorld().playSound(stand.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.MASTER, 1.0f, 0.75f);
-                    stand.getWorld().spawn(stand.getLocation(), AreaEffectCloud.class, cloud -> {
-                        cloud.setDuration(Integer.MAX_VALUE);
-                        cloud.setRadius(0.01f);
-                        cloud.setParticle(Particle.SUSPENDED);
-                        cloud.setWaitTime(0);
-                        ThunderShrine.SHRINE.setTo(cloud, player.getUniqueId());
-                    });
-                    stand.remove();
-                    context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.success", YELLOW));
-                }
-            }))
-        ).command(this.literal(builder, "remove")
-            .handler(this.sync((context, player) -> {
-                final @Nullable AreaEffectCloud cloud = Entities.getSingleNearbyEntityOfType(AreaEffectCloud.class, player.getLocation(), 3, 3, 3, c -> player.getUniqueId().equals(ThunderShrine.SHRINE.getFrom(c)));
-                if (cloud == null) {
-                    context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.fail.no-stands", RED));
-                } else {
-                    cloud.remove();
-                    context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.success", YELLOW));
-                }
-            }))
+        this.register(
+            this.literal(builder, "create")
+                .handler(this.sync((context, player) -> {
+                    final @Nullable ArmorStand stand = Entities.getSingleNearbyEntityOfType(ArmorStand.class, player.getLocation(), 3, 3, 3);
+                    if (stand == null) {
+                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.fail.no-stands", RED));
+                    } else {
+                        stand.getWorld().spawnParticle(Particle.TOTEM, stand.getLocation(), 100, 0, 0, 0, 0.5);
+                        stand.getWorld().playSound(stand.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.MASTER, 1.0f, 0.75f);
+                        stand.getWorld().spawn(stand.getLocation(), AreaEffectCloud.class, cloud -> {
+                            cloud.setDuration(Integer.MAX_VALUE);
+                            cloud.setRadius(0.01f);
+                            cloud.setParticle(Particle.SUSPENDED);
+                            cloud.setWaitTime(0);
+                            ThunderShrine.SHRINE.setTo(cloud, player.getUniqueId());
+                        });
+                        stand.remove();
+                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.success", YELLOW));
+                    }
+                }))
+        );
+        this.register(
+            this.literal(builder, "remove")
+                .handler(this.sync((context, player) -> {
+                    final @Nullable AreaEffectCloud cloud = Entities.getSingleNearbyEntityOfType(AreaEffectCloud.class, player.getLocation(), 3, 3, 3, c -> player.getUniqueId().equals(ThunderShrine.SHRINE.getFrom(c)));
+                    if (cloud == null) {
+                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.fail.no-stands", RED));
+                    } else {
+                        cloud.remove();
+                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.success", YELLOW));
+                    }
+                }))
         );
 
     }

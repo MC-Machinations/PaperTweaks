@@ -21,24 +21,19 @@ package me.machinemaker.papertweaks.modules.utilities.spawningspheres;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-
 import com.google.common.math.IntMath;
 import com.google.common.util.concurrent.Callables;
-
 import java.math.RoundingMode;
 import java.util.concurrent.Callable;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
 import me.machinemaker.mirror.FieldAccessor;
 import me.machinemaker.mirror.Mirror;
 import me.machinemaker.mirror.paper.PaperMirror;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -58,11 +53,11 @@ class PaperDespawnDistances implements DespawnDistances {
                 try {
                     legacyPaperWorldConfigClass.getField("hardDespawnDistances");
                     hardDespawnDistanceFunction = new LegacyPerCategoryDespawnDistances();
-                } catch (NoSuchFieldException ex) {
+                } catch (final NoSuchFieldException ex) {
                     hardDespawnDistanceFunction = new LegacyDespawnDistance();
                 }
             }
-        } catch (IllegalArgumentException exception) {
+        } catch (final IllegalArgumentException exception) {
             SpawningSpheres.LOGGER.warn("Paper environment detected, but could not hook into any custom spawning ranges. This might be a bug", exception);
         }
         HARD_DESPAWN_DISTANCE_FUNCTION = hardDespawnDistanceFunction;
@@ -72,20 +67,20 @@ class PaperDespawnDistances implements DespawnDistances {
 
     PaperDespawnDistances() {
         this.hardDespawnCache = CacheBuilder.newBuilder()
-                .expireAfterWrite(10, TimeUnit.MINUTES)
-                .build();
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build();
     }
 
     @Override
-    public int soft(World world) {
+    public int soft(final World world) {
         return 24;
     }
 
     @Override
-    public int hard(World world) {
+    public int hard(final World world) {
         try {
             return this.hardDespawnCache.get(world.getKey(), HARD_DESPAWN_DISTANCE_FUNCTION.apply(world));
-        } catch (ExecutionException e) {
+        } catch (final ExecutionException e) {
             throw new RuntimeException("Error getting hard despawn distance for " + world.getKey(), e);
         }
     }
@@ -96,7 +91,7 @@ class PaperDespawnDistances implements DespawnDistances {
         static final String PATH = "entities.spawning.despawn-ranges.monster.hard";
 
         @Override
-        public Callable<Integer> apply(World world) {
+        public Callable<Integer> apply(final World world) {
             final @Nullable ConfigurationSection worlds = Bukkit.getServer().spigot().getPaperConfig().getConfigurationSection("__________WORLDS__________");
             if (worlds != null) {
                 return Callables.returning(worlds.getInt(world.getName() + "." + PATH, worlds.getInt("__defaults__." + PATH, 128)));
@@ -109,7 +104,7 @@ class PaperDespawnDistances implements DespawnDistances {
     static class LegacyPerCategoryDespawnDistances implements Function<World, Callable<Integer>> {
 
         @Override
-        public Callable<Integer> apply(World world) {
+        public Callable<Integer> apply(final World world) {
             return () -> {
                 final YamlConfiguration config = Bukkit.getServer().spigot().getPaperConfig();
                 return config.getInt("world-settings." + world.getName() + ".despawn-ranges.monster.hard", config.getInt("world-settings.default.despawn-ranges.monster.hard", 128));
@@ -128,9 +123,9 @@ class PaperDespawnDistances implements DespawnDistances {
         static final FieldAccessor.Typed<Integer> PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD = Mirror.typedFuzzyField(PAPER_WORLD_CONFIG_CLASS, int.class).names("hardDespawnDistance").find();
 
         @Override
-        public Callable<Integer> apply(World world) {
-            Object serverLevel = CRAFT_WORLD_SERVER_LEVEL_FIELD.require(world);
-            Object paperWorldConfig = SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD.require(serverLevel);
+        public Callable<Integer> apply(final World world) {
+            final Object serverLevel = CRAFT_WORLD_SERVER_LEVEL_FIELD.require(world);
+            final Object paperWorldConfig = SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD.require(serverLevel);
             return Callables.returning(IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.require(paperWorldConfig), RoundingMode.DOWN));
         }
     }

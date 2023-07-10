@@ -21,19 +21,15 @@ package me.machinemaker.papertweaks.modules;
 
 import cloud.commandframework.ArgumentDescription;
 import cloud.commandframework.Command;
-import cloud.commandframework.Description;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.common.base.Preconditions;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 import static net.kyori.adventure.text.Component.text;
 
-@DefaultQualifier(NonNull.class)
 public abstract class ConfiguredModuleCommand extends ModuleCommand {
 
     private static final String ADMIN = "admin";

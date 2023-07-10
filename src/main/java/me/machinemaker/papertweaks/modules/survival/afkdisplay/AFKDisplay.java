@@ -19,6 +19,8 @@
  */
 package me.machinemaker.papertweaks.modules.survival.afkdisplay;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
@@ -26,9 +28,6 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.utils.Keys;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "AFKDisplay", configPath = "survival.afk-display", description = "Tracks player AFK status")
 public class AFKDisplay extends ModuleBase {

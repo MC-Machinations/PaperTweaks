@@ -19,25 +19,23 @@
  */
 package me.machinemaker.papertweaks.modules.mobs.silencemobs;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "SilenceMobs", configPath = "mobs.silence-mobs", description = "Silence mobs with a name tag")
 public class SilenceMobs extends ModuleBase {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(EntityInteractionListener.class);
     }
 }

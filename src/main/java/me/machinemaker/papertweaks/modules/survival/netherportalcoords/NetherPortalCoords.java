@@ -29,7 +29,6 @@ import me.machinemaker.papertweaks.moonshine.module.MoonshineModuleBase;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.moonshine.MoonshineBuilder;
-import org.jetbrains.annotations.Nullable;
 
 @ModuleInfo(name = "NetherPortalCoords", configPath = "survival.nether-portal-coords", description = "Helper for determining portal locations in other dimensions")
 public class NetherPortalCoords extends MoonshineModuleBase<MessageService> {
@@ -50,7 +49,7 @@ public class NetherPortalCoords extends MoonshineModuleBase<MessageService> {
     }
 
     @Override
-    public @Nullable Class<MessageService> messageService() {
+    public Class<MessageService> messageService() {
         return MessageService.class;
     }
 

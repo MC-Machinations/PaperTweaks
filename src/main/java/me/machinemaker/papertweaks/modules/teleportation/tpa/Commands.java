@@ -40,7 +40,7 @@ import org.bukkit.entity.Player;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 @ModuleCommand.Info(value = "tpa", i18n = "tpa", perm = "tpa")
 class Commands extends ConfiguredModuleCommand {
@@ -73,28 +73,36 @@ class Commands extends ConfiguredModuleCommand {
             .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))))
             .build();
 
-        this.manager.command(requestCooldown.applyTo(this.literal(builder, "request"))
-            .argument(PlayerArgument.<CommandDispatcher>builder("target").withSuggestionsProvider(SuggestionProviders.playersWithoutSelf()))
-            .handler(this.sync((context, player) -> {
-                final Player target = context.get("target");
-                if (player == target) {
-                    context.getSender().sendMessage(translatable("modules.tpa.commands.request.fail.same-player", RED));
-                    return;
-                }
-                this.tpaManager.startRequest(player, target);
-            }))
-        ).command(this.literal(builder, "cancel")
-            .handler(this.sync((context, player) -> this.tpaManager.cancelRequestFrom(player)))
-        ).command(this.literal(builder, "accept")
-            .argument(PlayerArgument.<CommandDispatcher>builder("from").asOptional().withSuggestionsProvider(this.requestSuggestions))
-            .handler(this.sync((context, player) -> {
-                this.tpaManager.acceptRequest(player, context.getOrDefault("from", null));
-            }))
-        ).command(this.literal(builder, "deny")
-            .argument(PlayerArgument.<CommandDispatcher>builder("from").asOptional().withSuggestionsProvider(this.requestSuggestions))
-            .handler(this.sync((context, player) -> {
-                this.tpaManager.denyRequest(player, context.getOrDefault("from", null));
-            }))
+        this.register(
+            this.literal(builder, "request")
+                .apply(requestCooldown)
+                .argument(PlayerArgument.<CommandDispatcher>builder("target").withSuggestionsProvider(SuggestionProviders.playersWithoutSelf()))
+                .handler(this.sync((context, player) -> {
+                    final Player target = context.get("target");
+                    if (player == target) {
+                        context.getSender().sendMessage(translatable("modules.tpa.commands.request.fail.same-player", RED));
+                        return;
+                    }
+                    this.tpaManager.startRequest(player, target);
+                }))
+        );
+        this.register(
+            this.literal(builder, "cancel")
+                .handler(this.sync((context, player) -> this.tpaManager.cancelRequestFrom(player)))
+        );
+        this.register(
+            this.literal(builder, "accept")
+                .argument(PlayerArgument.<CommandDispatcher>builder("from").asOptional().withSuggestionsProvider(this.requestSuggestions))
+                .handler(this.sync((context, player) -> {
+                    this.tpaManager.acceptRequest(player, context.getOrDefault("from", null));
+                }))
+        );
+        this.register(
+            this.literal(builder, "deny")
+                .argument(PlayerArgument.<CommandDispatcher>builder("from").asOptional().withSuggestionsProvider(this.requestSuggestions))
+                .handler(this.sync((context, player) -> {
+                    this.tpaManager.denyRequest(player, context.getOrDefault("from", null));
+                }))
         );
 
         this.config.createCommands(this, builder);

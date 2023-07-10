@@ -23,21 +23,17 @@ import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
-import me.machinemaker.papertweaks.annotations.ModuleInfo;
-import org.bukkit.Keyed;
-import org.bukkit.inventory.Recipe;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import me.machinemaker.papertweaks.annotations.ModuleInfo;
+import org.bukkit.Keyed;
+import org.bukkit.inventory.Recipe;
 
-@DefaultQualifier(NonNull.class)
 public abstract class ModuleBase extends ConfigModule {
 
-    private final ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
+    private final ModuleInfo moduleInfo = this.getClass().getAnnotation(ModuleInfo.class);
 
     protected Collection<Class<? extends ModuleListener>> listeners() {
         return Collections.emptySet();
@@ -57,26 +53,26 @@ public abstract class ModuleBase extends ConfigModule {
     @OverridingMethodsMustInvokeSuper
     protected void configure() {
         super.configure();
-        bind(ModuleBase.class).toInstance(this);
-        bind(ModuleLifecycle.class).to(lifecycle()).asEagerSingleton();
-        bind(ModuleInfo.class).toInstance(moduleInfo);
+        this.bind(ModuleBase.class).toInstance(this);
+        this.bind(ModuleLifecycle.class).to(this.lifecycle()).asEagerSingleton();
+        this.bind(ModuleInfo.class).toInstance(this.moduleInfo);
 
-        bindModuleParts(listeners(), ModuleListener.class);
-        bindModuleParts(commands(), ModuleCommand.class);
+        this.bindModuleParts(this.listeners(), ModuleListener.class);
+        this.bindModuleParts(this.commands(), ModuleCommand.class);
 
-        final Multibinder<ModuleRecipe<?>> binder = Multibinder.newSetBinder(binder(), new TypeLiteral<ModuleRecipe<?>>() {});
-        recipes().forEach(r -> bindRecipe(binder, r));
+        final Multibinder<ModuleRecipe<?>> binder = Multibinder.newSetBinder(this.binder(), new TypeLiteral<ModuleRecipe<?>>() {});
+        this.recipes().forEach(r -> this.bindRecipe(binder, r));
     }
 
-    private <T> void bindModuleParts(Collection<Class<? extends T>> parts, Class<T> partClass) {
-        final Multibinder<T> binder = Multibinder.newSetBinder(binder(), partClass);
-        for (Class<? extends T> part : parts) {
-            bind(part).in(Scopes.SINGLETON);
+    private <T> void bindModuleParts(final Collection<Class<? extends T>> parts, final Class<T> partClass) {
+        final Multibinder<T> binder = Multibinder.newSetBinder(this.binder(), partClass);
+        for (final Class<? extends T> part : parts) {
+            this.bind(part).in(Scopes.SINGLETON);
             binder.addBinding().to(part).in(Scopes.SINGLETON);
         }
     }
 
-    private <R extends Recipe & Keyed> void bindRecipe(Multibinder<ModuleRecipe<?>> binder, ModuleRecipe<R> moduleRecipe) {
+    private <R extends Recipe & Keyed> void bindRecipe(final Multibinder<ModuleRecipe<?>> binder, final ModuleRecipe<R> moduleRecipe) {
         binder.addBinding().toInstance(moduleRecipe);
         this.bind(moduleRecipe.recipeType()).annotatedWith(Names.named(moduleRecipe.key().getKey())).toInstance(moduleRecipe.recipe());
     }
@@ -100,6 +96,6 @@ public abstract class ModuleBase extends ConfigModule {
 
     @Override
     public String toString() {
-        return "Module{name=" + moduleInfo.name() + "}";
+        return "Module{name=" + this.moduleInfo.name() + "}";
     }
 }

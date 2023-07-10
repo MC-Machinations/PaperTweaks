@@ -30,6 +30,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class ItemListener implements ModuleListener {
 
@@ -45,7 +46,7 @@ class ItemListener implements ModuleListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemDrop(final PlayerDropItemEvent event) {
         if (event.getItemDrop().getItemStack().getType() == Material.ELYTRA) {
-            ItemDropRunnable.LookingFor lookingFor = null;
+            ItemDropRunnable.@Nullable LookingFor lookingFor = null;
             if (!IS_ARMORED_ELYTRA.has(event.getItemDrop().getItemStack()) && event.getPlayer().hasPermission("vanillatweaks.armoredelytra.create")) {
                 lookingFor = ItemDropRunnable.LookingFor.CHESTPLATE;
             } else if (IS_ARMORED_ELYTRA.has(event.getItemDrop().getItemStack()) && event.getPlayer().hasPermission("vanillatweaks.armoredelytra.destroy")) {
@@ -59,7 +60,7 @@ class ItemListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemBurn(final EntityDamageEvent event) {
-        if (event.getEntity() instanceof Item item && Boolean.TRUE.equals(IS_ARMORED_ELYTRA.has(item.getItemStack()))) {
+        if (event.getEntity() instanceof final Item item && Boolean.TRUE.equals(IS_ARMORED_ELYTRA.has(item.getItemStack()))) {
             ItemDropRunnable.breakArmoredElytra(item.getWorld(), item.getLocation(), item, false);
         }
     }

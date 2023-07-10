@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.mobs.moremobheads;
 
 import java.util.function.Predicate;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Bee;
@@ -244,7 +245,7 @@ final class MobHeadCustomizations {
 
     private static void rabbit(final MobHead head) {
         final Predicate<Rabbit> rabbitPredicate = switch (head.name()) {
-            case "Toast" -> rabbit -> "Toast".equals(rabbit.getCustomName());
+            case "Toast" -> rabbit -> "Toast".equals(PlainTextComponentSerializer.plainText().serializeOrNull(rabbit.customName()));
             case "Brown Rabbit" -> rabbit -> rabbit.getRabbitType() == Rabbit.Type.BROWN;
             case "White Rabbit" -> rabbit -> rabbit.getRabbitType() == Rabbit.Type.WHITE;
             case "Black Rabbit" -> rabbit -> rabbit.getRabbitType() == Rabbit.Type.BLACK;
@@ -328,7 +329,7 @@ final class MobHeadCustomizations {
 
     private static void sheep(final MobHead head) {
         if (head.name().equals("jeb_ Sheep")) {
-            final Predicate<Sheep> sheepPredicate = sheep -> "jeb_".equals(sheep.getCustomName());
+            final Predicate<Sheep> sheepPredicate = sheep -> "jeb_".equals(PlainTextComponentSerializer.plainText().serializeOrNull(sheep.customName()));
             head.predicate(sheepPredicate);
             return;
         }

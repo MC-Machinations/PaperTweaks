@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2023 Machine_Maker
+ * Copyright (C) 2021-2023 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,4 +20,8 @@
 /**
  * PersistentHeads module
  */
+@DefaultQualifier(NonNull.class)
 package me.machinemaker.papertweaks.modules.other.persistentheads;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

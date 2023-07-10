@@ -22,9 +22,9 @@ package me.machinemaker.papertweaks.modules.survival.coordinateshud;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
 @ModuleCommand.Info(value = "togglehud", aliases = "thud", descriptionKey = "modules.coordinates-hud.commands", infoOnRoot = false)
 class Commands extends ModuleCommand {
@@ -38,18 +38,18 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        this.manager.command(this.player()
-                .permission(this.modulePermission("vanillatweaks.coordinateshud.togglehud"))
-                .handler(this.sync((context, player) -> {
-                    if (this.hudRunnable.contains(player)) {
-                        this.hudRunnable.setAndRemove(player);
-                        context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", NamedTextColor.GREEN));
-                        context.getSender().sendActionBar(Component.empty());
-                    } else {
-                        this.hudRunnable.setAndAdd(player);
-                        context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", NamedTextColor.GREEN));
-                    }
-                }))
+        this.register(this.player()
+            .permission(this.modulePermission("vanillatweaks.coordinateshud.togglehud"))
+            .handler(this.sync((context, player) -> {
+                if (this.hudRunnable.contains(player)) {
+                    this.hudRunnable.setAndRemove(player);
+                    context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", GREEN));
+                    context.getSender().sendActionBar(Component.empty());
+                } else {
+                    this.hudRunnable.setAndAdd(player);
+                    context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", GREEN));
+                }
+            }))
         );
     }
 }

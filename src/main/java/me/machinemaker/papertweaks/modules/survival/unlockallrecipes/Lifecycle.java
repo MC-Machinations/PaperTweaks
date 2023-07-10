@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.survival.unlockallrecipes;
 
 import com.google.inject.Inject;
+import java.util.Set;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
@@ -28,21 +29,19 @@ import me.machinemaker.papertweaks.modules.ModuleRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
-
 class Lifecycle extends ModuleLifecycle {
 
     private final UnlockAllRecipes unlockAllRecipes;
 
     @Inject
-    Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, UnlockAllRecipes unlockAllRecipes, Set<ModuleRecipe<?>> moduleRecipes) {
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final UnlockAllRecipes unlockAllRecipes, final Set<ModuleRecipe<?>> moduleRecipes) {
         super(plugin, commands, listeners, configs, moduleRecipes);
         this.unlockAllRecipes = unlockAllRecipes;
     }
 
     @Override
     public void onEnable() {
-        Bukkit.getOnlinePlayers().forEach(unlockAllRecipes::discoverAllRecipes);
+        Bukkit.getOnlinePlayers().forEach(this.unlockAllRecipes::discoverAllRecipes);
     }
 
     @Override

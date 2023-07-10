@@ -19,10 +19,14 @@
  */
 package me.machinemaker.papertweaks.modules.teleportation.homes;
 
+import cloud.commandframework.Command;
 import cloud.commandframework.arguments.standard.StringArgument;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import com.google.inject.Inject;
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldown;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
@@ -31,18 +35,18 @@ import me.machinemaker.papertweaks.db.model.teleportation.homes.Home;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.teleportation.back.Back;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import java.time.Duration;
-import java.util.List;
-import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 @ModuleCommand.Info(value = "homes", i18n = "homes", perm = "homes")
 class Commands extends ConfiguredModuleCommand {
@@ -53,31 +57,31 @@ class Commands extends ConfiguredModuleCommand {
     private final Config config;
 
     @Inject
-    Commands(HomesDAO homesDAO, Config config) {
+    Commands(final HomesDAO homesDAO, final Config config) {
         this.homesDAO = homesDAO;
         this.config = config;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = this.player();
+        final Command.Builder<CommandDispatcher> builder = this.player();
 
-        final var homeCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.sethomeCooldown))
-                .key(HOME_COMMAND_COOLDOWN_KEY)
-                .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))))
-                .build();
+        final CommandCooldown<CommandDispatcher> homeCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.sethomeCooldown))
+            .key(HOME_COMMAND_COOLDOWN_KEY)
+            .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.homes.commands.home.cooldown", RED, text(secondsLeft))))
+            .build();
 
-
-        manager.command(literal(builder, "sethome")
+        this.register(
+            this.literal(builder, "sethome")
                 .argument(StringArgument.optional("homeName", "home"))
                 .handler(context -> {
-                    Player player = PlayerCommandDispatcher.from(context);
-                    Map<String, Home> homes = this.homesDAO.getHomesForPlayer(player.getUniqueId());
+                    final Player player = PlayerCommandDispatcher.from(context);
+                    final Map<String, Home> homes = this.homesDAO.getHomesForPlayer(player.getUniqueId());
                     if (homes.size() + 1 > this.config.defaultSetHomeLimit) {
                         context.getSender().sendMessage(translatable("modules.homes.commands.sethome.too-many-homes", RED, text(this.config.defaultSetHomeLimit, YELLOW)));
                         return;
                     }
-                    String homeName = context.get("homeName");
+                    final String homeName = context.get("homeName");
                     if (homes.containsKey(homeName)) {
                         context.getSender().sendMessage(translatable("modules.homes.commands.sethome.duplicate-name", TextColor.color(249, 104, 3), text(homeName, YELLOW)));
                         return;
@@ -85,22 +89,26 @@ class Commands extends ConfiguredModuleCommand {
                     this.homesDAO.insertHome(new Home(player.getUniqueId(), homeName, player.getLocation()));
                     context.getSender().sendMessage(translatable("modules.homes.commands.sethome.success", GOLD, text(homeName, YELLOW)));
                 })
-        ).command(literal(builder, "delhome")
+        );
+        this.register(
+            this.literal(builder, "delhome")
                 .argument(this.argumentFactory.home(false, "home"))
                 .handler(context -> {
-                    Home home = context.get("home");
+                    final Home home = context.get("home");
                     this.homesDAO.deleteHome(home);
                     context.getSender().sendMessage(translatable("modules.homes.commands.delhome.success", GOLD, text(home.getName(), YELLOW)));
                 })
-        ).command(literal(builder, "rename")
+        );
+        this.register(
+            this.literal(builder, "rename")
                 .argument(this.argumentFactory.home(true, "home"))
                 .argument(StringArgument.single("newName"))
                 .handler(context -> {
-                    Player player = PlayerCommandDispatcher.from(context);
-                    Home home = context.get("home");
-                    String newName = context.get("newName");
-                    String oldName = home.getName();
-                    Home possibleExisting = this.homesDAO.getPlayerHome(player.getUniqueId(), newName);
+                    final Player player = PlayerCommandDispatcher.from(context);
+                    final Home home = context.get("home");
+                    final String newName = context.get("newName");
+                    final String oldName = home.getName();
+                    final Home possibleExisting = this.homesDAO.getPlayerHome(player.getUniqueId(), newName);
                     if (possibleExisting != null) {
                         context.getSender().sendMessage(translatable("modules.homes.commands.rename.duplicate-name", TextColor.color(249, 104, 3), text(newName, YELLOW)));
                         return;
@@ -109,7 +117,9 @@ class Commands extends ConfiguredModuleCommand {
                     this.homesDAO.updateHome(home);
                     context.getSender().sendMessage(translatable("modules.homes.commands.rename.success", GOLD, text(oldName, YELLOW), text(newName, YELLOW)));
                 })
-        ).command(literal(builder, "list")
+        );
+        this.register(
+            this.literal(builder, "list")
                 .senderType(PlayerCommandDispatcher.class)
                 .handler(context -> {
                     final Map<String, Home> homes = this.homesDAO.getHomesForPlayer(context.getSender().getUUID());
@@ -118,10 +128,10 @@ class Commands extends ConfiguredModuleCommand {
                         return;
                     }
                     final List<String> names = List.copyOf(homes.keySet());
-                    var component = text();
+                    final TextComponent.Builder component = text();
                     for (int i = 0; i < names.size(); i++) {
-                        Home home = homes.get(names.get(i));
-                        Location loc = home.getLocation();
+                        final Home home = homes.get(names.get(i));
+                        final @Nullable Location loc = home.getLocation();
                         if (loc == null) {
                             this.homesDAO.deleteHome(home);
                         } else {
@@ -133,16 +143,23 @@ class Commands extends ConfiguredModuleCommand {
                     }
                     context.getSender().sendMessage(component);
                 })
-        ).command(homeCooldown.applyTo(this.player("home"))
+        );
+        this.register(
+            this.player("home")
+                .apply(homeCooldown)
                 .argument(this.argumentFactory.home(false, "home"))
-                .handler(sync((context, player) -> {
+                .handler(this.sync((context, player) -> {
                     if (HomeTeleportRunnable.AWAITING_TELEPORT.containsKey(player.getUniqueId())) {
                         return;
                     }
-                    Home home = context.get("home");
+                    final Home home = context.get("home");
                     if (home.getLocation() == null) {
                         this.homesDAO.deleteHome(home);
                         context.getSender().sendMessage(translatable("modules.homes.commands.arguments.home.invalid", RED));
+                        return;
+                    }
+                    if (!this.config.allowAcrossDimension && home.getLocation().getWorld() != player.getWorld()) {
+                        context.getSender().sendMessage(translatable("modules.homes.commands.home.fail.across-dimensions", RED));
                         return;
                     }
                     context.getSender().sendMessage(translatable("modules.homes.commands.home.success", GOLD, text(home.getName(), YELLOW)));

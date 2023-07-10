@@ -39,28 +39,31 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.player();
 
-        this.manager.command(this.literal(builder, "display")
-            .argument(ObjectiveArgument.of("objective"))
-            .handler(this.sync((context, player) -> {
-                player.setScoreboard(Scoreboards.main());
-                final Tracked tracked = context.get("objective");
-                if (tracked.objective().getDisplaySlot() == DisplaySlot.SIDEBAR) {
-                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.already-displayed", YELLOW, tracked));
-                } else {
-                    tracked.objective().setDisplaySlot(DisplaySlot.SIDEBAR);
-                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.success", GREEN, tracked));
-                }
-            }))
-        ).command(this.literal(builder, "clear")
-            .handler(this.sync(context -> {
-                final @Nullable Objective currentlyDisplayed = Scoreboards.main().getObjective(DisplaySlot.SIDEBAR);
-                if (currentlyDisplayed == null || !RawStats.OBJECTIVE_DATA.containsKey(currentlyDisplayed.getName())) {
-                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.no-display", YELLOW));
-                } else {
-                    currentlyDisplayed.setDisplaySlot(null);
-                    context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.success", GREEN, RawStats.OBJECTIVE_DATA.get(currentlyDisplayed.getName())));
-                }
-            }))
+        this.register(
+            this.literal(builder, "display")
+                .argument(ObjectiveArgument.of("objective"))
+                .handler(this.sync((context, player) -> {
+                    player.setScoreboard(Scoreboards.main());
+                    final Tracked tracked = context.get("objective");
+                    if (tracked.objective().getDisplaySlot() == DisplaySlot.SIDEBAR) {
+                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.already-displayed", YELLOW, tracked));
+                    } else {
+                        tracked.objective().setDisplaySlot(DisplaySlot.SIDEBAR);
+                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.display.success", GREEN, tracked));
+                    }
+                }))
+        );
+        this.register(
+            this.literal(builder, "clear")
+                .handler(this.sync(context -> {
+                    final @Nullable Objective currentlyDisplayed = Scoreboards.main().getObjective(DisplaySlot.SIDEBAR);
+                    if (currentlyDisplayed == null || !RawStats.OBJECTIVE_DATA.containsKey(currentlyDisplayed.getName())) {
+                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.no-display", YELLOW));
+                    } else {
+                        currentlyDisplayed.setDisplaySlot(null);
+                        context.getSender().sendMessage(translatable("modules.track-raw-stats.commands.clear.success", GREEN, RawStats.OBJECTIVE_DATA.get(currentlyDisplayed.getName())));
+                    }
+                }))
         );
     }
 }

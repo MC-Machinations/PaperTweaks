@@ -26,7 +26,6 @@ import me.machinemaker.papertweaks.config.VTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
-import org.jetbrains.annotations.NotNull;
 
 @Menu(commandPrefix = "/pillagertools admin config")
 @VTConfig
@@ -56,7 +55,7 @@ class Config extends SimpleMenuModuleConfig<Config> {
     }
 
     @Override
-    public @NotNull Component title() {
+    public Component title() {
         return buildDefaultTitle("Pillager Tools");
     }
 }

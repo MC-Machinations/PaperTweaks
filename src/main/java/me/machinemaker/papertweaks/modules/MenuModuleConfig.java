@@ -54,9 +54,7 @@ import me.machinemaker.papertweaks.settings.types.ConfigSetting;
 import me.machinemaker.papertweaks.utils.ChatWindow;
 import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 import static me.machinemaker.papertweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.newline;
@@ -65,7 +63,6 @@ import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
-@DefaultQualifier(NonNull.class)
 public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M extends ConfigurationMenu<C>> extends ModuleConfig {
 
     public static final Component SEPARATOR = text(" / ", GRAY);

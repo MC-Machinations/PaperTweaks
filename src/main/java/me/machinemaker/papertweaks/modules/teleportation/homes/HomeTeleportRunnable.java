@@ -21,6 +21,8 @@ package me.machinemaker.papertweaks.modules.teleportation.homes;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import java.util.Map;
+import java.util.UUID;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.teleportation.back.Back;
@@ -30,29 +32,27 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 class HomeTeleportRunnable extends TeleportRunnable {
 
-    @Inject private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
-    @Inject private static Plugin plugin;
     static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
+    @Inject
+    private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
+    @Inject
+    private static Plugin plugin;
 
     private final Audience audience;
 
-    HomeTeleportRunnable(@NotNull Player player, @NotNull Location teleportLoc, long tickDelay, Audience audience) {
+    HomeTeleportRunnable(final Player player, final Location teleportLoc, final long tickDelay, final Audience audience) {
         super(player, teleportLoc, tickDelay);
         this.audience = audience;
     }
 
     public void start() {
-        AWAITING_TELEPORT.put(player.getUniqueId(), this.runTaskTimer(plugin, 1L, 1L));
+        AWAITING_TELEPORT.put(this.player.getUniqueId(), this.runTaskTimer(plugin, 1L, 1L));
     }
 
     @Override

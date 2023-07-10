@@ -30,7 +30,8 @@ import me.machinemaker.papertweaks.utils.boards.Scoreboards;
 import org.bukkit.entity.Player;
 
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 @ModuleCommand.Info(value = "countmobdeaths", aliases = {"cmdeaths", "cmd"}, i18n = "mob-death-count", perm = "mobdeathcount")
 class Commands extends ConfiguredModuleCommand {
@@ -46,23 +47,30 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.player();
 
-        this.manager.command(this.literal(builder, "start")
+        this.register(
+            this.literal(builder, "start")
             .handler(this.sync((player, context, countingBoard) -> {
                 countingBoard.setCounting(true);
                 player.setScoreboard(countingBoard.scoreboard());
                 context.getSender().sendMessage(translatable("modules.mob-death-count.started", GREEN));
             }))
-        ).command(this.literal(builder, "stop")
+        );
+        this.register(
+            this.literal(builder, "stop")
             .handler(this.sync((player, context, countingBoard) -> {
                 countingBoard.setCounting(false);
                 context.getSender().sendMessage(translatable("modules.mob-death-count.stopped", YELLOW));
             }))
-        ).command(this.literal(builder, "reset")
+        );
+        this.register(
+            this.literal(builder, "reset")
             .handler(this.sync((player, context, countingBoard) -> {
                 countingBoard.scoreboard().getEntries().forEach(countingBoard.scoreboard()::resetScores);
                 context.getSender().sendMessage(translatable("modules.mob-death-count.reset", GREEN));
             }))
-        ).command(this.literal(builder, "toggle")
+        );
+        this.register(
+            this.literal(builder, "toggle")
             .handler(this.sync((player, context, countingBoard) -> {
                 if (player.getScoreboard() == countingBoard.scoreboard()) {
                     player.setScoreboard(Scoreboards.main());

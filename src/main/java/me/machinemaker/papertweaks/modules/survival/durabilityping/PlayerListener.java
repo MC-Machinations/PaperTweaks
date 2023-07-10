@@ -68,10 +68,10 @@ class PlayerListener implements ModuleListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDurabilityChange(final PlayerItemDamageEvent event) throws ExecutionException {
         if (this.cooldownCache.getIfPresent(event.getPlayer().getUniqueId()) == null
-                && event.getItem().hasItemMeta()
-                && event.getItem().getItemMeta() instanceof final Damageable damageable
-                && event.getPlayer().hasPermission("vanillatweaks.durabilityping.notification")
-                && Range.openClosed(1, this.config.usesLeft + 1).contains(event.getItem().getType().getMaxDurability() - damageable.getDamage())
+            && event.getItem().hasItemMeta()
+            && event.getItem().getItemMeta() instanceof final Damageable damageable
+            && event.getPlayer().hasPermission("vanillatweaks.durabilityping.notification")
+            && Range.openClosed(1, this.config.usesLeft + 1).contains(event.getItem().getType().getMaxDurability() - damageable.getDamage())
         ) {
             final CachedSettings playerSettings = this.getCachedSettings(event.getPlayer());
             final Material type = event.getItem().getType();

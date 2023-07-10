@@ -71,22 +71,24 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.player();
 
-        this.manager.command(this.literal(builder, "locate")
-            .handler(this.sync((context, player) -> {
-                if (!this.config.graveLocating) {
-                    context.getSender().sendMessage(translatable("modules.graves.commands.locate.disabled", RED));
-                    return;
-                }
-                final @Nullable Location location = player.getPersistentDataContainer().get(PlayerListener.LAST_GRAVE_LOCATION, DataTypes.LOCATION);
-                if (location == null) {
-                    context.getSender().sendMessage(translatable("modules.graves.commands.locate.none-found", RED));
-                } else {
-                    final Component loc = translatable("modules.graves.location-format", YELLOW, text(location.getBlockX()), text(location.getBlockY()), text(location.getBlockZ()));
-                    final Component world = location.getWorld() != null ? text(location.getWorld().getName(), YELLOW) : text("unknown world");
-                    context.getSender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
-                }
-            }))
-        ).command(this.adminLiteral(builder, "grave-key").handler(this.sync((context, player) -> player.getInventory().addItem(GRAVE_KEY))));
+        this.register(
+            this.literal(builder, "locate")
+                .handler(this.sync((context, player) -> {
+                    if (!this.config.graveLocating) {
+                        context.getSender().sendMessage(translatable("modules.graves.commands.locate.disabled", RED));
+                        return;
+                    }
+                    final @Nullable Location location = player.getPersistentDataContainer().get(PlayerListener.LAST_GRAVE_LOCATION, DataTypes.LOCATION);
+                    if (location == null) {
+                        context.getSender().sendMessage(translatable("modules.graves.commands.locate.none-found", RED));
+                    } else {
+                        final Component loc = translatable("modules.graves.location-format", YELLOW, text(location.getBlockX()), text(location.getBlockY()), text(location.getBlockZ()));
+                        final Component world = location.getWorld() != null ? text(location.getWorld().getName(), YELLOW) : text("unknown world");
+                        context.getSender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
+                    }
+                }))
+        );
+        this.register(this.adminLiteral(builder, "grave-key").handler(this.sync((context, player) -> player.getInventory().addItem(GRAVE_KEY))));
 
         this.config.createCommands(this, builder);
     }

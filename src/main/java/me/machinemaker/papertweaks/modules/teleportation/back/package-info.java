@@ -20,4 +20,8 @@
 /**
  * Back module
  */
+@DefaultQualifier(NonNull.class)
 package me.machinemaker.papertweaks.modules.teleportation.back;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

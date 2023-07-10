@@ -22,7 +22,6 @@ package me.machinemaker.papertweaks.modules.hermitcraft.wanderingtrades;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.UUID;
 import me.machinemaker.papertweaks.utils.PTUtils;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;

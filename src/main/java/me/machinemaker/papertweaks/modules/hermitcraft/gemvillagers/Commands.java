@@ -43,15 +43,16 @@ class Commands extends ConfiguredModuleCommand {
 
     @Override
     protected void registerCommands() {
-        this.manager.command(this.literal(this.player(), "spawn")
-            .argument(PseudoEnumArgument.single("villager", this.gemVillagers.villagers.keySet()))
-            .argument(LocationArgument.optional("loc"))
-            .handler(this.sync((context, player) -> {
-                final String villager = context.get("villager");
-                final Location loc = context.<Location>getOptional("loc").orElse(player.getLocation());
-                this.gemVillagers.villagers.get(villager).spawnVillager(loc.getWorld(), loc);
-                context.getSender().sendMessage(translatable("modules.gem-villagers.commands.spawn.success", YELLOW, text(villager, GOLD)));
-            }))
+        this.register(
+            this.literal(this.player(), "spawn")
+                .argument(PseudoEnumArgument.single("villager", this.gemVillagers.villagers.keySet()))
+                .argument(LocationArgument.optional("loc"))
+                .handler(this.sync((context, player) -> {
+                    final String villager = context.get("villager");
+                    final Location loc = context.<Location>getOptional("loc").orElse(player.getLocation());
+                    this.gemVillagers.villagers.get(villager).spawnVillager(loc.getWorld(), loc);
+                    context.getSender().sendMessage(translatable("modules.gem-villagers.commands.spawn.success", YELLOW, text(villager, GOLD)));
+                }))
         );
     }
 }

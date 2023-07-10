@@ -38,7 +38,7 @@ class Commands extends ModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.builder();
 
-        this.manager.command(builder
+        this.register(builder
             .permission(this.modulePermission("vanillatweaks.killboats"))
             .handler(this.sync(context -> {
                 int count = 0;

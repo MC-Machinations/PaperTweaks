@@ -19,15 +19,13 @@
  */
 package me.machinemaker.papertweaks.modules.teleportation.spawn;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "Spawn", configPath = "teleportation.spawn", description = "Adds a /spawn command to teleport to the world spawnpoint")
 public class Spawn extends ModuleBase {
@@ -35,21 +33,21 @@ public class Spawn extends ModuleBase {
     @Override
     protected void configure() {
         super.configure();
-        requestStaticInjection(SpawnTeleportRunnable.class);
+        this.requestStaticInjection(SpawnTeleportRunnable.class);
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 }

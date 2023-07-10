@@ -22,9 +22,15 @@ package me.machinemaker.papertweaks.adventure;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 
+import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.JoinConfiguration.noSeparators;
 
 public final class Components {
+
+    public static final Component OPEN_BRACKET = text("[");
+    public static final Component CLOSE_BRACKET = text("]");
+
+    public static final Component DOUBLE_SPACE = text(" ".repeat(2));
 
     private Components() {
     }

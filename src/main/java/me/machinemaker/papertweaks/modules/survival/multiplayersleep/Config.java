@@ -74,6 +74,7 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
     @I18nKey("modules.multiplayer-sleep.settings.always-reset-weather-cycle")
     @Description("modules.multiplayer-sleep.settings.always-reset-weather-cycle.extended")
     public boolean alwaysResetWeatherCycle = false;
+    @SuppressWarnings("FieldMayBeFinal")
     @Key("included-worlds")
     @Description("Worlds to count player's from")
     private List<World> includedWorlds = List.of(Bukkit.getWorlds().get(0));
@@ -106,7 +107,7 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
 
     @Override
     protected MenuOption.Builder<?, ?, Config, ?> touchMenuOption(final MenuOption.Builder<?, ?, Config, ?> optionBuilder) {
-        if (optionBuilder instanceof EnumMenuOption.Builder<?, ?> configBuilder && configBuilder.getSetting().valueType() == BossBar.Color.class) {
+        if (optionBuilder instanceof final EnumMenuOption.Builder<?, ?> configBuilder && configBuilder.getSetting().valueType() == BossBar.Color.class) {
             configBuilder.optionLabelFunction((color) -> {
                 return text(Objects.requireNonNull(BossBar.Color.NAMES.key((BossBar.Color) color)), COLOR_MAP.get((BossBar.Color) color), TextDecoration.BOLD);
             });

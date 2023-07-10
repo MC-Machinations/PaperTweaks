@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
+import cloud.commandframework.Command;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.execution.CommandExecutionHandler;
 import cloud.commandframework.paper.PaperCommandManager;
@@ -35,8 +36,10 @@ import org.bukkit.entity.Player;
  */
 public abstract class PaperTweaksCommand {
 
-    @Inject protected PaperCommandManager<CommandDispatcher> manager;
-    @Inject protected ArgumentFactory argumentFactory;
+    @Inject
+    protected PaperCommandManager<CommandDispatcher> manager;
+    @Inject
+    protected ArgumentFactory argumentFactory;
 
     protected final <C> CommandExecutionHandler<C> sync(final BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
         return commandContext -> this.manager.taskRecipe().begin(commandContext).synchronous(context -> {
@@ -47,5 +50,9 @@ public abstract class PaperTweaksCommand {
 
     protected final <C> CommandExecutionHandler<C> sync(final TaskConsumer<CommandContext<C>> taskConsumer) {
         return commandContext -> this.manager.taskRecipe().begin(commandContext).synchronous(taskConsumer).execute();
+    }
+
+    protected final void register(final Command.Builder<CommandDispatcher> builder) {
+        this.manager.command(builder);
     }
 }

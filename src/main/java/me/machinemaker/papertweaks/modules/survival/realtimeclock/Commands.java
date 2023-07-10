@@ -46,7 +46,7 @@ class Commands extends ModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.builder();
 
-        this.manager.command(builder
+        this.register(builder
             .permission(this.modulePermission("vanillatweaks.realtimeclock.local"))
             .senderType(PlayerCommandDispatcher.class)
             .handler(context -> {
@@ -54,7 +54,8 @@ class Commands extends ModuleCommand {
                 final Duration duration = Duration.of(player.getWorld().getGameTime() / 20, ChronoUnit.SECONDS);
                 this.sendGameTime(context.getSender(), duration, player.getWorld());
             })
-        ).command(builder
+        );
+        this.register(builder
             .permission(this.modulePermission("vanillatweaks.realtimeclock.other"))
             .argument(WorldArgument.of("world"), RichDescription.translatable("modules.real-time-clock.commands.specific-world"))
             .handler(context -> {

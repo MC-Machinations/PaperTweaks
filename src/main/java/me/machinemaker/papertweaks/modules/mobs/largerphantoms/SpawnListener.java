@@ -23,27 +23,28 @@ import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.apache.commons.lang3.Range;
 import org.bukkit.Statistic;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+import static java.util.Objects.requireNonNull;
 
 class SpawnListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntitySpawn(EntitySpawnEvent event) {
-        if (event.getEntityType() != EntityType.PHANTOM) return;
-        Phantom phantom = (Phantom) event.getEntity();
+    public void onEntitySpawn(final EntitySpawnEvent event) {
+        if (!(event.getEntity() instanceof final Phantom phantom)) return;
         double closest = -1;
-        Player player = null;
-        for (Player tempPlayer : event.getEntity().getWorld().getPlayers()) {
+        @Nullable Player player = null;
+        for (final Player tempPlayer : event.getEntity().getWorld().getPlayers()) {
             if (closest == -1) {
                 closest = event.getLocation().distanceSquared(tempPlayer.getLocation());
                 player = tempPlayer;
             } else {
-                double tempDistance = event.getLocation().distanceSquared(tempPlayer.getLocation());
+                final double tempDistance = event.getLocation().distanceSquared(tempPlayer.getLocation());
                 if (tempDistance < closest) {
                     closest = tempDistance;
                     player = tempPlayer;
@@ -54,12 +55,12 @@ class SpawnListener implements ModuleListener {
             return;
         }
         if (closest != -1 && player.hasPermission("vanillatweaks.largerphantoms")) {
-            int ticksSinceSleep = player.getStatistic(Statistic.TIME_SINCE_REST);
-            int size;
-            double maxHealth;
-            double movementSpeed;
-            double followRange;
-            double attackDamage;
+            final int ticksSinceSleep = player.getStatistic(Statistic.TIME_SINCE_REST);
+            final int size;
+            final double maxHealth;
+            final double movementSpeed;
+            final double followRange;
+            final double attackDamage;
             if (ticksSinceSleep < 140000) return;
             else if (Range.between(144000, 216000).contains(ticksSinceSleep)) {
                 size = 3;
@@ -87,10 +88,10 @@ class SpawnListener implements ModuleListener {
                 attackDamage = 30;
             }
             phantom.setSize(size);
-            phantom.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
-            phantom.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(movementSpeed);
-            phantom.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(followRange);
-            phantom.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(attackDamage);
+            requireNonNull(phantom.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHealth);
+            requireNonNull(phantom.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(movementSpeed);
+            requireNonNull(phantom.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)).setBaseValue(followRange);
+            requireNonNull(phantom.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(attackDamage);
         }
     }
 

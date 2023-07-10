@@ -20,4 +20,8 @@
 /**
  * All modules for PaperTweaks
  */
+@DefaultQualifier(NonNull.class)
 package me.machinemaker.papertweaks.modules;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

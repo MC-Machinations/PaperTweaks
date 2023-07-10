@@ -30,12 +30,12 @@ class PlayerListener implements ModuleListener {
     private final UnlockAllRecipes unlockAllRecipes;
 
     @Inject
-    PlayerListener(UnlockAllRecipes unlockAllRecipes) {
+    PlayerListener(final UnlockAllRecipes unlockAllRecipes) {
         this.unlockAllRecipes = unlockAllRecipes;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        unlockAllRecipes.discoverAllRecipes(event.getPlayer());
+    public void onPlayerJoin(final PlayerJoinEvent event) {
+        this.unlockAllRecipes.discoverAllRecipes(event.getPlayer());
     }
 }

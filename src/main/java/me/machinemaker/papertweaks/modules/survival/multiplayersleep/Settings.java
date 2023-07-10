@@ -149,21 +149,21 @@ class Settings extends ModuleSettings<Player, PlayerSetting<?>> {
             @Override
             void notify(final Player player, final SleepContext context, final boolean isBedLeave) {
                 if (isBedLeave) return;
-                this.notify(player, Iterables.getLast(context.sleepingPlayers()).getDisplayName(), context.sleepingCount(), context.totalPlayerCount());
+                this.notify(player, Iterables.getLast(context.sleepingPlayers()).displayName(), context.sleepingCount(), context.totalPlayerCount());
             }
 
-            private void notify(final Player player, final String playerName, final long sleepingCount, final long totalCount) {
-                player.sendMessage(translatable("modules.multiplayer-sleep.display.chat.player-sleeping", GOLD, text(playerName, YELLOW), text(sleepingCount, YELLOW), text(totalCount, YELLOW)));
+            private void notify(final Player player, final Component playerName, final long sleepingCount, final long totalCount) {
+                player.sendMessage(translatable("modules.multiplayer-sleep.display.chat.player-sleeping", GOLD, playerName.color(YELLOW), text(sleepingCount, YELLOW), text(totalCount, YELLOW)));
             }
 
             @Override
             void notifyFinal(final Player player, final SleepContext context) {
-                player.sendMessage(translatable("modules.multiplayer-sleep.display.chat.last-player-sleeping", GOLD, text(Iterables.getLast(context.sleepingPlayers()).getDisplayName(), YELLOW)));
+                player.sendMessage(translatable("modules.multiplayer-sleep.display.chat.last-player-sleeping", GOLD, Iterables.getLast(context.sleepingPlayers()).displayName().color(YELLOW)));
             }
 
             @Override
             public void preview(final Player player) {
-                this.notify(player, "Machine_Maker", 10, 15);
+                this.notify(player, text("Machine_Maker"), 10, 15);
             }
         };
 

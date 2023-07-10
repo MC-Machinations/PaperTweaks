@@ -42,16 +42,17 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.player();
 
-        this.manager.command(this.literal(builder, "give")
-            .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))
-            .argument(IntegerArgument.<CommandDispatcher>builder("count").asOptionalWithDefault(1).withMin(1))
-            .handler(this.sync((context, player) -> {
-                final ItemStack head = this.treasureGems.heads.get((String) context.get("head")).clone();
-                head.setAmount(context.get("count"));
-                player.getInventory()
-                    .addItem(head).values()
-                    .forEach(extraHead -> player.getWorld().dropItem(player.getLocation(), extraHead, item -> item.setOwner(player.getUniqueId())));
-            }))
+        this.register(
+            this.literal(builder, "give")
+                .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))
+                .argument(IntegerArgument.<CommandDispatcher>builder("count").asOptionalWithDefault(1).withMin(1))
+                .handler(this.sync((context, player) -> {
+                    final ItemStack head = this.treasureGems.heads.get((String) context.get("head")).clone();
+                    head.setAmount(context.get("count"));
+                    player.getInventory()
+                        .addItem(head).values()
+                        .forEach(extraHead -> player.getWorld().dropItem(player.getLocation(), extraHead, item -> item.setOwner(player.getUniqueId())));
+                }))
         );
     }
 }

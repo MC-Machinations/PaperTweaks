@@ -23,20 +23,18 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Named;
-import me.machinemaker.lectern.BaseConfig;
-import me.machinemaker.papertweaks.annotations.ConfigureModuleConfig;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
-import org.jetbrains.annotations.MustBeInvokedByOverriders;
-
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
+import me.machinemaker.lectern.BaseConfig;
+import me.machinemaker.papertweaks.annotations.ConfigureModuleConfig;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
-@DefaultQualifier(NonNull.class)
 public abstract class ConfigModule extends AbstractModule {
 
-    @Inject @Named("modules") private Path modulesConfigFolder;
+    @Inject
+    @Named("modules")
+    private Path modulesConfigFolder;
 
     protected Collection<Class<? extends ModuleConfig>> configs() {
         return Collections.emptySet();
@@ -45,19 +43,19 @@ public abstract class ConfigModule extends AbstractModule {
     @Override
     @MustBeInvokedByOverriders
     protected void configure() {
-        Multibinder<ModuleConfig> configsBinder = Multibinder.newSetBinder(binder(), ModuleConfig.class);
-        configs().forEach(configClass -> this.bindConfig(configsBinder, configClass));
+        final Multibinder<ModuleConfig> configsBinder = Multibinder.newSetBinder(this.binder(), ModuleConfig.class);
+        this.configs().forEach(configClass -> this.bindConfig(configsBinder, configClass));
     }
 
-    private <C extends ModuleConfig> void bindConfig(Multibinder<ModuleConfig> binder, Class<C> configClass) {
-        String folder;
+    private <C extends ModuleConfig> void bindConfig(final Multibinder<ModuleConfig> binder, final Class<C> configClass) {
+        final String folder;
         if (configClass.isAnnotationPresent(ConfigureModuleConfig.class)) {
             folder = configClass.getAnnotation(ConfigureModuleConfig.class).folder();
         } else {
             folder = this.getConfigDataFolder();
         }
-        C config = BaseConfig.create(configClass, this.modulesConfigFolder.resolve(folder));
-        bind(configClass).toInstance(config);
+        final C config = BaseConfig.create(configClass, this.modulesConfigFolder.resolve(folder));
+        this.bind(configClass).toInstance(config);
         binder.addBinding().toInstance(config);
     }
 

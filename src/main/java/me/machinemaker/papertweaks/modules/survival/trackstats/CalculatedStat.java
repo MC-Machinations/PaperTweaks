@@ -20,28 +20,31 @@
 package me.machinemaker.papertweaks.modules.survival.trackstats;
 
 import java.util.Objects;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.Translatable;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import static net.kyori.adventure.text.Component.text;
+
 abstract class CalculatedStat implements Translatable {
 
     private final String objectiveName;
-    private final String displayName;
+    private final Component displayName;
 
     protected CalculatedStat(final String objectiveName, final String displayName) {
         Stats.REGISTRY.put(objectiveName, this);
         this.objectiveName = objectiveName;
-        this.displayName = displayName;
+        this.displayName = text(displayName);
     }
 
     public final String objectiveName() {
         return this.objectiveName;
     }
 
-    public final String displayName() {
+    public final Component displayName() {
         return this.displayName;
     }
 

@@ -26,7 +26,6 @@ import com.google.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -88,23 +87,23 @@ final class SleepContext {
             return;
         }
         if (this.sleepingPlayers.remove(player)) {
-            plugin.getLogger().log(Level.WARNING, "{0} was already recorded as fully asleep", player.getDisplayName());
+            plugin.getComponentLogger().warn("{} was already recorded as fully asleep", player.displayName());
         }
         if (this.sleepingTasks.containsKey(player)) {
             this.sleepingTasks.remove(player).cancel();
-            plugin.getLogger().log(Level.WARNING, "{0} already had a scheduled sleep task", player.getDisplayName());
+            plugin.getComponentLogger().warn("{} already had a scheduled sleep task", player.displayName());
         }
         this.sleepingTasks.put(player, new PlayerBedCheckRunnable(player, this::addSleepingPlayer).runTaskTimer(plugin, 99L, 1L));
     }
 
     public void addSleepingPlayer(final Player player) {
-        Preconditions.checkArgument(player.getSleepTicks() >= 100, player.getDisplayName() + " is not deeply sleeping");
+        Preconditions.checkArgument(player.getSleepTicks() >= 100, player.getName() + " is not deeply sleeping");
         if (player.isSleepingIgnored()) {
             this.sleepingPlayers.remove(player);
             return;
         }
         if (this.sleepingPlayers.remove(player)) {
-            plugin.getLogger().log(Level.WARNING, "{0} already is in the list of sleeping players", player.getDisplayName());
+            plugin.getComponentLogger().warn("{} already is in the list of sleeping players", player.displayName());
         }
         this.sleepingTasks.remove(player).cancel();
         this.sleepingPlayers.add(player);

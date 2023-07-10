@@ -19,7 +19,9 @@
  */
 package me.machinemaker.papertweaks.modules.survival.workstationhighlights;
 
+import cloud.commandframework.Command;
 import com.google.inject.Inject;
+import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.utils.Entities;
 import org.bukkit.Location;
@@ -29,6 +31,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 @ModuleCommand.Info(value = "find-workstation", aliases = {"fworkstation", "fwork", "findwork"}, descriptionKey = "modules.workstation-highlights.commands.root", miniMessage = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
@@ -36,23 +39,24 @@ class Commands extends ModuleCommand {
     private final MessageService messageService;
 
     @Inject
-    Commands(MessageService messageService) {
+    Commands(final MessageService messageService) {
         this.messageService = messageService;
     }
 
     @Override
     protected void registerCommands() {
-        var builder = this.player();
+        final Command.Builder<CommandDispatcher> builder = this.player();
 
-        manager.command(builder
-                .permission(modulePermission("vanillatweaks.workstationhighlights.findworkstation"))
-                .handler(sync((context, player) -> {
-                    Villager villager = Entities.getSingleNearbyEntityOfType(Villager.class, player.getLocation(), 3, 3, 3);
+        this.register(
+            builder
+                .permission(this.modulePermission("vanillatweaks.workstationhighlights.findworkstation"))
+                .handler(this.sync((context, player) -> {
+                    final @Nullable Villager villager = Entities.getSingleNearbyEntityOfType(Villager.class, player.getLocation(), 3, 3, 3);
                     if (villager == null) {
                         this.messageService.noVillagerNearby(context.getSender());
                         return;
                     }
-                    Location work = villager.getMemory(MemoryKey.JOB_SITE);
+                    final @Nullable Location work = villager.getMemory(MemoryKey.JOB_SITE);
                     if (work == null || work.getWorld() == null) {
                         this.messageService.noWorkstationFound(context.getSender());
                         return;

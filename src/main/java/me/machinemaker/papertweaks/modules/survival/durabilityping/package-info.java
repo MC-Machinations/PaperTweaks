@@ -18,7 +18,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * Coordinates HUD
+ * Durability Ping module
  */
 @DefaultQualifier(NonNull.class)
 package me.machinemaker.papertweaks.modules.survival.durabilityping;

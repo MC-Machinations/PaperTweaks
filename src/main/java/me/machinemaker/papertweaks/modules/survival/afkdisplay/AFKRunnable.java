@@ -26,12 +26,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import me.machinemaker.papertweaks.utils.runnables.TimerRunnable;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 
 @Singleton
 class AFKRunnable extends TimerRunnable {
@@ -67,8 +69,9 @@ class AFKRunnable extends TimerRunnable {
                 entry.getValue().loc = player.getPlayer().getLocation();
                 entry.getValue().time = System.currentTimeMillis();
             } else if (entry.getValue().time < System.currentTimeMillis() - (1000L * this.config.secondsBeforeAFK)) {
-                player.getPlayer().setDisplayName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
-                player.getPlayer().setPlayerListName(ChatColor.GRAY + player.getPlayer().getDisplayName() + ChatColor.RESET);
+                final Component newName = player.getPlayer().displayName().color(GRAY);
+                player.getPlayer().displayName(newName);
+                player.getPlayer().playerListName(newName);
                 AFKDisplay.AFK_DISPLAY.setTo(player.getPlayer(), true);
                 this.locationMap.remove(entry.getKey());
             }

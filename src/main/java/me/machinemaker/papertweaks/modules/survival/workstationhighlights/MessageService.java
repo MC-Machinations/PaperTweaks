@@ -37,8 +37,10 @@ interface MessageService extends ModuleMessageService {
 
     @TextColor(TextColor.YELLOW)
     @Message("modules.workstation-highlights.located-at")
-    void workstationLocatedAt(Audience audience,
-                              @Placeholder @TextColor(TextColor.WHITE) int x,
-                              @Placeholder @TextColor(TextColor.WHITE) int y,
-                              @Placeholder @TextColor(TextColor.WHITE) int z);
+    void workstationLocatedAt(
+        Audience audience,
+        @Placeholder @TextColor(TextColor.WHITE) int x,
+        @Placeholder @TextColor(TextColor.WHITE) int y,
+        @Placeholder @TextColor(TextColor.WHITE) int z
+    );
 }

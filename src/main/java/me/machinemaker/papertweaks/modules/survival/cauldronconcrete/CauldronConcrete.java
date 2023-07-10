@@ -20,34 +20,34 @@
 package me.machinemaker.papertweaks.modules.survival.cauldronconcrete;
 
 import com.destroystokyo.paper.MaterialTags;
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Material;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Set;
+import static java.util.Objects.requireNonNull;
 
 @ModuleInfo(name = "CauldronConcrete", configPath = "survival.cauldron-concrete", description = "Make concrete using cauldrons")
 public class CauldronConcrete extends ModuleBase {
 
-    @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
-        return Set.of(CauldronListener.class);
-    }
-
-    @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
-    }
-
-    static Material toConcreteFromPowder(Material concretePowder) {
+    static Material toConcreteFromPowder(final Material concretePowder) {
         if (!MaterialTags.CONCRETE_POWDER.isTagged(concretePowder)) {
             throw new IllegalArgumentException(concretePowder + " is not a concrete powder");
         }
 
-        return Material.matchMaterial(concretePowder.name().split("_POWDER")[0]);
+        return requireNonNull(Material.matchMaterial(concretePowder.name().split("_POWDER")[0]));
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleListener>> listeners() {
+        return Set.of(CauldronListener.class);
+    }
+
+    @Override
+    protected Class<? extends ModuleLifecycle> lifecycle() {
+        return ModuleLifecycle.Empty.class;
     }
 }

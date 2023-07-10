@@ -20,6 +20,11 @@
 package me.machinemaker.papertweaks.modules.other.persistentheads;
 
 import com.google.inject.Inject;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.pdc.PaperDataTypes;
@@ -44,14 +49,10 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import static java.util.Objects.requireNonNull;
 
 class BlockListener implements ModuleListener {
 
@@ -61,20 +62,20 @@ class BlockListener implements ModuleListener {
     private final Plugin plugin;
 
     @Inject
-    BlockListener(Plugin plugin) {
+    BlockListener(final Plugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+    public void onBlockPlaceEvent(final BlockPlaceEvent event) {
         final ItemStack headItem = event.getItemInHand();
         if (headItem.getType() != Material.PLAYER_HEAD) return;
-        ItemMeta meta = headItem.getItemMeta();
+        final ItemMeta meta = headItem.getItemMeta();
         if (meta == null) return;
-        Component name = meta.displayName();
-        List<Component> lore = meta.lore();
-        Block block = event.getBlockPlaced();
-        TileState skullState = (TileState) block.getState(true);
+        final @Nullable Component name = meta.displayName();
+        final @Nullable List<Component> lore = meta.lore();
+        final Block block = event.getBlockPlaced();
+        final TileState skullState = (TileState) block.getState(true);
         if (name != null) {
             HEAD_NAME.setTo(skullState, name);
         }
@@ -85,15 +86,15 @@ class BlockListener implements ModuleListener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBlockDropItemEvent(BlockDropItemEvent event) {
-        @NotNull BlockState blockState = event.getBlockState();
-        Material blockType = blockState.getType();
+    public void onBlockDropItemEvent(final BlockDropItemEvent event) {
+        final BlockState blockState = event.getBlockState();
+        final Material blockType = blockState.getType();
         if (blockType != Material.PLAYER_HEAD && blockType != Material.PLAYER_WALL_HEAD) return;
-        TileState skullState = (TileState) blockState;
-        @Nullable Component name = HEAD_NAME.getFrom(skullState);
-        @Nullable List<Component> lore = HEAD_LORE.getFrom(skullState);
-        for (Item item : event.getItems()) { // Ideally should only be one...
-            @NotNull ItemStack itemstack = item.getItemStack();
+        final TileState skullState = (TileState) blockState;
+        final @Nullable Component name = HEAD_NAME.getFrom(skullState);
+        final @Nullable List<Component> lore = HEAD_LORE.getFrom(skullState);
+        for (final Item item : event.getItems()) { // Ideally should only be one...
+            final ItemStack itemstack = item.getItemStack();
             if (itemstack.getType() == Material.PLAYER_HEAD) {
                 itemstack.editMeta(meta -> {
                     meta.displayName(name);
@@ -107,46 +108,46 @@ class BlockListener implements ModuleListener {
      * Prevents player from removing player-head NBT by water logging them
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
-        handleBlock(event.getBlock(), event, false);
+    public void onPlayerBucketEmpty(final PlayerBucketEmptyEvent event) {
+        this.handleBlock(event.getBlock(), event, false);
     }
 
     /**
      * Prevents player from removing player-head NBT using running water
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onLiquidFlow(BlockFromToEvent event) {
-        handleBlock(event.getToBlock(), event, true);
+    public void onLiquidFlow(final BlockFromToEvent event) {
+        this.handleBlock(event.getToBlock(), event, true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBlockExplosion(BlockExplodeEvent event) {
-        handleExplosionEvent(event.blockList(), event.getYield());
+    public void onBlockExplosion(final BlockExplodeEvent event) {
+        this.handleExplosionEvent(event.blockList(), event.getYield());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityExplosion(EntityExplodeEvent event) {
-        handleExplosionEvent(event.blockList(), event.getYield());
+    public void onEntityExplosion(final EntityExplodeEvent event) {
+        this.handleExplosionEvent(event.blockList(), event.getYield());
     }
 
-    private void handleExplosionEvent(@NotNull final List<Block> blocksExploded, final float explosionYield) {
+    private void handleExplosionEvent(final List<Block> blocksExploded, final float explosionYield) {
         final Random random = ThreadLocalRandom.current();
-        var iter = blocksExploded.iterator();
+        final Iterator<Block> iter = blocksExploded.iterator();
         while (iter.hasNext()) {
-            Block block = iter.next();
+            final Block block = iter.next();
             if (block.getState() instanceof Skull && random.nextFloat() <= explosionYield) {
-                handleBlock(block, null, false);
+                this.handleBlock(block, null, false);
                 iter.remove();
             }
         }
     }
 
     @Contract("_, null, true -> fail")
-    private void handleBlock(Block block, Cancellable event, boolean shouldCancelEvent) {
-        if (block.getState() instanceof Skull skull) {
+    private void handleBlock(final Block block, final @Nullable Cancellable event, final boolean shouldCancelEvent) {
+        if (block.getState() instanceof final Skull skull) {
             final Optional<ItemStack> skullStack = block.getDrops().stream().filter(is -> is.getType() == Material.PLAYER_HEAD).findAny();
             skullStack.ifPresent(stack -> {
-                boolean edited = stack.editMeta(meta -> {
+                final boolean edited = stack.editMeta(meta -> {
                     meta.displayName(HEAD_NAME.getFrom(skull));
                     meta.lore(HEAD_LORE.getFrom(skull));
                 });
@@ -154,7 +155,7 @@ class BlockListener implements ModuleListener {
 
                 Bukkit.getScheduler().runTaskLater(this.plugin, () -> block.getWorld().dropItemNaturally(block.getLocation(), stack), 1L);
                 block.setType(Material.AIR);
-                if (shouldCancelEvent) event.setCancelled(true);
+                if (shouldCancelEvent) requireNonNull(event, "can't cancel a null event").setCancelled(true);
                 block.getWorld().getBlockAt(block.getLocation()).getState().update(true, true);
             });
         }

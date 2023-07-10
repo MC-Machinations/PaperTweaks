@@ -19,12 +19,19 @@
  */
 package me.machinemaker.papertweaks.cloud.cooldown;
 
+import cloud.commandframework.Command;
 import cloud.commandframework.keys.CloudKey;
 import cloud.commandframework.keys.SimpleCloudKey;
 import java.util.UUID;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 record CommandCooldownImpl<C>(CloudKey<Void> key, CommandCooldown.DurationFunction<C> duration, CommandCooldown.@Nullable Notifier<C> notifier) implements CommandCooldown<C> {
+
+    @Override
+    public Command.@NonNull Builder<C> applyToCommandBuilder(final Command.@NonNull Builder<C> builder) {
+        return builder.meta(COMMAND_META_KEY, this);
+    }
 
     static final class BuilderImpl<C> implements CommandCooldown.Builder<C> {
 

@@ -33,6 +33,7 @@ class Config extends ModuleConfig {
 
     @Key("portal-frame-materials")
     @Description("Any material in this list will be considered a portal frame material")
+    @SuppressWarnings("CollectionDeclaredAsConcreteClass") // concrete class needed for config library
     public LinkedHashSet<Material> portalFrameMaterials = new LinkedHashSet<>(List.of(Material.OBSIDIAN, Material.CRYING_OBSIDIAN));
 
     @Positive

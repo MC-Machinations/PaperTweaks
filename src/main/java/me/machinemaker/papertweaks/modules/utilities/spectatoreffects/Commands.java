@@ -19,7 +19,9 @@
  */
 package me.machinemaker.papertweaks.modules.utilities.spectatoreffects;
 
+import cloud.commandframework.Command;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
+import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -31,21 +33,22 @@ class Commands extends ModuleCommand {
 
     @Override
     protected void registerCommands() {
-        var builder = this.player()
-                .meta(MetaKeys.GAMEMODE_KEY, GameMode.SPECTATOR); // TODO probably change to a permission
+        final Command.Builder<CommandDispatcher> builder = this.player()
+            .meta(MetaKeys.GAMEMODE_KEY, GameMode.SPECTATOR); // TODO probably change to a permission
 
-        manager.command(builder
-                .permission(modulePermission("vanillatweaks.spectatortoggle.nightvision"))
-                .literal("night-vision")
-                .handler(sync((context, player) -> toggleEffect(player, PotionEffectType.NIGHT_VISION)))
-        ).command(builder
-                .permission(modulePermission("vanillatweaks.spectatortoggle.conduitpower"))
-                .literal("conduit-power")
-                .handler(sync((context, player) -> toggleEffect(player, PotionEffectType.CONDUIT_POWER)))
+        this.register(builder
+            .permission(this.modulePermission("vanillatweaks.spectatortoggle.nightvision"))
+            .literal("night-vision")
+            .handler(this.sync((context, player) -> this.toggleEffect(player, PotionEffectType.NIGHT_VISION)))
+        );
+        this.register(builder
+            .permission(this.modulePermission("vanillatweaks.spectatortoggle.conduitpower"))
+            .literal("conduit-power")
+            .handler(this.sync((context, player) -> this.toggleEffect(player, PotionEffectType.CONDUIT_POWER)))
         );
     }
 
-    private void toggleEffect(Player player, PotionEffectType type) {
+    private void toggleEffect(final Player player, final PotionEffectType type) {
         if (player.getPotionEffect(type) == null) {
             player.addPotionEffect(new PotionEffect(type, Integer.MAX_VALUE, 0, false, false, true));
         } else {

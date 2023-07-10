@@ -56,38 +56,37 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.builder();
 
-        final Command.Builder<CommandDispatcher> giveTagBuilder = this.literal(builder, "givetag");
-        this.manager.command(giveTagBuilder
-            .senderType(PlayerCommandDispatcher.class)
-            .handler(this.giveTag())
-        ).command(giveTagBuilder
-            .argument(PlayerArgument.of("player"))
-            .handler(this.giveTag())
-        ).command(this.literal(builder, "reset")
-            .handler(this.sync(context -> {
-                boolean removed = false;
-                for (final Player player : Bukkit.getOnlinePlayers()) {
-                    if (Tag.IT.has(player)) {
-                        removed = true;
-                        this.tagManager.removeAsIt(player);
-                        context.getSender().sendMessage(translatable("modules.tag.commands.reset.success", GREEN, text(player.getName(), GOLD)));
+        final Command.Builder<CommandDispatcher> giveTagBuilder = this.literal(builder, "givetag").handler(this.giveTag());
+        this.register(giveTagBuilder.senderType(PlayerCommandDispatcher.class));
+        this.register(giveTagBuilder.argument(PlayerArgument.of("player")));
+        this.register(
+            this.literal(builder, "reset")
+                .handler(this.sync(context -> {
+                    boolean removed = false;
+                    for (final Player player : Bukkit.getOnlinePlayers()) {
+                        if (Tag.IT.has(player)) {
+                            removed = true;
+                            this.tagManager.removeAsIt(player);
+                            context.getSender().sendMessage(translatable("modules.tag.commands.reset.success", GREEN, text(player.getName(), GOLD)));
+                        }
                     }
-                }
-                if (!removed) {
-                    context.getSender().sendMessage(translatable("modules.tag.commands.reset.fail"));
-                }
-            }))
-        ).command(this.literal(builder, "counter")
-            .argument(EnumArgument.of(DisplaySlot.class, "slot"))
-            .handler(this.sync(context -> {
-                final DisplaySlot slot = context.get("slot");
-                if (slot.isDisplayedOn(this.tagManager.tagCounter)) {
-                    context.getSender().sendMessage(translatable("modules.tag.commands.counter.fail", RED));
-                } else {
-                    slot.changeFor(this.tagManager.tagCounter);
-                    context.getSender().sendMessage(translatable("modules.tag.commands.counter.success", GREEN, text(slot.name().toLowerCase(Locale.ENGLISH), GOLD)));
-                }
-            }))
+                    if (!removed) {
+                        context.getSender().sendMessage(translatable("modules.tag.commands.reset.fail"));
+                    }
+                }))
+        );
+        this.register(
+            this.literal(builder, "counter")
+                .argument(EnumArgument.of(DisplaySlot.class, "slot"))
+                .handler(this.sync(context -> {
+                    final DisplaySlot slot = context.get("slot");
+                    if (slot.isDisplayedOn(this.tagManager.tagCounter)) {
+                        context.getSender().sendMessage(translatable("modules.tag.commands.counter.fail", RED));
+                    } else {
+                        slot.changeFor(this.tagManager.tagCounter);
+                        context.getSender().sendMessage(translatable("modules.tag.commands.counter.success", GREEN, text(slot.name().toLowerCase(Locale.ENGLISH), GOLD)));
+                    }
+                }))
         );
 
         this.config.createCommands(this, builder);

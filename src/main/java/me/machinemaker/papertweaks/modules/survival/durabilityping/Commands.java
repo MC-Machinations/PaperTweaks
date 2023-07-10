@@ -60,12 +60,12 @@ class Commands extends ConfiguredModuleCommand {
                 BooleanMenuOption
                     .newBuilder("modules.durability-ping.config.hand-items", this.settings.getSetting(Settings.HAND_PING))
                     .extendedDescription("modules.durability-ping.config.hand-items.extended"),
-                BooleanMenuOption.newBuilder("modules.durability-ping.config.armor-items",  this.settings.getSetting(Settings.ARMOR_PING))
+                BooleanMenuOption.newBuilder("modules.durability-ping.config.armor-items", this.settings.getSetting(Settings.ARMOR_PING))
                     .extendedDescription("modules.durability-ping.config.armor-items.extended"),
                 BooleanMenuOption
-                    .newBuilder(text("Ping with Sound"),  this.settings.getSetting(Settings.SOUND))
+                    .newBuilder(text("Ping with Sound"), this.settings.getSetting(Settings.SOUND))
                     .previewAction(bool -> ClickEvent.runCommand("/durabilityping config preview_sound")),
-                SelectableEnumMenuOption.of(Settings.DisplaySetting.class, "modules.durability-ping.config.display",  this.settings.getSetting(Settings.DISPLAY))
+                SelectableEnumMenuOption.of(Settings.DisplaySetting.class, "modules.durability-ping.config.display", this.settings.getSetting(Settings.DISPLAY))
             )
         );
     }
@@ -75,16 +75,17 @@ class Commands extends ConfiguredModuleCommand {
         final Command.Builder<CommandDispatcher> builder = this.player();
         final Command.Builder<CommandDispatcher> configBuilder = this.literal(builder, "config");
 
-        this.manager.command(configBuilder
-            .handler(this.menu::send)
-        ).command(configBuilder.hidden()
+        this.register(configBuilder.handler(this.menu::send));
+        this.register(configBuilder.hidden()
             .literal("preview_display")
             .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
             .handler(context -> context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.getSender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2)))
-        ).command(configBuilder.hidden()
+        );
+        this.register(configBuilder.hidden()
             .literal("preview_sound")
             .handler((context -> context.getSender().playSound(DurabilityPing.SOUND, Sound.Emitter.self())))
-        ).command(configBuilder.hidden()
+        );
+        this.register(configBuilder.hidden()
             .argument(SettingArgument.playerSettings(this.settings.index()))
             .handler(this.sync((context, player) -> {
                 final SettingArgument.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
@@ -92,7 +93,8 @@ class Commands extends ConfiguredModuleCommand {
                 this.listener.settingsCache.invalidate(player.getUniqueId());
                 this.menu.send(context);
             }))
-        ).command(SettingArgument.resetPlayerSettings(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
+        );
+        this.register(SettingArgument.resetPlayerSettings(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
 
         this.config.createCommands(this, builder);
     }

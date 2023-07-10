@@ -42,14 +42,14 @@ abstract class Tracked implements ComponentLike {
 
     private final String name;
     private final Criteria criteria;
-    private final String displayName;
+    private final Component displayName;
     private @MonotonicNonNull Objective objective;
 
     protected Tracked(final String name, final String stat, final String displayName) {
         Preconditions.checkArgument(name.length() <= 16, name + " must be 16 characters of less");
         this.name = name;
         this.criteria = Criteria.create(stat);
-        this.displayName = displayName;
+        this.displayName = text(displayName);
     }
 
     boolean register(final Scoreboard board) {
@@ -69,7 +69,7 @@ abstract class Tracked implements ComponentLike {
         return this.criteria;
     }
 
-    public String displayName() {
+    public Component displayName() {
         return this.displayName;
     }
 
@@ -173,9 +173,9 @@ abstract class Tracked implements ComponentLike {
         @Override
         int constructValue(final JsonObject object) {
             final JsonElement typeElement = object.get(this.type.replace('.', ':'));
-            if (typeElement instanceof JsonObject typeObj) {
+            if (typeElement instanceof final JsonObject typeObj) {
                 final JsonElement valueElement = typeObj.get(this.value.replace('.', ':'));
-                if (valueElement instanceof JsonPrimitive valuePrimitive && valuePrimitive.isNumber()) {
+                if (valueElement instanceof final JsonPrimitive valuePrimitive && valuePrimitive.isNumber()) {
                     return valuePrimitive.getAsInt();
                 }
             }

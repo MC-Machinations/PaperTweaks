@@ -31,8 +31,8 @@ import org.bukkit.inventory.ItemStack;
 class CauldronListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityInsideBlock(EntityInsideBlockEvent event) {
-        if (event.getEntity() instanceof Item item && event.getBlock().getType() == Material.WATER_CAULDRON && MaterialTags.CONCRETE_POWDER.isTagged(item.getItemStack())) {
+    public void onEntityInsideBlock(final EntityInsideBlockEvent event) {
+        if (event.getEntity() instanceof final Item item && event.getBlock().getType() == Material.WATER_CAULDRON && MaterialTags.CONCRETE_POWDER.isTagged(item.getItemStack())) {
             item.getWorld().dropItem(item.getLocation(), new ItemStack(CauldronConcrete.toConcreteFromPowder(item.getItemStack().getType()), item.getItemStack().getAmount()));
             item.remove();
         }

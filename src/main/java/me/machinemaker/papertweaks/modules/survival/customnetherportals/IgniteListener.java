@@ -102,7 +102,7 @@ class IgniteListener implements ModuleListener {
 
         void setOrientation(final Block block) {
             final BlockData blockData = block.getBlockData();
-            if (blockData instanceof Orientable orientation && orientation.getAxis() != this.axis) {
+            if (blockData instanceof final Orientable orientation && orientation.getAxis() != this.axis) {
                 orientation.setAxis(this.axis);
                 block.setBlockData(orientation);
             }

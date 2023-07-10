@@ -33,7 +33,6 @@ public class TPA extends ModuleBase {
     @Override
     protected void configure() {
         super.configure();
-        this.requestStaticInjection(Request.class);
     }
 
     @Override

@@ -29,14 +29,11 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import org.jetbrains.annotations.NotNull;
 
 @ModuleInfo(name = "DurabilityPing", configPath = "survival.durability-ping", description = "Notifies players when their tools are close to breaking")
 public class DurabilityPing extends ModuleBase {
 
     static final Sound SOUND = Sound.sound(Key.key("block.anvil.land"), Sound.Source.MASTER, 2, 1);
-
-    DurabilityPing() {}
 
     @Override
     protected void configure() {
@@ -45,22 +42,22 @@ public class DurabilityPing extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

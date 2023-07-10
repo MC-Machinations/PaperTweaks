@@ -20,6 +20,8 @@
 package me.machinemaker.papertweaks.modules.mobs.mobgriefing;
 
 import com.google.inject.Inject;
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.LoggerFactory;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
@@ -29,11 +31,7 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "MobGriefing", configPath = "mobs.mob-griefing", description = "Disable various mobs griefing behaviors")
 public class MobGriefing extends ModuleBase {
@@ -41,17 +39,17 @@ public class MobGriefing extends ModuleBase {
     static final Logger LOGGER = LoggerFactory.getModuleLogger(MobGriefing.class);
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(MobListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
     }
 
@@ -60,7 +58,7 @@ public class MobGriefing extends ModuleBase {
         private final Config config;
 
         @Inject
-        Lifecycle(JavaPlugin plugin, Set<ModuleCommand> commands, Set<ModuleListener> listeners, Set<ModuleConfig> configs, Set<ModuleRecipe<?>> moduleRecipes, Config config) {
+        Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes, final Config config) {
             super(plugin, commands, listeners, configs, moduleRecipes);
             this.config = config;
         }

@@ -25,10 +25,7 @@ import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.menus.ReferenceConfigurationMenu;
 import me.machinemaker.papertweaks.menus.parts.MenuPartLike;
 import net.kyori.adventure.text.Component;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 
-@DefaultQualifier(NonNull.class)
 public abstract class SimpleMenuModuleConfig<C extends SimpleMenuModuleConfig<C>> extends MenuModuleConfig<C, ReferenceConfigurationMenu<C>> {
 
     @Override

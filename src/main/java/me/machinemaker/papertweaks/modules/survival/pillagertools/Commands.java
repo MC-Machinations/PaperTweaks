@@ -48,19 +48,21 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.builder();
 
-        this.manager.command(this.literal(builder, "status")
-            .handler(context -> {
-                final TextComponent.Builder txtBuilder = text()
-                    .append(translatable("modules.pillager-tools.commands.status.success.header", YELLOW, BOLD));
-                for (final PillagerTools.ToggleOption option : PillagerTools.ToggleOption.values()) {
-                    txtBuilder.append(newline()).append(translatable("modules.pillager-tools.commands.status.success.setting",
-                        YELLOW,
-                        translatable("modules.pillager-tools.settings." + option.name().toLowerCase(Locale.ENGLISH)),
-                        translatable("commands.config.default-value.bool." + this.config.getSettingValue(option), GREEN)
-                    ));
-                }
-                context.getSender().sendMessage(txtBuilder);
-            })
+        this.register(
+            this.literal(builder, "status")
+                .handler(context -> {
+                    final TextComponent.Builder txtBuilder = text()
+                        .append(translatable("modules.pillager-tools.commands.status.success.header", YELLOW, BOLD));
+                    for (final PillagerTools.ToggleOption option : PillagerTools.ToggleOption.values()) {
+                        txtBuilder.append(newline()).append(translatable(
+                            "modules.pillager-tools.commands.status.success.setting",
+                            YELLOW,
+                            translatable("modules.pillager-tools.settings." + option.name().toLowerCase(Locale.ENGLISH)),
+                            translatable("commands.config.default-value.bool." + this.config.getSettingValue(option), GREEN)
+                        ));
+                    }
+                    context.getSender().sendMessage(txtBuilder);
+                })
         );
 
         this.config.createCommands(this, builder);

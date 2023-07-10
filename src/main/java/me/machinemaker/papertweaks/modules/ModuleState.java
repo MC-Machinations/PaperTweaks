@@ -30,13 +30,13 @@ public enum ModuleState {
     private final boolean running;
     private final boolean error;
 
-    ModuleState(boolean running, boolean error) {
+    ModuleState(final boolean running, final boolean error) {
         this.running = running;
         this.error = error;
     }
 
     public boolean isRunning() {
-        return running;
+        return this.running;
     }
 
     public boolean isErrored() {

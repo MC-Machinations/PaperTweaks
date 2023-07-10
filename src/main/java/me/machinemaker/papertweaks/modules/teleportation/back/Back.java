@@ -19,6 +19,8 @@
  */
 package me.machinemaker.papertweaks.modules.teleportation.back;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
@@ -30,43 +32,39 @@ import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.utils.Keys;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "Back", configPath = "teleportation.back", description = "Adds a /back command to teleport back to previous locations")
 public class Back extends ModuleBase {
 
     static final PDCKey<Location> BACK_LOCATION = new PDCKey<>(Keys.legacyKey("back/location"), DataTypes.LOCATION);
 
-    @Override
-    protected void configure() {
-        super.configure();
-        requestStaticInjection(BackTeleportRunnable.class);
+    public static void setBackLocation(final Player player, final Location location) {
+        BACK_LOCATION.setTo(player, location);
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected void configure() {
+        super.configure();
+        this.requestStaticInjection(BackTeleportRunnable.class);
+    }
+
+    @Override
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
+    protected Collection<Class<? extends ModuleConfig>> configs() {
         return Set.of(Config.class);
-    }
-
-    public static void setBackLocation(@NotNull Player player, @NotNull Location location) {
-        BACK_LOCATION.setTo(player, location);
     }
 }

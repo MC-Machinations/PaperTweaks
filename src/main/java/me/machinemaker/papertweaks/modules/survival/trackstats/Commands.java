@@ -50,28 +50,31 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         final Command.Builder<CommandDispatcher> builder = this.player();
 
-        this.manager.command(this.literal(builder, "show")
-            .argument(CommandArgument.<CommandDispatcher, CalculatedStat>ofType(CalculatedStat.class, "stat").withParser(new CalculatedStatParser()), RichDescription.translatable("modules.track-stats.commands.arguments.stat"))
-            .handler(this.sync((context, player) -> {
-                player.setScoreboard(this.board);
-                final CalculatedStat stat = context.get("stat");
-                if (stat.getObjective(this.board).getDisplaySlot() == DisplaySlot.SIDEBAR) {
-                    context.getSender().sendMessage(translatable("modules.track-stats.commands.show.already-displayed", YELLOW, translatable(stat, GOLD)));
-                } else {
-                    stat.getObjective(this.board).setDisplaySlot(DisplaySlot.SIDEBAR);
-                    context.getSender().sendMessage(translatable("modules.track-stats.commands.show.success", GREEN, translatable(stat, GOLD)));
-                }
-            }))
-        ).command(this.literal(builder, "clear")
-            .handler(this.sync((context, player) -> {
-                final @Nullable Objective currentlyDisplayed = this.board.getObjective(DisplaySlot.SIDEBAR);
-                if (currentlyDisplayed == null || !Stats.REGISTRY.containsKey(currentlyDisplayed.getName())) {
-                    context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.no-display", YELLOW));
-                } else {
-                    currentlyDisplayed.setDisplaySlot(null);
-                    context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.success", GREEN, translatable(Stats.REGISTRY.get(currentlyDisplayed.getName()), GOLD)));
-                }
-            }))
+        this.register(
+            this.literal(builder, "show")
+                .argument(CommandArgument.<CommandDispatcher, CalculatedStat>ofType(CalculatedStat.class, "stat").withParser(new CalculatedStatParser()), RichDescription.translatable("modules.track-stats.commands.arguments.stat"))
+                .handler(this.sync((context, player) -> {
+                    player.setScoreboard(this.board);
+                    final CalculatedStat stat = context.get("stat");
+                    if (stat.getObjective(this.board).getDisplaySlot() == DisplaySlot.SIDEBAR) {
+                        context.getSender().sendMessage(translatable("modules.track-stats.commands.show.already-displayed", YELLOW, translatable(stat, GOLD)));
+                    } else {
+                        stat.getObjective(this.board).setDisplaySlot(DisplaySlot.SIDEBAR);
+                        context.getSender().sendMessage(translatable("modules.track-stats.commands.show.success", GREEN, translatable(stat, GOLD)));
+                    }
+                }))
+        );
+        this.register(
+            this.literal(builder, "clear")
+                .handler(this.sync((context, player) -> {
+                    final @Nullable Objective currentlyDisplayed = this.board.getObjective(DisplaySlot.SIDEBAR);
+                    if (currentlyDisplayed == null || !Stats.REGISTRY.containsKey(currentlyDisplayed.getName())) {
+                        context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.no-display", YELLOW));
+                    } else {
+                        currentlyDisplayed.setDisplaySlot(null);
+                        context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.success", GREEN, translatable(Stats.REGISTRY.get(currentlyDisplayed.getName()), GOLD)));
+                    }
+                }))
         );
     }
 }

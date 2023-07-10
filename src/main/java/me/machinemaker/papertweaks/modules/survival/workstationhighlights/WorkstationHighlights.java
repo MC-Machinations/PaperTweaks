@@ -19,31 +19,28 @@
  */
 package me.machinemaker.papertweaks.modules.survival.workstationhighlights;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.moonshine.module.MoonshineModuleBase;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "VillagerWorkstationHighlights", configPath = "survival.villager-workstation-highlights", description = "Easily find a villager's workstation")
 public class WorkstationHighlights extends MoonshineModuleBase<MessageService> {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 
     @Override
-    public @Nullable Class<MessageService> messageService() {
+    public Class<MessageService> messageService() {
         return MessageService.class;
     }
 }

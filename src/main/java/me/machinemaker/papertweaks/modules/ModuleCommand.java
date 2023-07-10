@@ -52,14 +52,14 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.framework.qual.DefaultQualifier;
 import org.intellij.lang.annotations.Pattern;
 
+import static me.machinemaker.papertweaks.adventure.Components.CLOSE_BRACKET;
+import static me.machinemaker.papertweaks.adventure.Components.DOUBLE_SPACE;
+import static me.machinemaker.papertweaks.adventure.Components.OPEN_BRACKET;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -70,17 +70,17 @@ import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static net.kyori.adventure.text.format.TextColor.color;
 
-@DefaultQualifier(NonNull.class)
 public abstract class ModuleCommand extends PaperTweaksCommand {
 
     private static final CommandMeta.Key<ModuleBase> MODULE_OWNER = CommandMeta.Key.of(ModuleBase.class, "papertweaks:commands/module_owner");
     private static final MinecraftHelp.HelpColors MODULE_HELP_COLORS = MinecraftHelp.HelpColors.of(
-        TextColor.color(0x70B3B3),
+        color(0x70B3B3),
         AQUA,
-        TextColor.color(0x5290FA),
+        color(0x5290FA),
         GRAY,
-        TextColor.color(0xE66045)
+        color(0xE66045)
     );
     final Info commandInfo = this.getClass().getAnnotation(Info.class);
     @Inject
@@ -93,6 +93,12 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
     private static <C> CommandExecutionHandler<C> createHelpHandler(final MinecraftHelp<C> help) {
         return context -> help.queryCommands(Objects.requireNonNull(context.getOrDefault("query", ""), "must supply a help query"), context.getSender());
     }
+
+    // MiniMessage descriptions will use the MinecraftHelp description decorator to parse
+    static Function<String, ? extends ArgumentDescription> translatableDescriptionFactory(final boolean usesMiniMessage) {
+        return usesMiniMessage ? ArgumentDescription::of : RichDescription::translatable;
+    }
+
 
     final void registerCommands0(final ModuleLifecycle lifecycle) {
         Objects.requireNonNull(this.commandInfo, this + " is not annotated with @ModuleCommand.Info");
@@ -149,29 +155,25 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
         builder.append(translatable("commands.info.description", GRAY, text(this.moduleBase.getDescription(), WHITE))).append(newline());
         final TextComponent.Builder actionsBuilder = text().append(text()
                 .color(GREEN)
-                .append(text('['))
-                .append(translatable("commands.config.default-value.bool.true"))
-                .append(text(']'))
+                .append(OPEN_BRACKET, translatable("commands.config.default-value.bool.true"), CLOSE_BRACKET)
                 .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", RED)))
                 .clickEvent(ClickEvent.runCommand("/vanillatweaks disable " + this.moduleBase.getName()))
             )
-            .append(text("  "))
+            .append(DOUBLE_SPACE)
             .append(text()
                 .color(YELLOW)
-                .append(text('['))
-                .append(translatable("commands.info.reload"))
-                .append(text(']'))
+                .append(OPEN_BRACKET, translatable("commands.info.reload"), CLOSE_BRACKET)
                 .hoverEvent(HoverEvent.showText(translatable("commands.info.reload.hover", YELLOW, text(this.moduleBase.getName()))))
                 .clickEvent(ClickEvent.runCommand("/vanillatweaks reload module " + this.moduleBase.getName()))
             );
 
         if (this.commandInfo.help()) {
-            actionsBuilder.append(text("  ")).append(text().color(TextColor.color(0x5290fa))
-                .append(text("["))
-                .append(translatable("commands.info.show-help"))
-                .append(text("]"))
-                .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", GRAY)))
-                .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
+            actionsBuilder.append(DOUBLE_SPACE)
+                .append(text()
+                    .color(color(0x5290FA))
+                    .append(OPEN_BRACKET, translatable("commands.info.show-help"), CLOSE_BRACKET)
+                    .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", GRAY)))
+                    .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
         }
 
         this.infoComponent = builder.append(translatable("commands.info.actions", GRAY, actionsBuilder)).append(newline()).append(AbstractConfigurationMenu.END_LINE).build();
@@ -229,11 +231,6 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
 
     ArgumentDescription buildRootDescription() {
         return translatableDescriptionFactory(this.commandInfo.miniMessage()).apply(this.commandInfo.descriptionKey());
-    }
-
-    // MiniMessage descriptions will use the MinecraftHelp description decorator to parse
-    static Function<String, ? extends ArgumentDescription> translatableDescriptionFactory(final boolean usesMiniMessage) {
-        return usesMiniMessage ? ArgumentDescription::of : RichDescription::translatable;
     }
 
     @Target(ElementType.TYPE)

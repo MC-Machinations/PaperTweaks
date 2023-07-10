@@ -48,7 +48,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static java.util.Objects.requireNonNullElseGet;
 import static me.machinemaker.papertweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -101,7 +103,7 @@ class ItemDropRunnable extends BukkitRunnable {
                 enchants.merge(enchantment, level, Math::max);
             } else {
                 conflicts.put(enchantment, level); // add for easier sorting
-                final var max = Collections.max(conflicts.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+                final Map.Entry<Enchantment, Integer> max = Collections.max(conflicts.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
                 enchants.merge(max.getKey(), max.getValue(), Math::max);
             }
         });
@@ -110,18 +112,10 @@ class ItemDropRunnable extends BukkitRunnable {
         });
 
         final Multimap<Attribute, AttributeModifier> attributeMap = LinkedHashMultimap.create();
-        final Multimap<Attribute, AttributeModifier> chestAttributes = chestStack.getItemMeta().getAttributeModifiers();
-        if (chestAttributes != null) {
-            attributeMap.putAll(chestAttributes);
-        } else {
-            attributeMap.putAll(chestStack.getType().getDefaultAttributeModifiers(EquipmentSlot.CHEST));
-        }
-        final Multimap<Attribute, AttributeModifier> elytraAttributes = elytraStack.getItemMeta().getAttributeModifiers();
-        if (elytraAttributes != null) {
-            attributeMap.putAll(elytraAttributes);
-        } else {
-            attributeMap.putAll(elytraStack.getType().getDefaultAttributeModifiers(EquipmentSlot.CHEST));
-        }
+        final @Nullable Multimap<Attribute, AttributeModifier> chestAttributes = chestStack.getItemMeta().getAttributeModifiers();
+        attributeMap.putAll(requireNonNullElseGet(chestAttributes, () -> chestStack.getType().getDefaultAttributeModifiers(EquipmentSlot.CHEST)));
+        final @Nullable Multimap<Attribute, AttributeModifier> elytraAttributes = elytraStack.getItemMeta().getAttributeModifiers();
+        attributeMap.putAll(requireNonNullElseGet(elytraAttributes, () -> elytraStack.getType().getDefaultAttributeModifiers(EquipmentSlot.CHEST)));
         armoredMeta.setAttributeModifiers(attributeMap);
 
         armoredElytra.setItemMeta(armoredMeta);
@@ -138,11 +132,11 @@ class ItemDropRunnable extends BukkitRunnable {
         final ItemStack elytraStack = elytra.getItemStack();
         if (elytraStack.getItemMeta() == null) return;
 
-        final ItemStack elytraItem = ELYTRA_ITEM.getFrom(elytraStack);
+        final @Nullable ItemStack elytraItem = ELYTRA_ITEM.getFrom(elytraStack);
         if (elytraItem != null) {
             world.dropItem(location.add(0, 1.1, 0), elytraItem);
         }
-        final ItemStack chestItem = CHESTPLATE_ITEM.getFrom(elytraStack);
+        final @Nullable ItemStack chestItem = CHESTPLATE_ITEM.getFrom(elytraStack);
         if (chestItem != null) {
             world.dropItem(location.add(0, 1.1, 0), chestItem);
         }

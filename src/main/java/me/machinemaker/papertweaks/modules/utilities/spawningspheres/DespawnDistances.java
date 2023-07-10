@@ -25,12 +25,12 @@ interface DespawnDistances {
 
     DespawnDistances VANILLA = new DespawnDistances() {
         @Override
-        public int soft(World world) {
+        public int soft(final World world) {
             return 24;
         }
 
         @Override
-        public int hard(World world) {
+        public int hard(final World world) {
             return 128;
         }
     };

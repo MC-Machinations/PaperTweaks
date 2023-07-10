@@ -19,6 +19,10 @@
  */
 package me.machinemaker.papertweaks.modules.teleportation.homes;
 
+import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.db.dao.teleportation.homes.HomesDAO;
 import me.machinemaker.papertweaks.db.model.teleportation.homes.Home;
@@ -29,50 +33,45 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jdbi.v3.core.Jdbi;
-import org.jetbrains.annotations.NotNull;
-
-import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
 
 @ModuleInfo(name = "Homes", configPath = "teleportation.homes", description = "Players can set home locations they can teleport to")
 public class Homes extends ModuleBase {
 
-    @Override
-    protected void configure() {
-        super.configure();
-        requestStaticInjection(HomeTeleportRunnable.class);
-    }
-
-    @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
-    }
-
-    @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
-        return Set.of(Commands.class);
-    }
-
-    @Override
-    protected @NotNull Collection<Class<? extends ModuleConfig>> configs() {
-        return Set.of(Config.class);
-    }
-
-    public static void migrateHomesYmlConfig(Jdbi jdbi, Path configFile) {
+    public static void migrateHomesYmlConfig(final Jdbi jdbi, final Path configFile) {
         final HomesDAO homesDAO = jdbi.onDemand(HomesDAO.class);
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile.toFile());
-        ConfigurationSection players = config.getConfigurationSection("players");
+        final YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile.toFile());
+        final @Nullable ConfigurationSection players = config.getConfigurationSection("players");
         if (players != null) {
             players.getKeys(false).forEach(uuid -> {
-                Location location = players.getLocation(uuid + ".location");
+                final @Nullable Location location = players.getLocation(uuid + ".location");
                 if (location == null || !location.isWorldLoaded()) {
                     return;
                 }
                 homesDAO.insertHome(new Home(UUID.fromString(uuid), "home", location));
             });
         }
+    }
+
+    @Override
+    protected void configure() {
+        super.configure();
+        this.requestStaticInjection(HomeTeleportRunnable.class);
+    }
+
+    @Override
+    protected Class<? extends ModuleLifecycle> lifecycle() {
+        return Lifecycle.class;
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleCommand>> commands() {
+        return Set.of(Commands.class);
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleConfig>> configs() {
+        return Set.of(Config.class);
     }
 }

@@ -19,25 +19,23 @@
  */
 package me.machinemaker.papertweaks.modules.survival.fastleafdecay;
 
-import me.machinemaker.papertweaks.modules.ModuleBase;
-import me.machinemaker.papertweaks.annotations.ModuleInfo;
-import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import me.machinemaker.papertweaks.modules.ModuleListener;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 import java.util.Set;
+import me.machinemaker.papertweaks.annotations.ModuleInfo;
+import me.machinemaker.papertweaks.modules.ModuleBase;
+import me.machinemaker.papertweaks.modules.ModuleLifecycle;
+import me.machinemaker.papertweaks.modules.ModuleListener;
 
 @ModuleInfo(name = "FastLeafDecay", configPath = "survival.fast-leaf-decay", description = "Leaves decay much quicker after the tree has been mined")
 public class FastLeafDecay extends ModuleBase {
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(LeafListener.class);
     }
 }

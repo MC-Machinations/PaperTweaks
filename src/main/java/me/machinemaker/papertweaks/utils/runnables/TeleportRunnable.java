@@ -43,7 +43,7 @@ public abstract class TeleportRunnable extends BukkitRunnable {
 
     @Override
     public final void run() {
-        if (this.player.isDead()) {
+        if (this.player.isDead() || !this.player.isOnline()) {
             this.onEnd();
             this.cancel();
             return;

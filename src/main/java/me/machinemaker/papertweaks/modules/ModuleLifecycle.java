@@ -158,10 +158,10 @@ public abstract class ModuleLifecycle {
         Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(this.moduleRecipes.keySet()));
     }
 
-    public static class Empty extends ModuleLifecycle {
+    public static final class Empty extends ModuleLifecycle {
 
         @Inject
-        protected Empty(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes) {
+        private Empty(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes) {
             super(plugin, commands, listeners, configs, moduleRecipes);
         }
     }

@@ -22,6 +22,11 @@ package me.machinemaker.papertweaks.modules.survival.fastleafdecay;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,12 +40,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
 class LeafListener implements ModuleListener {
 
     private static final List<BlockFace> FACES = Lists.newArrayList(Arrays.stream(BlockFace.values()).filter(BlockFace::isCartesian).toList()); // mutable list due to Collections#shuffle
@@ -48,33 +47,35 @@ class LeafListener implements ModuleListener {
     private final JavaPlugin plugin;
 
     @Inject
-    LeafListener(JavaPlugin plugin) {
+    LeafListener(final JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent event) {
-        Material type = event.getBlock().getType();
+    public void onBlockBreak(final BlockBreakEvent event) {
+        final Material type = event.getBlock().getType();
         if (Tag.LOGS.isTagged(type) || Tag.LEAVES.isTagged(type)) {
-            doDecay(event.getBlock());
+            this.doDecay(event.getBlock());
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onLeavesDecay(LeavesDecayEvent event) {
-        doDecay(event.getBlock());
+    public void onLeavesDecay(final LeavesDecayEvent event) {
+        this.doDecay(event.getBlock());
     }
 
-    private void doDecay(Block block) {
+    private void doDecay(final Block block) {
         Collections.shuffle(FACES);
 
-        for (BlockFace face : FACES) {
-            Block b = block.getRelative(face);
+        for (final BlockFace face : FACES) {
+            final Block b = block.getRelative(face);
             if (SCHEDULED.contains(b)) continue;
-            if (!(b.getBlockData() instanceof Leaves leaves) || leaves.isPersistent() || leaves.getDistance() < 7) continue; // https://github.com/MC-Machinations/VanillaTweaks/issues/54, datapacks modify the #minecraft:leaves block tag
+            if (!(b.getBlockData() instanceof final Leaves leaves) || leaves.isPersistent() || leaves.getDistance() < 7) {
+                continue; // https://github.com/MC-Machinations/VanillaTweaks/issues/54, datapacks modify the #minecraft:leaves block tag
+            }
             SCHEDULED.add(b);
             Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
-                LeavesDecayEvent decayEvent = new LeavesDecayEvent(b);
+                final LeavesDecayEvent decayEvent = new LeavesDecayEvent(b);
                 Bukkit.getPluginManager().callEvent(decayEvent);
                 if (decayEvent.isCancelled()) return;
                 b.breakNaturally();

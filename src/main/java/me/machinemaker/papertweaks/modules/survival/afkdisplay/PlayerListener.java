@@ -38,8 +38,8 @@ class PlayerListener implements ModuleListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMove(final PlayerMoveEvent event) {
         if (AFKDisplay.AFK_DISPLAY.has(event.getPlayer())) {
-            event.getPlayer().setDisplayName(event.getPlayer().getName());
-            event.getPlayer().setPlayerListName(event.getPlayer().getName());
+            event.getPlayer().displayName(null);
+            event.getPlayer().playerListName(null);
             AFKDisplay.AFK_DISPLAY.remove(event.getPlayer());
             this.afkRunnable.addPlayer(event.getPlayer());
         }

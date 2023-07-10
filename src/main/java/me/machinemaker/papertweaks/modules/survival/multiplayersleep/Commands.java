@@ -40,7 +40,11 @@ import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.JoinConfiguration.separator;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 @ModuleCommand.Info(value = "multiplayersleep", aliases = {"mpsleep", "mps"}, i18n = "multiplayer-sleep", perm = "multiplayersleep")
 class Commands extends ConfiguredModuleCommand {
@@ -66,43 +70,47 @@ class Commands extends ConfiguredModuleCommand {
         final Command.Builder<CommandDispatcher> builder = this.player();
         final Command.Builder<CommandDispatcher> configBuilder = this.literal(builder, "config");
 
-        this.manager
-            .command(this.literal(builder, "sleeping")
+        this.register(
+            this.literal(builder, "sleeping")
                 .handler(context -> {
                     final World world = PlayerCommandDispatcher.from(context).getWorld();
                     final SleepContext sleepContext = MultiplayerSleep.SLEEP_CONTEXT_MAP.computeIfAbsent(world.getUID(), uuid -> SleepContext.from(world));
                     final Component fullyAsleep;
                     if (!sleepContext.sleepingPlayers().isEmpty()) {
-                        fullyAsleep = join(separator(text(", ", WHITE)), sleepContext.sleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
+                        fullyAsleep = join(separator(text(", ", WHITE)), sleepContext.sleepingPlayers().stream().map(Player::displayName).toList());
                     } else {
                         fullyAsleep = translatable("modules.multiplayer-sleep.commands.sleeping.fully-asleep.empty", RED);
                     }
                     final Component almostAsleep;
                     if (!sleepContext.almostSleepingPlayers().isEmpty()) {
-                        almostAsleep = join(separator(text(", ", WHITE)), sleepContext.almostSleepingPlayers().stream().map(p -> text(p.getDisplayName())).toList());
+                        almostAsleep = join(separator(text(", ", WHITE)), sleepContext.almostSleepingPlayers().stream().map(Player::displayName).toList());
                     } else {
                         almostAsleep = translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep.empty", RED);
                     }
                     context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.fully-asleep", GREEN, fullyAsleep));
                     context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep", YELLOW, almostAsleep));
                 })
-            ).command(configBuilder
-                .handler(this.menu::send)
-            ).command(configBuilder.hidden()
-                .literal("preview_display")
-                .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
-                .handler(context -> {
-                    context.<Settings.DisplaySetting>get("displaySetting").preview(PlayerCommandDispatcher.from(context));
-                })
-            ).command(configBuilder.hidden()
-                .argument(SettingArgument.playerSettings(this.settings.index()))
-                .handler(context -> {
-                    final SettingArgument.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
-                    final Player player = PlayerCommandDispatcher.from(context);
-                    change.apply(player);
-                    this.menu.send(context);
-                })
-            ).command(SettingArgument.resetPlayerSettings(configBuilder, "modules.multiplayer-sleep.commands.config.reset", this.settings));
+        );
+        this.register(configBuilder.handler(this.menu::send));
+        this.register(configBuilder
+            .hidden()
+            .literal("preview_display")
+            .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
+            .handler(context -> {
+                context.<Settings.DisplaySetting>get("displaySetting").preview(PlayerCommandDispatcher.from(context));
+            })
+        );
+        this.register(configBuilder
+            .hidden()
+            .argument(SettingArgument.playerSettings(this.settings.index()))
+            .handler(context -> {
+                final SettingArgument.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
+                final Player player = PlayerCommandDispatcher.from(context);
+                change.apply(player);
+                this.menu.send(context);
+            })
+        );
+        this.register(SettingArgument.resetPlayerSettings(configBuilder, "modules.multiplayer-sleep.commands.config.reset", this.settings));
         // TODO if set to action bar or boss bar, don't wait for SleepContext#recalculate to send notifications
 
         this.config.createCommands(this, builder);

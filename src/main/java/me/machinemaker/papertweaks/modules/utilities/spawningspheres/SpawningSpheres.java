@@ -19,16 +19,14 @@
  */
 package me.machinemaker.papertweaks.modules.utilities.spawningspheres;
 
+import java.util.Collection;
+import java.util.Set;
 import me.machinemaker.papertweaks.LoggerFactory;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.Collection;
-import java.util.Set;
 
 @ModuleInfo(name = "SpawningSpheres", configPath = "utilities.spawning-spheres", description = "Create marker spheres for showing spawning distances")
 public class SpawningSpheres extends ModuleBase {
@@ -36,12 +34,12 @@ public class SpawningSpheres extends ModuleBase {
     static final Logger LOGGER = LoggerFactory.getModuleLogger(SpawningSpheres.class);
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return ModuleLifecycle.Empty.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleCommand>> commands() {
+    protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
     }
 }

@@ -37,41 +37,41 @@ class MobListener implements ModuleListener {
     private final Config config;
 
     @Inject
-    MobListener(Config config) {
+    MobListener(final Config config) {
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityChangeBlockEvent(EntityChangeBlockEvent event) {
-        if (config.antiEndermanGrief && event.getEntity() instanceof Enderman) {
+    public void onEntityChangeBlockEvent(final EntityChangeBlockEvent event) {
+        if (this.config.antiEndermanGrief && event.getEntity() instanceof Enderman) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (config.antiCreeperGrief && config.disableEntityDamage && event.getEntity() instanceof Creeper creeper) {
+    public void onCreatureSpawn(final CreatureSpawnEvent event) {
+        if (this.config.antiCreeperGrief && this.config.disableEntityDamage && event.getEntity() instanceof final Creeper creeper) {
             creeper.setExplosionRadius(0);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onExplosionPrime(ExplosionPrimeEvent event) {
-        if (config.antiCreeperGrief && config.disableEntityDamage && event.getEntity() instanceof Creeper creeper) {
+    public void onExplosionPrime(final ExplosionPrimeEvent event) {
+        if (this.config.antiCreeperGrief && this.config.disableEntityDamage && event.getEntity() instanceof final Creeper creeper) {
             creeper.setExplosionRadius(0);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityExplode(EntityExplodeEvent event) {
-        if (config.antiGhastGrief && event.getEntity() instanceof Fireball fireball && fireball.getShooter() instanceof Ghast) {
-            if (config.disableEntityDamage) {
+    public void onEntityExplode(final EntityExplodeEvent event) {
+        if (this.config.antiGhastGrief && event.getEntity() instanceof final Fireball fireball && fireball.getShooter() instanceof Ghast) {
+            if (this.config.disableEntityDamage) {
                 event.setCancelled(true);
             } else {
                 event.blockList().clear();
             }
         }
-        if (event.getEntity() instanceof Creeper && config.antiCreeperGrief && !config.disableEntityDamage) {
+        if (event.getEntity() instanceof Creeper && this.config.antiCreeperGrief && !this.config.disableEntityDamage) {
             event.blockList().clear();
         }
     }

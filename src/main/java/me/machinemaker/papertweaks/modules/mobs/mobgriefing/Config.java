@@ -36,7 +36,7 @@ class Config extends ModuleConfig {
     public boolean antiGhastGrief = Boolean.parseBoolean(System.getProperty(ModulesFileMigrations.MOB_GRIEFING_GHAST, Boolean.FALSE.toString()));
 
     @Key("anti-creeper-grief")
-    public boolean antiCreeperGrief = Boolean.parseBoolean(System.getProperty(ModulesFileMigrations.MOB_GRIEFING_CREEPER, Boolean.FALSE.toString()));;
+    public boolean antiCreeperGrief = Boolean.parseBoolean(System.getProperty(ModulesFileMigrations.MOB_GRIEFING_CREEPER, Boolean.FALSE.toString()));
 
     @Key("disable-entity-damage")
     @Description("When enabled both block and entity damage will be cancelled for creeper and ghast fireball explosions. Disable to turn on entity damage for those explosions")

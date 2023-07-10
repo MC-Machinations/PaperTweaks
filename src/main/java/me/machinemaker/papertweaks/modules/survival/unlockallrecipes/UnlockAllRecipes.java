@@ -19,8 +19,12 @@
  */
 package me.machinemaker.papertweaks.modules.survival.unlockallrecipes;
 
-import me.machinemaker.papertweaks.modules.ModuleBase;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
+import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.utils.Cacheable;
@@ -29,12 +33,6 @@ import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Recipe;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @ModuleInfo(name = "UnlockAllRecipes", configPath = "survival.unlock-all-recipes", description = "Unlocks all recipes for all players by default")
 public class UnlockAllRecipes extends ModuleBase {
@@ -44,8 +42,8 @@ public class UnlockAllRecipes extends ModuleBase {
         return StreamSupport.stream(iterable.spliterator(), false).filter(Keyed.class::isInstance).map(Keyed.class::cast).map(Keyed::getKey).collect(Collectors.toSet());
     }, 1000 * 60 * 5); // 5 minutes
 
-    void discoverAllRecipes(HumanEntity humanEntity) {
-        humanEntity.discoverRecipes(recipes.get());
+    void discoverAllRecipes(final HumanEntity humanEntity) {
+        humanEntity.discoverRecipes(this.recipes.get());
     }
 
     Cacheable<Collection<NamespacedKey>> getRecipeCache() {
@@ -53,12 +51,12 @@ public class UnlockAllRecipes extends ModuleBase {
     }
 
     @Override
-    protected @NotNull Class<? extends ModuleLifecycle> lifecycle() {
+    protected Class<? extends ModuleLifecycle> lifecycle() {
         return Lifecycle.class;
     }
 
     @Override
-    protected @NotNull Collection<Class<? extends ModuleListener>> listeners() {
+    protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(PlayerListener.class);
     }
 }

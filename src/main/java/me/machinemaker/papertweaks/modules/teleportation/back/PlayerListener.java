@@ -30,12 +30,12 @@ class PlayerListener implements ModuleListener {
     private final Config config;
 
     @Inject
-    PlayerListener(Config config) {
+    PlayerListener(final Config config) {
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlayerDeath(PlayerDeathEvent event) {
+    public void onPlayerDeath(final PlayerDeathEvent event) {
         if (this.config.saveDeathLocation) {
             Back.setBackLocation(event.getEntity(), event.getEntity().getLocation());
         }

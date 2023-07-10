@@ -35,19 +35,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @param <C> sender type
  */
-public interface CommandCooldown<C> {
+public interface CommandCooldown<C> extends Command.Builder.Applicable<C> {
 
     CommandMeta.Key<CommandCooldown<?>> COMMAND_META_KEY = CommandMeta.Key.of(new TypeToken<>() {}, "papertweaks:command_cooldown");
-
-    /**
-     * Apply this {@link CommandCooldown} to a {@link Command.Builder} instance.
-     *
-     * @param builder command builder
-     * @return modified copy of builder
-     */
-    default Command.Builder<C> applyTo(final Command.Builder<C> builder) {
-        return builder.meta(COMMAND_META_KEY, this);
-    }
 
     /**
      * Get the {@link CloudKey} for this cooldown.

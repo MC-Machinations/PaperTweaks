@@ -21,6 +21,8 @@ package me.machinemaker.papertweaks.modules.teleportation.back;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import java.util.Map;
+import java.util.UUID;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.utils.runnables.TeleportRunnable;
@@ -29,23 +31,20 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class BackTeleportRunnable extends TeleportRunnable {
 
-    @Inject private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
-    @Inject private static Plugin plugin;
-    private static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
-
+    static final Map<UUID, BukkitTask> AWAITING_TELEPORT = Maps.newHashMap();
+    @Inject
+    private static CommandCooldownManager<CommandDispatcher, UUID> cooldownManager;
+    @Inject
+    private static Plugin plugin;
     private final Audience audience;
 
-    protected BackTeleportRunnable(@NotNull Player player, @NotNull Location teleportLoc, long tickDelay, Audience audience) {
+    protected BackTeleportRunnable(final Player player, final Location teleportLoc, final long tickDelay, final Audience audience) {
         super(player, teleportLoc, tickDelay);
         this.audience = audience;
     }
