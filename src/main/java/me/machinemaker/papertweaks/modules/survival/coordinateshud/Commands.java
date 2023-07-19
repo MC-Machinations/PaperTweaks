@@ -19,12 +19,19 @@
  */
 package me.machinemaker.papertweaks.modules.survival.coordinateshud;
 
+import cloud.commandframework.bukkit.arguments.selector.MultiplePlayerSelector;
+import cloud.commandframework.bukkit.parsers.selector.MultiplePlayerSelectorArgument;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 
+import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.Style.style;
+import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 
 @ModuleCommand.Info(value = "togglehud", aliases = "thud", descriptionKey = "modules.coordinates-hud.commands", infoOnRoot = false)
 class Commands extends ModuleCommand {
@@ -49,6 +56,24 @@ class Commands extends ModuleCommand {
                     this.hudRunnable.setAndAdd(player);
                     context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", GREEN));
                 }
+            }))
+        );
+
+        this.register(this.builder()
+            .literal("player")
+            .argument(MultiplePlayerSelectorArgument.of("players"))
+            .permission(this.modulePermission("vanillatweaks.coordinateshud.togglehud.others"))
+            .handler(this.sync(context -> {
+                final MultiplePlayerSelector players = context.get("players");
+                for (final Player player : players.getPlayers()) {
+                    if (this.hudRunnable.contains(player)) {
+                        this.hudRunnable.setAndRemove(player);
+                        player.sendActionBar(Component.empty());
+                    } else {
+                        this.hudRunnable.setAndAdd(player);
+                    }
+                }
+                context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-toggled-for", style(GRAY, ITALIC), text(players.getPlayers().size())));
             }))
         );
     }

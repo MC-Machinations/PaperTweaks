@@ -68,6 +68,9 @@ permissions:
   vanillatweaks.coordinateshud.togglehud:
     default: true
     description: Toggle HUD
+  vanillatweaks.coordinateshud.togglehud.others:
+    default: op
+    description: Toggle HUD for other players
 
   vanillatweaks.durabilityping.config:
     default: true
