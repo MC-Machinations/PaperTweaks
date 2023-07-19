@@ -46,7 +46,7 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     }
 
     public static Player from(final CommandContext<?> context) {
-        if (context.getSender() instanceof PlayerCommandDispatcher playerCommandDispatcher) {
+        if (context.getSender() instanceof final PlayerCommandDispatcher playerCommandDispatcher) {
             return playerCommandDispatcher.sender();
         }
         throw new IllegalArgumentException("Not a PlayerCommandDispatcher");

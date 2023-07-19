@@ -86,7 +86,7 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
             .handler(context -> {
                 final Player player = PlayerCommandDispatcher.from(context);
                 for (final S setting : settings.index().values()) {
-                    if (setting instanceof PlayerSetting<?> playerSetting) {
+                    if (setting instanceof final PlayerSetting<?> playerSetting) {
                         playerSetting.reset(player);
                     }
                 }
@@ -125,7 +125,10 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         }
     }
 
-    record SettingParser<C, S extends Setting<?, C>>(Map<String, S> settings, CloudKey<S> key, boolean hideSuggestions) implements ArgumentParser<CommandDispatcher, S> {
+    record SettingParser<C, S extends Setting<?, C>>(
+        Map<String, S> settings, CloudKey<S> key,
+        boolean hideSuggestions
+    ) implements ArgumentParser<CommandDispatcher, S> {
 
         @Override
         public ArgumentParseResult<S> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
@@ -152,7 +155,10 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
         }
     }
 
-    record SettingValueParser<C, S extends Setting<?, C>>(SettingParser<C, S> settingParser, CloudKey<S> key) implements ArgumentParser<CommandDispatcher, Object> {
+    record SettingValueParser<C, S extends Setting<?, C>>(
+        SettingParser<C, S> settingParser,
+        CloudKey<S> key
+    ) implements ArgumentParser<CommandDispatcher, Object> {
 
         @SuppressWarnings("unchecked")
         @Override

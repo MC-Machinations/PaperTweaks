@@ -19,12 +19,11 @@
  */
 package me.machinemaker.papertweaks.integrations;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public final class Interactions {
 
@@ -33,11 +32,11 @@ public final class Interactions {
     private Interactions() {
     }
 
-    public static void registerHandler(Handler handler) {
+    public static void registerHandler(final Handler handler) {
         HANDLERS.add(handler);
     }
 
-    public static boolean isAllowedInteraction(@NotNull Player player, @NotNull Block clickedBlock) {
+    public static boolean isAllowedInteraction(final @NotNull Player player, final @NotNull Block clickedBlock) {
         return HANDLERS.stream().allMatch(handler -> handler.checkBlock(player, clickedBlock));
     }
 

@@ -24,7 +24,6 @@ import java.util.UUID;
 import me.machinemaker.papertweaks.utils.PTUtils;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.jetbrains.annotations.NotNull;
 
 public class PlayerSkull {
 
@@ -35,17 +34,17 @@ public class PlayerSkull {
         this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), gameProfileName, uuid, texture, count != null ? count : 1);
     }
 
-    public @NotNull ItemStack cloneWithAmount(final int amount) {
+    public ItemStack cloneWithAmount(final int amount) {
         final ItemStack clone = this.skull.clone();
         clone.setAmount(amount);
         return clone;
     }
 
-    public @NotNull ItemStack cloneSingle() {
+    public ItemStack cloneSingle() {
         return this.cloneWithAmount(1);
     }
 
-    public @NotNull ItemStack cloneOriginal() {
+    public ItemStack cloneOriginal() {
         return this.skull.clone();
     }
 }

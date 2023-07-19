@@ -43,13 +43,7 @@ public class HomeArgument extends CommandArgument<CommandDispatcher, Home> {
         super(required, name, new Parser(homesDAO), "home", Home.class, null, RichDescription.translatable("modules.homes.commands.arguments.home"));
     }
 
-    private static final class Parser implements ArgumentParser<CommandDispatcher, Home> {
-
-        private final HomesDAO homesDAO;
-
-        private Parser(final HomesDAO homesDAO) {
-            this.homesDAO = homesDAO;
-        }
+    private record Parser(HomesDAO homesDAO) implements ArgumentParser<CommandDispatcher, Home> {
 
         @Override
         public ArgumentParseResult<Home> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
@@ -71,7 +65,7 @@ public class HomeArgument extends CommandArgument<CommandDispatcher, Home> {
 
         @Override
         public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
-            if (commandContext.getSender() instanceof PlayerCommandDispatcher playerCommandDispatcher) {
+            if (commandContext.getSender() instanceof final PlayerCommandDispatcher playerCommandDispatcher) {
                 return List.copyOf(this.homesDAO.getHomesForPlayer(playerCommandDispatcher.getUUID()).keySet());
             }
             return Collections.emptyList();

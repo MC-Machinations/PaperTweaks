@@ -43,7 +43,7 @@ public class EnumMenuOption<E extends Enum<E>, S> extends MenuOption<E, S> imple
         return new Builder<>(translatable(labelKey), typeMapper, setting);
     }
 
-    public static <E extends Enum<E>, S> Builder<E, S> builder(final String labelKey, final Setting<E, S> setting) {
+    public static <E extends Enum<E>, S> Builder<E, S> builder(final String labelKey, final Setting<E, ? super S> setting) {
         return new Builder<>(translatable(labelKey), setting::getOrDefault, setting);
     }
 

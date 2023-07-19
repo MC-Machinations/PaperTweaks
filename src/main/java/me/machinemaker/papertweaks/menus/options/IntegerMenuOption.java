@@ -46,7 +46,7 @@ public class IntegerMenuOption<S> extends NumberMenuOption<Integer, S> implement
         return new Builder<>(translatable(labelKey), typeMapper, setting);
     }
 
-    public static <S> Builder<S> builder(final String labelKey, final Setting<Integer, S> setting) {
+    public static <S> Builder<S> builder(final String labelKey, final Setting<Integer, ? super S> setting) {
         return new Builder<>(translatable(labelKey), setting::getOrDefault, setting);
     }
 

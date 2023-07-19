@@ -19,13 +19,11 @@
  */
 package me.machinemaker.papertweaks.integrations;
 
-import org.jetbrains.annotations.NotNull;
-
 public abstract class AbstractIntegration {
 
     public abstract void register();
 
-    public abstract @NotNull String className();
+    public abstract String className();
 
-    public abstract @NotNull String name();
+    public abstract String name();
 }

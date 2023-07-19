@@ -22,18 +22,16 @@ package me.machinemaker.papertweaks.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
-import me.machinemaker.lectern.ConfigurationNode;
-import me.machinemaker.lectern.YamlConfiguration;
-import me.machinemaker.lectern.annotations.Configuration;
-import me.machinemaker.lectern.contexts.InvalidKeyHandler;
-import me.machinemaker.lectern.supplier.ConfigurationSupplier;
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.file.Path;
+import me.machinemaker.lectern.ConfigurationNode;
+import me.machinemaker.lectern.YamlConfiguration;
+import me.machinemaker.lectern.annotations.Configuration;
+import me.machinemaker.lectern.contexts.InvalidKeyHandler;
+import me.machinemaker.lectern.supplier.ConfigurationSupplier;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -44,8 +42,8 @@ public @interface VTConfig {
 
     class VanillaTweaksConfigSupplier implements ConfigurationSupplier<VTConfig> {
         @Override
-        public @NotNull ConfigurationNode createConfiguration(@NotNull Path parentDir, @NotNull VTConfig annotation) {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER).enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        public ConfigurationNode createConfiguration(final Path parentDir, final VTConfig annotation) {
+            final ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER).enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
             Mixins.registerMixins(mapper);
             return YamlConfiguration.builder(parentDir.resolve(annotation.fileName())).withYamlMapper(mapper).withInvalidKeyHandler(InvalidKeyHandler.Preset.SILENT).build();
         }

@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
 import me.machinemaker.papertweaks.PaperTweaks;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -34,14 +35,12 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.loot.LootTables;
 
-import java.io.IOException;
-
 public final class Mixins {
 
     private Mixins() {
     }
 
-    public static ObjectMapper registerMixins(ObjectMapper mapper) {
+    public static ObjectMapper registerMixins(final ObjectMapper mapper) {
         mapper.addMixIn(NamespacedKey.class, NamespaceKey.class);
         mapper.addMixIn(Material.class, MaterialMixIn.class);
         mapper.addMixIn(EntityType.class, EntityTypeMixIn.class);
@@ -56,12 +55,14 @@ public final class Mixins {
         public abstract NamespacedKey getKey();
 
     }
+
     public abstract static class KeyedField {
 
         @JsonValue
         private NamespacedKey key;
 
     }
+
     public abstract static class NamespaceKey {
 
         @JsonValue
@@ -74,8 +75,8 @@ public final class Mixins {
 
         static class Deserializer extends JsonDeserializer<Material> {
             @Override
-            public Material deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-                String value = p.getValueAsString();
+            public Material deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
+                final String value = p.getValueAsString();
                 final Material material = Material.matchMaterial(value);
                 if (material == null) {
                     throw ctxt.weirdStringException(value, Material.class, "not one of the values accepted for Material enum class");
@@ -90,9 +91,9 @@ public final class Mixins {
 
         static class Deserializer extends JsonDeserializer<EntityType> {
             @Override
-            public EntityType deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-                String value = p.getValueAsString();
-                NamespacedKey key = ctxt.readValue(p, NamespacedKey.class);
+            public EntityType deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
+                final String value = p.getValueAsString();
+                final NamespacedKey key = ctxt.readValue(p, NamespacedKey.class);
                 if (key != null) {
                     final EntityType type = Registry.ENTITY_TYPE.get(key);
                     if (type != null) {
@@ -112,12 +113,12 @@ public final class Mixins {
 
         static class Deserializer extends JsonDeserializer<World> {
             @Override
-            public World deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+            public World deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
                 String value = p.getValueAsString();
                 if (PaperTweaks.RAN_CONFIG_MIGRATIONS && value.equals("world") && !Bukkit.getWorlds().get(0).getName().equals("world")) {
                     value = Bukkit.getWorlds().get(0).getName();
                 }
-                World world = Bukkit.getWorld(value);
+                final World world = Bukkit.getWorld(value);
                 if (world != null) {
                     return world;
                 }

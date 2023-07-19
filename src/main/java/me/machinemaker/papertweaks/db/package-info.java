@@ -20,4 +20,8 @@
 /**
  * Database configuration for PaperTweaks
  */
+@DefaultQualifier(NonNull.class)
 package me.machinemaker.papertweaks.db;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

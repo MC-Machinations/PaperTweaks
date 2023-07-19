@@ -39,6 +39,8 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleManager;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static java.util.Objects.requireNonNull;
+
 public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBase> {
 
     private static final String ARGUMENT_NAME = "module";
@@ -66,7 +68,7 @@ public class ModuleArgument extends CommandArgument<CommandDispatcher, ModuleBas
 
         @Override
         public ArgumentParseResult<ModuleBase> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
-            final @Nullable String input = inputQueue.peek();
+            final String input = requireNonNull(inputQueue.peek());
             final Optional<ModuleLifecycle> lifecycle = this.manager.getLifecycle(input);
             if (lifecycle.isEmpty()) {
                 return ArgumentParseResult.failure(new IllegalArgumentException(input + " is not a valid module")); // TODO lang

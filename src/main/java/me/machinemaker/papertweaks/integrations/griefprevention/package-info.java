@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2023 Machine_Maker
+ * Copyright (C) 2023 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,30 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * GriefPrevention integrations
+ */
+@DefaultQualifier(NonNull.class)
 package me.machinemaker.papertweaks.integrations.griefprevention;
 
-import me.machinemaker.papertweaks.integrations.AbstractIntegration;
-import me.machinemaker.papertweaks.integrations.Interactions;
-
-public class GPIntegration extends AbstractIntegration {
-
-    public static final GPIntegration INSTANCE = new GPIntegration();
-
-    private GPIntegration() {
-    }
-
-    @Override
-    public void register() {
-        Interactions.registerHandler(new GPInteractionHandler());
-    }
-
-    @Override
-    public String className() {
-        return "me.ryanhamshire.GriefPrevention.GriefPrevention";
-    }
-
-    @Override
-    public String name() {
-        return "GriefPrevention";
-    }
-}
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

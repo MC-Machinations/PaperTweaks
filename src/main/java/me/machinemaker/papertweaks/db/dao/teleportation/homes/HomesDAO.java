@@ -32,6 +32,7 @@ import java.util.UUID;
 @RegisterConstructorMapper(Home.class)
 public interface HomesDAO {
 
+    @SuppressWarnings("CollectionDeclaredAsConcreteClass") // needed for jdbi
     @KeyColumn("name")
     @SqlQuery("SELECT * FROM homes WHERE player = :playerUUID ORDER BY id")
     LinkedHashMap<String, Home> getHomesForPlayer(UUID playerUUID);

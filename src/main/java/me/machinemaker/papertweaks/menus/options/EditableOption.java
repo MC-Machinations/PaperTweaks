@@ -21,12 +21,15 @@ package me.machinemaker.papertweaks.menus.options;
 
 import me.machinemaker.papertweaks.menus.parts.Labelled;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.event.HoverEvent.showText;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 
 public interface EditableOption<T> extends Labelled, ClickableOption<T> {
 
@@ -39,7 +42,7 @@ public interface EditableOption<T> extends Labelled, ClickableOption<T> {
 
     @Override
     default Component createClickHoverComponent(final T selected) {
-        final var builder = translatable().key("commands.config.editable").color(GRAY).args(this.label().color(WHITE));
+        final TranslatableComponent.Builder builder = translatable().key("commands.config.editable").color(GRAY).args(this.label().color(WHITE));
         if (this.extendedDescription() != Component.empty()) {
             builder.append(newline()).append(this.extendedDescription().color(GRAY));
         }

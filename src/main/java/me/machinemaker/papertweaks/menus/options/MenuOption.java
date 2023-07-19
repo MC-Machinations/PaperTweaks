@@ -38,7 +38,7 @@ public abstract class MenuOption<T, S> implements MenuPart<S>, Option {
     private final Component extendedDescription;
     private final @Nullable Function<T, ClickEvent> previewAction;
 
-    protected MenuOption(final Component label, final Function<S, T> typeMapper, final Setting<T, ?> setting, final Component extendedDescription, @Nullable final Function<T, ClickEvent> previewAction) {
+    protected MenuOption(final Component label, final Function<S, T> typeMapper, final Setting<T, ?> setting, final Component extendedDescription, final @Nullable Function<T, ClickEvent> previewAction) {
         this.label = label;
         this.typeMapper = typeMapper;
         this.setting = setting;

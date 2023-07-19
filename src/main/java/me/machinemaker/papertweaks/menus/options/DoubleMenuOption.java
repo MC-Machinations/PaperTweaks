@@ -46,7 +46,7 @@ public class DoubleMenuOption<S> extends NumberMenuOption<Double, S> implements 
         return new Builder<>(translatable(labelKey), typeMapper, setting);
     }
 
-    public static <S> Builder<S> builder(final String labelKey, final Setting<Double, S> setting) {
+    public static <S> Builder<S> builder(final String labelKey, final Setting<Double, ? super S> setting) {
         return new Builder<>(translatable(labelKey), setting::getOrDefault, setting);
     }
 

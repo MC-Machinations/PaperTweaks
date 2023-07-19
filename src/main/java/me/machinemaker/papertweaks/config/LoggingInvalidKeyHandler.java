@@ -21,7 +21,6 @@ package me.machinemaker.papertweaks.config;
 
 import me.machinemaker.lectern.contexts.InvalidKeyHandler;
 import me.machinemaker.lectern.contexts.LoadContext;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 public class LoggingInvalidKeyHandler implements InvalidKeyHandler {
@@ -33,7 +32,7 @@ public class LoggingInvalidKeyHandler implements InvalidKeyHandler {
     }
 
     @Override
-    public void handleInvalidKey(@NotNull final String key, @NotNull final LoadContext context) {
+    public void handleInvalidKey(final String key, final LoadContext context) {
         this.logger.error("{} is an invalid key for file {}", key, context.root().file());
     }
 }

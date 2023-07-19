@@ -42,7 +42,7 @@ public class SelectableEnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extend
         return new Builder<>(classOfE, labelKey, typeMapper, setting);
     }
 
-    public static <E extends Enum<E> & MenuEnum<E>, S> Builder<E, S> builder(final Class<E> classOfE, final String labelKey, final Setting<E, S> setting) {
+    public static <E extends Enum<E> & MenuEnum<E>, S> Builder<E, S> builder(final Class<E> classOfE, final String labelKey, final Setting<E, ? super S> setting) {
         return builder(classOfE, labelKey, setting::getOrDefault, setting);
     }
 
@@ -50,7 +50,7 @@ public class SelectableEnumMenuOption<E extends Enum<E> & MenuEnum<E>, S> extend
         return builder(classOfE, labelKey, typeMapper, setting).build();
     }
 
-    public static <E extends Enum<E> & MenuEnum<E>, S> SelectableEnumMenuOption<E, S> of(final Class<E> classOfE, final String labelKey, final Setting<E, S> setting) {
+    public static <E extends Enum<E> & MenuEnum<E>, S> SelectableEnumMenuOption<E, S> of(final Class<E> classOfE, final String labelKey, final Setting<E, ? super S> setting) {
         return of(classOfE, labelKey, setting::getOrDefault, setting);
     }
 

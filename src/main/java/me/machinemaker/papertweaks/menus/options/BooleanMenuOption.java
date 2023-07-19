@@ -53,15 +53,15 @@ public class BooleanMenuOption<S> extends MenuOption<Boolean, S> implements Togg
         return new Builder<>(translatable(labelKey), typeMapper, setting);
     }
 
-    public static <S> BooleanMenuOption<S> of(final String labelKey, final Setting<Boolean, S> setting) {
+    public static <S> BooleanMenuOption<S> of(final String labelKey, final Setting<Boolean, ? super S> setting) {
         return of(labelKey, setting::getOrDefault, setting);
     }
 
-    public static <S> Builder<S> newBuilder(final Component label, final Setting<Boolean, S> setting) {
+    public static <S> Builder<S> newBuilder(final Component label, final Setting<Boolean, ? super S> setting) {
         return newBuilder(label, setting::getOrDefault, setting);
     }
 
-    public static <S> Builder<S> newBuilder(final String labelKey, final Setting<Boolean, S> setting) {
+    public static <S> Builder<S> newBuilder(final String labelKey, final Setting<Boolean, ? super S> setting) {
         return newBuilder(translatable(labelKey), setting::getOrDefault, setting);
     }
 

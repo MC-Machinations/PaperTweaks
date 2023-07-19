@@ -20,6 +20,8 @@
 package me.machinemaker.papertweaks.db.model.teleportation.homes;
 
 import com.google.common.base.Preconditions;
+import java.util.Objects;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -27,21 +29,18 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jdbi.v3.core.annotation.Unmappable;
 import org.jdbi.v3.core.mapper.reflect.JdbiConstructor;
 
-import java.util.Objects;
-import java.util.UUID;
-
 public class Home {
 
     private final long id;
     private final UUID player;
-    private String name;
     private final UUID world;
     private final int x;
     private final int y;
     private final int z;
+    private String name;
 
     @JdbiConstructor
-    public Home(long id, UUID player, UUID world, String name, int x, int y, int z) {
+    public Home(final long id, final UUID player, final UUID world, final String name, final int x, final int y, final int z) {
         this.id = id;
         this.player = player;
         this.name = name;
@@ -51,7 +50,7 @@ public class Home {
         this.z = z;
     }
 
-    public Home(UUID player, String name, Location location) {
+    public Home(final UUID player, final String name, final Location location) {
         Preconditions.checkArgument(location.getWorld() != null, "location must have a world");
         this.id = -1;
         this.player = player;
@@ -63,40 +62,40 @@ public class Home {
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public UUID getPlayer() {
-        return player;
+        return this.player;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     public UUID getWorld() {
-        return world;
+        return this.world;
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public int getZ() {
-        return z;
+        return this.z;
     }
 
     @Unmappable
     public @Nullable Location getLocation() {
-        World world = Bukkit.getWorld(this.world);
+        final @Nullable World world = Bukkit.getWorld(this.world);
         if (world != null) {
             return new Location(world, this.x, this.y, this.z);
         }
@@ -104,28 +103,28 @@ public class Home {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Home home = (Home) o;
-        return id == home.id && x == home.x && y == home.y && z == home.z && player.equals(home.player) && name.equals(home.name) && world.equals(home.world);
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final Home home = (Home) o;
+        return this.id == home.id && this.x == home.x && this.y == home.y && this.z == home.z && this.player.equals(home.player) && this.name.equals(home.name) && this.world.equals(home.world);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, player, name, world, x, y, z);
+        return Objects.hash(this.id, this.player, this.name, this.world, this.x, this.y, this.z);
     }
 
     @Override
     public String toString() {
         return "Home{" +
-                "id=" + id +
-                ", player=" + player +
-                ", name='" + name + '\'' +
-                ", world=" + world +
-                ", x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                '}';
+            "id=" + this.id +
+            ", player=" + this.player +
+            ", name='" + this.name + '\'' +
+            ", world=" + this.world +
+            ", x=" + this.x +
+            ", y=" + this.y +
+            ", z=" + this.z +
+            '}';
     }
 }

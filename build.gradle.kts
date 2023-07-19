@@ -142,7 +142,7 @@ tasks {
         }
 
         listOf(
-//            "cloud.commandframework", // cloud
+            "cloud.commandframework", // cloud
             "com.fasterxml.jackson", // jackson
             "com.github.benmanes", // caffeine
             "com.google.inject", // guice

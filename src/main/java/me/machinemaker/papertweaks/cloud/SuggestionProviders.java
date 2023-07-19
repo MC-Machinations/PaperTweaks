@@ -42,7 +42,7 @@ public final class SuggestionProviders {
 
     public static BiFunction<CommandContext<CommandDispatcher>, String, List<String>> playersWithoutSelf() {
         return (context, s) -> {
-            if (context.getSender().sender() instanceof Player player) {
+            if (context.getSender().sender() instanceof final Player player) {
                 return DUMMY_PLAYER_PARSER.suggestions(context, s).stream().filter(name -> !name.equals(player.getName())).toList();
             }
             return DUMMY_PLAYER_PARSER.suggestions(context, s);

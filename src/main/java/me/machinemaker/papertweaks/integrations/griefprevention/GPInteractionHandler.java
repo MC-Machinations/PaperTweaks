@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.integrations.griefprevention;
 
+import java.util.Objects;
 import me.machinemaker.papertweaks.integrations.Interactions;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.DataStore;
@@ -29,20 +30,19 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class GPInteractionHandler implements Interactions.Handler {
 
     private static final GriefPrevention PLUGIN = Objects.requireNonNull(GriefPrevention.instance, "Could not find the instance of the GriefPrevention plugin");
     private static final DataStore DATA_STORE = Objects.requireNonNull(PLUGIN.dataStore, "Could not find the GriefPrevention dataStore");
 
+    @SuppressWarnings("deprecation") // GP api uses ChatColor
     @Override
-    public boolean checkBlock(@NotNull Player player, @NotNull Block clickedBlock) {
+    public boolean checkBlock(final @NotNull Player player, final @NotNull Block clickedBlock) {
         final PlayerData playerData = DATA_STORE.getPlayerData(player.getUniqueId());
         final Claim claim = DATA_STORE.getClaimAt(clickedBlock.getLocation(), false, playerData.lastClaim);
         if (claim != null) {
             playerData.lastClaim = claim;
-            String noAccessReason = claim.allowAccess(player);
+            final String noAccessReason = claim.allowAccess(player);
             if (noAccessReason != null) {
                 GriefPrevention.sendMessage(player, /*TextMode.Err*/ ChatColor.RED, noAccessReason);
                 return false;

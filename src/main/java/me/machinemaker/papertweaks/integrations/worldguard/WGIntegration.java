@@ -21,7 +21,6 @@ package me.machinemaker.papertweaks.integrations.worldguard;
 
 import me.machinemaker.papertweaks.integrations.AbstractIntegration;
 import me.machinemaker.papertweaks.integrations.Interactions;
-import org.jetbrains.annotations.NotNull;
 
 public final class WGIntegration extends AbstractIntegration {
 
@@ -36,12 +35,11 @@ public final class WGIntegration extends AbstractIntegration {
     }
 
     @Override
-    public @NotNull String className() {
+    public String className() {
         return "com.sk89q.worldguard.WorldGuard";
     }
 
     @Override
-    @NotNull
     public String name() {
         return "WorldGuard";
     }

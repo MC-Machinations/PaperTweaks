@@ -24,14 +24,12 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import java.util.Objects;
 import me.machinemaker.papertweaks.integrations.Interactions;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class WGInteractionHandler implements Interactions.Handler {
 
@@ -40,13 +38,13 @@ public class WGInteractionHandler implements Interactions.Handler {
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean checkBlock(@NotNull Player player, @NotNull Block clickedBlock) {
-        LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.wrapPlayer(player);
+    public boolean checkBlock(final Player player, final Block clickedBlock) {
+        final LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.wrapPlayer(player);
         if (WORLD_GUARD.getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) {
             return true;
         }
-        RegionQuery query = WORLD_GUARD.getPlatform().getRegionContainer().createQuery();
-        boolean result = query.testBuild(localPlayer.getLocation(), localPlayer);
+        final RegionQuery query = WORLD_GUARD.getPlatform().getRegionContainer().createQuery();
+        final boolean result = query.testBuild(localPlayer.getLocation(), localPlayer);
         if (!result) {
             localPlayer.printRaw(query.queryValue(localPlayer.getLocation(), localPlayer, Flags.DENY_MESSAGE).replace("%what%", "use that"));
             if (WORLD_GUARD_PLUGIN.getConfigManager().particleEffects) {

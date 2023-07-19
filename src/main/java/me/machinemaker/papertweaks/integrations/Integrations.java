@@ -19,12 +19,11 @@
  */
 package me.machinemaker.papertweaks.integrations;
 
+import java.util.List;
 import me.machinemaker.papertweaks.PaperTweaks;
 import me.machinemaker.papertweaks.integrations.griefprevention.GPIntegration;
 import me.machinemaker.papertweaks.integrations.worldguard.WGIntegration;
 import org.bukkit.Bukkit;
-
-import java.util.List;
 
 public final class Integrations {
 
@@ -39,14 +38,14 @@ public final class Integrations {
         }
         loaded = true;
         List.of(
-                WGIntegration.INSTANCE,
-                GPIntegration.INSTANCE
+            WGIntegration.INSTANCE,
+            GPIntegration.INSTANCE
         ).forEach(integration -> {
             try {
                 Class.forName(integration.className());
                 integration.register();
                 PaperTweaks.LOGGER.info("Detected {} and successfully hooked into it!", integration.name());
-            } catch (ClassNotFoundException ignored) {
+            } catch (final ClassNotFoundException ignored) {
                 if (Bukkit.getPluginManager().getPlugin(integration.name()) != null) {
                     PaperTweaks.LOGGER.error("Detected {} but was unable to hook into it!", integration.name());
                 }
