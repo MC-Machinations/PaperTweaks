@@ -33,7 +33,7 @@ def run():
                 "texture": sell_tag["tag"]["SkullOwner"]["Properties"]["textures"][0]["Value"]
             })
         with open("../src/main/resources/data/wandering_trades.json", "w") as out:
-            out.write(dumps(heads, ensure_ascii=False, indent=2))
+            out.write(dumps(heads, ensure_ascii=False, indent=2) + "\n")
 
 
 if __name__ == "__main__":

@@ -10,5 +10,7 @@ venv
 **/.project
 **/.settings
 
+.python-version
+
 ### Run Paper ###
 run/

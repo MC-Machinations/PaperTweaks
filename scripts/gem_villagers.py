@@ -27,8 +27,8 @@ def run():
             nbt = parse_nbt(file.readline().split(" ", maxsplit=5)[-1])
             head_data_nbt = nbt["ArmorItems"][-1]["tag"]
             villager = {
-                "name": nbt["CustomName"],
                 "head": {
+                    "name": nbt["CustomName"],
                     "uuid": str(array_to_uuid(head_data_nbt["SkullOwner"]["Id"])),
                     "texture": head_data_nbt["SkullOwner"]["Properties"]["textures"][0]["Value"]
                 },
@@ -77,7 +77,7 @@ def run():
             villagers[villager_name] = villager
 
     with open("../src/main/resources/data/gem_villagers.json", "w") as out:
-        out.write(dumps(villagers, ensure_ascii=False, indent=2))
+        out.write(dumps(villagers, ensure_ascii=False, indent=2) + "\n")
 
 
 if __name__ == "__main__":

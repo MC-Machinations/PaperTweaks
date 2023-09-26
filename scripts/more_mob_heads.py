@@ -17,7 +17,6 @@ def run():
     if len(argv) < 2:
         print("Need to specify a directory containing entity loot tables")
         exit(1)
-        return
     print(f"Root directory for loot tables: {abspath(argv[1])}")
 
     missing = []
@@ -33,7 +32,7 @@ def run():
         print("==== Missing ====")
         print("\n".join(sorted(missing)))
         print("Address missing tables, and re-run script")
-        return
+        exit(1)
 
     with open("../src/main/resources/data/more_mob_heads.json", "w") as out:
         out.write(dumps(sorted(heads, key=lambda d: d["tableName"]), ensure_ascii=False, indent=2))

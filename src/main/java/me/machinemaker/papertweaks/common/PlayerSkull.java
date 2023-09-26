@@ -22,16 +22,23 @@ package me.machinemaker.papertweaks.common;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.UUID;
 import me.machinemaker.papertweaks.utils.PTUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class PlayerSkull {
 
+    private final Component name;
     private final ItemStack skull;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public PlayerSkull(final @Nullable String name, final @Nullable String gameProfileName, final @Nullable UUID uuid, final @Nullable String texture, final @Nullable Integer count) {
-        this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), gameProfileName, uuid, texture, count != null ? count : 1);
+    public PlayerSkull(final String name, final UUID uuid, final String texture, final @Nullable Integer count) {
+        this.name = PTUtils.sanitizeName(name);
+        this.skull = PTUtils.getSkull(this.name, uuid, texture, count != null ? count : 1);
+    }
+
+    public Component name() {
+        return this.name;
     }
 
     public ItemStack cloneWithAmount(final int amount) {

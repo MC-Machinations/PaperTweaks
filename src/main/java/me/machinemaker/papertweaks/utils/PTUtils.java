@@ -43,6 +43,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -55,7 +56,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
-import org.jetbrains.annotations.Contract;
 
 import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 
@@ -74,11 +74,7 @@ public final class PTUtils {
     private PTUtils() {
     }
 
-    @Contract("null -> null; !null -> !null")
-    public static @Nullable Component sanitizeName(final @Nullable String name) {
-        if (name == null) {
-            return null;
-        }
+    public static Component sanitizeName(final String name) {
         final JsonElement tree = GsonComponentSerializer.gson().serializer().fromJson(name, JsonElement.class);
         if (tree instanceof final JsonObject object && object.has("text")) {
             final String text = object.getAsJsonPrimitive("text").getAsString();
@@ -109,16 +105,16 @@ public final class PTUtils {
     }
 
     public static ItemStack getSkull(final Component name, final @Nullable UUID uuid, final String texture, final int count) {
-        return getSkull(name, null, uuid, texture, count);
+        return getSkull(name, PlainTextComponentSerializer.plainText().serialize(name), uuid, texture, count);
     }
 
     public static ItemStack getSkull(final String gameProfileName, final UUID uuid, final String texture) {
         return getSkull(null, gameProfileName, uuid, texture, 1);
     }
 
-    public static ItemStack getSkull(final @Nullable Component name, final @Nullable String gameProfileName, final @Nullable UUID uuid, final @Nullable String texture, final int count) {
+    public static ItemStack getSkull(final @Nullable Component name, final String gameProfileName, final @Nullable UUID uuid, final String texture, final int count) {
         final ItemStack skull = new ItemStack(Material.PLAYER_HEAD, count);
-        if (name == null && gameProfileName == null && uuid == null && texture == null) {
+        if (name == null && uuid == null) {
             return skull;
         }
         final @Nullable SkullMeta meta = (SkullMeta) Objects.requireNonNull(skull.getItemMeta());

@@ -215,6 +215,9 @@ final class RawStats {
         new Tracked.StatisticType("ts_KillGlowSquid", "minecraft.killed:minecraft.glow_squid", "Kill Glow Squid"),
         new Tracked.StatisticType("ts_KillAxolotl", "minecraft.killed:minecraft.axolotl", "Kill Axolotl"),
         new Tracked.StatisticType("ts_KillGoat", "minecraft.killed:minecraft.goat", "Kill Goat"),
+        new Tracked.StatisticType("ts_KillWarden", "minecraft.killed:minecraft.warden", "Kill Warden"),
+        new Tracked.StatisticType("ts_KillCamel", "minecraft.killed:minecraft.camel", "Kill Camel"),
+        new Tracked.StatisticType("ts_KillSniffer", "minecraft.killed:minecraft.sniffer", "Kill Sniffer"),
         new Tracked.StatisticType("ts_DthHoglin", "minecraft.killed_by:minecraft.hoglin", "Killed by Hoglin"),
         new Tracked.StatisticType("ts_DthPiglin", "minecraft.killed_by:minecraft.piglin", "Killed by Piglin"),
         new Tracked.StatisticType("ts_DthStrider", "minecraft.killed_by:minecraft.strider", "Killed by Strider"),
@@ -266,7 +269,8 @@ final class RawStats {
         new Tracked.StatisticType("ts_DthFox", "minecraft.killed_by:minecraft.fox", "Killed by Fox"),
         new Tracked.StatisticType("ts_DthPanda", "minecraft.killed_by:minecraft.panda", "Killed by Panda"),
         new Tracked.StatisticType("ts_DthPillager", "minecraft.killed_by:minecraft.pillager", "Killed by Pillager"),
-        new Tracked.StatisticType("ts_DthRavager", "minecraft.killed_by:minecraft.ravager", "Killed by Ravager")
+        new Tracked.StatisticType("ts_DthRavager", "minecraft.killed_by:minecraft.ravager", "Killed by Ravager"),
+        new Tracked.StatisticType("ts_DthWarden", "minecraft.killed_by:minecraft.warden", "Killed by Warden")
     ).collect(Collectors.toMap(Tracked::name, Function.identity(), (o, o1) -> o1, LinkedHashMap::new));
 
     private RawStats() {

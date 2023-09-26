@@ -1,7 +1,7 @@
 {
   "aquatic": {
-    "name": "{\"text\":\"Aquatic\",\"color\":\"aqua\"}",
     "head": {
+      "name": "{\"text\":\"Aquatic\",\"color\":\"aqua\"}",
       "uuid": "a4e27274-eeb3-4090-8f26-c8c459b88152",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjY3NjY5MmU2OTUwMmY5NTU1N2Y2ODdiY2VhMmI1NjUwZjNkOWM4ODQ0OGZkOWZhOGUwNDZkMWQzMTViNzJhYiJ9fX0="
     },
@@ -149,8 +149,8 @@
     ]
   },
   "concrete": {
-    "name": "{\"text\":\"Concrete\",\"color\":\"aqua\"}",
     "head": {
+      "name": "{\"text\":\"Concrete\",\"color\":\"aqua\"}",
       "uuid": "5c8b8567-072e-4a3a-85ba-aa7741c12279",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjJhMjUyZmQ1M2QxNjNiYTk2NTM2YWIxNDZiOGUyYTNiMDhmYmYyMGI5YzE0MmEzNjIwNGMzYmExMDZjZGZhZCJ9fX0="
     },
@@ -382,8 +382,8 @@
     ]
   },
   "diamonds_for_gems": {
-    "name": "{\"text\":\"Gem Trader\",\"color\":\"aqua\"}",
     "head": {
+      "name": "{\"text\":\"Gem Trader\",\"color\":\"aqua\"}",
       "uuid": "0accc9d1-5ccd-4c88-9620-a5e268b335e4",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWYwNTQzMTY1Njc4YzNhMWFmYTdlZmYwZGU3OGIzZGU4MzkyYWZiNWJkMGRmODczMzA2ZDk5N2ZjNTJhM2RhOCJ9fX0="
     },
@@ -451,8 +451,8 @@
     ]
   },
   "functional": {
-    "name": "{\"text\":\"Functional\",\"color\":\"aqua\"}",
     "head": {
+      "name": "{\"text\":\"Functional\",\"color\":\"aqua\"}",
       "uuid": "f6df8917-a715-46f3-8014-029a1950f9cc",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVkNTNjYTUwYWQ1NjlmODU5NGM3YmE5MDc5YTc1MGRlMTZlOTRmYWJhZDFkNzJjOWJlNTRkMGNiZGZiN2Y3ZSJ9fX0="
     },
@@ -656,8 +656,8 @@
     ]
   },
   "gem_collector": {
-    "name": "{\"text\":\"Gem Collector\",\"color\":\"gold\"}",
     "head": {
+      "name": "{\"text\":\"Gem Collector\",\"color\":\"gold\"}",
       "uuid": "43851e1d-6306-4a34-b1d2-15fb362b6adb",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUwNzcyYmZjYTBhZGEwMDIyNDQ5NjUzZDVmMGU3Yjc5ZTdlZmI2NjNhNzFiN2I3MWJiZDBiNTAyMDFlNmFlZCJ9fX0="
     },
@@ -720,8 +720,8 @@
     ]
   },
   "hermit_heads": {
-    "name": "{\"text\":\"Hermit Heads\",\"color\":\"yellow\"}",
     "head": {
+      "name": "{\"text\":\"Hermit Heads\",\"color\":\"yellow\"}",
       "uuid": "87df7f51-3b14-4b9c-9754-2d11dc46a31e",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2ZmYWM3NWUzMjc3NDJlZmU5MjYzZjFjZWI1OTNiY2EyYWVhYWRjMWU4ZWU4M2U5ZmYzNjAzZjg2MmQ3N2FjZiJ9fX0="
     },
@@ -1026,8 +1026,8 @@
     ]
   },
   "more_blocks": {
-    "name": "{\"text\":\"More Blocks\",\"color\":\"blue\"}",
     "head": {
+      "name": "{\"text\":\"More Blocks\",\"color\":\"blue\"}",
       "uuid": "7f716a77-df6c-4744-9d69-1d72544db497",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTZhNDY0NjliMTBmNWY1MGM5MzE3ZjM1OTFkMzI5YmU0YTNjMGRiNjI5ZDE5NTU5NDlmZTEwOGFmM2MwNzI5ZSJ9fX0="
     },
@@ -1217,8 +1217,8 @@
     ]
   },
   "natural": {
-    "name": "{\"text\":\"Natural\",\"color\":\"blue\"}",
     "head": {
+      "name": "{\"text\":\"Natural\",\"color\":\"blue\"}",
       "uuid": "87bfd506-18b2-4859-b60a-a96106db46cb",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWM4YWE1MDI2OGUyMTUxOTM0MzE2OTFkMGQxZTI0NDUxM2YyMjY4NDQyMzc1ZDZmMTU2M2Q1MWQ0OGExZjE0NyJ9fX0="
     },
@@ -1394,8 +1394,8 @@
     ]
   },
   "nether": {
-    "name": "{\"text\":\"Nether\",\"color\":\"dark_purple\"}",
     "head": {
+      "name": "{\"text\":\"Nether\",\"color\":\"dark_purple\"}",
       "uuid": "7edae6f8-06f4-44b2-9b8d-bc54c428f5f2",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDI5Mzc4NmU3ZTM2Yjc2NjQ4Y2MyOTdmYjliNjMyZTQ5MjEwNTIyMGUwZWRlMTc5NmQ4NTJjOWIxMjcxYWViMiJ9fX0="
     },
@@ -1613,8 +1613,8 @@
     ]
   },
   "ores": {
-    "name": "{\"text\":\"Ores\",\"color\":\"dark_purple\"}",
     "head": {
+      "name": "{\"text\":\"Ores\",\"color\":\"dark_purple\"}",
       "uuid": "6322d41e-2e5b-4de8-9913-2cf07a0f124d",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDg2YzgwMjg4YzA1NmNhNjBlOGE1ZmU2MjhjYjUxYjkwYWFjNWJlMGMzYzgxZjk5MDA5Nzg1N2ZhMTJlY2I5ZCJ9fX0="
     },
@@ -1762,8 +1762,8 @@
     ]
   },
   "precious": {
-    "name": "{\"text\":\"Precious\",\"color\":\"red\"}",
     "head": {
+      "name": "{\"text\":\"Precious\",\"color\":\"red\"}",
       "uuid": "3ba998ad-bdcc-482b-956d-92b294b0a663",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0MTJhYmQ4OTM3NzFiMzBhZmM4NzU1YTcwYWQ0MjY3YTYwOTVlNmQwZmQ3NGJjYmUzNDZkMjgzNDRkMDg3ZiJ9fX0="
     },
@@ -1897,8 +1897,8 @@
     ]
   },
   "redstone": {
-    "name": "{\"text\":\"Redstone\",\"color\":\"red\"}",
     "head": {
+      "name": "{\"text\":\"Redstone\",\"color\":\"red\"}",
       "uuid": "cacca77c-a898-4549-8fd4-f96de83f1730",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFjNzk4NDk0ODE4YTNhMzc5ODcxNjZkODI3Y2RiYzk5NGI1YjdkMWFhZDE1NjMxMjE3YzkwYTYxOTZiOGZmNyJ9fX0="
     },
@@ -2032,8 +2032,8 @@
     ]
   },
   "stones": {
-    "name": "{\"text\":\"Stones\",\"color\":\"yellow\"}",
     "head": {
+      "name": "{\"text\":\"Stones\",\"color\":\"yellow\"}",
       "uuid": "f70722a5-709a-4aae-829f-1c9202c92e51",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVmMDk2ZWM5YmMzNTMxN2E5MmE5N2I2MjFiY2FkYjFmMTg0ZTRlOGVjOTc0ZTkwYWFhMjk2MGJkOTBhNWNlNyJ9fX0="
     },
@@ -2209,8 +2209,8 @@
     ]
   },
   "wood": {
-    "name": "{\"text\":\"Wood\",\"color\":\"yellow\"}",
     "head": {
+      "name": "{\"text\":\"Wood\",\"color\":\"yellow\"}",
       "uuid": "9c34b8fb-eb4d-4002-ad60-9faf06cdfe44",
       "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRjNTYwMGMzMWRiZDc5MDk2NGM1NTc0ZGNhMDRiNDg1Yjg0ZjQ1ZTQyOThiYTA2NmFhZGQzOWU5YTIwNzAwZCJ9fX0="
     },

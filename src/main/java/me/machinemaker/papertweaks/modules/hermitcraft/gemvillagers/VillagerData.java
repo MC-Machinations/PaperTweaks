@@ -21,6 +21,7 @@ package me.machinemaker.papertweaks.modules.hermitcraft.gemvillagers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -29,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import me.machinemaker.papertweaks.common.PlayerSkull;
-import me.machinemaker.papertweaks.utils.PTUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -50,8 +50,8 @@ class VillagerData {
     private final List<Offer> offers;
 
     @JsonCreator
-    private VillagerData(final String name, final PlayerSkull head, final List<Offer> offers) {
-        this.name = PTUtils.sanitizeName(name);
+    private VillagerData(final PlayerSkull head, final List<Offer> offers) {
+        this.name = head.name();
         this.head = head;
         this.offers = offers;
     }
@@ -109,11 +109,19 @@ class VillagerData {
                     }
                     inputStack = new ItemStack(material, count);
                 } else {
-                    inputStack = GemVillagers.JSON_MAPPER.treeToValue(input, PlayerSkull.class).cloneOriginal();
+                    inputStack = parseStack(input);
                 }
                 final ObjectNode output = (ObjectNode) objectNode.get("output");
-                final ItemStack outputStack = GemVillagers.JSON_MAPPER.treeToValue(output, PlayerSkull.class).cloneOriginal();
+                final ItemStack outputStack = parseStack(output);
                 return new Offer(inputStack, outputStack);
+            }
+
+            private static ItemStack parseStack(final ObjectNode node) throws JsonProcessingException {
+                if (node.size() == 1 && node.has("count")) {
+                    return new ItemStack(Material.PLAYER_HEAD, node.get("count").asInt());
+                } else {
+                    return GemVillagers.JSON_MAPPER.treeToValue(node, PlayerSkull.class).cloneOriginal();
+                }
             }
         }
     }
