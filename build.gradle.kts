@@ -26,7 +26,7 @@ val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper
 dependencies {
     compileOnly(paperApi)
 
-    implementation(libs.mm.mirror)
+    implementation(libs.mm.mirror) // TODO replace with MethodHandles
     implementation(libs.mm.lectern) // TODO replace with configurate
     implementation(libs.cloud.paper)
     implementation(libs.cloud.extras) {
@@ -40,6 +40,8 @@ dependencies {
     implementation(libs.jackson.paramNames)
     implementation(libs.jdbi.core)
     implementation(libs.jdbi.sqlobject)
+    implementation(libs.commons.config)
+    implementation(libs.commons.bean)
 
     // Native to minecraft
     compileOnly(libs.authlib)
@@ -52,22 +54,22 @@ dependencies {
 
     // TODO convert to libs.versions.toml
     implementation("io.github.classgraph:classgraph:4.8.157")
-    implementation("org.apache.commons:commons-configuration2:2.8.0")
-    implementation("commons-beanutils:commons-beanutils:1.9.4")
     implementation("io.leangen.geantyref:geantyref:1.3.14")
     implementation("com.h2database:h2:1.4.200")
     implementation("org.xerial:sqlite-jdbc:3.40.0.0")
 
     // tests
     testImplementation(paperApi)
-    testImplementation("org.apache.commons:commons-configuration2:2.8.0")
-    testRuntimeOnly("commons-beanutils:commons-beanutils:1.9.4")
+    testImplementation(libs.commons.config)
+    testRuntimeOnly(libs.commons.bean)
     testImplementation(libs.slf4j)
-    testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2")
+    testImplementation(libs.jackson.yaml)
+    testImplementation(libs.jackson.paramNames)
     testImplementation(libs.guice)
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testImplementation("org.mockito:mockito-core:4.8.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation(libs.junit.api)
+    testImplementation(libs.mockito)
+
+    testRuntimeOnly(libs.junit.engine)
 }
 
 java {

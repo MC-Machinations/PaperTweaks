@@ -24,19 +24,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.loot.LootTables;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +59,24 @@ class MixinsTest {
         final Server mockServer = mock(Server.class);
         when(mockServer.getWorld("world")).thenReturn(mockWorld);
         when(mockServer.getLogger()).thenReturn(Logger.getLogger("MockServer"));
+        when(mockServer.getRegistry(any())).thenAnswer(invocation -> {
+            return new Registry<>() {
+                @Override
+                public @Nullable Keyed get(final NamespacedKey key) {
+                    return null;
+                }
+
+                @Override
+                public Stream<Keyed> stream() {
+                    return Stream.empty();
+                }
+
+                @Override
+                public Iterator<Keyed> iterator() {
+                    return Collections.emptyIterator();
+                }
+            };
+        });
         Bukkit.setServer(mockServer);
     }
 

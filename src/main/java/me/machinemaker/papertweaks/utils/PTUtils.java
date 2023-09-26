@@ -129,7 +129,7 @@ public final class PTUtils {
         final Property textures = Iterables.getFirst(profile.getProperties().get("textures"), null);
         profile.getProperties().removeAll("textures");
         if (textures != null) {
-            final JsonObject object = GSON.fromJson(new String(Base64.getDecoder().decode(textures.getValue()), StandardCharsets.UTF_8), JsonObject.class);
+            final JsonObject object = GSON.fromJson(new String(Base64.getDecoder().decode(textures.value()), StandardCharsets.UTF_8), JsonObject.class);
             object.remove("timestamp");
             profile.getProperties().put("textures", new Property("textures", Base64.getEncoder().encodeToString(GSON.toJson(object).getBytes(StandardCharsets.UTF_8))));
         }
