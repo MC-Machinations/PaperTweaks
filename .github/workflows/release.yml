@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: build-${{ github.sha }}
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download previous build artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ci.yml
+          commit: ${{ github.sha }}
+          event: push
+          name: PaperTweaks
+
+      - name: Parse tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
+      - name: Create release and changelog
+        uses: MC-Machinations/auto-release-changelog@v1.1.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Paper Tweaks ${{ steps.vars.outputs.tag }}
+          pre-release: ${{ contains(steps.vars.outputs.tag, '-beta') || contains(steps.vars.outputs.tag, '-dev') }}
+          skip-prereleases: true
+          files: |
+            PaperTweaks.jar
+            PaperTweaks.jar.sha256
+            LICENSE

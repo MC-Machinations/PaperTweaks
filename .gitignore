@@ -1,4 +1,16 @@
 .idea
+.gradle
 *.iml
-target
+**/build
 venv
+
+# jdtls
+**/bin
+**/.classpath
+**/.project
+**/.settings
+
+.python-version
+
+### Run Paper ###
+run/

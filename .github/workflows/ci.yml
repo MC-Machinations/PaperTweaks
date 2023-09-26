@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+      - dev/*
+
+concurrency:
+  group: build-${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Build artifacts
+        run: ./gradlew build --no-daemon --stacktrace
+
+      - name: Copy artifacts before uploading
+        run: cp build/libs/PaperTweaks-*-all.jar ./PaperTweaks.jar
+
+      - name: Generate SHA-256 hash
+        run: sha256sum PaperTweaks.jar > PaperTweaks.jar.sha256
+
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: PaperTweaks
+          path: |
+            PaperTweaks.jar
+            PaperTweaks.jar.sha256
+            LICENSE

@@ -1,0 +1,68 @@
+/*
+ * GNU General Public License v3
+ *
+ * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
+ *
+ * Copyright (C) 2021-2023 Machine_Maker
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+package me.machinemaker.papertweaks.modules.mobs.countmobdeaths;
+
+import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
+import me.machinemaker.papertweaks.modules.ModuleListener;
+import me.machinemaker.papertweaks.utils.boards.UniqueScores;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Team;
+
+import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+
+class EntityListener implements ModuleListener {
+
+    private final CountMobDeaths countMobDeaths;
+    private final Config config;
+    private final Map<EntityType, String> typeNameCache = new HashMap<>();
+    private final UniqueScores.Pool scorePool = UniqueScores.createPool();
+
+    @Inject
+    EntityListener(final CountMobDeaths countMobDeaths, final Config config) {
+        this.countMobDeaths = countMobDeaths;
+        this.config = config;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onEntityDeath(final EntityDeathEvent event) {
+        if (this.config.countedMobs.contains(event.getEntityType()) && event.getEntity().customName() == null) {
+            final String entryName = this.typeNameCache.computeIfAbsent(event.getEntityType(), ignored -> this.scorePool.generate());
+            for (final CountMobDeaths.CountingBoard countingBoard : this.countMobDeaths.scoreboardPlayerMap.values()) {
+                final Team team = countingBoard.getOrCreateTeam("cmd:" + event.getEntityType().key().value());
+                team.addEntry(entryName);
+                team.prefix(translatable(event.getEntityType(), YELLOW));
+                if (countingBoard.isCounting()) {
+                    final Objective objective = this.countMobDeaths.getDeathCountObjective(countingBoard.scoreboard());
+                    final Score score = objective.getScore(entryName);
+                    score.setScore(score.getScore() + 1);
+                }
+            }
+        }
+    }
+
+}

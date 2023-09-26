@@ -1,0 +1,72 @@
+[versions]
+minecraft = "1.20.2"
+mm-mirror = "0.1.2"
+mm-lectern = "0.3.0" # deprecated
+cloud = "1.8.4"
+bstats = "3.0.2"
+moonshine = "2.0.4"
+guice = "5.1.0"
+jdbi = "3.22.0"
+jackson = "2.15.2"
+commons-config = "2.8.0"
+commons-beans = "1.9.4"
+
+# compile only
+authlib = "5.0.47"
+slf4j-api = "2.0.7" # only until paper bumps api version
+brigadier = "1.1.8"
+
+# soft deps
+worldguard = "7.0.9"
+griefprevention = "16.18.1"
+
+# tests
+junit = "5.10.0"
+mockito = "5.5.0"
+
+# plugins
+shadow = "8.1.1"
+indra = "3.1.1"
+runPaper = "2.1.0"
+
+[libraries]
+mm-mirror = { module = "me.machinemaker.mirror:mirror-paper", version.ref = "mm-mirror" }
+mm-lectern = { module = "me.machinemaker.lectern:lectern-yaml", version.ref = "mm-lectern" } # deprecated
+
+cloud-paper = { module = "cloud.commandframework:cloud-paper", version.ref = "cloud" }
+cloud-extras = { module = "cloud.commandframework:cloud-minecraft-extras", version.ref = "cloud" }
+
+guice = { module = "com.google.inject:guice", version.ref = "guice" }
+guice-assistedInject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }
+
+bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+moonshine = { module = "net.kyori.moonshine:moonshine-standard", version.ref = "moonshine" }
+
+jdbi-core = { module = "org.jdbi:jdbi3-core", version.ref = "jdbi" }
+jdbi-sqlobject = { module = "org.jdbi:jdbi3-sqlobject", version.ref = "jdbi" }
+
+jackson-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+jackson-paramNames = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
+
+commons-config = { module = "org.apache.commons:commons-configuration2", version.ref = "commons-config" }
+commons-bean = { module = "commons-beanutils:commons-beanutils", version.ref = "commons-beans" }
+
+# compile only
+authlib = { module = "com.mojang:authlib", version.ref = "authlib" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
+brigadier = {module = "com.mojang:brigadier", version.ref = "brigadier" }
+
+# soft deps
+worldguard = { module = "com.sk89q.worldguard:worldguard-bukkit", version.ref = "worldguard" }
+griefprevention = { module = "com.github.TechFortress:GriefPrevention", version.ref = "griefprevention" }
+
+# tests
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+indra-licenser-spotless = { id = "net.kyori.indra.licenser.spotless", version.ref = "indra" }
+runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
+
