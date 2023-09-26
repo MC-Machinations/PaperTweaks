@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "me.machinemaker"
-version = "0.3.0-SNAPSHOT"
+version = "0.4.0"
 description = "A replacement for the VanillaTweaks datapack"
 
 repositories {
