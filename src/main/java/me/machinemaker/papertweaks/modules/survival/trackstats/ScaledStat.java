@@ -22,7 +22,6 @@ package me.machinemaker.papertweaks.modules.survival.trackstats;
 import java.util.function.IntUnaryOperator;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Score;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 final class ScaledStat extends CalculatedStat {
@@ -38,8 +37,8 @@ final class ScaledStat extends CalculatedStat {
     }
 
     @Override
-    public int computeScore(final Score score, final Player player) {
-        return this.scaleFunction.applyAsInt(score.getScore());
+    public int computeScore(final Player player) {
+        return this.scaleFunction.applyAsInt(player.getStatistic(this.stat));
     }
 
     @Override

@@ -24,10 +24,13 @@ import java.util.Map;
 import java.util.function.IntUnaryOperator;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.Scoreboard;
 
+@SuppressWarnings("unused")
 final class Stats {
 
-    public static final Map<String, CalculatedStat> REGISTRY = new LinkedHashMap<>();
+    static final Map<String, CalculatedStat> REGISTRY = new LinkedHashMap<>();
 
     public static final CombinedStat ALL_COAL = createCombined("tas_MineCoal", "Mine All Coal").addMined(Material.COAL_ORE, Material.DEEPSLATE_COAL_ORE).build();
     public static final CombinedStat ALL_DIAMOND = createCombined("tas_MineDiamond", "Mine All Diamond").addMined(Material.DIAMOND_ORE, Material.DEEPSLATE_DIAMOND_ORE).build();
@@ -69,5 +72,13 @@ final class Stats {
 
     private static CombinedStat.Builder createCombined(final String objectiveName, final String displayName) {
         return new CombinedStat.Builder(objectiveName, displayName);
+    }
+
+    static void registerStats(final Scoreboard board) {
+        for (final CalculatedStat stat : REGISTRY.values()) {
+            if (board.getObjective(stat.objectiveName()) == null) {
+                board.registerNewObjective(stat.objectiveName(), Criteria.DUMMY, stat.displayName());
+            }
+        }
     }
 }

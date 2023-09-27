@@ -48,7 +48,7 @@ abstract class CalculatedStat implements Translatable {
         return this.displayName;
     }
 
-    protected abstract int computeScore(Score score, Player player);
+    protected abstract int computeScore(Player player);
 
     public final Score getScore(final Scoreboard board, final Player player) {
         return this.getObjective(board).getScore(player.getName());
@@ -60,7 +60,7 @@ abstract class CalculatedStat implements Translatable {
 
     public final void updateScore(final Scoreboard board, final Player player) {
         final Score score = this.getScore(board, player);
-        score.setScore(this.computeScore(score, player));
+        score.setScore(this.computeScore(player));
     }
 
 }

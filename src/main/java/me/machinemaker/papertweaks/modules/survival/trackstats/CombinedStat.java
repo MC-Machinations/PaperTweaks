@@ -26,7 +26,6 @@ import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Score;
 
 final class CombinedStat extends CalculatedStat {
 
@@ -38,7 +37,7 @@ final class CombinedStat extends CalculatedStat {
     }
 
     @Override
-    protected int computeScore(final Score score, final Player player) {
+    protected int computeScore(final Player player) {
         int value = 0;
         for (final ToIntFunction<Player> stat : this.stats) {
             value += stat.applyAsInt(player);

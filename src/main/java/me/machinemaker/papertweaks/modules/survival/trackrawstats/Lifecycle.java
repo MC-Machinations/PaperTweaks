@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2023 Machine_Maker
+ * Copyright (C) 2023 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +17,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.papertweaks.modules.survival.trackstats;
+package me.machinemaker.papertweaks.modules.survival.trackrawstats;
 
-import java.util.Collection;
+import com.google.inject.Inject;
 import java.util.Set;
-import me.machinemaker.papertweaks.annotations.ModuleInfo;
-import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
+import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
+import me.machinemaker.papertweaks.modules.ModuleListener;
+import me.machinemaker.papertweaks.modules.ModuleRecipe;
 import me.machinemaker.papertweaks.utils.boards.Scoreboards;
-import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.plugin.java.JavaPlugin;
 
-@ModuleInfo(name = "TrackStats", configPath = "survival.track-stats", description = "Adds several pre-processed stats")
-public class TrackStats extends ModuleBase {
+class Lifecycle extends ModuleLifecycle {
 
-    @Override
-    protected void configure() {
-        super.configure();
-        this.bind(Scoreboard.class).toInstance(Scoreboards.main());
+    @Inject
+    Lifecycle(final JavaPlugin plugin, final Set<ModuleCommand> commands, final Set<ModuleListener> listeners, final Set<ModuleConfig> configs, final Set<ModuleRecipe<?>> moduleRecipes) {
+        super(plugin, commands, listeners, configs, moduleRecipes);
     }
 
     @Override
-    protected Class<? extends ModuleLifecycle> lifecycle() {
-        return Lifecycle.class;
-    }
-
-    @Override
-    protected Collection<Class<? extends ModuleCommand>> commands() {
-        return Set.of(Commands.class);
+    public void onEnable() {
+        RawStats.registerStats(Scoreboards.main());
     }
 }

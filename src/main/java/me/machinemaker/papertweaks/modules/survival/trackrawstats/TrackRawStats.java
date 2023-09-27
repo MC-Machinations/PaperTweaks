@@ -34,13 +34,9 @@ public class TrackRawStats extends ModuleBase {
 
     static final Logger LOGGER = LoggerFactory.getModuleLogger(TrackRawStats.class);
 
-    TrackRawStats() {
-        RawStats.registerStats(Scoreboards.main());
-    }
-
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
+        return Lifecycle.class;
     }
 
     @Override
