@@ -19,12 +19,13 @@
  */
 package me.machinemaker.papertweaks.integrations.worldguard;
 
+import com.google.common.base.Suppliers;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import java.util.Objects;
+import java.util.function.Supplier;
 import me.machinemaker.papertweaks.integrations.Interactions;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
@@ -33,21 +34,21 @@ import org.bukkit.entity.Player;
 
 public class WGInteractionHandler implements Interactions.Handler {
 
-    private static final WorldGuardPlugin WORLD_GUARD_PLUGIN = Objects.requireNonNull(WorldGuardPlugin.inst(), "Could not find the instance of WorldGuard");
-    private static final WorldGuard WORLD_GUARD = WorldGuard.getInstance();
+    private static final Supplier<WorldGuardPlugin> WORLD_GUARD_PLUGIN = Suppliers.memoize(WorldGuardPlugin::inst);
+    private static final Supplier<WorldGuard> WORLD_GUARD = Suppliers.memoize(WorldGuard::getInstance);
 
     @Override
     @SuppressWarnings("deprecation")
     public boolean checkBlock(final Player player, final Block clickedBlock) {
-        final LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.wrapPlayer(player);
-        if (WORLD_GUARD.getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) {
+        final LocalPlayer localPlayer = WORLD_GUARD_PLUGIN.get().wrapPlayer(player);
+        if (WORLD_GUARD.get().getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) {
             return true;
         }
-        final RegionQuery query = WORLD_GUARD.getPlatform().getRegionContainer().createQuery();
+        final RegionQuery query = WORLD_GUARD.get().getPlatform().getRegionContainer().createQuery();
         final boolean result = query.testBuild(localPlayer.getLocation(), localPlayer);
         if (!result) {
             localPlayer.printRaw(query.queryValue(localPlayer.getLocation(), localPlayer, Flags.DENY_MESSAGE).replace("%what%", "use that"));
-            if (WORLD_GUARD_PLUGIN.getConfigManager().particleEffects) {
+            if (WORLD_GUARD_PLUGIN.get().getConfigManager().particleEffects) {
                 player.playEffect(clickedBlock.getLocation().add(0, 1, 0), Effect.SMOKE, BlockFace.UP);
             }
             return false;

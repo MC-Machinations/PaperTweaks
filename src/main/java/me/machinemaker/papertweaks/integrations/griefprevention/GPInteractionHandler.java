@@ -19,7 +19,9 @@
  */
 package me.machinemaker.papertweaks.integrations.griefprevention;
 
+import com.google.common.base.Suppliers;
 import java.util.Objects;
+import java.util.function.Supplier;
 import me.machinemaker.papertweaks.integrations.Interactions;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.DataStore;
@@ -32,14 +34,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class GPInteractionHandler implements Interactions.Handler {
 
-    private static final GriefPrevention PLUGIN = Objects.requireNonNull(GriefPrevention.instance, "Could not find the instance of the GriefPrevention plugin");
-    private static final DataStore DATA_STORE = Objects.requireNonNull(PLUGIN.dataStore, "Could not find the GriefPrevention dataStore");
+    private static final Supplier<GriefPrevention> PLUGIN = Suppliers.memoize(() -> GriefPrevention.instance);
+    private static final Supplier<DataStore> DATA_STORE = Suppliers.memoize(() -> PLUGIN.get().dataStore);
 
     @SuppressWarnings("deprecation") // GP api uses ChatColor
     @Override
     public boolean checkBlock(final @NotNull Player player, final @NotNull Block clickedBlock) {
-        final PlayerData playerData = DATA_STORE.getPlayerData(player.getUniqueId());
-        final Claim claim = DATA_STORE.getClaimAt(clickedBlock.getLocation(), false, playerData.lastClaim);
+        final PlayerData playerData = DATA_STORE.get().getPlayerData(player.getUniqueId());
+        final Claim claim = DATA_STORE.get().getClaimAt(clickedBlock.getLocation(), false, playerData.lastClaim);
         if (claim != null) {
             playerData.lastClaim = claim;
             final String noAccessReason = claim.allowAccess(player);
