@@ -20,10 +20,10 @@
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
 import me.machinemaker.lectern.annotations.Description;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @Description("Value between 0 (inclusive) and 1.0 (inclusive) for the chance a creeper will be a confetti creeper")

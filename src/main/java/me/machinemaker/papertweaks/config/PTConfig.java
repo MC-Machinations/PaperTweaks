@@ -35,14 +35,14 @@ import me.machinemaker.lectern.supplier.ConfigurationSupplier;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Configuration(supplier = VTConfig.VanillaTweaksConfigSupplier.class)
-public @interface VTConfig {
+@Configuration(supplier = PTConfig.PaperTweaksConfigSupplier.class)
+public @interface PTConfig {
 
     String fileName() default "config.yml";
 
-    class VanillaTweaksConfigSupplier implements ConfigurationSupplier<VTConfig> {
+    class PaperTweaksConfigSupplier implements ConfigurationSupplier<PTConfig> {
         @Override
-        public ConfigurationNode createConfiguration(final Path parentDir, final VTConfig annotation) {
+        public ConfigurationNode createConfiguration(final Path parentDir, final PTConfig annotation) {
             final ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER).enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
             Mixins.registerMixins(mapper);
             return YamlConfiguration.builder(parentDir.resolve(annotation.fileName())).withYamlMapper(mapper).withInvalidKeyHandler(InvalidKeyHandler.Preset.SILENT).build();

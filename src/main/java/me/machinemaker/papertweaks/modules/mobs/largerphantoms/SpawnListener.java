@@ -19,8 +19,9 @@
  */
 package me.machinemaker.papertweaks.modules.mobs.largerphantoms;
 
+import com.google.inject.Inject;
+import java.util.Optional;
 import me.machinemaker.papertweaks.modules.ModuleListener;
-import org.apache.commons.lang3.Range;
 import org.bukkit.Statistic;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Phantom;
@@ -33,6 +34,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import static java.util.Objects.requireNonNull;
 
 class SpawnListener implements ModuleListener {
+
+    private final Config config;
+
+    @Inject
+    SpawnListener(final Config config) {
+        this.config = config;
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntitySpawn(final EntitySpawnEvent event) {
@@ -56,42 +64,14 @@ class SpawnListener implements ModuleListener {
         }
         if (closest != -1 && player.hasPermission("vanillatweaks.largerphantoms")) {
             final int ticksSinceSleep = player.getStatistic(Statistic.TIME_SINCE_REST);
-            final int size;
-            final double maxHealth;
-            final double movementSpeed;
-            final double followRange;
-            final double attackDamage;
-            if (ticksSinceSleep < 140000) return;
-            else if (Range.between(144000, 216000).contains(ticksSinceSleep)) {
-                size = 3;
-                maxHealth = 25;
-                movementSpeed = 1;
-                followRange = 20;
-                attackDamage = 15;
-            } else if (Range.between(216000, 288000).contains(ticksSinceSleep)) {
-                size = 5;
-                maxHealth = 30;
-                movementSpeed = 1.3;
-                followRange = 24;
-                attackDamage = 17;
-            } else if (Range.between(288000, 2400000).contains(ticksSinceSleep)) {
-                size = 7;
-                maxHealth = 35;
-                movementSpeed = 1.6;
-                followRange = 28;
-                attackDamage = 20;
-            } else {
-                size = 20;
-                maxHealth = 100;
-                movementSpeed = 2;
-                followRange = 50;
-                attackDamage = 30;
-            }
-            phantom.setSize(size);
-            requireNonNull(phantom.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHealth);
-            requireNonNull(phantom.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(movementSpeed);
-            requireNonNull(phantom.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)).setBaseValue(followRange);
-            requireNonNull(phantom.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(attackDamage);
+            final Optional<Config.SpawnData> spawnData = this.config.sortedSpawns.stream().filter(sd -> sd.minimumTicks() <= ticksSinceSleep).findFirst();
+            spawnData.ifPresent(sd -> {
+                phantom.setSize(sd.size());
+                requireNonNull(phantom.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(sd.maxHealth());
+                requireNonNull(phantom.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(sd.movementSpeed());
+                requireNonNull(phantom.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)).setBaseValue(sd.followRange());
+                requireNonNull(phantom.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(sd.attackDamage());
+            });
         }
     }
 

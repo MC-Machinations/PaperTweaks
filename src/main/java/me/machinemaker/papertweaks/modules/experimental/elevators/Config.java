@@ -21,10 +21,10 @@ package me.machinemaker.papertweaks.modules.experimental.elevators;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @Key("max-search-distance")

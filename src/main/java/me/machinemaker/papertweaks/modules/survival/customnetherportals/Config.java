@@ -24,11 +24,11 @@ import java.util.List;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.lectern.annotations.validations.numbers.Positive;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import org.bukkit.Material;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @Key("portal-frame-materials")

@@ -22,10 +22,10 @@ package me.machinemaker.papertweaks.modules.items.wrenches;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.papertweaks.annotations.ConfigureModuleConfig;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
-@VTConfig
+@PTConfig
 @ConfigureModuleConfig(folder = "wrenches")
 class Config extends ModuleConfig {
 

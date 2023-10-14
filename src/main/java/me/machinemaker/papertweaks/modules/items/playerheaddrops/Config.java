@@ -24,12 +24,12 @@ import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.lectern.annotations.validations.numbers.Max;
 import me.machinemaker.lectern.annotations.validations.numbers.Min;
 import me.machinemaker.papertweaks.config.I18nKey;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
 
-@VTConfig
+@PTConfig
 @Menu(commandPrefix = "/playerheaddrops admin config")
 class Config extends SimpleMenuModuleConfig<Config> {
 

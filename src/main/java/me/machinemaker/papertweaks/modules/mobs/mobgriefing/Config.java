@@ -21,11 +21,11 @@ package me.machinemaker.papertweaks.modules.mobs.mobgriefing;
 
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.migrations.ModulesFileMigrations;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @Key("anti-enderman-grief")

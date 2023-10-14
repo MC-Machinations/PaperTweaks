@@ -20,10 +20,10 @@
 package me.machinemaker.papertweaks.modules.mobs.villagerdeathmessages;
 
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @Key("show-message-on-death")

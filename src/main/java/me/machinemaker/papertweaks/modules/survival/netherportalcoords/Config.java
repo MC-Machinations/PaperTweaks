@@ -26,13 +26,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @Key("overworld-type-worlds")

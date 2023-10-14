@@ -23,11 +23,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 import org.bukkit.entity.EntityType;
 
-@VTConfig
+@PTConfig
 class Config extends ModuleConfig {
 
     @SuppressWarnings("CollectionDeclaredAsConcreteClass") // for the config scraper

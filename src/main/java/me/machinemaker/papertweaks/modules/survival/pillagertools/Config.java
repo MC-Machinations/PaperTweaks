@@ -22,13 +22,13 @@ package me.machinemaker.papertweaks.modules.survival.pillagertools;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.papertweaks.config.I18nKey;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
 
 @Menu(commandPrefix = "/pillagertools admin config")
-@VTConfig
+@PTConfig
 class Config extends SimpleMenuModuleConfig<Config> {
 
     @Key("bad-omen")

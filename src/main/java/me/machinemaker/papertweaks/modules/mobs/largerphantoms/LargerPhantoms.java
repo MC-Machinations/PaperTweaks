@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Set;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
+import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 
@@ -37,5 +38,10 @@ public class LargerPhantoms extends ModuleBase {
     @Override
     protected Collection<Class<? extends ModuleListener>> listeners() {
         return Set.of(SpawnListener.class);
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleConfig>> configs() {
+        return Set.of(Config.class);
     }
 }

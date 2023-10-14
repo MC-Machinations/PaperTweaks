@@ -28,7 +28,7 @@ import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.papertweaks.config.I18nKey;
-import me.machinemaker.papertweaks.config.VTConfig;
+import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.menus.MergedMenus;
 import me.machinemaker.papertweaks.menus.ReferenceConfigurationMenu;
@@ -49,7 +49,7 @@ import org.bukkit.entity.Player;
 
 import static net.kyori.adventure.text.Component.text;
 
-@VTConfig
+@PTConfig
 @Menu(commandPrefix = "/multiplayersleep admin config")
 class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> {
 
