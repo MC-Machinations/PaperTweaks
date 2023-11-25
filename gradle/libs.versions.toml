@@ -12,7 +12,6 @@ commons-config = "2.8.0"
 commons-beans = "1.9.4"
 
 # compile only
-authlib = "5.0.47"
 slf4j-api = "2.0.7" # only until paper bumps api version
 brigadier = "1.1.8"
 
@@ -52,7 +51,6 @@ commons-config = { module = "org.apache.commons:commons-configuration2", version
 commons-bean = { module = "commons-beanutils:commons-beanutils", version.ref = "commons-beans" }
 
 # compile only
-authlib = { module = "com.mojang:authlib", version.ref = "authlib" }
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
 brigadier = {module = "com.mojang:brigadier", version.ref = "brigadier" }
 

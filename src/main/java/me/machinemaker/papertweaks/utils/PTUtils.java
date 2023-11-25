@@ -19,12 +19,11 @@
  */
 package me.machinemaker.papertweaks.utils;
 
-import com.google.common.collect.Iterables;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -35,9 +34,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
-import me.machinemaker.mirror.FieldAccessor;
-import me.machinemaker.mirror.MethodInvoker;
-import me.machinemaker.mirror.Mirror;
 import me.machinemaker.mirror.paper.PaperMirror;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -64,10 +60,6 @@ public final class PTUtils {
 
     private static final Class<?> CRAFT_PLAYER_CLASS = PaperMirror.getCraftBukkitClass("entity.CraftPlayer");
     private static final Class<?> NMS_PLAYER_CLASS = PaperMirror.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
-    private static final Class<?> CRAFT_META_SKULL_CLASS = PaperMirror.getCraftBukkitClass("inventory.CraftMetaSkull");
-    private static final FieldAccessor.Typed<GameProfile> CRAFT_META_ITEM_GAME_PROFILE = Mirror.typedFuzzyField(CRAFT_META_SKULL_CLASS, GameProfile.class).names("profile").find();
-    private static final MethodInvoker CRAFT_PLAYER_GET_HANDLE = Mirror.fuzzyMethod(CRAFT_PLAYER_CLASS, NMS_PLAYER_CLASS).names("getHandle").find();
-    private static final MethodInvoker.Typed<GameProfile> NMS_PLAYER_GET_PLAYER_PROFILE = Mirror.typedFuzzyMethod(NMS_PLAYER_CLASS, GameProfile.class).find();
 
     private static final Gson GSON = new Gson();
 
@@ -93,13 +85,6 @@ public final class PTUtils {
         return GsonComponentSerializer.gson().deserializeFromTree(tree);
     }
 
-    public static GameProfile getGameProfile(final Player player) {
-        final GameProfile live = Objects.requireNonNull(NMS_PLAYER_GET_PLAYER_PROFILE.invoke(CRAFT_PLAYER_GET_HANDLE.invoke(player)), () -> "unexpected null GameProfile from " + player);
-        final GameProfile copy = new GameProfile(live.getId(), live.getName());
-        copy.getProperties().putAll(live.getProperties());
-        return copy;
-    }
-
     public static ItemStack getSkull(final Component name, final String texture) {
         return getSkull(name, null, texture, 1);
     }
@@ -118,31 +103,20 @@ public final class PTUtils {
             return skull;
         }
         final @Nullable SkullMeta meta = (SkullMeta) Objects.requireNonNull(skull.getItemMeta());
-        final GameProfile profile = new GameProfile(uuid == null ? UUID.randomUUID() : uuid, gameProfileName);
-        profile.getProperties().put("textures", new Property("textures", texture));
-        loadMeta(meta, profile, name);
+        final PlayerProfile profile = Bukkit.createProfile(uuid == null ? UUID.randomUUID() : uuid, gameProfileName);
+        profile.setProperty(new ProfileProperty("textures", texture));
+        meta.setPlayerProfile(profile);
         skull.setItemMeta(meta);
         return skull;
     }
 
-    public static void sanitizeTextures(final GameProfile profile) {
-        final Property textures = Iterables.getFirst(profile.getProperties().get("textures"), null);
-        profile.getProperties().removeAll("textures");
+    public static void sanitizeTextures(final PlayerProfile profile) {
+        final @Nullable ProfileProperty textures = profile.getProperties().stream().filter(property -> property.getName().equals("textures")).findFirst().orElse(null);
+        profile.removeProperty("textures");
         if (textures != null) {
-            final JsonObject object = GSON.fromJson(new String(Base64.getDecoder().decode(textures.value()), StandardCharsets.UTF_8), JsonObject.class);
+            final JsonObject object = GSON.fromJson(new String(Base64.getDecoder().decode(textures.getValue()), StandardCharsets.UTF_8), JsonObject.class);
             object.remove("timestamp");
-            profile.getProperties().put("textures", new Property("textures", Base64.getEncoder().encodeToString(GSON.toJson(object).getBytes(StandardCharsets.UTF_8))));
-        }
-    }
-
-    public static void loadMeta(final SkullMeta meta, final GameProfile profile) {
-        loadMeta(meta, profile, null);
-    }
-
-    public static void loadMeta(final SkullMeta meta, final GameProfile profile, final @Nullable Component name) {
-        CRAFT_META_ITEM_GAME_PROFILE.set(meta, profile);
-        if (name != null) {
-            loadMeta(meta, name);
+            profile.setProperty(new ProfileProperty("textures", Base64.getEncoder().encodeToString(GSON.toJson(object).getBytes(StandardCharsets.UTF_8))));
         }
     }
 

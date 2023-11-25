@@ -44,7 +44,6 @@ dependencies {
     implementation(libs.commons.bean)
 
     // Native to minecraft
-    compileOnly(libs.authlib)
     compileOnly(libs.slf4j)
 
     // soft dependencies

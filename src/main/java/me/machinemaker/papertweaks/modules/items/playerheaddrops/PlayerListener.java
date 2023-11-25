@@ -19,8 +19,8 @@
  */
 package me.machinemaker.papertweaks.modules.items.playerheaddrops;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
 import com.google.inject.Inject;
-import com.mojang.authlib.GameProfile;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
@@ -59,9 +59,9 @@ class PlayerListener implements ModuleListener {
             final @Nullable SkullMeta meta = (SkullMeta) skull.getItemMeta();
             if (meta == null) return; // shouldn't be possible
 
-            final GameProfile profile = PTUtils.getGameProfile(event.getEntity());
+            final PlayerProfile profile = event.getEntity().getPlayerProfile();
             PTUtils.sanitizeTextures(profile);
-            PTUtils.loadMeta(meta, profile);
+            meta.setPlayerProfile(profile);
             if (killer != null) {
                 meta.lore(List.of(text("Killed by " + killer.getName())));
             }
