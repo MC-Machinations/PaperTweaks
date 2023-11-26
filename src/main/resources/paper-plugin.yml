@@ -24,12 +24,18 @@ dependencies:
       join-classpath: false
 
 permissions:
+  # deprecated permissions
+  vanillatweaks.admin.grave-key:
+    default: false
+    description: Deprecated, use vanillatweaks.graves.admin.grave-key
+    children:
+      vanillatweaks.graves.admin.grave-key: true
+
   vanillatweaks.admin:
     default: op
     description: All of the admin commands for all modules
     children:
-      vanillatweaks.admin.grave-key: true
-      vanillatweaks.graves.admin.config: true
+      vanillatweaks.graves.admin: true
       vanillatweaks.killboats: true
       vanillatweaks.spawningspheres: true
       vanillatweaks.pillagertools.admin.config: true
@@ -104,8 +110,14 @@ permissions:
     description: (use vanillatweaks.graves)
     children:
       vanillatweaks.graves: true
+  vanillatweaks.graves.admin:
+    default: op
+    description: All of the admin commands for the graves module
+    children:
+      vanillatweaks.graves.admin.grave-key: true
+      vanillatweaks.graves.admin.config: true
   vanillatweaks.graves.admin.grave-key:
-    default: false
+    default: op
     description: Obtain and use a grave key to unlock any grave
   vanillatweaks.graves.admin.config:
     default: op

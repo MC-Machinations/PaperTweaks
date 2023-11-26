@@ -80,8 +80,8 @@ class PlayerListener implements ModuleListener {
 
     private static final NamespacedKey PROTECTED = Keys.legacyKey("protected");
     private static final NamespacedKey TIMESTAMP = Keys.legacyKey("timestamp");
-    private static final NamespacedKey PLAYER_UUID = Keys.legacyKey("player_uuid");
-    private static final NamespacedKey PLAYER_ALL_CONTENTS = Keys.legacyKey("player_all_contents");
+    static final NamespacedKey PLAYER_UUID = Keys.legacyKey("player_uuid");
+    static final NamespacedKey PLAYER_ALL_CONTENTS = Keys.legacyKey("player_all_contents");
     private static final NamespacedKey PLAYER_EXPERIENCE = Keys.legacyKey("graves.player_experience");
 
     private final JavaPlugin plugin;
@@ -224,7 +224,7 @@ class PlayerListener implements ModuleListener {
 
     private void handleGrave(final GravePair pair, final Player player) {
         final ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
-        final boolean isCarryingGraveKey = itemInMainHand.getItemMeta() != null && itemInMainHand.getItemMeta().getPersistentDataContainer().has(GRAVE_KEY, DataTypes.BOOLEAN) && player.hasPermission("vanillatweaks.admin.grave-key");
+        final boolean isCarryingGraveKey = itemInMainHand.getItemMeta() != null && itemInMainHand.getItemMeta().getPersistentDataContainer().has(GRAVE_KEY, DataTypes.BOOLEAN) && player.hasPermission("vanillatweaks.graves.admin.grave-key");
         if (!player.getUniqueId().equals(pair.playerUUID) && !isCarryingGraveKey) {
             if (!this.config.graveRobbing) {
                 player.sendMessage(translatable("modules.graves.grave-robbing.disabled", RED));
