@@ -56,5 +56,5 @@ jobs:
 
             core.summary
               .addHeading('Download', 3)
-              .addLink('PaperTweaks.zip', `https://nightly.link/${owner}/${repo}/actions/runs/${run_id}`)
+              .addLink('PaperTweaks.zip', `https://nightly.link/${owner}/${repo}/actions/runs/${run_id}/PaperTweaks.zip`)
               .write();
