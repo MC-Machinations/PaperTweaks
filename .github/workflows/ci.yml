@@ -46,3 +46,15 @@ jobs:
             PaperTweaks.jar
             PaperTweaks.jar.sha256
             LICENSE
+
+      - name: Generate Build Summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const run_id = context.runId;
+
+            core.summary
+              .addHeading('Download', 3)
+              .addLink('PaperTweaks.zip', `https://nightly.link/${owner}/${repo}/actions/runs/${run_id}`)
+              .write();
