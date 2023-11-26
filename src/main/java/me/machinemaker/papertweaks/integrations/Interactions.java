@@ -23,7 +23,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public final class Interactions {
 
@@ -36,13 +35,13 @@ public final class Interactions {
         HANDLERS.add(handler);
     }
 
-    public static boolean isAllowedInteraction(final @NotNull Player player, final @NotNull Block clickedBlock) {
+    public static boolean isAllowedInteraction(final Player player, final Block clickedBlock) {
         return HANDLERS.stream().allMatch(handler -> handler.checkBlock(player, clickedBlock));
     }
 
     @FunctionalInterface
     public interface Handler {
 
-        boolean checkBlock(@NotNull Player player, @NotNull Block clickedBlock);
+        boolean checkBlock(Player player, Block clickedBlock);
     }
 }

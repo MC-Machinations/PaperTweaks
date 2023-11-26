@@ -30,7 +30,6 @@ import me.ryanhamshire.GriefPrevention.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class GPInteractionHandler implements Interactions.Handler {
 
@@ -39,7 +38,7 @@ public class GPInteractionHandler implements Interactions.Handler {
 
     @SuppressWarnings("deprecation") // GP api uses ChatColor
     @Override
-    public boolean checkBlock(final @NotNull Player player, final @NotNull Block clickedBlock) {
+    public boolean checkBlock(final Player player, final Block clickedBlock) {
         final PlayerData playerData = DATA_STORE.get().getPlayerData(player.getUniqueId());
         final Claim claim = DATA_STORE.get().getClaimAt(clickedBlock.getLocation(), false, playerData.lastClaim);
         if (claim != null) {

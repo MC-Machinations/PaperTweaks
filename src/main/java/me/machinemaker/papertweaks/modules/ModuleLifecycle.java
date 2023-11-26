@@ -34,7 +34,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class ModuleLifecycle {
 
@@ -75,7 +74,7 @@ public abstract class ModuleLifecycle {
         return this.plugin;
     }
 
-    public @NotNull ModuleInfo moduleInfo() {
+    public ModuleInfo moduleInfo() {
         return this.moduleInfo;
     }
 

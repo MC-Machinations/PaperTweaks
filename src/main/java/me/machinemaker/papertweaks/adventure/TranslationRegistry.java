@@ -26,8 +26,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.translation.GlobalTranslator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public final class TranslationRegistry {
 
@@ -49,7 +48,7 @@ public final class TranslationRegistry {
         });
     }
 
-    public static @NotNull Optional<String> translate(final @NotNull String key, final @NotNull Locale locale) {
+    public static Optional<String> translate(final String key, final Locale locale) {
         final Translation translation = TRANSLATIONS.get(key);
         if (translation == null) {
             return Optional.empty();
@@ -66,11 +65,11 @@ public final class TranslationRegistry {
             this.key = key;
         }
 
-        void register(final @NotNull Locale locale, final @NotNull String message) {
+        void register(final Locale locale, final String message) {
             this.messages.put(locale, message);
         }
 
-        @Nullable String translate(final @NotNull Locale locale) {
+        @Nullable String translate(final Locale locale) {
             String message = this.messages.get(locale);
             if (message == null) {
                 message = this.messages.get(new Locale(locale.getLanguage()));

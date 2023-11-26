@@ -24,7 +24,6 @@ import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextComponent;
-import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -50,7 +49,7 @@ public final class MergedMenus {
             return this.addExtras(builder, this.extra1.build(object2));
         }
 
-        public ComponentLike addExtras(final ComponentLike builder, final ComponentLike @NotNull ... components) {
+        public ComponentLike addExtras(final ComponentLike builder, final ComponentLike ... components) {
             final List<Component> children = new ArrayList<>(builder.asComponent().children());
             final int offset = children.size() - 1;
             for (int i = 0; i < components.length; i++) {
