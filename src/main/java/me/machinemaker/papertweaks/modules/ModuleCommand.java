@@ -53,6 +53,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.intellij.lang.annotations.Pattern;
@@ -88,7 +89,6 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
     private @MonotonicNonNull ModuleLifecycle lifecycle;
     private boolean registered;
     private Command.@MonotonicNonNull Builder<CommandDispatcher> rootBuilder;
-    private @MonotonicNonNull Component infoComponent;
 
     private static <C> CommandExecutionHandler<C> createHelpHandler(final MinecraftHelp<C> help) {
         return context -> help.queryCommands(Objects.requireNonNull(context.getOrDefault("query", ""), "must supply a help query"), context.getSender());
@@ -136,47 +136,57 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
 
     private void createInfoCommand() {
         Objects.requireNonNull(this.rootBuilder, "Must create info command after root builder");
-        this.createInfoComponent();
         Command.Builder<CommandDispatcher> builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle))
             .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.info.hover", text(this.moduleBase.getName(), GOLD)));
         if (!this.commandInfo.infoOnRoot()) {
             builder = builder.literal("info");
         }
-        this.manager.command(builder.handler(context -> context.getSender().sendMessage(this.infoComponent)));
+        this.manager.command(builder.handler(context -> context.getSender().sendMessage(this.buildInfoComponent(context.getSender().sender()))));
     }
 
     @EnsuresNonNull("infoComponent")
-    private void createInfoComponent() {
+    private Component buildInfoComponent(final CommandSender audience) {
         final TextComponent.Builder builder = text()
             .append(AbstractConfigurationMenu.TITLE_LINE)
             .append(ChatWindow.center(text().color(WHITE).append(text(this.moduleBase.getName(), GOLD)).append(MenuModuleConfig.SEPARATOR).append(text("ⓘ")).hoverEvent(HoverEvent.showText(translatable("commands.info.hover", GRAY, text(this.moduleBase.getName(), GOLD))))).append(newline()))
             .append(AbstractConfigurationMenu.TITLE_LINE);
 
         builder.append(translatable("commands.info.description", GRAY, text(this.moduleBase.getDescription(), WHITE))).append(newline());
-        final TextComponent.Builder actionsBuilder = text().append(text()
+        final boolean canDisable = audience.hasPermission("vanillatweaks.main.disable");
+        final boolean canReload = audience.hasPermission("vanillatweaks.main.reload");
+        final TextComponent.Builder actionsBuilder = text();
+        if (canDisable) {
+            actionsBuilder.append(text()
                 .color(GREEN)
                 .append(OPEN_BRACKET, translatable("commands.config.default-value.bool.true"), CLOSE_BRACKET)
                 .hoverEvent(HoverEvent.showText(translatable("commands.info.status.hover", RED)))
                 .clickEvent(ClickEvent.runCommand("/vanillatweaks disable " + this.moduleBase.getName()))
-            )
-            .append(DOUBLE_SPACE)
-            .append(text()
+            );
+        }
+        if (canDisable && canReload) {
+            actionsBuilder.append(DOUBLE_SPACE);
+        }
+        if (canReload) {
+            actionsBuilder.append(text()
                 .color(YELLOW)
                 .append(OPEN_BRACKET, translatable("commands.info.reload"), CLOSE_BRACKET)
                 .hoverEvent(HoverEvent.showText(translatable("commands.info.reload.hover", YELLOW, text(this.moduleBase.getName()))))
                 .clickEvent(ClickEvent.runCommand("/vanillatweaks reload module " + this.moduleBase.getName()))
             );
+        }
 
         if (this.commandInfo.help()) {
-            actionsBuilder.append(DOUBLE_SPACE)
-                .append(text()
+            if (canDisable || canReload) {
+                actionsBuilder.append(DOUBLE_SPACE);
+            }
+            actionsBuilder.append(text()
                     .color(color(0x5290FA))
                     .append(OPEN_BRACKET, translatable("commands.info.show-help"), CLOSE_BRACKET)
                     .hoverEvent(HoverEvent.showText(translatable("commands.info.show-help.hover", GRAY)))
                     .clickEvent(ClickEvent.runCommand("/" + this.commandInfo.value() + " help")));
         }
 
-        this.infoComponent = builder.append(translatable("commands.info.actions", GRAY, actionsBuilder)).append(newline()).append(AbstractConfigurationMenu.END_LINE).build();
+        return builder.append(translatable("commands.info.actions", GRAY, actionsBuilder)).append(newline()).append(AbstractConfigurationMenu.END_LINE).build();
     }
 
     void setupHelp() {
