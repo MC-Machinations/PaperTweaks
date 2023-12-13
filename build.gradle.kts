@@ -177,6 +177,10 @@ tasks {
 
     withType<RunServer> { // set for both runServer and runMojangMappedServer
         systemProperty("com.mojang.eula.agree", "true")
+
+        downloadPlugins {
+            url("https://download.luckperms.net/1526/bukkit/loader/LuckPerms-Bukkit-5.4.113.jar")
+        }
     }
 
     runServer {
