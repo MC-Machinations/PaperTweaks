@@ -39,7 +39,7 @@ class PlayerListener implements ModuleListener {
     private void onPlayerJoin(final PlayerJoinEvent event) {
         event.getPlayer().discoverRecipe(RotationWrenches.WRENCH_RECIPE_KEY);
         if (this.config.suggestResourcePack) {
-            event.getPlayer().setResourcePack(RotationWrenches.RESOURCE_PACK_URL, RotationWrenches.RESOURCE_PACK_HASH, Lifecycle.PACK_PROMPT);
+            event.getPlayer().sendResourcePacks(RotationWrenches.PACK_REQUEST);
         }
     }
 }

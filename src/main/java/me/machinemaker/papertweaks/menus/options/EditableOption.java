@@ -42,7 +42,7 @@ public interface EditableOption<T> extends Labelled, ClickableOption<T> {
 
     @Override
     default Component createClickHoverComponent(final T selected) {
-        final TranslatableComponent.Builder builder = translatable().key("commands.config.editable").color(GRAY).args(this.label().color(WHITE));
+        final TranslatableComponent.Builder builder = translatable().key("commands.config.editable").color(GRAY).arguments(this.label().color(WHITE));
         if (this.extendedDescription() != Component.empty()) {
             builder.append(newline()).append(this.extendedDescription().color(GRAY));
         }

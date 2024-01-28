@@ -26,15 +26,11 @@ import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static net.kyori.adventure.text.Component.text;
-
 class Lifecycle extends ModuleLifecycle {
 
-    static final Component PACK_PROMPT = text("This resource pack adds a texture for the Redstone Wrench");
 
     private final Config config;
 
@@ -48,7 +44,7 @@ class Lifecycle extends ModuleLifecycle {
     public void onEnable() {
         if (this.config.suggestResourcePack) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                player.setResourcePack(RotationWrenches.RESOURCE_PACK_URL, RotationWrenches.RESOURCE_PACK_HASH, PACK_PROMPT);
+                player.sendResourcePacks(RotationWrenches.PACK_REQUEST);
             });
         }
 
@@ -58,7 +54,7 @@ class Lifecycle extends ModuleLifecycle {
     public void onReload() {
         if (this.config.suggestResourcePack) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                player.setResourcePack(RotationWrenches.RESOURCE_PACK_URL, RotationWrenches.RESOURCE_PACK_HASH, PACK_PROMPT);
+                player.sendResourcePacks(RotationWrenches.PACK_REQUEST);
             });
         }
     }

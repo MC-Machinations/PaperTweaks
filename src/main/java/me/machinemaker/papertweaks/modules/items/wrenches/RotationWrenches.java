@@ -19,9 +19,10 @@
  */
 package me.machinemaker.papertweaks.modules.items.wrenches;
 
-import java.math.BigInteger;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
@@ -29,6 +30,8 @@ import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.modules.ModuleRecipe;
 import me.machinemaker.papertweaks.utils.Keys;
+import net.kyori.adventure.resource.ResourcePackRequest;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
@@ -39,14 +42,25 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static net.kyori.adventure.resource.ResourcePackInfo.resourcePackInfo;
+import static net.kyori.adventure.resource.ResourcePackRequest.resourcePackRequest;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.Style.style;
 
 @ModuleInfo(name = "RotationWrenches", configPath = "items.rotation-wrenches", description = "A wrench to rotate redstone components and/or terracotta")
 public class RotationWrenches extends ModuleBase {
 
-    static final String RESOURCE_PACK_URL = "https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip";
-    static final byte[] RESOURCE_PACK_HASH = new BigInteger("1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147", 16).toByteArray();
+    private static final UUID RESOURCE_PACK_UUID = UUID.fromString("904f0c77-69fd-380e-b1d7-5241aa6f5637");
+    private static final URI RESOURCE_PACK_URL = URI.create("https://potrebic.box.com/shared/static/uw4fvii2o8qsjuz6xuant1safwjdnrez.zip");
+    private static final String RESOURCE_PACK_HASH = "1ACF79C491B3CB9EEE50816AD0CC1FC45AABA147";
+    private static final Component PACK_PROMPT = text("This resource pack adds a texture for the Redstone Wrench");
+
+    static final ResourcePackRequest PACK_REQUEST = resourcePackRequest()
+        .prompt(PACK_PROMPT)
+        .required(true)
+        .packs(resourcePackInfo(RESOURCE_PACK_UUID, RESOURCE_PACK_URL, RESOURCE_PACK_HASH))
+        .build();
+
     static final int RESOURCE_PACK_MODEL_DATA = 4321;
     static final NamespacedKey WRENCH_RECIPE_KEY = Keys.legacyKey("redstone_wrench");
     static final ShapedRecipe WRENCH_RECIPE;

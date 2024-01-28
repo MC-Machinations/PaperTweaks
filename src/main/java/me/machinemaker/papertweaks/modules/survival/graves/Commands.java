@@ -127,7 +127,7 @@ class Commands extends ConfiguredModuleCommand {
     }
 
     private static Component formatLocation(final Location loc, final boolean hoverAndClick) {
-        final TranslatableComponent.Builder builder = translatable().key("modules.graves.location-format").color(YELLOW).args(text(loc.getBlockX()), text(loc.getBlockY()), text(loc.getBlockZ()));
+        final TranslatableComponent.Builder builder = translatable().key("modules.graves.location-format").color(YELLOW).arguments(text(loc.getBlockX()), text(loc.getBlockY()), text(loc.getBlockZ()));
         if (hoverAndClick) {
             final String tpCommand = "/tp %s %s %s".formatted(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
             return builder.hoverEvent(HoverEvent.showText(text(tpCommand))).clickEvent(ClickEvent.runCommand(tpCommand)).build();
