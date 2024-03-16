@@ -29,10 +29,8 @@ import java.util.concurrent.TimeUnit;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.settings.ModuleSettings;
 import me.machinemaker.papertweaks.tags.Tags;
-import me.machinemaker.papertweaks.utils.Keys;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,6 +42,8 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 class PlayerListener implements ModuleListener {
 
@@ -90,10 +90,10 @@ class PlayerListener implements ModuleListener {
     Component createNotification(final Material type, final int durability) {
         return translatable(
             "modules.durability-ping.notification.tool",
-            NamedTextColor.RED,
-            translatable(Keys.itemTranslationKey(type), NamedTextColor.GOLD),
-            text(type.getMaxDurability() - durability - 1, NamedTextColor.GOLD),
-            text(type.getMaxDurability(), NamedTextColor.GOLD)
+            RED,
+            translatable(type, GOLD),
+            text(type.getMaxDurability() - durability - 1, GOLD),
+            text(type.getMaxDurability(), GOLD)
         );
     }
 

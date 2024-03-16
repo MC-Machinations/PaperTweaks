@@ -145,7 +145,9 @@ public class PaperTweaks extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.moduleManager.disableModules(true);
+        if (this.moduleManager != null) {
+            this.moduleManager.disableModules(true);
+        }
         EXECUTOR_SERVICE.shutdownNow();
     }
 

@@ -47,11 +47,11 @@ import me.machinemaker.papertweaks.settings.ModuleSettings;
 import me.machinemaker.papertweaks.settings.Setting;
 import me.machinemaker.papertweaks.settings.types.ConfigSetting;
 import me.machinemaker.papertweaks.settings.types.PlayerSetting;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static net.kyori.adventure.text.Component.translatable;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
 @SuppressWarnings("Convert2Diamond")
 public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<CommandDispatcher, S, Object, SettingArgument.SettingChange<C, S>> {
@@ -90,7 +90,7 @@ public class SettingArgument<C, S extends Setting<?, C>> extends ArgumentPair<Co
                         playerSetting.reset(player);
                     }
                 }
-                context.getSender().sendMessage(translatable(translationKey + ".success", NamedTextColor.GREEN));
+                context.getSender().sendMessage(translatable(translationKey + ".success", GREEN));
             });
     }
 

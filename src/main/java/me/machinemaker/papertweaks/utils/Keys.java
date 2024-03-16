@@ -37,8 +37,4 @@ public final class Keys {
     public static NamespacedKey key(final String string) {
         return new NamespacedKey(NAMESPACE, string);
     }
-
-    public static String itemTranslationKey(final Material material) {
-        return "item." + material.getKey().getNamespace() + "." + material.getKey().getKey().replace('/', '.');
-    }
 }

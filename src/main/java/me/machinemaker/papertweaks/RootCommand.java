@@ -45,9 +45,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -57,8 +54,17 @@ import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.textOfChildren;
 import static net.kyori.adventure.text.Component.translatable;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.event.ClickEvent.copyToClipboard;
+import static net.kyori.adventure.text.event.ClickEvent.runCommand;
+import static net.kyori.adventure.text.event.HoverEvent.showText;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static net.kyori.adventure.text.format.TextColor.color;
 
 @DefaultQualifier(NonNull.class)
 public class RootCommand extends PaperTweaksCommand {
@@ -150,12 +156,19 @@ public class RootCommand extends PaperTweaksCommand {
             if (lifecycle.isEmpty()) continue;
             final ModuleState state = lifecycle.get().getState();
             if (showAll || state.isRunning()) {
-                final TextComponent.Builder builder = text().color(TextColor.color(0x8F8F8F)).append(text(" - "));
+                final TextComponent.Builder builder = text().color(color(0x8F8F8F)).append(text(" - "));
                 if ((state.isRunning() && context.getSender().hasPermission("vanillatweaks.main.disable")) || (!state.isRunning() && context.getSender().hasPermission("vanillatweaks.main.enable"))) {
-                    builder.append(text("[" + (state.isRunning() ? "■" : "▶") + "]", state.isRunning() ? RED : GREEN).hoverEvent(HoverEvent.showText(translatable("commands.config.bool-toggle." + state.isRunning(), state.isRunning() ? RED : GREEN, text(moduleBase.getName(), GOLD)))).clickEvent(ClickEvent.runCommand("/vanillatweaks " + (state.isRunning() ? "disable " : "enable ") + moduleBase.getName()))).append(space());
+                    builder.append(
+                        text("[" + (state.isRunning() ? "■" : "▶") + "]", state.isRunning() ? RED : GREEN)
+                            .hoverEvent(showText(translatable("commands.config.bool-toggle." + state.isRunning(), state.isRunning() ? RED : GREEN, text(moduleBase.getName(), GOLD))))
+                            .clickEvent(runCommand("/vanillatweaks " + (state.isRunning() ? "disable " : "enable ") + moduleBase.getName()))
+                    ).append(space());
                 }
 
-                builder.append(text(moduleBase.getName(), state.isRunning() ? GREEN : RED).hoverEvent(HoverEvent.showText(text(moduleBase.getDescription(), GRAY))));
+                builder.append(
+                    text(moduleBase.getName(), state.isRunning() ? GREEN : RED)
+                        .hoverEvent(showText(text(moduleBase.getDescription(), GRAY)))
+                );
                 list.append(builder).append(newline());
             }
         }
@@ -163,11 +176,24 @@ public class RootCommand extends PaperTweaksCommand {
     }
 
     private ComponentLike createHeader(final int page, final List<ModuleBase> modules) {
-        return text().append(AbstractConfigurationMenu.TITLE_LINE).append(ChatWindow.center(text("Modules - Page " + page + "/" + ((int) Math.ceil(modules.size() / (double) PAGE_SIZE))).hoverEvent(HoverEvent.showText(translatable("commands.list.success.header.hover", GRAY)))).append(newline())).append(AbstractConfigurationMenu.TITLE_LINE);
+        return textOfChildren(
+            AbstractConfigurationMenu.TITLE_LINE,
+            ChatWindow.center(
+                text("Modules - Page " + page + "/" + ((int) Math.ceil(modules.size() / (double) PAGE_SIZE)))
+                    .hoverEvent(showText(translatable("commands.list.success.header.hover", GRAY)))
+            ),
+            newline(),
+            AbstractConfigurationMenu.TITLE_LINE
+        );
     }
 
     private void showVersion(final CommandContext<CommandDispatcher> context) {
-        final TextComponent.Builder component = text().append(PaperTweaks.PLUGIN_PREFIX).append(translatable("commands.version.success", GRAY, text(PaperTweaks.class.getPackage().getImplementationVersion(), GOLD)).hoverEvent(HoverEvent.showText(translatable("commands.version.success.hover", GRAY))).clickEvent(ClickEvent.copyToClipboard(PaperTweaks.class.getPackage().getImplementationVersion())));
+        final Component component = textOfChildren(
+            PaperTweaks.PLUGIN_PREFIX,
+            translatable("commands.version.success", GRAY, text(PaperTweaks.class.getPackage().getImplementationVersion(), GOLD))
+                .hoverEvent(showText(translatable("commands.version.success.hover", GRAY)))
+                .clickEvent(copyToClipboard(PaperTweaks.class.getPackage().getImplementationVersion()))
+        );
         context.getSender().sendMessage(component);
     }
 
