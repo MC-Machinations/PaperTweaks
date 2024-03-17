@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.utilities.spectatoreffects;
 
-import cloud.commandframework.Command;
+import org.incendo.cloud.Command;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleCommand;

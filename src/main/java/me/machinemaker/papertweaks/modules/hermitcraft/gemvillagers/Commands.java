@@ -19,17 +19,19 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.gemvillagers;
 
-import cloud.commandframework.bukkit.parsers.location.LocationArgument;
 import com.google.inject.Inject;
-import me.machinemaker.papertweaks.cloud.arguments.PseudoEnumArgument;
+import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
+import me.machinemaker.papertweaks.cloud.parsers.PseudoEnumParser;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import org.bukkit.Location;
+import org.incendo.cloud.bukkit.parser.location.LocationParser;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static org.incendo.cloud.component.DefaultValue.dynamic;
 
 @ModuleCommand.Info(value = "gemvillagers", aliases = {"gvillagers", "gv"}, i18n = "gem-villagers", perm = "gemvillagers")
 class Commands extends ConfiguredModuleCommand {
@@ -45,13 +47,14 @@ class Commands extends ConfiguredModuleCommand {
     protected void registerCommands() {
         this.register(
             this.literal(this.player(), "spawn")
-                .argument(PseudoEnumArgument.single("villager", this.gemVillagers.villagers.keySet()))
-                .argument(LocationArgument.optional("loc"))
+                .senderType(PlayerCommandDispatcher.class)
+                .required("villager", PseudoEnumParser.singlePseudoEnumParser(this.gemVillagers.villagers.keySet()))
+                .optional("loc", LocationParser.locationParser(), dynamic(ctx -> ctx.sender().sender().getLocation()))
                 .handler(this.sync((context, player) -> {
                     final String villager = context.get("villager");
-                    final Location loc = context.<Location>getOptional("loc").orElse(player.getLocation());
+                    final Location loc = context.get("loc");
                     this.gemVillagers.villagers.get(villager).spawnVillager(loc.getWorld(), loc);
-                    context.getSender().sendMessage(translatable("modules.gem-villagers.commands.spawn.success", YELLOW, text(villager, GOLD)));
+                    context.sender().sendMessage(translatable("modules.gem-villagers.commands.spawn.success", YELLOW, text(villager, GOLD)));
                 }))
         );
     }

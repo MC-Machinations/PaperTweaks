@@ -19,12 +19,12 @@
  */
 package me.machinemaker.papertweaks.modules.survival.coordinateshud;
 
-import cloud.commandframework.bukkit.arguments.selector.MultiplePlayerSelector;
-import cloud.commandframework.bukkit.parsers.selector.MultiplePlayerSelectorArgument;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
+import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -50,22 +50,22 @@ class Commands extends ModuleCommand {
             .handler(this.sync((context, player) -> {
                 if (this.hudRunnable.contains(player)) {
                     this.hudRunnable.setAndRemove(player);
-                    context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-off", GREEN));
-                    context.getSender().sendActionBar(Component.empty());
+                    context.sender().sendMessage(translatable("modules.coordinates-hud.hud-off", GREEN));
+                    context.sender().sendActionBar(Component.empty());
                 } else {
                     this.hudRunnable.setAndAdd(player);
-                    context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-on", GREEN));
+                    context.sender().sendMessage(translatable("modules.coordinates-hud.hud-on", GREEN));
                 }
             }))
         );
 
         this.register(this.builder()
             .literal("player")
-            .argument(MultiplePlayerSelectorArgument.of("players"))
+            .required("players", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
             .permission(this.modulePermission("vanillatweaks.coordinateshud.togglehud.others"))
             .handler(this.sync(context -> {
                 final MultiplePlayerSelector players = context.get("players");
-                for (final Player player : players.getPlayers()) {
+                for (final Player player : players.values()) {
                     if (this.hudRunnable.contains(player)) {
                         this.hudRunnable.setAndRemove(player);
                         player.sendActionBar(Component.empty());
@@ -73,7 +73,7 @@ class Commands extends ModuleCommand {
                         this.hudRunnable.setAndAdd(player);
                     }
                 }
-                context.getSender().sendMessage(translatable("modules.coordinates-hud.hud-toggled-for", style(GRAY, ITALIC), text(players.getPlayers().size())));
+                context.sender().sendMessage(translatable("modules.coordinates-hud.hud-toggled-for", style(GRAY, ITALIC), text(players.values().size())));
             }))
         );
     }

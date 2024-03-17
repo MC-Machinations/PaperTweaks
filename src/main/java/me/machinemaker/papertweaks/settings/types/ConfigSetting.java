@@ -19,11 +19,11 @@
  */
 package me.machinemaker.papertweaks.settings.types;
 
-import cloud.commandframework.arguments.parser.ArgumentParser;
-import cloud.commandframework.arguments.standard.BooleanArgument;
-import cloud.commandframework.arguments.standard.DoubleArgument;
-import cloud.commandframework.arguments.standard.EnumArgument;
-import cloud.commandframework.arguments.standard.IntegerArgument;
+import org.incendo.cloud.parser.ArgumentParser;
+import org.incendo.cloud.parser.standard.BooleanParser;
+import org.incendo.cloud.parser.standard.DoubleParser;
+import org.incendo.cloud.parser.standard.EnumParser;
+import org.incendo.cloud.parser.standard.IntegerParser;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.leangen.geantyref.GenericTypeReflector;
 import me.machinemaker.lectern.ValueNode;
@@ -46,19 +46,19 @@ public record ConfigSetting<T, C extends MenuModuleConfig<C, ?>>(ValueNode<T> no
     }
 
     public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Boolean, C> ofBoolean(final ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanArgument.BooleanParser<>(false));
+        return new ConfigSetting<>((ValueNode<Boolean>) valueNode, new BooleanParser<>(false));
     }
 
     public static <E extends Enum<E>, C extends MenuModuleConfig<C, ?>> ConfigSetting<E, C> ofEnum(final ValueNode<?> valueNode, final Class<E> classOfE) {
-        return new ConfigSetting<>((ValueNode<E>) valueNode, new EnumArgument.EnumParser<>(classOfE));
+        return new ConfigSetting<>((ValueNode<E>) valueNode, new EnumParser<>(classOfE));
     }
 
     public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Integer, C> ofInt(final ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerArgument.IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerArgument.IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerArgument.IntegerParser.DEFAULT_MAXIMUM).toString())));
+        return new ConfigSetting<>((ValueNode<Integer>) valueNode, new IntegerParser<>(Integer.parseInt(valueNode.meta().getOrDefault("min", IntegerParser.DEFAULT_MINIMUM).toString()), Integer.parseInt(valueNode.meta().getOrDefault("max", IntegerParser.DEFAULT_MAXIMUM).toString())));
     }
 
     public static <C extends MenuModuleConfig<C, ?>> ConfigSetting<Double, C> ofDouble(final ValueNode<?> valueNode) {
-        return new ConfigSetting<>((ValueNode<Double>) valueNode, new DoubleArgument.DoubleParser<>(Double.parseDouble(valueNode.meta().getOrDefault("min", DoubleArgument.DoubleParser.DEFAULT_MINIMUM).toString()), Double.parseDouble(valueNode.meta().getOrDefault("max", DoubleArgument.DoubleParser.DEFAULT_MAXIMUM).toString())));
+        return new ConfigSetting<>((ValueNode<Double>) valueNode, new DoubleParser<>(Double.parseDouble(valueNode.meta().getOrDefault("min", DoubleParser.DEFAULT_MINIMUM).toString()), Double.parseDouble(valueNode.meta().getOrDefault("max", DoubleParser.DEFAULT_MAXIMUM).toString())));
     }
 
     private static Component createValidations(final ValueNode<?> valueNode) {

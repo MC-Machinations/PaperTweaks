@@ -19,7 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.survival.graves;
 
-import cloud.commandframework.types.tuples.Pair;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
@@ -60,6 +59,7 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.type.tuple.Pair;
 
 import static java.util.Objects.requireNonNull;
 import static me.machinemaker.papertweaks.utils.Entities.getNearbyEntitiesOfType;
@@ -316,11 +316,11 @@ class PlayerListener implements ModuleListener {
         }
 
         ArmorStand getHeadstone() {
-            return this.getFirst();
+            return this.first();
         }
 
         ArmorStand getBase() {
-            return this.getSecond();
+            return this.second();
         }
 
         void remove() {

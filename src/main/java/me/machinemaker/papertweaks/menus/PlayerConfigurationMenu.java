@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.menus;
 
-import cloud.commandframework.context.CommandContext;
+import org.incendo.cloud.context.CommandContext;
 import java.util.List;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
@@ -35,7 +35,7 @@ public class PlayerConfigurationMenu extends AbstractConfigurationMenu<Player> {
     }
 
     public void send(final CommandContext<CommandDispatcher> context) {
-        this.send(context.getSender(), PlayerCommandDispatcher.from(context));
+        this.send(context.sender(), PlayerCommandDispatcher.from(context));
     }
 
     @Override

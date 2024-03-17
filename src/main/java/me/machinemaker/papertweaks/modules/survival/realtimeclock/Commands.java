@@ -19,9 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.survival.realtimeclock;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.bukkit.parsers.WorldArgument;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -31,6 +28,10 @@ import me.machinemaker.papertweaks.modules.ModuleCommand;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.minecraft.extras.RichDescription;
+
+import static org.incendo.cloud.bukkit.parser.WorldParser.worldParser;
 
 @ModuleCommand.Info(value = "gametime", aliases = {"gtime", "gt"}, descriptionKey = "modules.real-time-clock.commands.root", miniMessage = true, infoOnRoot = false)
 class Commands extends ModuleCommand {
@@ -52,16 +53,16 @@ class Commands extends ModuleCommand {
             .handler(context -> {
                 final Player player = PlayerCommandDispatcher.from(context);
                 final Duration duration = Duration.of(player.getWorld().getGameTime() / 20, ChronoUnit.SECONDS);
-                this.sendGameTime(context.getSender(), duration, player.getWorld());
+                this.sendGameTime(context.sender(), duration, player.getWorld());
             })
         );
         this.register(builder
             .permission(this.modulePermission("vanillatweaks.realtimeclock.other"))
-            .argument(WorldArgument.of("world"), RichDescription.translatable("modules.real-time-clock.commands.specific-world"))
+            .required("world", worldParser(), RichDescription.translatable("modules.real-time-clock.commands.specific-world"))
             .handler(context -> {
                 final World world = context.get("world");
                 final Duration duration = Duration.of(world.getGameTime() / 20, ChronoUnit.SECONDS);
-                this.sendGameTime(context.getSender(), duration, world);
+                this.sendGameTime(context.sender(), duration, world);
             })
         );
     }

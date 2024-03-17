@@ -19,12 +19,12 @@
  */
 package me.machinemaker.papertweaks.cloud.cooldown;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.CommandManager;
-import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
-import cloud.commandframework.execution.postprocessor.CommandPostprocessor;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.services.types.ConsumerService;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.execution.postprocessor.CommandPostprocessingContext;
+import org.incendo.cloud.execution.postprocessor.CommandPostprocessor;
+import org.incendo.cloud.key.CloudKey;
+import org.incendo.cloud.services.type.ConsumerService;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
@@ -85,7 +85,7 @@ public final class CommandCooldownManager<C, I> {
     }
 
     public synchronized void invalidate(final I id, final Command<C> command) {
-        command.getCommandMeta().get(CommandCooldown.COMMAND_META_KEY)
+        command.commandMeta().optional(CommandCooldown.COMMAND_META_KEY)
                 .ifPresent(cooldown -> this.invalidate(id, cooldown.key()));
     }
 
@@ -104,13 +104,13 @@ public final class CommandCooldownManager<C, I> {
         @SuppressWarnings("unchecked")
         @Override
         public void accept(final CommandPostprocessingContext<C> context) {
-            final I id = this.mapToId(context.getCommandContext().getSender());
+            final I id = this.mapToId(context.commandContext().sender());
             if (id == null) {
                 return;
             }
             final Optional<Duration> cooldownDuration = this.cooldownDuration(context);
             if (cooldownDuration.isPresent() && !cooldownDuration.get().isZero()) {
-                final CommandCooldown<C> commandCooldown = (CommandCooldown<C>) context.getCommand().getCommandMeta().get(CommandCooldown.COMMAND_META_KEY).orElseThrow();
+                final CommandCooldown<C> commandCooldown = (CommandCooldown<C>) context.command().commandMeta().optional(CommandCooldown.COMMAND_META_KEY).orElseThrow();
                 final CloudKey<Void> commandCooldownKey = commandCooldown.key();
                 final long cooldownMillis = cooldownDuration.get().toMillis();
                 final long currentMillis = System.currentTimeMillis();
@@ -128,12 +128,12 @@ public final class CommandCooldownManager<C, I> {
                         }
                     } else {
                         senderCooldownMap.put(commandCooldownKey, currentMillis + cooldownMillis);
-                        this.setupEntryRemoval(id, context.getCommand(), cooldownMillis);
+                        this.setupEntryRemoval(id, context.command(), cooldownMillis);
                     }
                 } else {
                     final Map<CloudKey<Void>, Long> map = new ConcurrentHashMap<>(Map.of(commandCooldownKey, currentMillis + cooldownMillis));
                     CommandCooldownManager.this.commandsOnCooldown.put(id, map);
-                    this.setupEntryRemoval(id, context.getCommand(), cooldownMillis);
+                    this.setupEntryRemoval(id, context.command(), cooldownMillis);
                 }
             }
         }
@@ -148,8 +148,8 @@ public final class CommandCooldownManager<C, I> {
 
         @SuppressWarnings({"rawtypes", "unchecked"})
         private Optional<Duration> cooldownDuration(final CommandPostprocessingContext<C> context) {
-            return context.getCommand().getCommandMeta()
-                    .get(CommandCooldown.COMMAND_META_KEY)
+            return context.command().commandMeta()
+                    .optional(CommandCooldown.COMMAND_META_KEY)
                     .map(cooldown -> cooldown.duration().getDuration((CommandPostprocessingContext) context));
         }
 

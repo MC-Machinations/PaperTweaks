@@ -19,9 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.teleportation.back;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
 import com.google.inject.Inject;
 import java.time.Duration;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldown;
@@ -31,16 +28,19 @@ import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.utils.PTUtils;
 import org.bukkit.Location;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.key.CloudKey;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 @ModuleCommand.Info(value = "back", i18n = "back", perm = "back", infoOnRoot = false)
 class Commands extends ConfiguredModuleCommand {
 
-    static final CloudKey<Void> BACK_COMMAND_COOLDOWN_KEY = SimpleCloudKey.of("papertweaks:back_cmd_cooldown");
+    static final CloudKey<Void> BACK_COMMAND_COOLDOWN_KEY = cloudKey("papertweaks:back_cmd_cooldown");
 
     private final Config config;
 
@@ -55,7 +55,7 @@ class Commands extends ConfiguredModuleCommand {
 
         final CommandCooldown<CommandDispatcher> backCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
             .key(BACK_COMMAND_COOLDOWN_KEY)
-            .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))))
+            .notifier((context, cooldown, secondsLeft) -> context.commandContext().sender().sendMessage(translatable("modules.back.commands.root.cooldown", RED, text(secondsLeft))))
             .build();
 
         this.register(builder
@@ -67,13 +67,13 @@ class Commands extends ConfiguredModuleCommand {
                 }
                 @Nullable Location loc = Back.BACK_LOCATION.getFrom(player);
                 if (loc == null) {
-                    context.getSender().sendMessage(translatable("modules.back.commands.root.fail.no-loc", RED));
+                    context.sender().sendMessage(translatable("modules.back.commands.root.fail.no-loc", RED));
                     return;
                 }
                 loc = PTUtils.toCenter(loc, false);
-                context.getSender().sendMessage(translatable("modules.back.commands.root.success", GOLD));
+                context.sender().sendMessage(translatable("modules.back.commands.root.success", GOLD));
                 if (this.config.delay > 0) {
-                    new BackTeleportRunnable(player, loc, this.config.delay * 20L, context.getSender()).start();
+                    new BackTeleportRunnable(player, loc, this.config.delay * 20L, context.sender()).start();
                 } else {
                     Back.setBackLocation(player, player.getLocation());
                     if (loc.getChunk().isLoaded()) {

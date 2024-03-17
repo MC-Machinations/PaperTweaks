@@ -19,14 +19,13 @@
  */
 package me.machinemaker.papertweaks.modules.survival.multiplayersleep;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.standard.EnumArgument;
 import com.google.inject.Inject;
 import java.util.List;
 import me.machinemaker.papertweaks.adventure.Components;
-import me.machinemaker.papertweaks.cloud.arguments.SettingArgument;
+import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
+import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair;
 import me.machinemaker.papertweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.papertweaks.menus.options.SelectableEnumMenuOption;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
@@ -35,7 +34,10 @@ import me.machinemaker.papertweaks.settings.types.PlayerSetting;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
 
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.playerSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.resetPlayerSettings;
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -45,6 +47,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static org.incendo.cloud.parser.standard.EnumParser.enumParser;
 
 @ModuleCommand.Info(value = "multiplayersleep", aliases = {"mpsleep", "mps"}, i18n = "multiplayer-sleep", perm = "multiplayersleep")
 class Commands extends ConfiguredModuleCommand {
@@ -87,30 +90,30 @@ class Commands extends ConfiguredModuleCommand {
                     } else {
                         almostAsleep = translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep.empty", RED);
                     }
-                    context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.fully-asleep", GREEN, fullyAsleep));
-                    context.getSender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep", YELLOW, almostAsleep));
+                    context.sender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.fully-asleep", GREEN, fullyAsleep));
+                    context.sender().sendMessage(translatable("modules.multiplayer-sleep.commands.sleeping.almost-asleep", YELLOW, almostAsleep));
                 })
         );
         this.register(configBuilder.handler(this.menu::send));
         this.register(configBuilder
-            .hidden()
+            .apply(MetaKeys.hiddenCommand())
             .literal("preview_display")
-            .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
+            .required("displaySetting", enumParser(Settings.DisplaySetting.class))
             .handler(context -> {
                 context.<Settings.DisplaySetting>get("displaySetting").preview(PlayerCommandDispatcher.from(context));
             })
         );
         this.register(configBuilder
-            .hidden()
-            .argument(SettingArgument.playerSettings(this.settings.index()))
+            .apply(MetaKeys.hiddenCommand())
+            .required(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY, playerSettings(this.settings.index()))
             .handler(context -> {
-                final SettingArgument.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
+                final SettingArgumentPair.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY);
                 final Player player = PlayerCommandDispatcher.from(context);
                 change.apply(player);
                 this.menu.send(context);
             })
         );
-        this.register(SettingArgument.resetPlayerSettings(configBuilder, "modules.multiplayer-sleep.commands.config.reset", this.settings));
+        this.register(resetPlayerSettings(configBuilder, "modules.multiplayer-sleep.commands.config.reset", this.settings));
         // TODO if set to action bar or boss bar, don't wait for SleepContext#recalculate to send notifications
 
         this.config.createCommands(this, builder);

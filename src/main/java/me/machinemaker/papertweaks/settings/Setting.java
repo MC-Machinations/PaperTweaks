@@ -19,10 +19,10 @@
  */
 package me.machinemaker.papertweaks.settings;
 
-import cloud.commandframework.arguments.parser.ArgumentParser;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.parser.ArgumentParser;
 
 public interface Setting<T, C> {
 

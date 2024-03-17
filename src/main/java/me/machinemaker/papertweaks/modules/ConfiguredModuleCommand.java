@@ -19,16 +19,15 @@
  */
 package me.machinemaker.papertweaks.modules;
 
-import cloud.commandframework.ArgumentDescription;
-import cloud.commandframework.Command;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.common.base.Preconditions;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.description.Description;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 
 import static net.kyori.adventure.text.Component.text;
+import static org.incendo.cloud.description.Description.description;
 
 public abstract class ConfiguredModuleCommand extends ModuleCommand {
 
@@ -41,7 +40,7 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
     }
 
     protected final <C> Command.Builder<C> literal(final Command.Builder<C> parent, final String name) {
-        final ArgumentDescription literalDescription = this.buildSimpleDescription(name);
+        final Description literalDescription = this.buildSimpleDescription(name);
         final Command.Builder<C> builder = parent
             .literal(name, literalDescription)
             .permission(this.modulePermission(this.permValue(name)));
@@ -49,7 +48,7 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
     }
 
     protected final <C> Command.Builder<C> adminLiteral(final Command.Builder<C> parent, final String name) {
-        final ArgumentDescription literalDescription = this.buildSimpleDescription(ADMIN + "." + name);
+        final Description literalDescription = this.buildSimpleDescription(ADMIN + "." + name);
         final Command.Builder<C> builder = parent
             .literal(ADMIN, RichDescription.translatable("commands.admin", text(this.moduleBase.getName())))
             .literal(name, literalDescription)
@@ -58,19 +57,18 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
     }
 
     protected final Command.Builder<CommandDispatcher> builder(final String name, final String... aliases) {
-        final ArgumentDescription literalDescription = this.buildSimpleDescription(name);
+        final Description literalDescription = this.buildSimpleDescription(name);
         final Command.Builder<CommandDispatcher> builder = this.manager()
             .commandBuilder(name, this.buildRootMeta(), literalDescription, aliases)
             .permission(this.modulePermission(this.permValue(name)));
         return this.addDescription(builder, literalDescription);
     }
 
-    protected final <C> Command.Builder<C> addDescription(final Command.Builder<C> builder, final ArgumentDescription description) {
-        builder.meta(CommandMeta.DESCRIPTION, ""); // clear existing description
+    protected final <C> Command.Builder<C> addDescription(final Command.Builder<C> builder, final Description description) {
         if (this.commandInfo.miniMessage()) {
-            return builder.meta(CommandMeta.DESCRIPTION, description.getDescription());
+            return builder.commandDescription(description(description.textDescription()));
         } else {
-            return builder.meta(MinecraftExtrasMetaKeys.DESCRIPTION, ((RichDescription) description).getContents());
+            return builder.commandDescription(description);
         }
     }
 
@@ -78,16 +76,16 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
         return this.builder(name, aliases).senderType(PlayerCommandDispatcher.class);
     }
 
-    final ArgumentDescription buildSimpleDescription(final String name) {
+    final Description buildSimpleDescription(final String name) {
         return this.buildDescription(this.i18nValue(name));
     }
 
-    final ArgumentDescription buildDescription(final String i18nKey) {
+    final Description buildDescription(final String i18nKey) {
         return translatableDescriptionFactory(this.commandInfo.miniMessage()).apply(i18nKey);
     }
 
     @Override
-    ArgumentDescription buildRootDescription() {
+    Description buildRootDescription() {
         return this.buildSimpleDescription("root");
     }
 

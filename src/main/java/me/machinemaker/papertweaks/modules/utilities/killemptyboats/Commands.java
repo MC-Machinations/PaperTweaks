@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.utilities.killemptyboats;
 
-import cloud.commandframework.Command;
+import org.incendo.cloud.Command;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import org.bukkit.Bukkit;
@@ -50,7 +50,7 @@ class Commands extends ModuleCommand {
                         }
                     }
                 }
-                context.getSender().sendMessage(translatable("modules.kill-empty-boats.removed-boats", count > 0 ? YELLOW : RED, text(count)));
+                context.sender().sendMessage(translatable("modules.kill-empty-boats.removed-boats", count > 0 ? YELLOW : RED, text(count)));
             }))
         );
     }

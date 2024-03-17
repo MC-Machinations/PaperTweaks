@@ -19,14 +19,16 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.treasuregems;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.standard.IntegerArgument;
 import com.google.inject.Inject;
-import me.machinemaker.papertweaks.cloud.arguments.PseudoEnumArgument;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import org.bukkit.inventory.ItemStack;
+import org.incendo.cloud.Command;
+
+import static me.machinemaker.papertweaks.cloud.parsers.PseudoEnumParser.singlePseudoEnumParser;
+import static org.incendo.cloud.component.DefaultValue.constant;
+import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 
 @ModuleCommand.Info(value = "treasuregems", aliases = {"tgems"}, i18n = "treasure-gems", perm = "treasuregems")
 class Commands extends ConfiguredModuleCommand {
@@ -44,8 +46,8 @@ class Commands extends ConfiguredModuleCommand {
 
         this.register(
             this.literal(builder, "give")
-                .argument(PseudoEnumArgument.single("head", this.treasureGems.heads.keySet()))
-                .argument(IntegerArgument.<CommandDispatcher>builder("count").asOptionalWithDefault(1).withMin(1))
+                .required("head", singlePseudoEnumParser(this.treasureGems.heads.keySet()))
+                .optional("count", integerParser(1), constant(1))
                 .handler(this.sync((context, player) -> {
                     final ItemStack head = this.treasureGems.heads.get((String) context.get("head")).clone();
                     head.setAmount(context.get("count"));

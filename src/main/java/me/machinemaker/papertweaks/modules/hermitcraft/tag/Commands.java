@@ -19,10 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.tag;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.standard.EnumArgument;
-import cloud.commandframework.bukkit.parsers.PlayerArgument;
-import cloud.commandframework.execution.CommandExecutionHandler;
 import com.google.inject.Inject;
 import java.util.Locale;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
@@ -32,6 +28,8 @@ import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.utils.boards.DisplaySlot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.execution.CommandExecutionHandler;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -39,6 +37,8 @@ import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
+import static org.incendo.cloud.parser.standard.EnumParser.enumParser;
 
 @ModuleCommand.Info(value = "tag", i18n = "tag", perm = "tag")
 class Commands extends ConfiguredModuleCommand {
@@ -58,7 +58,7 @@ class Commands extends ConfiguredModuleCommand {
 
         final Command.Builder<CommandDispatcher> giveTagBuilder = this.literal(builder, "givetag").handler(this.giveTag());
         this.register(giveTagBuilder.senderType(PlayerCommandDispatcher.class));
-        this.register(giveTagBuilder.argument(PlayerArgument.of("player")));
+        this.register(giveTagBuilder.required("player", playerParser()));
         this.register(
             this.literal(builder, "reset")
                 .handler(this.sync(context -> {
@@ -67,24 +67,24 @@ class Commands extends ConfiguredModuleCommand {
                         if (Tag.IT.has(player)) {
                             removed = true;
                             this.tagManager.removeAsIt(player);
-                            context.getSender().sendMessage(translatable("modules.tag.commands.reset.success", GREEN, text(player.getName(), GOLD)));
+                            context.sender().sendMessage(translatable("modules.tag.commands.reset.success", GREEN, text(player.getName(), GOLD)));
                         }
                     }
                     if (!removed) {
-                        context.getSender().sendMessage(translatable("modules.tag.commands.reset.fail"));
+                        context.sender().sendMessage(translatable("modules.tag.commands.reset.fail"));
                     }
                 }))
         );
         this.register(
             this.literal(builder, "counter")
-                .argument(EnumArgument.of(DisplaySlot.class, "slot"))
+                .required("slot", enumParser(DisplaySlot.class))
                 .handler(this.sync(context -> {
                     final DisplaySlot slot = context.get("slot");
                     if (slot.isDisplayedOn(this.tagManager.tagCounter)) {
-                        context.getSender().sendMessage(translatable("modules.tag.commands.counter.fail", RED));
+                        context.sender().sendMessage(translatable("modules.tag.commands.counter.fail", RED));
                     } else {
                         slot.changeFor(this.tagManager.tagCounter);
-                        context.getSender().sendMessage(translatable("modules.tag.commands.counter.success", GREEN, text(slot.name().toLowerCase(Locale.ENGLISH), GOLD)));
+                        context.sender().sendMessage(translatable("modules.tag.commands.counter.success", GREEN, text(slot.name().toLowerCase(Locale.ENGLISH), GOLD)));
                     }
                 }))
         );
@@ -95,8 +95,8 @@ class Commands extends ConfiguredModuleCommand {
     private CommandExecutionHandler<CommandDispatcher> giveTag() {
         return this.sync(context -> {
             final Player player = context.getOrSupplyDefault("player", () -> PlayerCommandDispatcher.from(context));
-            if (this.tagManager.setAsIt(context.getSender().sender(), player) && this.config.showMessages) {
-                Bukkit.getServer().sendMessage(translatable("modules.tag.tag.success", YELLOW, text(context.getSender().sender().getName()), text(player.getName())));
+            if (this.tagManager.setAsIt(context.sender().sender(), player) && this.config.showMessages) {
+                Bukkit.getServer().sendMessage(translatable("modules.tag.tag.success", YELLOW, text(context.sender().sender().getName()), text(player.getName())));
             }
         });
     }

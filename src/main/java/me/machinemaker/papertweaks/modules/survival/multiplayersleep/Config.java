@@ -19,7 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.survival.multiplayersleep;
 
-import cloud.commandframework.context.CommandContext;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,6 +45,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.context.CommandContext;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -102,7 +102,7 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
     @Override
     protected void sendMenu(final CommandContext<CommandDispatcher> context) {
         final Player player = PlayerCommandDispatcher.from(context);
-        context.getSender().sendMessage(this.menu().build(this, player.getWorld()));
+        context.sender().sendMessage(this.menu().build(this, player.getWorld()));
     }
 
     @Override

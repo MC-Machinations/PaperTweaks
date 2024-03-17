@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
-import cloud.commandframework.context.CommandContext;
+import org.incendo.cloud.context.CommandContext;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
@@ -46,7 +46,7 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     }
 
     public static Player from(final CommandContext<?> context) {
-        if (context.getSender() instanceof final PlayerCommandDispatcher playerCommandDispatcher) {
+        if (context.sender() instanceof final PlayerCommandDispatcher playerCommandDispatcher) {
             return playerCommandDispatcher.sender();
         }
         throw new IllegalArgumentException("Not a PlayerCommandDispatcher");
@@ -71,7 +71,7 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     }
 
     @Override
-    public @Nullable UUID getUUID() {
+    public UUID getUUID() {
         return this.player.getUniqueId();
     }
 

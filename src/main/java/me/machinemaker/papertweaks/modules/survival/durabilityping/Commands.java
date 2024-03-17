@@ -19,12 +19,11 @@
  */
 package me.machinemaker.papertweaks.modules.survival.durabilityping;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.standard.EnumArgument;
 import com.google.inject.Inject;
 import java.util.List;
-import me.machinemaker.papertweaks.cloud.arguments.SettingArgument;
+import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
+import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair;
 import me.machinemaker.papertweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.papertweaks.menus.options.BooleanMenuOption;
 import me.machinemaker.papertweaks.menus.options.SelectableEnumMenuOption;
@@ -35,10 +34,14 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
 
 import static me.machinemaker.papertweaks.adventure.Components.join;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.playerSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.resetPlayerSettings;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static org.incendo.cloud.parser.standard.EnumParser.enumParser;
 
 @ModuleCommand.Info(value = "durabilityping", aliases = {"dping", "dp"}, i18n = "durability-ping", perm = "durabilityping")
 class Commands extends ConfiguredModuleCommand {
@@ -76,25 +79,28 @@ class Commands extends ConfiguredModuleCommand {
         final Command.Builder<CommandDispatcher> configBuilder = this.literal(builder, "config");
 
         this.register(configBuilder.handler(this.menu::send));
-        this.register(configBuilder.hidden()
+        this.register(configBuilder
+            .apply(MetaKeys.hiddenCommand())
             .literal("preview_display")
-            .argument(EnumArgument.of(Settings.DisplaySetting.class, "displaySetting"))
-            .handler(context -> context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.getSender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2)))
+            .required("displaySetting", enumParser(Settings.DisplaySetting.class))
+            .handler(context -> context.<Settings.DisplaySetting>get("displaySetting").sendMessage(context.sender(), this.listener.createNotification(Material.ELYTRA, Material.ELYTRA.getMaxDurability() / 2)))
         );
-        this.register(configBuilder.hidden()
+        this.register(configBuilder
+            .apply(MetaKeys.hiddenCommand())
             .literal("preview_sound")
-            .handler((context -> context.getSender().playSound(DurabilityPing.SOUND, Sound.Emitter.self())))
+            .handler(context -> context.sender().playSound(DurabilityPing.SOUND, Sound.Emitter.self()))
         );
-        this.register(configBuilder.hidden()
-            .argument(SettingArgument.playerSettings(this.settings.index()))
+        this.register(configBuilder
+            .apply(MetaKeys.hiddenCommand())
+            .required(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY, playerSettings(this.settings.index()))
             .handler(this.sync((context, player) -> {
-                final SettingArgument.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgument.PLAYER_SETTING_CHANGE_KEY);
+                final SettingArgumentPair.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY);
                 change.apply(player);
                 this.listener.settingsCache.invalidate(player.getUniqueId());
                 this.menu.send(context);
             }))
         );
-        this.register(SettingArgument.resetPlayerSettings(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
+        this.register(resetPlayerSettings(configBuilder, "modules.durability-ping.commands.config.reset", this.settings));
 
         this.config.createCommands(this, builder);
     }

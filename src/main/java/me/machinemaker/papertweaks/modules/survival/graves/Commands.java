@@ -19,12 +19,10 @@
  */
 package me.machinemaker.papertweaks.modules.survival.graves;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.bukkit.arguments.selector.MultiplePlayerSelector;
-import cloud.commandframework.bukkit.parsers.selector.MultiplePlayerSelectorArgument;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +42,9 @@ import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -54,6 +53,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
+import static org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser.multiplePlayerSelectorParser;
 
 @ModuleCommand.Info(value = "graves", i18n = "graves", perm = "graves")
 class Commands extends ConfiguredModuleCommand {
@@ -87,35 +87,35 @@ class Commands extends ConfiguredModuleCommand {
             this.literal(builder, "locate")
                 .handler(this.sync((context, player) -> {
                     if (!this.config.graveLocating) {
-                        context.getSender().sendMessage(translatable("modules.graves.commands.locate.disabled", RED));
+                        context.sender().sendMessage(translatable("modules.graves.commands.locate.disabled", RED));
                         return;
                     }
                     final @Nullable Location location = player.getPersistentDataContainer().get(PlayerListener.LAST_GRAVE_LOCATION, DataTypes.LOCATION);
                     if (location == null) {
-                        context.getSender().sendMessage(translatable("modules.graves.commands.locate.none-found", RED));
+                        context.sender().sendMessage(translatable("modules.graves.commands.locate.none-found", RED));
                     } else {
                         final Component loc = formatLocation(location, false);
                         final Component world = location.getWorld() != null ? text(location.getWorld().getName(), YELLOW) : text("unknown world");
-                        context.getSender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
+                        context.sender().sendMessage(translatable("modules.graves.last-grave-location", GOLD, loc, world));
                     }
                 }))
         );
         this.register(this.adminLiteral(builder, "grave-key").handler(this.sync((context, player) -> player.getInventory().addItem(GRAVE_KEY))));
 
         this.register(this.adminLiteral(builder, "locate")
-            .argument(MultiplePlayerSelectorArgument.<CommandDispatcher>builder("targets").allowEmpty(false))
+            .required("targets", multiplePlayerSelectorParser(false))
             .handler(this.sync((context) -> {
                 final MultiplePlayerSelector selector = context.get("targets");
-                final List<@NonNull Player> players = selector.getPlayers();
+                final Collection<Player> players = selector.values();
                 for (final Player target : players) {
                     final Map<World, List<Location>> locations = locateGravesFor(target);
                     if (locations.isEmpty()) {
-                        context.getSender().sendMessage(translatable("modules.graves.commands.admin.locate.none-found", target.displayName()));
+                        context.sender().sendMessage(translatable("modules.graves.commands.admin.locate.none-found", target.displayName()));
                     } else {
                         locations.forEach((world, locs) -> {
-                            context.getSender().sendMessage(translatable("modules.graves.commands.admin.locate.found.header", target.displayName(), text(world.key().asString())));
+                            context.sender().sendMessage(translatable("modules.graves.commands.admin.locate.found.header", target.displayName(), text(world.key().asString())));
                             for (final Location loc : locs) {
-                                context.getSender().sendMessage(formatLocation(loc, true));
+                                context.sender().sendMessage(formatLocation(loc, true));
                             }
                         });
                     }

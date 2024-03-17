@@ -19,7 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.hermitcraft.thundershrine;
 
-import cloud.commandframework.Command;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
@@ -30,6 +29,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.ArmorStand;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
@@ -47,7 +47,7 @@ class Commands extends ConfiguredModuleCommand {
                 .handler(this.sync((context, player) -> {
                     final @Nullable ArmorStand stand = Entities.getSingleNearbyEntityOfType(ArmorStand.class, player.getLocation(), 3, 3, 3);
                     if (stand == null) {
-                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.fail.no-stands", RED));
+                        context.sender().sendMessage(translatable("modules.thunder-shrine.commands.create.fail.no-stands", RED));
                     } else {
                         stand.getWorld().spawnParticle(Particle.TOTEM, stand.getLocation(), 100, 0, 0, 0, 0.5);
                         stand.getWorld().playSound(stand.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.MASTER, 1.0f, 0.75f);
@@ -59,7 +59,7 @@ class Commands extends ConfiguredModuleCommand {
                             ThunderShrine.SHRINE.setTo(cloud, player.getUniqueId());
                         });
                         stand.remove();
-                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.create.success", YELLOW));
+                        context.sender().sendMessage(translatable("modules.thunder-shrine.commands.create.success", YELLOW));
                     }
                 }))
         );
@@ -68,10 +68,10 @@ class Commands extends ConfiguredModuleCommand {
                 .handler(this.sync((context, player) -> {
                     final @Nullable AreaEffectCloud cloud = Entities.getSingleNearbyEntityOfType(AreaEffectCloud.class, player.getLocation(), 3, 3, 3, c -> player.getUniqueId().equals(ThunderShrine.SHRINE.getFrom(c)));
                     if (cloud == null) {
-                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.fail.no-stands", RED));
+                        context.sender().sendMessage(translatable("modules.thunder-shrine.commands.remove.fail.no-stands", RED));
                     } else {
                         cloud.remove();
-                        context.getSender().sendMessage(translatable("modules.thunder-shrine.commands.remove.success", YELLOW));
+                        context.sender().sendMessage(translatable("modules.thunder-shrine.commands.remove.success", YELLOW));
                     }
                 }))
         );

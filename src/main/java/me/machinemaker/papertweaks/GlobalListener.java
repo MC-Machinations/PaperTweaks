@@ -19,8 +19,8 @@
  */
 package me.machinemaker.papertweaks;
 
-import cloud.commandframework.bukkit.CloudBukkitCapabilities;
-import cloud.commandframework.paper.PaperCommandManager;
+import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
+import org.incendo.cloud.paper.PaperCommandManager;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleManager;

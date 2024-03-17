@@ -2,6 +2,7 @@ import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
     java
+    idea
     alias(libs.plugins.shadow)
     alias(libs.plugins.indra.licenser.spotless)
     alias(libs.plugins.runPaper)
@@ -96,6 +97,13 @@ indraSpotlessLicenser {
     }
 }
 
+idea {
+    module {
+        isDownloadJavadoc = true
+        isDownloadSources = true
+    }
+}
+
 tasks {
     assemble {
         dependsOn(shadowJar)
@@ -143,7 +151,7 @@ tasks {
         }
 
         listOf(
-            "cloud.commandframework", // cloud
+            "org.incendo", // cloud
             "com.fasterxml.jackson", // jackson
             "com.github.benmanes", // caffeine
             "com.google.inject", // guice

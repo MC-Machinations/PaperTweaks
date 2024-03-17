@@ -19,17 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules;
 
-import cloud.commandframework.ArgumentDescription;
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.standard.StringArgument;
-import cloud.commandframework.execution.CommandExecutionHandler;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.meta.SimpleCommandMeta;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
-import cloud.commandframework.minecraft.extras.MinecraftHelp;
-import cloud.commandframework.minecraft.extras.RichDescription;
-import cloud.commandframework.paper.PaperCommandManager;
-import cloud.commandframework.permission.CommandPermission;
 import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
@@ -41,6 +30,7 @@ import java.lang.annotation.Target;
 import java.util.Objects;
 import java.util.function.Function;
 import me.machinemaker.papertweaks.adventure.TranslationRegistry;
+import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.ModulePermission;
 import me.machinemaker.papertweaks.cloud.PaperTweaksCommand;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
@@ -53,9 +43,22 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.BukkitCommandMeta;
+import org.incendo.cloud.description.Description;
+import org.incendo.cloud.execution.CommandExecutionHandler;
+import org.incendo.cloud.key.CloudKey;
+import org.incendo.cloud.meta.CommandMeta;
+import org.incendo.cloud.minecraft.extras.AudienceProvider;
+import org.incendo.cloud.minecraft.extras.MinecraftHelp;
+import org.incendo.cloud.minecraft.extras.RichDescription;
+import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.parser.standard.StringParser;
+import org.incendo.cloud.permission.Permission;
 import org.intellij.lang.annotations.Pattern;
 
 import static me.machinemaker.papertweaks.adventure.Components.CLOSE_BRACKET;
@@ -72,11 +75,13 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 import static net.kyori.adventure.text.format.TextColor.color;
+import static org.incendo.cloud.description.Description.description;
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 public abstract class ModuleCommand extends PaperTweaksCommand {
 
-    private static final CommandMeta.Key<ModuleBase> MODULE_OWNER = CommandMeta.Key.of(ModuleBase.class, "papertweaks:commands/module_owner");
-    private static final MinecraftHelp.HelpColors MODULE_HELP_COLORS = MinecraftHelp.HelpColors.of(
+    private static final CloudKey<ModuleBase> MODULE_OWNER = cloudKey("papertweaks:commands/module_owner", ModuleBase.class);
+    private static final MinecraftHelp.HelpColors MODULE_HELP_COLORS = MinecraftHelp.helpColors(
         color(0x70B3B3),
         AQUA,
         color(0x5290FA),
@@ -91,14 +96,13 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
     private Command.@MonotonicNonNull Builder<CommandDispatcher> rootBuilder;
 
     private static <C> CommandExecutionHandler<C> createHelpHandler(final MinecraftHelp<C> help) {
-        return context -> help.queryCommands(Objects.requireNonNull(context.getOrDefault("query", ""), "must supply a help query"), context.getSender());
+        return context -> help.queryCommands(Objects.requireNonNull(context.getOrDefault("query", ""), "must supply a help query"), context.sender());
     }
 
     // MiniMessage descriptions will use the MinecraftHelp description decorator to parse
-    static Function<String, ? extends ArgumentDescription> translatableDescriptionFactory(final boolean usesMiniMessage) {
-        return usesMiniMessage ? ArgumentDescription::of : RichDescription::translatable;
+    static Function<String, ? extends Description> translatableDescriptionFactory(final boolean usesMiniMessage) {
+        return usesMiniMessage ? Description::description : RichDescription::translatable;
     }
-
 
     final void registerCommands0(final ModuleLifecycle lifecycle) {
         Objects.requireNonNull(this.commandInfo, this + " is not annotated with @ModuleCommand.Info");
@@ -119,29 +123,28 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
 
     @EnsuresNonNull("rootBuilder")
     private void setupRootBuilder() {
-        this.rootBuilder = this.manager.commandBuilder(this.commandInfo.value(), this.buildRootMeta(), this.buildRootDescription(), this.commandInfo.aliases());
+        this.rootBuilder = this.manager.commandBuilder(this.commandInfo.value(), this.buildRootMeta(), this.commandInfo.aliases());
+        if (this.commandInfo.miniMessage()) {
+            // if the command uses minimessage translations, set the verbose description to the minimessage translation key
+            this.rootBuilder = this.rootBuilder.commandDescription(this.buildRootDescription(), description(this.buildRootDescription().textDescription()));
+        }
     }
 
     protected CommandMeta buildRootMeta() {
-        final SimpleCommandMeta.Builder builder = CommandMeta.simple()
-            .with(MODULE_OWNER, this.moduleBase);
-        if (this.commandInfo.miniMessage()) { // mini message requires the mini message i18n key to be in this description
-            builder.with(CommandMeta.DESCRIPTION, this.buildRootDescription().getDescription());
-        } else {
-            builder.with(CommandMeta.DESCRIPTION, "§cUse \"/" + this.commandInfo.value() + "\" for help")
-                .with(MinecraftExtrasMetaKeys.DESCRIPTION, ((RichDescription) this.buildRootDescription()).getContents());
-        }
-        return builder.build();
+        return CommandMeta.builder()
+            .with(MODULE_OWNER, this.moduleBase)
+            .with(BukkitCommandMeta.BUKKIT_DESCRIPTION, LegacyComponentSerializer.legacySection().serialize(text("Use \"%s\" for help".formatted(this.commandInfo.value()), RED)))
+            .build();
     }
 
     private void createInfoCommand() {
         Objects.requireNonNull(this.rootBuilder, "Must create info command after root builder");
         Command.Builder<CommandDispatcher> builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle))
-            .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.info.hover", text(this.moduleBase.getName(), GOLD)));
+            .commandDescription(RichDescription.translatable("commands.info.hover", text(this.moduleBase.getName(), GOLD)));
         if (!this.commandInfo.infoOnRoot()) {
             builder = builder.literal("info");
         }
-        this.manager.command(builder.handler(context -> context.getSender().sendMessage(this.buildInfoComponent(context.getSender().sender()))));
+        this.manager.command(builder.handler(context -> context.sender().sendMessage(this.buildInfoComponent(context.sender().sender()))));
     }
 
     @EnsuresNonNull("infoComponent")
@@ -192,18 +195,21 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
     void setupHelp() {
         Objects.requireNonNull(this.rootBuilder, "Must configure help after root builder");
         if (this.commandInfo.help()) {
-            final MinecraftHelp<CommandDispatcher> help = MinecraftHelp.createNative("/" + this.commandInfo.value() + " help", this.manager);
-            help.descriptionDecorator((dispatcher, key) -> TranslationRegistry.translate(key, dispatcher.locale()).map(MiniMessage.miniMessage()::deserialize).orElseThrow());
-            help.setHelpColors(MODULE_HELP_COLORS);
-            help.commandFilter(command -> {
-                final boolean isOwnedByThis = command.getCommandMeta().get(MODULE_OWNER).map(Functions.forPredicate(module -> module == this.moduleBase)).orElse(false);
-                return isOwnedByThis && !command.isHidden();
-            });
+            final MinecraftHelp<CommandDispatcher> help = MinecraftHelp.<CommandDispatcher>builder()
+                .commandManager(this.manager)
+                .audienceProvider(AudienceProvider.nativeAudience())
+                .commandPrefix("/" + this.commandInfo.value() + " help")
+                .colors(MODULE_HELP_COLORS)
+                .descriptionDecorator((dispatcher, key) -> TranslationRegistry.translate(key, dispatcher.locale()).map(MiniMessage.miniMessage()::deserialize).orElseThrow())
+                .commandFilter(command -> {
+                    final boolean isOwnedByThis = command.commandMeta().optional(MODULE_OWNER).map(Functions.forPredicate(module -> module == this.moduleBase)).orElse(false);
+                    return isOwnedByThis && !command.commandMeta().contains(MetaKeys.HIDDEN);
+                }).build();
             this.manager.command(this.rootBuilder
                 .literal("help")
                 .permission(ModulePermission.of(this.lifecycle))
-                .argument(StringArgument.<CommandDispatcher>builder("query").greedy().asOptional().withDefaultDescription(RichDescription.translatable("commands.help.query")))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.help", text(this.moduleBase.getName())))
+                .commandDescription(RichDescription.translatable("commands.help", text(this.moduleBase.getName())))
+                .argument(StringParser.stringComponent(StringParser.StringMode.GREEDY).name("query").optional().description(RichDescription.translatable("commands.help.query")))
                 .handler(createHelpHandler(help)));
         }
     }
@@ -219,7 +225,7 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
         return this.manager;
     }
 
-    protected final CommandPermission modulePermission(final String permission) {
+    protected final Permission modulePermission(final String permission) {
         return ModulePermission.of(this.lifecycle(), permission);
     }
 
@@ -239,7 +245,7 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
         return this.rootBuilder.senderType(ConsoleCommandDispatcher.class);
     }
 
-    ArgumentDescription buildRootDescription() {
+    Description buildRootDescription() {
         return translatableDescriptionFactory(this.commandInfo.miniMessage()).apply(this.commandInfo.descriptionKey());
     }
 

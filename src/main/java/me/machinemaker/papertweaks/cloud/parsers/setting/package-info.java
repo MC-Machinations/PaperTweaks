@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2024 Machine_Maker
+ * Copyright (C) 2024 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package me.machinemaker.papertweaks.cloud.arguments;
+@DefaultQualifier(NonNull.class)
+package me.machinemaker.papertweaks.cloud.parsers.setting;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
-
-public interface ArgumentFactory {
-
-    HomeArgument home(boolean required, String name);
-
-    ModuleArgument module(@Nullable Boolean enabled);
-}
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

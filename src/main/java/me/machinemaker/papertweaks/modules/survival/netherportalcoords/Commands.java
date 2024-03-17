@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.survival.netherportalcoords;
 
-import cloud.commandframework.Command;
+import org.incendo.cloud.Command;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
@@ -49,11 +49,11 @@ class Commands extends ModuleCommand {
                 final Player player = PlayerCommandDispatcher.from(context);
                 final Location loc = player.getLocation();
                 if (this.config.overWorlds().contains(player.getWorld())) {
-                    this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether"); // TODO use coord scale from DimensionType
+                    this.messageService.coordinatesMsg(context.sender(), new MessageService.CoordinatesComponent(loc, i -> i / 8), "Nether"); // TODO use coord scale from DimensionType
                 } else if (this.config.netherWorlds().contains(player.getWorld())) {
-                    this.messageService.coordinatesMsg(context.getSender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld"); // TODO use coord scale from DimensionType
+                    this.messageService.coordinatesMsg(context.sender(), new MessageService.CoordinatesComponent(loc, i -> i * 8), "Overworld"); // TODO use coord scale from DimensionType
                 } else {
-                    this.messageService.invalidWorld(context.getSender());
+                    this.messageService.invalidWorld(context.sender());
                 }
             })
         );

@@ -19,8 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules;
 
-import cloud.commandframework.CommandManager;
-import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +32,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.setting.ManagerSetting;
 
 public abstract class ModuleLifecycle {
 
@@ -128,9 +128,9 @@ public abstract class ModuleLifecycle {
     }
 
     private void enableCommands() {
-        this.commandManager.setSetting(CommandManager.ManagerSettings.ALLOW_UNSAFE_REGISTRATION, true);
+        this.commandManager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, true);
         this.commands.stream().filter(Predicate.not(ModuleCommand::isRegistered)).forEach(moduleCommand -> moduleCommand.registerCommands0(this));
-        this.commandManager.setSetting(CommandManager.ManagerSettings.ALLOW_UNSAFE_REGISTRATION, false);
+        this.commandManager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, false);
     }
 
     private void registerListeners() {

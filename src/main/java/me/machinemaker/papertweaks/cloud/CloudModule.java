@@ -19,15 +19,6 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.CommandManager;
-import cloud.commandframework.arguments.StaticArgument;
-import cloud.commandframework.brigadier.CloudBrigadierManager;
-import cloud.commandframework.bukkit.CloudBukkitCapabilities;
-import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
-import cloud.commandframework.minecraft.extras.AudienceProvider;
-import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler;
-import cloud.commandframework.paper.PaperCommandManager;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.AbstractModule;
@@ -46,18 +37,25 @@ import me.machinemaker.mirror.FieldAccessor;
 import me.machinemaker.mirror.MethodInvoker;
 import me.machinemaker.mirror.Mirror;
 import me.machinemaker.mirror.paper.PaperMirror;
-import me.machinemaker.papertweaks.cloud.arguments.ArgumentFactory;
-import me.machinemaker.papertweaks.cloud.arguments.PseudoEnumArgument;
+import me.machinemaker.papertweaks.cloud.parsers.ParserFactory;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcherFactory;
-import me.machinemaker.papertweaks.cloud.processors.SimpleSuggestionProcessor;
+import me.machinemaker.papertweaks.cloud.parsers.PseudoEnumParser;
+import me.machinemaker.papertweaks.cloud.processors.ConditionalCaseInsensitiveSuggestionProcessor;
 import me.machinemaker.papertweaks.cloud.processors.post.GamemodePostprocessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.SenderMapper;
+import org.incendo.cloud.brigadier.CloudBrigadierManager;
+import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
+import org.incendo.cloud.paper.PaperCommandManager;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
@@ -82,7 +80,7 @@ public class CloudModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        this.install(new FactoryModuleBuilder().build(ArgumentFactory.class));
+        this.install(new FactoryModuleBuilder().build(ParserFactory.class));
     }
 
     @Provides
@@ -90,7 +88,7 @@ public class CloudModule extends AbstractModule {
     CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager() {
         return CommandCooldownManager.create(
             CommandDispatcher::getUUID,
-            (context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(text("Cooling down", RED)),
+            (context, cooldown, secondsLeft) -> context.commandContext().sender().sendMessage(text("Cooling down", RED)),
             this.executorService);
     }
 
@@ -101,25 +99,25 @@ public class CloudModule extends AbstractModule {
                                                                final MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
         final LoadingCache<CommandSender, CommandDispatcher> senderCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build(commandDispatcherFactory);
         try {
-            final PaperCommandManager<CommandDispatcher> manager = new PaperCommandManager<>(
+            final PaperCommandManager<CommandDispatcher> manager = new PaperCommandManager<CommandDispatcher>(
                 this.plugin,
-                AsynchronousCommandExecutionCoordinator.<CommandDispatcher>builder().build(),
-                commandSender -> {
-                    try {
-                        return senderCache.get(commandSender);
-                    } catch (final ExecutionException e) {
-                        throw new IllegalArgumentException("Error mapping command sender", e);
-                    }
-                },
-                CommandDispatcher::sender
+                ExecutionCoordinator.asyncCoordinator(),
+                SenderMapper.create(
+                    commandSender -> {
+                        try {
+                            return senderCache.get(commandSender);
+                        } catch (final ExecutionException e) {
+                            throw new IllegalArgumentException("Error mapping command sender", e);
+                        }
+                    },
+                    CommandDispatcher::sender
+                )
             ) {
                 @Override
-                public CommandManager<CommandDispatcher> command(final Command<CommandDispatcher> command) {
-                    if (command.getArguments().get(0) instanceof final StaticArgument<?> staticArgument) {
-                        final String main = staticArgument.getName();
-                        if (VANILLA_COMMAND_WRAPPER_CLASS.isInstance(getCommandMap().get(main))) {
-                            getCommandMap().remove(main);
-                        }
+                public CommandManager<CommandDispatcher> command(final Command<? extends CommandDispatcher> command) {
+                    final String main = command.rootComponent().name();
+                    if (VANILLA_COMMAND_WRAPPER_CLASS.isInstance(getCommandMap().get(main))) {
+                        getCommandMap().remove(main);
                     }
                     return super.command(command);
                 }
@@ -132,21 +130,19 @@ public class CloudModule extends AbstractModule {
                 manager.registerBrigadier();
             }
 
-            minecraftExceptionHandler.apply(manager, AudienceProvider.nativeAudience());
+            minecraftExceptionHandler.registerTo(manager);
             commandCooldownManager.registerCooldownManager(manager);
             manager.registerCommandPostProcessor(new GamemodePostprocessor());
-            manager.commandSuggestionProcessor(new SimpleSuggestionProcessor());
+            manager.suggestionProcessor(ConditionalCaseInsensitiveSuggestionProcessor.instance());
 
-            final @Nullable CloudBrigadierManager<CommandDispatcher, ?> brigManager = manager.brigadierManager();
-            if (brigManager != null) {
-                brigManager.registerMapping(new TypeToken<PseudoEnumArgument.PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
-                    builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {
-                        case QUOTED -> StringArgumentType.string();
-                        case GREEDY -> StringArgumentType.greedyString();
-                        default -> StringArgumentType.word();
-                    });
+            final CloudBrigadierManager<CommandDispatcher, ?> brigManager = manager.brigadierManager();
+            brigManager.registerMapping(new TypeToken<PseudoEnumParser<CommandDispatcher>>() {}, builder -> {
+                builder.cloudSuggestions().to(argument -> switch (argument.getStringMode()) {
+                    case QUOTED -> StringArgumentType.string();
+                    case GREEDY -> StringArgumentType.greedyString();
+                    default -> StringArgumentType.word();
                 });
-            }
+            });
 
             return manager;
         } catch (final Exception e) {
@@ -157,11 +153,11 @@ public class CloudModule extends AbstractModule {
     @Provides
     @Singleton
     private MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler() {
-        return new MinecraftExceptionHandler<CommandDispatcher>()
-            .withArgumentParsingHandler()
-            .withCommandExecutionHandler()
-            .withInvalidSenderHandler()
-            .withInvalidSyntaxHandler()
-            .withNoPermissionHandler();
+        return MinecraftExceptionHandler.<CommandDispatcher>createNative()
+            .defaultArgumentParsingHandler()
+            .defaultCommandExecutionHandler()
+            .defaultInvalidSenderHandler()
+            .defaultInvalidSyntaxHandler()
+            .defaultNoPermissionHandler();
     }
 }

@@ -19,15 +19,15 @@
  */
 package me.machinemaker.papertweaks.modules.mobs.countmobdeaths;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.execution.CommandExecutionHandler;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import me.machinemaker.papertweaks.utils.boards.Scoreboards;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.execution.CommandExecutionHandler;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
@@ -52,21 +52,21 @@ class Commands extends ConfiguredModuleCommand {
             .handler(this.sync((player, context, countingBoard) -> {
                 countingBoard.setCounting(true);
                 player.setScoreboard(countingBoard.scoreboard());
-                context.getSender().sendMessage(translatable("modules.mob-death-count.started", GREEN));
+                context.sender().sendMessage(translatable("modules.mob-death-count.started", GREEN));
             }))
         );
         this.register(
             this.literal(builder, "stop")
             .handler(this.sync((player, context, countingBoard) -> {
                 countingBoard.setCounting(false);
-                context.getSender().sendMessage(translatable("modules.mob-death-count.stopped", YELLOW));
+                context.sender().sendMessage(translatable("modules.mob-death-count.stopped", YELLOW));
             }))
         );
         this.register(
             this.literal(builder, "reset")
             .handler(this.sync((player, context, countingBoard) -> {
                 countingBoard.scoreboard().getEntries().forEach(countingBoard.scoreboard()::resetScores);
-                context.getSender().sendMessage(translatable("modules.mob-death-count.reset", GREEN));
+                context.sender().sendMessage(translatable("modules.mob-death-count.reset", GREEN));
             }))
         );
         this.register(

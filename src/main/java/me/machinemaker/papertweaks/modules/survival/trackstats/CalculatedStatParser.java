@@ -19,34 +19,28 @@
  */
 package me.machinemaker.papertweaks.modules.survival.trackstats;
 
-import cloud.commandframework.arguments.parser.ArgumentParseResult;
-import cloud.commandframework.arguments.parser.ArgumentParser;
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.exceptions.parsing.NoInputProvidedException;
-import java.util.List;
-import java.util.Queue;
-import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.context.CommandInput;
+import org.incendo.cloud.parser.ArgumentParseResult;
+import org.incendo.cloud.parser.ArgumentParser;
+import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 
-public class CalculatedStatParser implements ArgumentParser<CommandDispatcher, CalculatedStat> {
+class CalculatedStatParser<C> implements ArgumentParser<C, CalculatedStat>, BlockingSuggestionProvider.Strings<C> {
 
     @Override
-    public ArgumentParseResult<CalculatedStat> parse(final CommandContext<CommandDispatcher> commandContext, final Queue<String> inputQueue) {
-        final @Nullable String input = inputQueue.peek();
-        if (input == null) {
-            return ArgumentParseResult.failure(new NoInputProvidedException(CalculatedStatParser.class, commandContext));
-        }
+    public ArgumentParseResult<CalculatedStat> parse(final CommandContext<C> commandContext, final CommandInput commandInput) {
+        final String input = commandInput.readString();
         final @Nullable CalculatedStat stat = Stats.REGISTRY.get(input);
         if (stat == null) {
             return ArgumentParseResult.failure(new IllegalArgumentException(input + " is not a valid stat"));
         } else {
-            inputQueue.remove();
             return ArgumentParseResult.success(stat);
         }
     }
 
     @Override
-    public List<String> suggestions(final CommandContext<CommandDispatcher> commandContext, final String input) {
-        return List.copyOf(Stats.REGISTRY.keySet());
+    public Iterable<String> stringSuggestions(final CommandContext<C> commandContext, final CommandInput input) {
+        return Stats.REGISTRY.keySet();
     }
 }

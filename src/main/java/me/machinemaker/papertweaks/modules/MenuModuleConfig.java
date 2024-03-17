@@ -19,11 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules;
 
-import cloud.commandframework.ArgumentDescription;
-import cloud.commandframework.Command;
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
 import io.leangen.geantyref.TypeToken;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -37,9 +32,10 @@ import me.machinemaker.lectern.annotations.validations.numbers.Max;
 import me.machinemaker.lectern.annotations.validations.numbers.Min;
 import me.machinemaker.lectern.collection.ConfigField;
 import me.machinemaker.papertweaks.adventure.TranslationRegistry;
-import me.machinemaker.papertweaks.cloud.arguments.SettingArgument;
+import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
+import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair;
 import me.machinemaker.papertweaks.menus.ConfigurationMenu;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.menus.config.ConfigMenuOptionBuilder;
@@ -55,13 +51,19 @@ import me.machinemaker.papertweaks.utils.ChatWindow;
 import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.description.Description;
+import org.incendo.cloud.key.CloudKey;
 
 import static me.machinemaker.papertweaks.adventure.Components.join;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.configSettings;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M extends ConfigurationMenu<C>> extends ModuleConfig {
 
@@ -80,7 +82,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
 
     private final Map<String, ConfigSetting<?, C>> settings = new HashMap<>();
     @SuppressWarnings("Convert2Diamond")
-    private final CloudKey<SettingArgument.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = SimpleCloudKey.of(SettingArgument.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgument.SettingChange<C, ConfigSetting<?, C>>>() {});
+    private final CloudKey<SettingArgumentPair.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = cloudKey(SettingArgumentPair.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgumentPair.SettingChange<C, ConfigSetting<?, C>>>() {});
     private @MonotonicNonNull M menu;
 
     private static void registerOptionBuilder(final ConfigMenuOptionBuilder<?> builder) {
@@ -160,11 +162,12 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
 
     public void createCommands(final ConfiguredModuleCommand command, final Command.Builder<CommandDispatcher> builder) {
         final Command.Builder<CommandDispatcher> configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME).senderType(PlayerCommandDispatcher.class);
-        final ArgumentDescription resetDescription = command.buildDescription(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset");
+        final Description resetDescription = command.buildDescription(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset");
         command.manager()
             .command(configBuilder.handler(this::sendMenu))
-            .command(configBuilder.hidden()
-                .argument(SettingArgument.configSettings(this.settingChangeCloudKey, this.settings))
+            .command(configBuilder
+                .apply(MetaKeys.hiddenCommand())
+                .required(this.settingChangeCloudKey, configSettings(this.settingChangeCloudKey, this.settings))
                 .handler(context -> {
                     context.get(this.settingChangeCloudKey).apply(this.self());
                     this.save();
@@ -176,7 +179,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
                 .handler(context -> {
                     this.settings.values().forEach(setting -> setting.reset(this.self()));
                     this.save();
-                    context.getSender().sendMessage(translatable(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset.success", GREEN));
+                    context.sender().sendMessage(translatable(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset.success", GREEN));
                 })
             );
     }

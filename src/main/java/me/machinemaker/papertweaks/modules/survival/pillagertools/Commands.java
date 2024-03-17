@@ -19,13 +19,13 @@
  */
 package me.machinemaker.papertweaks.modules.survival.pillagertools;
 
-import cloud.commandframework.Command;
 import com.google.inject.Inject;
 import java.util.Locale;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import net.kyori.adventure.text.TextComponent;
+import org.incendo.cloud.Command;
 
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
@@ -61,7 +61,7 @@ class Commands extends ConfiguredModuleCommand {
                             translatable("commands.config.default-value.bool." + this.config.getSettingValue(option), GREEN)
                         ));
                     }
-                    context.getSender().sendMessage(txtBuilder);
+                    context.sender().sendMessage(txtBuilder);
                 })
         );
 

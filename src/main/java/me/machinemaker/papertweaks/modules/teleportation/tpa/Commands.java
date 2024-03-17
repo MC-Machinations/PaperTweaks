@@ -19,45 +19,44 @@
  */
 package me.machinemaker.papertweaks.modules.teleportation.tpa;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.bukkit.parsers.PlayerArgument;
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
 import com.google.inject.Inject;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import me.machinemaker.papertweaks.cloud.SuggestionProviders;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldown;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.parser.PlayerParser;
+import org.incendo.cloud.key.CloudKey;
+import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 
+import static me.machinemaker.papertweaks.cloud.SuggestionProviders.playersWithoutSelf;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 @ModuleCommand.Info(value = "tpa", i18n = "tpa", perm = "tpa")
 class Commands extends ConfiguredModuleCommand {
 
-    static final CloudKey<Void> TPA_REQUEST_COOLDOWN_KEY = SimpleCloudKey.of("papertweaks:tpa_request_cmd_cooldown");
+    static final CloudKey<Void> TPA_REQUEST_COOLDOWN_KEY = cloudKey("papertweaks:tpa_request_cmd_cooldown");
 
     private final TPAManager tpaManager;
     private final Config config;
-    private final BiFunction<CommandContext<CommandDispatcher>, String, List<String>> requestSuggestions;
+    private final BlockingSuggestionProvider.Strings<CommandDispatcher> requestSuggestions;
 
     @Inject
     Commands(final TPAManager tpaManager, final Config config) {
         this.tpaManager = tpaManager;
         this.config = config;
-        this.requestSuggestions = (context, s) -> {
-            if (this.tpaManager.requestsByTarget.containsKey(context.getSender().getUUID())) {
-                final Collection<Request> requests = this.tpaManager.requestsByTarget.get(context.getSender().getUUID());
+        this.requestSuggestions = (context, input) -> {
+            if (this.tpaManager.requestsByTarget.containsKey(context.sender().getUUID())) {
+                final Collection<Request> requests = this.tpaManager.requestsByTarget.get(context.sender().getUUID());
                 return requests.stream().map(Request::playerFrom).filter(Optional::isPresent).map(Optional::get).map(Player::getName).toList();
             }
             return Collections.emptyList();
@@ -70,17 +69,17 @@ class Commands extends ConfiguredModuleCommand {
 
         final CommandCooldown<CommandDispatcher> requestCooldown = CommandCooldown.<CommandDispatcher>builder(context -> Duration.ofSeconds(this.config.cooldown))
             .key(TPA_REQUEST_COOLDOWN_KEY)
-            .notifier((context, cooldown, secondsLeft) -> context.getCommandContext().getSender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))))
+            .notifier((context, cooldown, secondsLeft) -> context.commandContext().sender().sendMessage(translatable("modules.tpa.commands.request.cooldown", RED, text(secondsLeft))))
             .build();
 
         this.register(
             this.literal(builder, "request")
                 .apply(requestCooldown)
-                .argument(PlayerArgument.<CommandDispatcher>builder("target").withSuggestionsProvider(SuggestionProviders.playersWithoutSelf()))
+                .required("target", playerParser(), playersWithoutSelf())
                 .handler(this.sync((context, player) -> {
                     final Player target = context.get("target");
                     if (player == target) {
-                        context.getSender().sendMessage(translatable("modules.tpa.commands.request.fail.same-player", RED));
+                        context.sender().sendMessage(translatable("modules.tpa.commands.request.fail.same-player", RED));
                         return;
                     }
                     this.tpaManager.startRequest(player, target);
@@ -92,14 +91,15 @@ class Commands extends ConfiguredModuleCommand {
         );
         this.register(
             this.literal(builder, "accept")
-                .argument(PlayerArgument.<CommandDispatcher>builder("from").asOptional().withSuggestionsProvider(this.requestSuggestions))
+                .optional("from", playerParser(), this.requestSuggestions)
+                .argument(PlayerParser.<CommandDispatcher>playerComponent().name("from").optional().suggestionProvider(this.requestSuggestions))
                 .handler(this.sync((context, player) -> {
                     this.tpaManager.acceptRequest(player, context.getOrDefault("from", null));
                 }))
         );
         this.register(
             this.literal(builder, "deny")
-                .argument(PlayerArgument.<CommandDispatcher>builder("from").asOptional().withSuggestionsProvider(this.requestSuggestions))
+                .optional("from", playerParser(), this.requestSuggestions)
                 .handler(this.sync((context, player) -> {
                     this.tpaManager.denyRequest(player, context.getOrDefault("from", null));
                 }))

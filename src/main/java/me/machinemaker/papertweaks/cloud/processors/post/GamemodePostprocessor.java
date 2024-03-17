@@ -19,15 +19,15 @@
  */
 package me.machinemaker.papertweaks.cloud.processors.post;
 
-import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
-import cloud.commandframework.execution.postprocessor.CommandPostprocessor;
-import cloud.commandframework.services.types.ConsumerService;
+import org.incendo.cloud.execution.postprocessor.CommandPostprocessingContext;
+import org.incendo.cloud.execution.postprocessor.CommandPostprocessor;
 import java.util.Optional;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.services.type.ConsumerService;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -37,14 +37,14 @@ public class GamemodePostprocessor implements CommandPostprocessor<CommandDispat
 
     @Override
     public void accept(final CommandPostprocessingContext<CommandDispatcher> context) {
-        final Optional<GameMode> gameMode = context.getCommand().getCommandMeta().get(MetaKeys.GAMEMODE_KEY);
+        final Optional<GameMode> gameMode = context.command().commandMeta().optional(MetaKeys.GAMEMODE_KEY);
         if (gameMode.isPresent()) {
-            if (!(context.getCommandContext().getSender() instanceof PlayerCommandDispatcher)) {
+            if (!(context.commandContext().sender() instanceof PlayerCommandDispatcher)) {
                 ConsumerService.interrupt();
             }
-            final Player player = PlayerCommandDispatcher.from(context.getCommandContext());
+            final Player player = PlayerCommandDispatcher.from(context.commandContext());
             if (player.getGameMode() != gameMode.get()) {
-                context.getCommandContext().getSender().sendMessage(translatable("commands.condition.gamemode", RED, text(gameMode.get().name())));
+                context.commandContext().sender().sendMessage(translatable("commands.condition.gamemode", RED, text(gameMode.get().name())));
                 ConsumerService.interrupt();
             }
         }

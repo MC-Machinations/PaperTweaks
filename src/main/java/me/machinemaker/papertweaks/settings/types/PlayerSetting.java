@@ -19,9 +19,6 @@
  */
 package me.machinemaker.papertweaks.settings.types;
 
-import cloud.commandframework.arguments.parser.ArgumentParser;
-import cloud.commandframework.arguments.standard.BooleanArgument;
-import cloud.commandframework.arguments.standard.EnumArgument;
 import java.util.function.Supplier;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.pdc.DataTypes;
@@ -32,15 +29,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.parser.ArgumentParser;
+import org.incendo.cloud.parser.standard.BooleanParser;
+import org.incendo.cloud.parser.standard.EnumParser;
 
 public record PlayerSetting<T>(SettingKey<T> settingKey, PersistentDataType<?, T> dataType, Supplier<T> defaultSupplier, ArgumentParser<CommandDispatcher, T> argumentParser) implements ModuleSetting<T, Player> {
 
     public static PlayerSetting<Boolean> ofBoolean(final SettingKey<Boolean> key, final Supplier<Boolean> supplier) {
-        return of(key, DataTypes.BOOLEAN, supplier, new BooleanArgument.BooleanParser<>(false));
+        return of(key, DataTypes.BOOLEAN, supplier, new BooleanParser<>(false));
     }
 
     public static <E extends Enum<E>> PlayerSetting<E> ofEnum(final SettingKey<E> key, final Class<E> classOfE, final Supplier<E> defaultSupplier) {
-        return of(key, EnumDataType.of(classOfE), defaultSupplier, new EnumArgument.EnumParser<>(classOfE));
+        return of(key, EnumDataType.of(classOfE), defaultSupplier, new EnumParser<>(classOfE));
     }
 
     private static <S> PlayerSetting<S> of(final SettingKey<S> key, final PersistentDataType<?, S> dataType, final Supplier<S> defaultSupplier, final ArgumentParser<CommandDispatcher, S> argumentParser) {

@@ -19,7 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.survival.trackrawstats;
 
-import cloud.commandframework.types.tuples.Pair;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,6 +31,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.type.tuple.Pair;
 
 import static me.machinemaker.papertweaks.adventure.Components.join;
 import static net.kyori.adventure.text.Component.text;
@@ -163,9 +163,9 @@ abstract class Tracked implements ComponentLike {
                 };
 
                 return join(
-                    translatable(typeKey.getFirst()),
+                    translatable(typeKey.first()),
                     text(": "),
-                    translatable(typeKey.getSecond() + this.value)
+                    translatable(typeKey.second() + this.value)
                 ).color(GOLD);
             }
         }

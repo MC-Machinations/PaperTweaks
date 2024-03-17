@@ -19,11 +19,6 @@
  */
 package me.machinemaker.papertweaks;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.standard.IntegerArgument;
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.ArrayList;
@@ -32,7 +27,6 @@ import java.util.Optional;
 import me.machinemaker.lectern.ConfigurationNode;
 import me.machinemaker.papertweaks.adventure.Components;
 import me.machinemaker.papertweaks.cloud.PaperTweaksCommand;
-import me.machinemaker.papertweaks.cloud.arguments.ModuleArgument;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.menus.AbstractConfigurationMenu;
 import me.machinemaker.papertweaks.modules.ModuleBase;
@@ -49,7 +43,13 @@ import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.component.DefaultValue;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.key.CloudKey;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 
+import static me.machinemaker.papertweaks.cloud.parsers.ParserFactory.moduleDescriptor;
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.space;
@@ -65,11 +65,14 @@ import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 import static net.kyori.adventure.text.format.TextColor.color;
+import static org.incendo.cloud.key.CloudKey.cloudKey;
+import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 
 @DefaultQualifier(NonNull.class)
 public class RootCommand extends PaperTweaksCommand {
 
     private static final int PAGE_SIZE = 6;
+    private static final CloudKey<ModuleBase> MODULE_BASE_KEY = cloudKey("module", ModuleBase.class);
 
     private final ModuleManager moduleManager;
     private final ConfigurationNode modulesConfig;
@@ -92,25 +95,25 @@ public class RootCommand extends PaperTweaksCommand {
             .handler(this.sync(this::reloadEverything))
         ).command(this.simple("reload")
             .literal("module")
-            .meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands.reload.module")) // Override default meta from #simple(String)
-            .argument(this.argumentFactory.module(true))
-            .handler(this.sync(context -> context.getSender().sendMessage(this.moduleManager.reloadModule(ModuleArgument.getModule(context).getName()))))
+            .commandDescription(RichDescription.translatable("commands.reload.module")) // Override default meta from #simple(String)
+            .required(MODULE_BASE_KEY, moduleDescriptor(this.argumentFactory, true))
+            .handler(this.sync(context -> context.sender().sendMessage(this.moduleManager.reloadModule(context.get(MODULE_BASE_KEY).getName()))))
         ).command(this.simple("enable")
-            .argument(this.argumentFactory.module(false))
+            .required(MODULE_BASE_KEY, moduleDescriptor(this.argumentFactory, false))
             .handler(this.sync(context -> {
-                final Component enableMsg = this.moduleManager.enableModule(ModuleArgument.getModule(context).getName());
-                context.getSender().sendMessage(enableMsg);
+                final Component enableMsg = this.moduleManager.enableModule(context.get(MODULE_BASE_KEY).getName());
+                context.sender().sendMessage(enableMsg);
                 this.console.sendMessage(Components.join(PaperTweaks.PLUGIN_PREFIX, enableMsg));
             }))
         ).command(this.simple("disable")
-            .argument(this.argumentFactory.module(true))
+            .required(MODULE_BASE_KEY, moduleDescriptor(this.argumentFactory, true))
             .handler(this.sync(context -> {
-                final Component disableMsg = this.moduleManager.disableModule(ModuleArgument.getModule(context).getName());
-                context.getSender().sendMessage(disableMsg);
+                final Component disableMsg = this.moduleManager.disableModule(context.get(MODULE_BASE_KEY).getName());
+                context.sender().sendMessage(disableMsg);
                 this.console.sendMessage(Components.join(PaperTweaks.PLUGIN_PREFIX, disableMsg));
             }))
         ).command(this.simple("list")
-            .argument(IntegerArgument.<CommandDispatcher>builder("page").withMin(1).withMax(this.maxPageCount).asOptionalWithDefault(1))
+            .optional("page", integerParser(1, this.maxPageCount), DefaultValue.constant(1))
             .handler(this::sendModuleList)
         ).command(this.simple("version")
             .handler(this::showVersion)
@@ -118,11 +121,11 @@ public class RootCommand extends PaperTweaksCommand {
     }
 
     private Command.Builder<CommandDispatcher> simple(final String name) {
-        return this.builder.literal(name).meta(MinecraftExtrasMetaKeys.DESCRIPTION, translatable("commands." + name)).permission("vanillatweaks.main." + name);
+        return this.builder.literal(name).commandDescription(RichDescription.translatable("commands." + name)).permission("vanillatweaks.main." + name);
     }
 
     private void reloadEverything(final CommandContext<CommandDispatcher> context) {
-        final Audience audience = context.getSender();
+        final Audience audience = context.sender();
         this.modulesConfig.reloadAndSave();
         // TODO reload more stuff
         final ModuleManager.ReloadResult result = this.moduleManager.reloadModules();
@@ -145,7 +148,7 @@ public class RootCommand extends PaperTweaksCommand {
     }
 
     private void sendModuleList(final @NonNull CommandContext<CommandDispatcher> context) {
-        final boolean showAll = context.getSender().hasPermission("vanillatweaks.main.list.all");
+        final boolean showAll = context.sender().hasPermission("vanillatweaks.main.list.all");
         final int page = context.get("page");
         final TextComponent.Builder list = text();
         final List<ModuleBase> modules = this.moduleManager.getModules().values().stream().filter(module -> showAll || this.moduleManager.getLifecycle(module.getName()).orElseThrow().getState().isRunning()).toList();
@@ -157,7 +160,7 @@ public class RootCommand extends PaperTweaksCommand {
             final ModuleState state = lifecycle.get().getState();
             if (showAll || state.isRunning()) {
                 final TextComponent.Builder builder = text().color(color(0x8F8F8F)).append(text(" - "));
-                if ((state.isRunning() && context.getSender().hasPermission("vanillatweaks.main.disable")) || (!state.isRunning() && context.getSender().hasPermission("vanillatweaks.main.enable"))) {
+                if ((state.isRunning() && context.sender().hasPermission("vanillatweaks.main.disable")) || (!state.isRunning() && context.sender().hasPermission("vanillatweaks.main.enable"))) {
                     builder.append(
                         text("[" + (state.isRunning() ? "■" : "▶") + "]", state.isRunning() ? RED : GREEN)
                             .hoverEvent(showText(translatable("commands.config.bool-toggle." + state.isRunning(), state.isRunning() ? RED : GREEN, text(moduleBase.getName(), GOLD))))
@@ -172,7 +175,7 @@ public class RootCommand extends PaperTweaksCommand {
                 list.append(builder).append(newline());
             }
         }
-        context.getSender().sendMessage(join(JoinConfiguration.noSeparators(), header, list, AbstractConfigurationMenu.END_LINE));
+        context.sender().sendMessage(join(JoinConfiguration.noSeparators(), header, list, AbstractConfigurationMenu.END_LINE));
     }
 
     private ComponentLike createHeader(final int page, final List<ModuleBase> modules) {
@@ -194,7 +197,7 @@ public class RootCommand extends PaperTweaksCommand {
                 .hoverEvent(showText(translatable("commands.version.success.hover", GRAY)))
                 .clickEvent(copyToClipboard(PaperTweaks.class.getPackage().getImplementationVersion()))
         );
-        context.getSender().sendMessage(component);
+        context.sender().sendMessage(component);
     }
 
 }

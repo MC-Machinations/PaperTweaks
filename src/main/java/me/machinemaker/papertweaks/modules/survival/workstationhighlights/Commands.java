@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.survival.workstationhighlights;
 
-import cloud.commandframework.Command;
+import org.incendo.cloud.Command;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
@@ -53,12 +53,12 @@ class Commands extends ModuleCommand {
                 .handler(this.sync((context, player) -> {
                     final @Nullable Villager villager = Entities.getSingleNearbyEntityOfType(Villager.class, player.getLocation(), 3, 3, 3);
                     if (villager == null) {
-                        this.messageService.noVillagerNearby(context.getSender());
+                        this.messageService.noVillagerNearby(context.sender());
                         return;
                     }
                     final @Nullable Location work = villager.getMemory(MemoryKey.JOB_SITE);
                     if (work == null || work.getWorld() == null) {
-                        this.messageService.noWorkstationFound(context.getSender());
+                        this.messageService.noWorkstationFound(context.sender());
                         return;
                     }
                     villager.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 200, 0));
@@ -70,7 +70,7 @@ class Commands extends ModuleCommand {
                         cloud.setRadiusOnUse(0f);
                         cloud.setDuration(200);
                     });
-                    this.messageService.workstationLocatedAt(context.getSender(), work.getBlockX(), work.getBlockY(), work.getBlockZ());
+                    this.messageService.workstationLocatedAt(context.sender(), work.getBlockX(), work.getBlockY(), work.getBlockZ());
                 }))
         );
     }

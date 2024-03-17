@@ -19,9 +19,6 @@
  */
 package me.machinemaker.papertweaks.settings.types;
 
-import cloud.commandframework.arguments.parser.ArgumentParser;
-import cloud.commandframework.arguments.standard.BooleanArgument;
-import cloud.commandframework.arguments.standard.IntegerArgument;
 import java.util.Objects;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.settings.Setting;
@@ -29,17 +26,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.parser.ArgumentParser;
+import org.incendo.cloud.parser.standard.BooleanParser;
+import org.incendo.cloud.parser.standard.IntegerParser;
 
 public record GameRuleSetting<T>(GameRule<T> gameRule, ArgumentParser<CommandDispatcher, T> argumentParser) implements Setting<T, World> {
 
     private static final World OVERWORLD = Objects.requireNonNull(Bukkit.getWorlds().get(0), "no overworld found");
 
     public static GameRuleSetting<Boolean> ofBoolean(final GameRule<Boolean> gameRule) {
-        return new GameRuleSetting<>(gameRule, new BooleanArgument.BooleanParser<>(false));
+        return new GameRuleSetting<>(gameRule, new BooleanParser<>(false));
     }
 
     public static GameRuleSetting<Integer> ofInt(final GameRule<Integer> gameRule, final int min, final int max) {
-        return new GameRuleSetting<>(gameRule, new IntegerArgument.IntegerParser<>(min, max));
+        return new GameRuleSetting<>(gameRule, new IntegerParser<>(min, max));
     }
 
     public static GameRuleSetting<Integer> ofInt(final GameRule<Integer> gameRule, final int min) {

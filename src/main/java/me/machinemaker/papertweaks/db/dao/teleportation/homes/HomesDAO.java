@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.db.dao.teleportation.homes;
 
 import me.machinemaker.papertweaks.db.model.teleportation.homes.Home;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jdbi.v3.sqlobject.config.KeyColumn;
 import org.jdbi.v3.sqlobject.config.RegisterConstructorMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
@@ -38,7 +39,7 @@ public interface HomesDAO {
     LinkedHashMap<String, Home> getHomesForPlayer(UUID playerUUID);
 
     @SqlQuery("SELECT * FROM homes WHERE player = :playerUUID AND name = :name")
-    Home getPlayerHome(UUID playerUUID, String name);
+    @Nullable Home getPlayerHome(UUID playerUUID, String name);
 
     @SqlUpdate("INSERT INTO homes (player, world, name, x, y, z) VALUES ( :player, :world, :name, :x, :y, :z )")
     void insertHome(@BindBean Home home);

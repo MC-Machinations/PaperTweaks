@@ -19,18 +19,19 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
-import cloud.commandframework.bukkit.parsers.PlayerArgument;
-import cloud.commandframework.context.CommandContext;
+import com.google.common.collect.Iterables;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.bukkit.parser.PlayerParser;
+import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 
 public final class SuggestionProviders {
 
     private static final BiFunction<?, String, List<String>> EMPTY = (c, s) -> Collections.emptyList();
-    private static final PlayerArgument.PlayerParser<CommandDispatcher> DUMMY_PLAYER_PARSER = new PlayerArgument.PlayerParser<>();
+    private static final PlayerParser<CommandDispatcher> DUMMY_PLAYER_PARSER = new PlayerParser<>();
 
     private SuggestionProviders() {
     }
@@ -40,12 +41,12 @@ public final class SuggestionProviders {
         return (BiFunction<C, String, List<String>>) EMPTY;
     }
 
-    public static BiFunction<CommandContext<CommandDispatcher>, String, List<String>> playersWithoutSelf() {
-        return (context, s) -> {
-            if (context.getSender().sender() instanceof final Player player) {
-                return DUMMY_PLAYER_PARSER.suggestions(context, s).stream().filter(name -> !name.equals(player.getName())).toList();
+    public static BlockingSuggestionProvider<CommandDispatcher> playersWithoutSelf() {
+        return (context, input) -> {
+            if (context.sender().sender() instanceof final Player player) {
+                return Iterables.filter(DUMMY_PLAYER_PARSER.suggestions(context, input), name -> !name.suggestion().equals(player.getName()));
             }
-            return DUMMY_PLAYER_PARSER.suggestions(context, s);
+            return DUMMY_PLAYER_PARSER.suggestions(context, input);
         };
     }
 }

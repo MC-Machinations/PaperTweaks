@@ -19,14 +19,14 @@
  */
 package me.machinemaker.papertweaks.cloud.cooldown;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.execution.postprocessor.CommandPostprocessingContext;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
-import cloud.commandframework.meta.CommandMeta;
 import io.leangen.geantyref.TypeToken;
 import java.time.Duration;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.execution.postprocessor.CommandPostprocessingContext;
+import org.incendo.cloud.key.CloudKey;
+
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 /**
  * A command cooldown which can be applied to one or more {@link Command.Builder}s.
@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public interface CommandCooldown<C> extends Command.Builder.Applicable<C> {
 
-    CommandMeta.Key<CommandCooldown<?>> COMMAND_META_KEY = CommandMeta.Key.of(new TypeToken<>() {}, "papertweaks:command_cooldown");
+    CloudKey<CommandCooldown<?>> COMMAND_META_KEY = cloudKey("papertweaks:command_cooldown", new TypeToken<CommandCooldown<?>>() {});
 
     /**
      * Get the {@link CloudKey} for this cooldown.
@@ -122,7 +122,7 @@ public interface CommandCooldown<C> extends Command.Builder.Applicable<C> {
          * @return this builder
          */
         default Builder<C> key(final String cooldownKey) {
-            return this.key(SimpleCloudKey.of(cooldownKey));
+            return this.key(cloudKey(cooldownKey));
         }
 
         /**

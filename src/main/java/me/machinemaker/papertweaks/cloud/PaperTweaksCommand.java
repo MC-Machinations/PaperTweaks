@@ -19,17 +19,18 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.execution.CommandExecutionHandler;
-import cloud.commandframework.paper.PaperCommandManager;
-import cloud.commandframework.tasks.TaskConsumer;
 import com.google.inject.Inject;
 import java.util.function.BiConsumer;
-import me.machinemaker.papertweaks.cloud.arguments.ArgumentFactory;
+import java.util.function.Consumer;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
+import me.machinemaker.papertweaks.cloud.parsers.ParserFactory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.execution.CommandExecutionHandler;
+import org.incendo.cloud.paper.PaperCommandManager;
 
 /**
  * Various utility methods for commands to utilize
@@ -39,20 +40,24 @@ public abstract class PaperTweaksCommand {
     @Inject
     protected PaperCommandManager<CommandDispatcher> manager;
     @Inject
-    protected ArgumentFactory argumentFactory;
+    protected ParserFactory argumentFactory;
 
     protected final <C> CommandExecutionHandler<C> sync(final BiConsumer<CommandContext<C>, Player> playerTaskConsumer) {
-        return commandContext -> this.manager.taskRecipe().begin(commandContext).synchronous(context -> {
-            final Player player = PlayerCommandDispatcher.from(context);
-            playerTaskConsumer.accept(context, player);
-        }).execute();
+        return context -> {
+            Bukkit.getScheduler().runTask(this.manager.owningPlugin(), () -> {
+                final Player player = PlayerCommandDispatcher.from(context);
+                playerTaskConsumer.accept(context, player);
+            });
+        };
     }
 
-    protected final <C> CommandExecutionHandler<C> sync(final TaskConsumer<CommandContext<C>> taskConsumer) {
-        return commandContext -> this.manager.taskRecipe().begin(commandContext).synchronous(taskConsumer).execute();
+    protected final <C> CommandExecutionHandler<C> sync(final Consumer<CommandContext<C>> taskConsumer) {
+        return context -> {
+            Bukkit.getScheduler().runTask(this.manager.owningPlugin(), () -> taskConsumer.accept(context));
+        };
     }
 
-    protected final void register(final Command.Builder<CommandDispatcher> builder) {
+    protected final void register(final Command.Builder<? extends CommandDispatcher> builder) {
         this.manager.command(builder);
     }
 }

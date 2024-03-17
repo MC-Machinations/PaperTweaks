@@ -19,12 +19,24 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
-import cloud.commandframework.meta.CommandMeta;
 import org.bukkit.GameMode;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.key.CloudKey;
+
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 public final class MetaKeys {
 
-    public static final CommandMeta.Key<GameMode> GAMEMODE_KEY = CommandMeta.Key.of(GameMode.class, "papertweaks:gamemode");
+    public static final CloudKey<Void> HIDDEN = cloudKey("papertweaks:hidden");
+
+    public static <C> Command.Builder.Applicable<C> hiddenCommand() {
+        return builder -> {
+            builder.meta(HIDDEN, null);
+            return builder;
+        };
+    }
+
+    public static final CloudKey<GameMode> GAMEMODE_KEY = cloudKey("papertweaks:gamemode", GameMode.class);
 
     private MetaKeys() {
     }

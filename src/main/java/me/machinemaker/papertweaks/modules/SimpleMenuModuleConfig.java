@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules;
 
-import cloud.commandframework.context.CommandContext;
+import org.incendo.cloud.context.CommandContext;
 import java.util.List;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.menus.ReferenceConfigurationMenu;

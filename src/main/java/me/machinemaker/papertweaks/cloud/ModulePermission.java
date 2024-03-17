@@ -19,27 +19,26 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
-import cloud.commandframework.keys.SimpleCloudKey;
-import cloud.commandframework.permission.AndPermission;
-import cloud.commandframework.permission.CommandPermission;
-import cloud.commandframework.permission.Permission;
-import cloud.commandframework.permission.PredicatePermission;
 import java.util.Set;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
+import org.incendo.cloud.permission.Permission;
+import org.incendo.cloud.permission.PredicatePermission;
+
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 public final class ModulePermission {
 
     private ModulePermission() {
     }
 
-    public static CommandPermission of(final ModuleLifecycle lifecycle, final String permission) {
-        return AndPermission.of(Set.of(
+    public static Permission of(final ModuleLifecycle lifecycle, final String permission) {
+        return Permission.allOf(Set.of(
             Permission.of(permission),
             of(lifecycle)
         ));
     }
 
-    public static CommandPermission of(final ModuleLifecycle lifecycle) {
-        return PredicatePermission.of(SimpleCloudKey.of(lifecycle.moduleInfo().name() + "-lifecycle"), ignored -> lifecycle.getState().isRunning());
+    public static Permission of(final ModuleLifecycle lifecycle) {
+        return PredicatePermission.of(cloudKey(lifecycle.moduleInfo().name() + "-lifecycle"), ignored -> lifecycle.getState().isRunning());
     }
 }

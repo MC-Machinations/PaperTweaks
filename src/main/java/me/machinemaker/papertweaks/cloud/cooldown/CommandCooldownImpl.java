@@ -19,12 +19,13 @@
  */
 package me.machinemaker.papertweaks.cloud.cooldown;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
 import java.util.UUID;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.key.CloudKey;
+
+import static org.incendo.cloud.key.CloudKey.cloudKey;
 
 record CommandCooldownImpl<C>(CloudKey<Void> key, CommandCooldown.DurationFunction<C> duration, CommandCooldown.@Nullable Notifier<C> notifier) implements CommandCooldown<C> {
 
@@ -58,7 +59,7 @@ record CommandCooldownImpl<C>(CloudKey<Void> key, CommandCooldown.DurationFuncti
         private CloudKey<Void> getOrCreateKey() {
             @Nullable CloudKey<Void> key = this.cooldownKey;
             if (key == null) {
-                key = SimpleCloudKey.of(UUID.randomUUID().toString());
+                key = cloudKey(UUID.randomUUID().toString());
             }
             return key;
         }

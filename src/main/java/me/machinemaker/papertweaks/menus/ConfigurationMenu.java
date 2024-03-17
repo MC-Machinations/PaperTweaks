@@ -19,7 +19,7 @@
  */
 package me.machinemaker.papertweaks.menus;
 
-import cloud.commandframework.context.CommandContext;
+import org.incendo.cloud.context.CommandContext;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.ComponentLike;
@@ -33,7 +33,7 @@ public interface ConfigurationMenu<S> extends BuildablePart<S> {
     ComponentLike[] buildFooter(S object);
 
     default void send(final CommandContext<CommandDispatcher> context, final S object) {
-        this.send(context.getSender(), object);
+        this.send(context.sender(), object);
     }
 
     void send(Audience audience, S object);

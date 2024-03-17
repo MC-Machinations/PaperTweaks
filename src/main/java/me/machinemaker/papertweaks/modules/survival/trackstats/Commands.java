@@ -19,9 +19,6 @@
  */
 package me.machinemaker.papertweaks.modules.survival.trackstats;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.arguments.CommandArgument;
-import cloud.commandframework.minecraft.extras.RichDescription;
 import com.google.inject.Inject;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
@@ -30,11 +27,14 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static org.incendo.cloud.parser.ParserDescriptor.parserDescriptor;
 
 @ModuleCommand.Info(value = "trackstats", aliases = {"tstats", "ts"}, i18n = "track-stats", perm = "trackstats")
 class Commands extends ConfiguredModuleCommand {
@@ -52,15 +52,15 @@ class Commands extends ConfiguredModuleCommand {
 
         this.register(
             this.literal(builder, "show")
-                .argument(CommandArgument.<CommandDispatcher, CalculatedStat>ofType(CalculatedStat.class, "stat").withParser(new CalculatedStatParser()), RichDescription.translatable("modules.track-stats.commands.arguments.stat"))
+                .required("stat", parserDescriptor(new CalculatedStatParser<>(), CalculatedStat.class), RichDescription.translatable("modules.track-stats.commands.arguments.stat"))
                 .handler(this.sync((context, player) -> {
                     player.setScoreboard(this.board);
                     final CalculatedStat stat = context.get("stat");
                     if (stat.getObjective(this.board).getDisplaySlot() == DisplaySlot.SIDEBAR) {
-                        context.getSender().sendMessage(translatable("modules.track-stats.commands.show.already-displayed", YELLOW, translatable(stat, GOLD)));
+                        context.sender().sendMessage(translatable("modules.track-stats.commands.show.already-displayed", YELLOW, translatable(stat, GOLD)));
                     } else {
                         stat.getObjective(this.board).setDisplaySlot(DisplaySlot.SIDEBAR);
-                        context.getSender().sendMessage(translatable("modules.track-stats.commands.show.success", GREEN, translatable(stat, GOLD)));
+                        context.sender().sendMessage(translatable("modules.track-stats.commands.show.success", GREEN, translatable(stat, GOLD)));
                     }
                 }))
         );
@@ -69,10 +69,10 @@ class Commands extends ConfiguredModuleCommand {
                 .handler(this.sync((context, player) -> {
                     final @Nullable Objective currentlyDisplayed = this.board.getObjective(DisplaySlot.SIDEBAR);
                     if (currentlyDisplayed == null || !Stats.REGISTRY.containsKey(currentlyDisplayed.getName())) {
-                        context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.no-display", YELLOW));
+                        context.sender().sendMessage(translatable("modules.track-stats.commands.clear.no-display", YELLOW));
                     } else {
                         currentlyDisplayed.setDisplaySlot(null);
-                        context.getSender().sendMessage(translatable("modules.track-stats.commands.clear.success", GREEN, translatable(Stats.REGISTRY.get(currentlyDisplayed.getName()), GOLD)));
+                        context.sender().sendMessage(translatable("modules.track-stats.commands.clear.success", GREEN, translatable(Stats.REGISTRY.get(currentlyDisplayed.getName()), GOLD)));
                     }
                 }))
         );
