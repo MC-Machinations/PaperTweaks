@@ -62,7 +62,7 @@ class EntityListener implements ModuleListener {
 
         int lootingLevel = 0;
         if (event.getEntity().getKiller() != null) {
-            lootingLevel = event.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
+            lootingLevel = event.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.FORTUNE);
         }
 
         final Collection<MobHead> heads = this.moreMobHeads.getMobHeads(entity.getType());

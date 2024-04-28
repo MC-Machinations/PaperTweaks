@@ -35,7 +35,7 @@ import me.machinemaker.papertweaks.adventure.TranslationRegistry;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair;
+import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory;
 import me.machinemaker.papertweaks.menus.ConfigurationMenu;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.menus.config.ConfigMenuOptionBuilder;
@@ -57,7 +57,7 @@ import org.incendo.cloud.description.Description;
 import org.incendo.cloud.key.CloudKey;
 
 import static me.machinemaker.papertweaks.adventure.Components.join;
-import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.configSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory.configSettings;
 import static net.kyori.adventure.text.Component.newline;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -82,7 +82,7 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
 
     private final Map<String, ConfigSetting<?, C>> settings = new HashMap<>();
     @SuppressWarnings("Convert2Diamond")
-    private final CloudKey<SettingArgumentPair.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = cloudKey(SettingArgumentPair.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgumentPair.SettingChange<C, ConfigSetting<?, C>>>() {});
+    private final CloudKey<SettingArgumentFactory.SettingChange<C, ConfigSetting<?, C>>> settingChangeCloudKey = cloudKey(SettingArgumentFactory.SETTING_CHANGE_KEY_STRING, new TypeToken<SettingArgumentFactory.SettingChange<C, ConfigSetting<?, C>>>() {});
     private @MonotonicNonNull M menu;
 
     private static void registerOptionBuilder(final ConfigMenuOptionBuilder<?> builder) {

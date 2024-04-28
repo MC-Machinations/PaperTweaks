@@ -16,6 +16,11 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://maven.enginehub.org/repo/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        mavenContent {
+            includeGroup("net.kyori")
+        }
+    }
     maven("https://jitpack.io") {
         mavenContent {
             includeGroup("com.github.TechFortress")
@@ -73,7 +78,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 spotless {
@@ -122,7 +127,7 @@ tasks {
             add("-parameters")
             add("-Xlint")
         }
-        options.release.set(17)
+        options.release.set(21)
     }
 
     test {
@@ -187,7 +192,7 @@ tasks {
         systemProperty("com.mojang.eula.agree", "true")
 
         downloadPlugins {
-            url("https://download.luckperms.net/1526/bukkit/loader/LuckPerms-Bukkit-5.4.113.jar")
+            url("https://download.luckperms.net/1537/bukkit/loader/LuckPerms-Bukkit-5.4.124.jar")
         }
     }
 

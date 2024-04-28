@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.cloud.parsers.setting;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
@@ -30,6 +31,7 @@ import org.incendo.cloud.context.CommandInput;
 import org.incendo.cloud.key.CloudKey;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.ArgumentParser;
+import org.incendo.cloud.suggestion.Suggestion;
 import org.incendo.cloud.suggestion.SuggestionProvider;
 
 class SettingValueParser<C, S extends Setting<?, C>> implements ArgumentParser<CommandDispatcher, Object> {
@@ -50,11 +52,13 @@ class SettingValueParser<C, S extends Setting<?, C>> implements ArgumentParser<C
 
     @Override
     public @NonNull SuggestionProvider<CommandDispatcher> suggestionProvider() {
-        return(context, input) -> {
+        return (context, input) -> {
             final Optional<S> setting = context.optional(this.key);
-            return setting
-                .map(s -> s.argumentParser().suggestionProvider().suggestionsFuture(context, input))
-                .orElseGet(() -> CompletableFuture.completedFuture(Collections.emptyList()));
+            if (setting.isPresent()) {
+                return setting.get().argumentParser().suggestionProvider().suggestionsFuture(context, input);
+            } else {
+                return CompletableFuture.completedFuture(Collections.emptyList());
+            }
         };
     }
 }

@@ -54,7 +54,7 @@ public final class ModuleManager {
     private static final MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeGeneralTopics").find();
     private static final MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeCommands").find();
 
-    private static final MethodInvoker RESEND_DATA_METHOD = Mirror.fuzzyMethod(PaperMirror.PLAYER_LIST_CLASS, Void.TYPE).names("u", "reload", "reloadResources").find();
+    private static final MethodInvoker RESEND_DATA_METHOD = Mirror.fuzzyMethod(PaperMirror.PLAYER_LIST_CLASS, Void.TYPE).names("reloadResources").find();
     private final JavaPlugin plugin;
     private final NavigableMap<String, ModuleBase> moduleMap;
     private final Injector baseInjector;

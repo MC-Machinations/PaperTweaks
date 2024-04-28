@@ -62,7 +62,7 @@ public class HomeParser implements ArgumentParser<CommandDispatcher, Home> {
     public @NonNull SuggestionProvider<CommandDispatcher> suggestionProvider() {
         return (context, input) -> {
             if (context.sender() instanceof final PlayerCommandDispatcher playerCommandDispatcher) {
-                return CompletableFuture.supplyAsync(() -> this.homesDAO.getHomesForPlayer(playerCommandDispatcher.getUUID()).keySet().stream().map(Suggestion::simple).toList());
+                return CompletableFuture.supplyAsync(() -> this.homesDAO.getHomesForPlayer(playerCommandDispatcher.getUUID()).keySet().stream().map(Suggestion::suggestion).toList());
             }
             return CompletableFuture.completedFuture(Collections.emptyList());
         };

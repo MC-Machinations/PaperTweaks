@@ -1,8 +1,8 @@
 [versions]
-minecraft = "1.20.4"
+minecraft = "1.20.5"
 mm-mirror = "0.1.2"
 mm-lectern = "0.3.0" # deprecated
-cloud = "2.0.0-beta.2"
+cloud = "2.0.0-SNAPSHOT"
 bstats = "3.0.2"
 moonshine = "2.0.4"
 guice = "5.1.0"
@@ -24,9 +24,9 @@ junit = "5.10.0"
 mockito = "5.5.0"
 
 # plugins
-shadow = "8.1.1"
+shadow = "8.1.7"
 indra = "3.1.1"
-runPaper = "2.2.2"
+runPaper = "2.2.4"
 
 [libraries]
 mm-mirror = { module = "me.machinemaker.mirror:mirror-paper", version.ref = "mm-mirror" }
@@ -64,7 +64,7 @@ junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref 
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 
 [plugins]
-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
 indra-licenser-spotless = { id = "net.kyori.indra.licenser.spotless", version.ref = "indra" }
 runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 

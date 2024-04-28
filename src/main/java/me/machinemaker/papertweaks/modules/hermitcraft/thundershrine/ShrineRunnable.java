@@ -65,7 +65,7 @@ class ShrineRunnable extends TimerRunnable {
                         player.sendMessage(translatable("modules.thunder-shrine.ritual.success", RED));
                     }
                 } else {
-                    world.spawnParticle(Particle.ENCHANTMENT_TABLE, cloud.getLocation(), 1, 0.1, 0.1, 0.1, 1);
+                    world.spawnParticle(Particle.ENCHANT, cloud.getLocation(), 1, 0.1, 0.1, 0.1, 1);
                 }
             }
         }

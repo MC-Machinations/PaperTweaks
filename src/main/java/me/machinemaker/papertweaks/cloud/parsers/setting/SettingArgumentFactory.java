@@ -19,10 +19,8 @@
  */
 package me.machinemaker.papertweaks.cloud.parsers.setting;
 
-import io.leangen.geantyref.GenericTypeReflector;
 import io.leangen.geantyref.TypeToken;
 import java.util.Map;
-import java.util.function.Supplier;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
 import me.machinemaker.papertweaks.modules.MenuModuleConfig;
@@ -35,44 +33,37 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.key.CloudKey;
 import org.incendo.cloud.minecraft.extras.RichDescription;
-import org.incendo.cloud.parser.ArgumentParser;
-import org.incendo.cloud.parser.compound.ArgumentPair;
-import org.incendo.cloud.type.tuple.Pair;
+import org.incendo.cloud.parser.aggregate.AggregateParser;
 
 import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static org.incendo.cloud.key.CloudKey.cloudKey;
+import static org.incendo.cloud.parser.ParserDescriptor.parserDescriptor;
 
 @SuppressWarnings("Convert2Diamond")
-public class SettingArgumentPair<C, S extends Setting<?, C>> extends ArgumentPair<CommandDispatcher, S, Object, SettingArgumentPair.SettingChange<C, S>> {
+public final class SettingArgumentFactory {
 
     private static final TypeToken<PlayerSetting<?>> PLAYER_SETTING_TYPE_TOKEN = new TypeToken<PlayerSetting<?>>() {};
     public static final String SETTING_CHANGE_KEY_STRING = "setting";
     public static final CloudKey<SettingChange<Player, PlayerSetting<?>>> PLAYER_SETTING_CHANGE_KEY = cloudKey(SETTING_CHANGE_KEY_STRING, new TypeToken<SettingChange<Player, PlayerSetting<?>>>() {});
 
-    @SuppressWarnings("unchecked")
-    protected SettingArgumentPair(final TypeToken<SettingArgumentPair.SettingChange<C, S>> settingsChangeTypeToken, final Map<String, S> settings, final TypeToken<S> settingsTypeToken, final boolean hideSuggestions) {
-        super(
-            Pair.of("key", "value"),
-            Pair.of((Class<S>) GenericTypeReflector.erase(settingsTypeToken.getType()), Object.class),
-            ((Supplier<Pair<ArgumentParser<CommandDispatcher, S>, ArgumentParser<CommandDispatcher, Object>>>) () -> {
-                final CloudKey<S> key = cloudKey("specifiedSetting", settingsTypeToken);
-                return Pair.of(
-                    new SettingParser<>(settings, key, hideSuggestions),
-                    new SettingValueParser<>(key)
-                );
-            }).get(),
-            SettingArgumentPair::mapper,
-            settingsChangeTypeToken
-        );
+    private SettingArgumentFactory() {
     }
 
-    public static SettingArgumentPair<Player, PlayerSetting<?>> playerSettings(final Map<String, PlayerSetting<?>> settings) {
-        return new SettingArgumentPair<>(PLAYER_SETTING_CHANGE_KEY.type(), settings, PLAYER_SETTING_TYPE_TOKEN, false);
+    public static AggregateParser<CommandDispatcher, SettingChange<Player, PlayerSetting<?>>> playerSettings(final Map<String, PlayerSetting<?>> settings) {
+        return settingParser(PLAYER_SETTING_TYPE_TOKEN, PLAYER_SETTING_CHANGE_KEY, settings);
     }
 
-    public static <C extends MenuModuleConfig<C, ?>> SettingArgumentPair<C, ConfigSetting<?, C>> configSettings(final CloudKey<SettingChange<C, ConfigSetting<?, C>>> settingsChangeCloudKey, final Map<String, ConfigSetting<?, C>> settings) {
-        return new SettingArgumentPair<C, ConfigSetting<?, C>>(settingsChangeCloudKey.type(), settings, new TypeToken<ConfigSetting<?, C>>() {}, false);
+    public static <C extends MenuModuleConfig<C, ?>> AggregateParser<CommandDispatcher, SettingChange<C, ConfigSetting<?, C>>> configSettings(final CloudKey<SettingChange<C, ConfigSetting<?, C>>> settingsChangeCloudKey, final Map<String, ConfigSetting<?, C>> settings) {
+        return settingParser(new TypeToken<ConfigSetting<?, C>>() {}, settingsChangeCloudKey, settings);
+    }
+
+    public static <C, S extends Setting<?, C>> AggregateParser<CommandDispatcher, SettingChange<C, S>> settingParser(final TypeToken<S> settingType, final CloudKey<SettingChange<C, S>> settingChangeKey, final Map<String, S> settings) {
+        final CloudKey<S> key = cloudKey("specifiedSetting", settingType);
+        return AggregateParser.pairBuilder(
+            "key", parserDescriptor(new SettingParser<>(settings, key, false), settingType),
+            "value", parserDescriptor(new SettingValueParser<>(key), Object.class)
+        ).withDirectMapper(settingChangeKey.type(), (ctx, setting, value) -> new SettingChange<>(setting, value)).build();
     }
 
     public static <C, S extends ModuleSetting<?, C>> Command.Builder<CommandDispatcher> resetPlayerSettings(final Command.Builder<CommandDispatcher> builder, final String translationKey, final ModuleSettings<C, S> settings) {
@@ -87,10 +78,6 @@ public class SettingArgumentPair<C, S extends Setting<?, C>> extends ArgumentPai
                 }
                 context.sender().sendMessage(translatable(translationKey + ".success", GREEN));
             });
-    }
-
-    private static <C, S extends Setting<?, C>> SettingChange<C, S> mapper(final CommandDispatcher sender, final Pair<S, Object> pair) {
-        return new SettingChange<>(pair.first(), pair.second());
     }
 
     public record SettingChange<C, S extends Setting<?, C>>(S setting, Object value) {

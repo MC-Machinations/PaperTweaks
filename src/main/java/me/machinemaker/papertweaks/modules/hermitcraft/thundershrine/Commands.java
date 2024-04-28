@@ -49,12 +49,12 @@ class Commands extends ConfiguredModuleCommand {
                     if (stand == null) {
                         context.sender().sendMessage(translatable("modules.thunder-shrine.commands.create.fail.no-stands", RED));
                     } else {
-                        stand.getWorld().spawnParticle(Particle.TOTEM, stand.getLocation(), 100, 0, 0, 0, 0.5);
+                        stand.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, stand.getLocation(), 100, 0, 0, 0, 0.5);
                         stand.getWorld().playSound(stand.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.MASTER, 1.0f, 0.75f);
                         stand.getWorld().spawn(stand.getLocation(), AreaEffectCloud.class, cloud -> {
                             cloud.setDuration(Integer.MAX_VALUE);
                             cloud.setRadius(0.01f);
-                            cloud.setParticle(Particle.SUSPENDED);
+                            cloud.setParticle(Particle.UNDERWATER);
                             cloud.setWaitTime(0);
                             ThunderShrine.SHRINE.setTo(cloud, player.getUniqueId());
                         });

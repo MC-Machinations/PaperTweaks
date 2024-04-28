@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 import java.util.List;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
-import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair;
+import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory;
 import me.machinemaker.papertweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.papertweaks.menus.options.BooleanMenuOption;
 import me.machinemaker.papertweaks.menus.options.SelectableEnumMenuOption;
@@ -37,8 +37,8 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 
 import static me.machinemaker.papertweaks.adventure.Components.join;
-import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.playerSettings;
-import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.resetPlayerSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory.playerSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory.resetPlayerSettings;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static org.incendo.cloud.parser.standard.EnumParser.enumParser;
@@ -92,9 +92,9 @@ class Commands extends ConfiguredModuleCommand {
         );
         this.register(configBuilder
             .apply(MetaKeys.hiddenCommand())
-            .required(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY, playerSettings(this.settings.index()))
+            .required(SettingArgumentFactory.PLAYER_SETTING_CHANGE_KEY, playerSettings(this.settings.index()))
             .handler(this.sync((context, player) -> {
-                final SettingArgumentPair.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY);
+                final SettingArgumentFactory.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgumentFactory.PLAYER_SETTING_CHANGE_KEY);
                 change.apply(player);
                 this.listener.settingsCache.invalidate(player.getUniqueId());
                 this.menu.send(context);

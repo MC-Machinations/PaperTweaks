@@ -59,7 +59,7 @@ import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 public final class PTUtils {
 
     private static final Class<?> CRAFT_PLAYER_CLASS = PaperMirror.getCraftBukkitClass("entity.CraftPlayer");
-    private static final Class<?> NMS_PLAYER_CLASS = PaperMirror.findMinecraftClass("world.entity.player.EntityHuman", "world.entity.player.Player");
+    private static final Class<?> NMS_PLAYER_CLASS = PaperMirror.findMinecraftClass("world.entity.player.Player");
 
     private static final Gson GSON = new Gson();
 

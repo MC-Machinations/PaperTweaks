@@ -25,7 +25,7 @@ import me.machinemaker.papertweaks.adventure.Components;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.PlayerCommandDispatcher;
-import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair;
+import me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory;
 import me.machinemaker.papertweaks.menus.PlayerConfigurationMenu;
 import me.machinemaker.papertweaks.menus.options.SelectableEnumMenuOption;
 import me.machinemaker.papertweaks.modules.ConfiguredModuleCommand;
@@ -36,8 +36,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 
-import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.playerSettings;
-import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentPair.resetPlayerSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory.playerSettings;
+import static me.machinemaker.papertweaks.cloud.parsers.setting.SettingArgumentFactory.resetPlayerSettings;
 import static net.kyori.adventure.text.Component.join;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -105,9 +105,9 @@ class Commands extends ConfiguredModuleCommand {
         );
         this.register(configBuilder
             .apply(MetaKeys.hiddenCommand())
-            .required(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY, playerSettings(this.settings.index()))
+            .required(SettingArgumentFactory.PLAYER_SETTING_CHANGE_KEY, playerSettings(this.settings.index()))
             .handler(context -> {
-                final SettingArgumentPair.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgumentPair.PLAYER_SETTING_CHANGE_KEY);
+                final SettingArgumentFactory.SettingChange<Player, PlayerSetting<?>> change = context.get(SettingArgumentFactory.PLAYER_SETTING_CHANGE_KEY);
                 final Player player = PlayerCommandDispatcher.from(context);
                 change.apply(player);
                 this.menu.send(context);

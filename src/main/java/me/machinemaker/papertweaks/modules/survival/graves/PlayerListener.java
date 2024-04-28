@@ -258,7 +258,7 @@ class PlayerListener implements ModuleListener {
             // legacy
             handleLegacyGrave(headstone, inventory);
         }
-        player.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, pair.getHeadstone().getLocation().add(0, 1.7, 0), 10, 0, 0, 0, 0.05);
+        player.getWorld().spawnParticle(Particle.POOF, pair.getHeadstone().getLocation().add(0, 1.7, 0), 10, 0, 0, 0, 0.05);
         pair.remove();
         if (pair.playerUUID.equals(player.getUniqueId())) {
             player.getPersistentDataContainer().remove(LAST_GRAVE_LOCATION);
