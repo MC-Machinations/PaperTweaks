@@ -24,13 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.lang.invoke.MethodHandle;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.TreeMap;
 import me.machinemaker.lectern.ConfigurationNode;
-import me.machinemaker.mirror.MethodInvoker;
 import me.machinemaker.mirror.Mirror;
 import me.machinemaker.mirror.paper.PaperMirror;
 import net.kyori.adventure.text.Component;
@@ -50,11 +50,11 @@ import static org.apache.commons.lang3.BooleanUtils.isTrue;
 @Singleton
 public final class ModuleManager {
 
-    private static final MethodInvoker SYNC_COMMANDS_METHOD = Mirror.fuzzyMethod(PaperMirror.CRAFT_SERVER_CLASS, Void.TYPE).names("syncCommands").find();
-    private static final MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeGeneralTopics").find();
-    private static final MethodInvoker SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeCommands").find();
+    private static final MethodHandle SYNC_COMMANDS_METHOD = Mirror.fuzzyMethod(PaperMirror.craftServerClass(), Void.TYPE).names("syncCommands").find();
+    private static final MethodHandle SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeGeneralTopics").find();
+    private static final MethodHandle SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeCommands").find();
 
-    private static final MethodInvoker RESEND_DATA_METHOD = Mirror.fuzzyMethod(PaperMirror.PLAYER_LIST_CLASS, Void.TYPE).names("reloadResources").find();
+    private static final MethodHandle RESEND_DATA_METHOD = Mirror.fuzzyMethod(PaperMirror.playerListClass(), Void.TYPE).names("reloadResources").find();
     private final JavaPlugin plugin;
     private final NavigableMap<String, ModuleBase> moduleMap;
     private final Injector baseInjector;
@@ -69,14 +69,22 @@ public final class ModuleManager {
     }
 
     private static void resendData() {
-        RESEND_DATA_METHOD.invoke(PaperMirror.PLAYER_LIST);
+        try {
+            RESEND_DATA_METHOD.invoke(PaperMirror.playerList());
+        } catch (final Throwable e) {
+            throw new RuntimeException("Failed to resend data to players", e);
+        }
     }
 
     public static void reSyncCommands() {
         Bukkit.getServer().getHelpMap().clear();
-        SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD.invoke(Bukkit.getHelpMap());
-        SYNC_COMMANDS_METHOD.invoke(Bukkit.getServer());
-        SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD.invoke(Bukkit.getHelpMap());
+        try {
+            SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD.invoke(Bukkit.getHelpMap());
+            SYNC_COMMANDS_METHOD.invoke(Bukkit.getServer());
+            SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD.invoke(Bukkit.getHelpMap());
+        } catch (final Throwable e) {
+            throw new RuntimeException("Failed to resync commands", e);
+        }
     }
 
     public int loadModules() {

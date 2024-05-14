@@ -28,25 +28,20 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import me.machinemaker.mirror.FieldAccessor;
-import me.machinemaker.mirror.MethodInvoker;
-import me.machinemaker.mirror.Mirror;
 import me.machinemaker.mirror.paper.PaperMirror;
-import me.machinemaker.papertweaks.cloud.parsers.ParserFactory;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcherFactory;
+import me.machinemaker.papertweaks.cloud.parsers.ParserFactory;
 import me.machinemaker.papertweaks.cloud.parsers.PseudoEnumParser;
 import me.machinemaker.papertweaks.cloud.processors.ConditionalCaseInsensitiveSuggestionProcessor;
 import me.machinemaker.papertweaks.cloud.processors.post.GamemodePostprocessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
@@ -63,8 +58,6 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 public class CloudModule extends AbstractModule {
 
     private static final Class<?> VANILLA_COMMAND_WRAPPER_CLASS = PaperMirror.getCraftBukkitClass("command.VanillaCommandWrapper");
-    private static final MethodInvoker.Typed<SimpleCommandMap> CRAFT_SERVER_GET_COMMAND_MAP = Mirror.typedFuzzyMethod(PaperMirror.CRAFT_SERVER_CLASS, SimpleCommandMap.class).names("getCommandMap").find();
-    private static final FieldAccessor.Typed<Map<String, org.bukkit.command.Command>> COMMAND_MAP_KNOWN_COMMANDS_FIELD = Mirror.typedFuzzyField(SimpleCommandMap.class, new TypeToken<Map<String, org.bukkit.command.Command>>() {}).names("knownCommands").find();
 
     private final JavaPlugin plugin;
     private final ScheduledExecutorService executorService;
@@ -75,7 +68,7 @@ public class CloudModule extends AbstractModule {
     }
 
     private static Map<String, org.bukkit.command.Command> getCommandMap() {
-        return Objects.requireNonNull(COMMAND_MAP_KNOWN_COMMANDS_FIELD.get(CRAFT_SERVER_GET_COMMAND_MAP.invoke(Bukkit.getServer())));
+        return Bukkit.getServer().getCommandMap().getKnownCommands();
     }
 
     @Override

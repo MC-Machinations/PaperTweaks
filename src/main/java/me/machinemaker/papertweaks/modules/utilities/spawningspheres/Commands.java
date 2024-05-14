@@ -52,9 +52,7 @@ class Commands extends ConfiguredModuleCommand {
     private static final PDCKey<Color> COLOR_KEY = PDCKey.enums(Keys.legacyKey("color"), Color.class);
     private static final double PHI = Math.PI * (3.0 - Math.sqrt(5.0));
 
-    private static final DespawnDistances DESPAWN_DISTANCES = Services.service(DespawnDistances.Provider.class)
-        .map(DespawnDistances.Provider::create)
-        .orElse(DespawnDistances.VANILLA);
+    private static final DespawnDistances DESPAWN_DISTANCES = new PaperDespawnDistances();
 
     private static void configureStand(final ArmorStand stand, final Color color, final Material helmet) {
         stand.setGravity(false);

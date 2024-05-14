@@ -72,7 +72,7 @@ public final class TranslationRegistry {
         @Nullable String translate(final Locale locale) {
             String message = this.messages.get(locale);
             if (message == null) {
-                message = this.messages.get(new Locale(locale.getLanguage()));
+                message = this.messages.get(Locale.of(locale.getLanguage()));
                 if (message == null) {
                     message = this.messages.get(Locale.ENGLISH);
                 }

@@ -21,21 +21,16 @@ package me.machinemaker.papertweaks.modules.utilities.spawningspheres;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.math.IntMath;
 import com.google.common.util.concurrent.Callables;
-import java.math.RoundingMode;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import me.machinemaker.mirror.FieldAccessor;
 import me.machinemaker.mirror.Mirror;
-import me.machinemaker.mirror.paper.PaperMirror;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 class PaperDespawnDistances implements DespawnDistances {
@@ -49,13 +44,7 @@ class PaperDespawnDistances implements DespawnDistances {
             if (paperWorldConfigClass != null) {
                 hardDespawnDistanceFunction = new PerCategoryDespawnDistances();
             } else {
-                final Class<?> legacyPaperWorldConfigClass = Mirror.findClass("com.destroystokyo.paper.PaperWorldConfig");
-                try {
-                    legacyPaperWorldConfigClass.getField("hardDespawnDistances");
-                    hardDespawnDistanceFunction = new LegacyPerCategoryDespawnDistances();
-                } catch (final NoSuchFieldException ex) {
-                    hardDespawnDistanceFunction = new LegacyDespawnDistance();
-                }
+                throw new IllegalArgumentException("Old version");
             }
         } catch (final IllegalArgumentException exception) {
             SpawningSpheres.LOGGER.warn("Paper environment detected, but could not hook into any custom spawning ranges. This might be a bug", exception);
@@ -97,44 +86,6 @@ class PaperDespawnDistances implements DespawnDistances {
                 return Callables.returning(worlds.getInt(world.getName() + "." + PATH, worlds.getInt("__defaults__." + PATH, 128)));
             }
             return Callables.returning(128); // fallback to default
-        }
-    }
-
-    // PaperWorldConfig.java per-category despawn distances
-    static class LegacyPerCategoryDespawnDistances implements Function<World, Callable<Integer>> {
-
-        @Override
-        public Callable<Integer> apply(final World world) {
-            return () -> {
-                final YamlConfiguration config = Bukkit.getServer().spigot().getPaperConfig();
-                return config.getInt("world-settings." + world.getName() + ".despawn-ranges.monster.hard", config.getInt("world-settings.default.despawn-ranges.monster.hard", 128));
-            };
-        }
-    }
-
-    // PaperWorldConfig.java all mobs despawn distance
-    static class LegacyDespawnDistance implements Function<World, Callable<Integer>> {
-
-        static final Class<?> PAPER_WORLD_CONFIG_CLASS = Mirror.getClass("com.destroystokyo.paper.PaperWorldConfig");
-        static final Class<?> CRAFT_WORLD_CLASS = PaperMirror.getCraftBukkitClass("CraftWorld");
-        static final Class<?> SERVER_LEVEL_CLASS = PaperMirror.findMinecraftClass("server.level.WorldServer", "server.level.ServerLevel", "server.WorldServer");
-        static final FieldAccessor CRAFT_WORLD_SERVER_LEVEL_FIELD = Mirror.fuzzyField(CRAFT_WORLD_CLASS, SERVER_LEVEL_CLASS).names("world").find();
-        static final FieldAccessor SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD = Mirror.fuzzyField(SERVER_LEVEL_CLASS, PAPER_WORLD_CONFIG_CLASS).names("paperConfig").find();
-        static final FieldAccessor.Typed<Integer> PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD = Mirror.typedFuzzyField(PAPER_WORLD_CONFIG_CLASS, int.class).names("hardDespawnDistance").find();
-
-        @Override
-        public Callable<Integer> apply(final World world) {
-            final Object serverLevel = CRAFT_WORLD_SERVER_LEVEL_FIELD.require(world);
-            final Object paperWorldConfig = SERVER_LEVEL_PAPER_WORLD_CONFIG_FIELD.require(serverLevel);
-            return Callables.returning(IntMath.sqrt(PAPER_WORLD_CONFIG_HARD_DESPAWN_FIELD.require(paperWorldConfig), RoundingMode.DOWN));
-        }
-    }
-
-    public static class ProviderImpl implements DespawnDistances.Provider {
-
-        @Override
-        public DespawnDistances create() {
-            return new PaperDespawnDistances();
         }
     }
 }

@@ -19,35 +19,24 @@
  */
 package me.machinemaker.papertweaks;
 
-import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
-import org.incendo.cloud.paper.PaperCommandManager;
 import com.google.inject.Inject;
-import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
+import io.papermc.paper.event.server.ServerResourcesReloadedEvent;
 import me.machinemaker.papertweaks.modules.ModuleManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServerLoadEvent;
 
 public class GlobalListener implements Listener {
 
     private final ModuleManager moduleManager;
-    private final PaperCommandManager<CommandDispatcher> commandManager;
 
     @Inject
-    public GlobalListener(final ModuleManager moduleManager, final PaperCommandManager<CommandDispatcher> commandManager) {
+    public GlobalListener(final ModuleManager moduleManager) {
         this.moduleManager = moduleManager;
-        this.commandManager = commandManager;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBukkitReload(final ServerLoadEvent event) {
-        if (event.getType() == ServerLoadEvent.LoadType.RELOAD) {
-            this.moduleManager.reloadModules();
-        } else if (event.getType() == ServerLoadEvent.LoadType.STARTUP && this.commandManager.hasCapability(CloudBukkitCapabilities.COMMODORE_BRIGADIER)) {
-            // This is very annoying
-            ModuleManager.reSyncCommands();
-        }
+    public void onReload(final ServerResourcesReloadedEvent event) {
+        this.moduleManager.reloadModules();
     }
-
 }

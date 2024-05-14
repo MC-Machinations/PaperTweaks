@@ -16,11 +16,6 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://maven.enginehub.org/repo/")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-        mavenContent {
-            includeGroup("net.kyori")
-        }
-    }
     maven("https://jitpack.io") {
         mavenContent {
             includeGroup("com.github.TechFortress")
@@ -32,7 +27,7 @@ val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper
 dependencies {
     compileOnly(paperApi)
 
-    implementation(libs.mm.mirror) // TODO replace with MethodHandles
+    implementation(libs.mm.mirror)
     implementation(libs.mm.lectern) // TODO replace with configurate
     implementation(libs.cloud.paper)
     implementation(libs.cloud.extras) {
@@ -55,7 +50,6 @@ dependencies {
     // soft dependencies
     compileOnly(libs.worldguard)
     compileOnly(libs.griefprevention)
-    compileOnly(libs.brigadier)
 
     // TODO convert to libs.versions.toml
     implementation("io.github.classgraph:classgraph:4.8.157")

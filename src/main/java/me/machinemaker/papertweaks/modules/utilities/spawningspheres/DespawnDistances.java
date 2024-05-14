@@ -23,24 +23,7 @@ import org.bukkit.World;
 
 interface DespawnDistances {
 
-    DespawnDistances VANILLA = new DespawnDistances() {
-        @Override
-        public int soft(final World world) {
-            return 24;
-        }
-
-        @Override
-        public int hard(final World world) {
-            return 128;
-        }
-    };
-
     int soft(World world);
 
     int hard(World world);
-
-    interface Provider {
-
-        DespawnDistances create();
-    }
 }

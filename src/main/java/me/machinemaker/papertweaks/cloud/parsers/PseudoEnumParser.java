@@ -111,7 +111,7 @@ public class PseudoEnumParser<C> implements ArgumentParser<C, String> {
         @Serial
         private static final long serialVersionUID = 5198435213837796433L;
         private final String input;
-        private final Set<String> acceptableValues;
+        private final transient Set<String> acceptableValues;
 
         /**
          * Construct a new pseudo-enum parse exception
