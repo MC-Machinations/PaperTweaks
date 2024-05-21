@@ -32,7 +32,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.cloud.setting.ManagerSetting;
 
 public abstract class ModuleLifecycle {
@@ -44,7 +44,7 @@ public abstract class ModuleLifecycle {
     private final Map<NamespacedKey, Recipe> moduleRecipes;
     private ModuleState state = ModuleState.DISABLED;
     @Inject
-    private PaperCommandManager<CommandDispatcher> commandManager;
+    private LegacyPaperCommandManager<CommandDispatcher> commandManager;
     @Inject
     private ModuleInfo moduleInfo;
 

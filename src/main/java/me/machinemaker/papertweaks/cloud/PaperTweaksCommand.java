@@ -30,7 +30,7 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.execution.CommandExecutionHandler;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 
 /**
  * Various utility methods for commands to utilize
@@ -38,7 +38,7 @@ import org.incendo.cloud.paper.PaperCommandManager;
 public abstract class PaperTweaksCommand {
 
     @Inject
-    protected PaperCommandManager<CommandDispatcher> manager;
+    protected LegacyPaperCommandManager<CommandDispatcher> manager;
     @Inject
     protected ParserFactory argumentFactory;
 

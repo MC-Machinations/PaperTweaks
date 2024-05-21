@@ -56,7 +56,7 @@ import org.incendo.cloud.meta.CommandMeta;
 import org.incendo.cloud.minecraft.extras.AudienceProvider;
 import org.incendo.cloud.minecraft.extras.MinecraftHelp;
 import org.incendo.cloud.minecraft.extras.RichDescription;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.cloud.parser.standard.StringParser;
 import org.incendo.cloud.permission.Permission;
 import org.intellij.lang.annotations.Pattern;
@@ -221,7 +221,7 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
         return this.lifecycle;
     }
 
-    PaperCommandManager<CommandDispatcher> manager() {
+    LegacyPaperCommandManager<CommandDispatcher> manager() {
         return this.manager;
     }
 

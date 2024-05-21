@@ -50,7 +50,7 @@ import org.incendo.cloud.brigadier.CloudBrigadierManager;
 import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
@@ -87,12 +87,12 @@ public class CloudModule extends AbstractModule {
 
     @Provides
     @Singleton
-    PaperCommandManager<CommandDispatcher> paperCommandManager(final CommandDispatcherFactory commandDispatcherFactory,
+    LegacyPaperCommandManager<CommandDispatcher> paperCommandManager(final CommandDispatcherFactory commandDispatcherFactory,
                                                                final CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager,
                                                                final MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
         final LoadingCache<CommandSender, CommandDispatcher> senderCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build(commandDispatcherFactory);
         try {
-            final PaperCommandManager<CommandDispatcher> manager = new PaperCommandManager<CommandDispatcher>(
+            final LegacyPaperCommandManager<CommandDispatcher> manager = new LegacyPaperCommandManager<>(
                 this.plugin,
                 ExecutionCoordinator.asyncCoordinator(),
                 SenderMapper.create(
