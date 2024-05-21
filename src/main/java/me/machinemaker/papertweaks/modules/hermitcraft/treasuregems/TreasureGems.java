@@ -71,7 +71,7 @@ public class TreasureGems extends ModuleBase {
                 tempHeads.put(entry.getKey(), PTUtils.getSkull(GsonComponentSerializer.gson().deserialize(entry.getValue().get("name").asText()), UUID.fromString(entry.getValue().get("uuid").asText()), entry.getValue().get("texture").asText(), 1));
             }
 
-        } catch (final IOException ex) {
+        } catch (final Exception ex) {
             tempTables = Collections.emptySet();
             LOGGER.error("Could not load treasure gems from data/treasure_gems/. This module will not work properly", ex);
         }

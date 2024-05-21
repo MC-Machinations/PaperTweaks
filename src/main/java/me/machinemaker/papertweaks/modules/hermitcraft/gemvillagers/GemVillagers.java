@@ -50,7 +50,7 @@ public class GemVillagers extends ModuleBase {
         Map<String, VillagerData> tempVillagers;
         try {
             tempVillagers = JSON_MAPPER.readValue(loader.getResourceAsStream("data/gem_villagers.json"), new TypeReference<Map<String, VillagerData>>() {});
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             tempVillagers = Collections.emptyMap();
             LOGGER.error("Could not load gem villagers from data/gem_villagers.json. This module will not work properly", e);
         }

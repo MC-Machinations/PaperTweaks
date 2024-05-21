@@ -53,7 +53,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.translatable;
 import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
+import static net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText;
 
 @DefaultQualifier(NonNull.class)
 public final class PTUtils {
@@ -90,22 +93,29 @@ public final class PTUtils {
     }
 
     public static ItemStack getSkull(final Component name, final @Nullable UUID uuid, final String texture, final int count) {
-        return getSkull(name, PlainTextComponentSerializer.plainText().serialize(name), uuid, texture, count);
+        return getSkull(name, makeValidGameProfileName(name), uuid, texture, count);
     }
 
-    public static ItemStack getSkull(final String gameProfileName, final UUID uuid, final String texture) {
-        return getSkull(null, gameProfileName, uuid, texture, 1);
-    }
-
-    public static ItemStack getSkull(final @Nullable Component name, final String gameProfileName, final @Nullable UUID uuid, final String texture, final int count) {
-        final ItemStack skull = new ItemStack(Material.PLAYER_HEAD, count);
-        if (name == null && uuid == null) {
-            return skull;
+    public static ItemStack getSkull(final String stringName, final UUID uuid, final String texture) {
+        final String gameProfileName = makeValidGameProfileName(stringName);
+        final @Nullable Component name;
+        if (!gameProfileName.equals(stringName)) {
+            name = translatable("block.minecraft.player_head.named", text(stringName));
+        } else {
+            name = null; // name is valid in the gameprofile
         }
+        return getSkull(name, gameProfileName, uuid, texture, 1);
+    }
+
+    private static ItemStack getSkull(final @Nullable Component customName, final String gameProfileName, final @Nullable UUID uuid, final String texture, final int count) {
+        final ItemStack skull = new ItemStack(Material.PLAYER_HEAD, count);
         final @Nullable SkullMeta meta = (SkullMeta) Objects.requireNonNull(skull.getItemMeta());
         final PlayerProfile profile = Bukkit.createProfile(uuid == null ? UUID.randomUUID() : uuid, gameProfileName);
         profile.setProperty(new ProfileProperty("textures", texture));
         meta.setPlayerProfile(profile);
+        if (customName != null) {
+            meta.itemName(customName);
+        }
         skull.setItemMeta(meta);
         return skull;
     }
@@ -120,9 +130,14 @@ public final class PTUtils {
         }
     }
 
-    public static void loadMeta(final ItemMeta meta, final Component displayName) {
-        meta.displayName(displayName);
+    public static String makeValidGameProfileName(final Component input) {
+        return makeValidGameProfileName(plainText().serialize(input));
     }
+
+    public static String makeValidGameProfileName(final String input) {
+        return input.replace(' ', '_').substring(0, Math.min(16, input.length()));
+    }
+
 
     public static Location toBlockLoc(final Location location) {
         return new Location(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());

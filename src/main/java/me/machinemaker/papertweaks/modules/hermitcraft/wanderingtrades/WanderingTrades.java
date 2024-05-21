@@ -58,7 +58,7 @@ public class WanderingTrades extends ModuleBase {
         List<Trade> tempTrades;
         try {
             tempTrades = JSON_MAPPER.readValue(loader.getResourceAsStream("data/wandering_trades.json"), new TypeReference<List<Trade>>() {});
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             LOGGER.error("Could not load wandering trades from data/wandering_trades.json. This module will not work properly", e);
             tempTrades = Collections.emptyList();
         }

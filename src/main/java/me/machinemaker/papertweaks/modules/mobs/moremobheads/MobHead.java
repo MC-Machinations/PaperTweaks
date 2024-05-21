@@ -70,7 +70,7 @@ final class MobHead {
         try {
             //noinspection Convert2Diamond
             heads = MAPPER.readValue(loader.getResourceAsStream("data/more_mob_heads.json"), new TypeReference<List<MobHead>>() {});
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             MoreMobHeads.LOGGER.error("Could not load mob heads from data/more_mob_heads.json. This module will not work properly", e);
             return Multimaps.unmodifiableMultimap(ArrayListMultimap.create());
         }

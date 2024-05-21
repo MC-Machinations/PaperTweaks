@@ -37,8 +37,9 @@ public class CommandDispatcherFactory extends CacheLoader<CommandSender, Command
             return new ConsoleCommandDispatcher(consoleCommandSender, consoleCommandSender);
         } else if (sender instanceof final Player player) {
             return new PlayerCommandDispatcher(player, ignored -> player);
+        } else {
+            return new FallbackCommandDispatcher(sender);
         }
-        throw new IllegalArgumentException(sender + " is unknown");
     }
 
     @Override
