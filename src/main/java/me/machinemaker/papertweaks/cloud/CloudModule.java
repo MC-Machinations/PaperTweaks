@@ -120,7 +120,7 @@ public class CloudModule extends AbstractModule {
             }
 
             if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER) || manager.hasCapability(CloudBukkitCapabilities.COMMODORE_BRIGADIER)) {
-                manager.registerBrigadier();
+                manager.registerLegacyPaperBrigadier();
             }
 
             minecraftExceptionHandler.registerTo(manager);
