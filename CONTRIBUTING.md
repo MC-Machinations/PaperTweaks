@@ -1,4 +1,4 @@
-# Contributing to VanillaTweaks
+# Contributing to PaperTweaks
 
 Before contributing:
 * please join our discord to more easily discuss changes
