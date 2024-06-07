@@ -115,11 +115,8 @@ public class CloudModule extends AbstractModule {
                     return super.command(command);
                 }
             };
-            if (manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
-                manager.registerAsynchronousCompletions();
-            }
 
-            if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER) || manager.hasCapability(CloudBukkitCapabilities.COMMODORE_BRIGADIER)) {
+            if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
                 manager.registerLegacyPaperBrigadier();
             }
 
