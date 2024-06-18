@@ -186,7 +186,7 @@ tasks {
         systemProperty("com.mojang.eula.agree", "true")
 
         downloadPlugins {
-            url("https://download.luckperms.net/1537/bukkit/loader/LuckPerms-Bukkit-5.4.124.jar")
+            url("https://download.luckperms.net/1549/bukkit/loader/LuckPerms-Bukkit-5.4.134.jar")
         }
     }
 
