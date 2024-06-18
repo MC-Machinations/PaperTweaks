@@ -19,20 +19,14 @@
  */
 package me.machinemaker.papertweaks.cloud;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import me.machinemaker.mirror.paper.PaperMirror;
 import me.machinemaker.papertweaks.cloud.cooldown.CommandCooldownManager;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcher;
 import me.machinemaker.papertweaks.cloud.dispatchers.CommandDispatcherFactory;
@@ -40,24 +34,17 @@ import me.machinemaker.papertweaks.cloud.parsers.ParserFactory;
 import me.machinemaker.papertweaks.cloud.parsers.PseudoEnumParser;
 import me.machinemaker.papertweaks.cloud.processors.ConditionalCaseInsensitiveSuggestionProcessor;
 import me.machinemaker.papertweaks.cloud.processors.post.GamemodePostprocessor;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.cloud.Command;
-import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.brigadier.CloudBrigadierManager;
-import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
-import org.incendo.cloud.paper.LegacyPaperCommandManager;
+import org.incendo.cloud.paper.PaperCommandManager;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class CloudModule extends AbstractModule {
-
-    private static final Class<?> VANILLA_COMMAND_WRAPPER_CLASS = PaperMirror.getCraftBukkitClass("command.VanillaCommandWrapper");
 
     private final JavaPlugin plugin;
     private final ScheduledExecutorService executorService;
@@ -65,10 +52,6 @@ public class CloudModule extends AbstractModule {
     public CloudModule(final JavaPlugin plugin, final ScheduledExecutorService executorService) {
         this.plugin = plugin;
         this.executorService = executorService;
-    }
-
-    private static Map<String, org.bukkit.command.Command> getCommandMap() {
-        return Bukkit.getServer().getCommandMap().getKnownCommands();
     }
 
     @Override
@@ -87,38 +70,16 @@ public class CloudModule extends AbstractModule {
 
     @Provides
     @Singleton
-    LegacyPaperCommandManager<CommandDispatcher> paperCommandManager(final CommandDispatcherFactory commandDispatcherFactory,
+    PaperCommandManager<CommandDispatcher> paperCommandManager(final CommandDispatcherFactory commandDispatcherFactory,
                                                                final CommandCooldownManager<CommandDispatcher, UUID> commandCooldownManager,
                                                                final MinecraftExceptionHandler<CommandDispatcher> minecraftExceptionHandler) {
-        final LoadingCache<CommandSender, CommandDispatcher> senderCache = CacheBuilder.newBuilder().expireAfterAccess(20, TimeUnit.MINUTES).build(commandDispatcherFactory);
         try {
-            final LegacyPaperCommandManager<CommandDispatcher> manager = new LegacyPaperCommandManager<>(
-                this.plugin,
-                ExecutionCoordinator.asyncCoordinator(),
+            final PaperCommandManager<CommandDispatcher> manager = PaperCommandManager.builder(
                 SenderMapper.create(
-                    commandSender -> {
-                        try {
-                            return senderCache.get(commandSender);
-                        } catch (final ExecutionException e) {
-                            throw new IllegalArgumentException("Error mapping command sender", e);
-                        }
-                    },
-                    CommandDispatcher::sender
+                    commandDispatcherFactory::from,
+                    CommandDispatcher::sourceStack
                 )
-            ) {
-                @Override
-                public CommandManager<CommandDispatcher> command(final Command<? extends CommandDispatcher> command) {
-                    final String main = command.rootComponent().name();
-                    if (VANILLA_COMMAND_WRAPPER_CLASS.isInstance(getCommandMap().get(main))) {
-                        getCommandMap().remove(main);
-                    }
-                    return super.command(command);
-                }
-            };
-
-            if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
-                manager.registerLegacyPaperBrigadier();
-            }
+            ).executionCoordinator(ExecutionCoordinator.asyncCoordinator()).buildOnEnable(this.plugin);
 
             minecraftExceptionHandler.registerTo(manager);
             commandCooldownManager.registerCooldownManager(manager);

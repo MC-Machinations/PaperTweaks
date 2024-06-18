@@ -58,8 +58,7 @@ public abstract class ConfiguredModuleCommand extends ModuleCommand {
 
     protected final Command.Builder<CommandDispatcher> builder(final String name, final String... aliases) {
         final Description literalDescription = this.buildSimpleDescription(name);
-        final Command.Builder<CommandDispatcher> builder = this.manager()
-            .commandBuilder(name, this.buildRootMeta(), literalDescription, aliases)
+        final Command.Builder<CommandDispatcher> builder = this.builder(name, this.buildRootMeta(), literalDescription, aliases)
             .permission(this.modulePermission(this.permValue(name)));
         return this.addDescription(builder, literalDescription);
     }

@@ -19,37 +19,26 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import java.util.Locale;
 import java.util.UUID;
-import net.kyori.adventure.audience.Audience;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class FallbackCommandDispatcher extends CommandDispatcher {
 
-    private final UUID uuid;
+    private final UUID uuid = UUID.randomUUID();
 
-    protected FallbackCommandDispatcher(final CommandSender bukkitCommandSender) {
-        super(bukkitCommandSender);
-        if (bukkitCommandSender instanceof final Entity entity) {
-            this.uuid = entity.getUniqueId();
-        } else {
-            this.uuid = UUID.randomUUID();
-        }
+    protected FallbackCommandDispatcher(final CommandSourceStack sourceStack) {
+        super(sourceStack);
     }
 
     @Override
-    public UUID getUUID() {
+    public @Nullable UUID getUUID() {
         return this.uuid;
     }
 
     @Override
     public Locale locale() {
         return Locale.US;
-    }
-
-    @Override
-    public Audience audience() {
-        return this.sender();
     }
 }

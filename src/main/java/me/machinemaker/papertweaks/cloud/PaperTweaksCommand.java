@@ -29,8 +29,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.description.Description;
 import org.incendo.cloud.execution.CommandExecutionHandler;
-import org.incendo.cloud.paper.LegacyPaperCommandManager;
+import org.incendo.cloud.meta.CommandMeta;
+import org.incendo.cloud.minecraft.extras.ImmutableMinecraftHelp;
+import org.incendo.cloud.minecraft.extras.MinecraftHelp;
+import org.incendo.cloud.paper.PaperCommandManager;
 
 /**
  * Various utility methods for commands to utilize
@@ -38,7 +42,7 @@ import org.incendo.cloud.paper.LegacyPaperCommandManager;
 public abstract class PaperTweaksCommand {
 
     @Inject
-    protected LegacyPaperCommandManager<CommandDispatcher> manager;
+    private PaperCommandManager<CommandDispatcher> manager;
     @Inject
     protected ParserFactory argumentFactory;
 
@@ -57,7 +61,27 @@ public abstract class PaperTweaksCommand {
         };
     }
 
-    protected final void register(final Command.Builder<? extends CommandDispatcher> builder) {
-        this.manager.command(builder);
+    protected ImmutableMinecraftHelp.AudienceProviderBuildStage<CommandDispatcher> createHelp() {
+        return MinecraftHelp.<CommandDispatcher>builder().commandManager(this.manager);
+    }
+
+    protected Command.Builder<CommandDispatcher> builder(final String name, final CommandMeta commandMeta, final String ...aliases) {
+        return this.manager.commandBuilder(name, commandMeta, aliases);
+    }
+
+    protected Command.Builder<CommandDispatcher> builder(final String name, final Description description, final String ...aliases) {
+        return this.manager.commandBuilder(name, description, aliases);
+    }
+
+    protected Command.Builder<CommandDispatcher> builder(final String name, final CommandMeta commandMeta, final Description description, final String ...aliases) {
+        return this.manager.commandBuilder(name, commandMeta, description, aliases);
+    }
+
+    public final void register(final Command.Builder<? extends CommandDispatcher> builder) {
+        this.register(builder.build());
+    }
+
+    public void register(final Command<? extends CommandDispatcher> command) {
+        this.manager.command(command);
     }
 }

@@ -19,31 +19,26 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
-import com.google.common.cache.CacheLoader;
 import com.google.inject.Singleton;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 /**
  * Factory for creating implementations of {@link CommandDispatcher}.
  */
-// TODO native audience
 @Singleton
-public class CommandDispatcherFactory extends CacheLoader<CommandSender, CommandDispatcher> {
+public class CommandDispatcherFactory {
 
-    public CommandDispatcher from(final CommandSender sender) {
-        if (sender instanceof final ConsoleCommandSender consoleCommandSender) {
-            return new ConsoleCommandDispatcher(consoleCommandSender, consoleCommandSender);
-        } else if (sender instanceof final Player player) {
-            return new PlayerCommandDispatcher(player, ignored -> player);
-        } else {
-            return new FallbackCommandDispatcher(sender);
-        }
-    }
-
-    @Override
-    public CommandDispatcher load(final CommandSender key) {
-        return this.from(key);
+    public CommandDispatcher from(final CommandSourceStack sourceStack) {
+        final CommandSender sender = sourceStack.getExecutor() != null ? sourceStack.getExecutor() : sourceStack.getSender();
+        return switch (sender) {
+            case final ConsoleCommandSender ignored -> new ConsoleCommandDispatcher(sourceStack);
+            case final Player ignored2 -> new PlayerCommandDispatcher(sourceStack);
+            case final Entity ignored3 -> new EntityCommandDispatcher(sourceStack);
+            default -> new FallbackCommandDispatcher(sourceStack);
+        };
     }
 }

@@ -19,9 +19,11 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -31,10 +33,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public abstract class CommandDispatcher implements ForwardingAudience.Single {
 
-    private final CommandSender bukkitCommandSender;
+    private final CommandSourceStack sourceStack;
 
-    protected CommandDispatcher(final CommandSender bukkitCommandSender) {
-        this.bukkitCommandSender = bukkitCommandSender;
+    protected CommandDispatcher(final CommandSourceStack sourceStack) {
+        this.sourceStack = sourceStack;
+    }
+
+    public CommandSourceStack sourceStack() {
+        return this.sourceStack;
     }
 
     /**
@@ -43,7 +49,12 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
      * @return the Bukkit command sender
      */
     public CommandSender sender() {
-        return this.bukkitCommandSender;
+        return this.sourceStack.getExecutor() != null ? this.sourceStack.getExecutor() : this.sourceStack.getSender();
+    }
+
+    @Override
+    public Audience audience() {
+        return this.sender();
     }
 
     public boolean isPlayer() {
@@ -55,7 +66,7 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
     public abstract Locale locale();
 
     public boolean hasPermission(final String permission) {
-        return this.bukkitCommandSender.hasPermission(permission);
+        return this.sender().hasPermission(permission);
     }
 
     @Override
@@ -63,11 +74,11 @@ public abstract class CommandDispatcher implements ForwardingAudience.Single {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         final CommandDispatcher that = (CommandDispatcher) o;
-        return this.bukkitCommandSender.equals(that.bukkitCommandSender);
+        return this.sourceStack.equals(that.sourceStack);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.bukkitCommandSender);
+        return Objects.hash(this.sourceStack);
     }
 }

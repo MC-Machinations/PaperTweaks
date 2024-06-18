@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2024 Machine_Maker
+ * Copyright (C) 2024 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,32 +22,27 @@ package me.machinemaker.papertweaks.cloud.dispatchers;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import java.util.Locale;
 import java.util.UUID;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-/**
- * Represents the console command sender
- */
-public class ConsoleCommandDispatcher extends CommandDispatcher {
+public class EntityCommandDispatcher extends CommandDispatcher {
 
-    private static final UUID CONSOLE_UUID = UUID.randomUUID(); // For tracking cooldowns
-
-    ConsoleCommandDispatcher(final CommandSourceStack sourceStack) {
+    protected EntityCommandDispatcher(final CommandSourceStack sourceStack) {
         super(sourceStack);
     }
 
     @Override
-    public ConsoleCommandSender sender() {
-        return (ConsoleCommandSender) super.sender();
-    }
-
-    @Override
     public @Nullable UUID getUUID() {
-        return CONSOLE_UUID;
+        return this.sender().getUniqueId();
     }
 
     @Override
     public Locale locale() {
         return Locale.US;
+    }
+
+    @Override
+    public Entity sender() {
+        return (Entity) super.sender();
     }
 }

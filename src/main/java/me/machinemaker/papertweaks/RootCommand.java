@@ -89,33 +89,39 @@ public class RootCommand extends PaperTweaksCommand {
     }
 
     public void registerCommands() {
-        this.builder = this.manager.commandBuilder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks", "pt", "papertweaks", "ptweaks");
+        this.builder = this.builder("vanillatweaks", RichDescription.translatable("commands.root"), "vt", "vtweaks", "pt", "papertweaks", "ptweaks");
 
-        this.manager.command(this.simple("reload")
+        this.register(this.simple("reload")
             .handler(this.sync(this::reloadEverything))
-        ).command(this.simple("reload")
+        );
+        this.register(this.simple("reload")
             .literal("module")
             .commandDescription(RichDescription.translatable("commands.reload.module")) // Override default meta from #simple(String)
             .required(MODULE_BASE_KEY, moduleDescriptor(this.argumentFactory, true))
             .handler(this.sync(context -> context.sender().sendMessage(this.moduleManager.reloadModule(context.get(MODULE_BASE_KEY).getName()))))
-        ).command(this.simple("enable")
+        );
+        this.register(this.simple("enable")
             .required(MODULE_BASE_KEY, moduleDescriptor(this.argumentFactory, false))
             .handler(this.sync(context -> {
                 final Component enableMsg = this.moduleManager.enableModule(context.get(MODULE_BASE_KEY).getName());
                 context.sender().sendMessage(enableMsg);
                 this.console.sendMessage(Components.join(PaperTweaks.PLUGIN_PREFIX, enableMsg));
             }))
-        ).command(this.simple("disable")
+        );
+        this.register(this.simple("disable")
             .required(MODULE_BASE_KEY, moduleDescriptor(this.argumentFactory, true))
             .handler(this.sync(context -> {
-                final Component disableMsg = this.moduleManager.disableModule(context.get(MODULE_BASE_KEY).getName());
-                context.sender().sendMessage(disableMsg);
-                this.console.sendMessage(Components.join(PaperTweaks.PLUGIN_PREFIX, disableMsg));
+                this.moduleManager.disableModule(context.get(MODULE_BASE_KEY).getName(), disableMsg -> {
+                    context.sender().sendMessage(disableMsg);
+                    this.console.sendMessage(Components.join(PaperTweaks.PLUGIN_PREFIX, disableMsg));
+                });
             }))
-        ).command(this.simple("list")
+        );
+        this.register(this.simple("list")
             .optional("page", integerParser(1, this.maxPageCount), DefaultValue.constant(1))
             .handler(this::sendModuleList)
-        ).command(this.simple("version")
+        );
+        this.register(this.simple("version")
             .handler(this::showVersion)
         );
     }

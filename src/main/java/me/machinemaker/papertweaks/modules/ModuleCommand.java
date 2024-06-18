@@ -27,7 +27,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 import me.machinemaker.papertweaks.adventure.TranslationRegistry;
 import me.machinemaker.papertweaks.cloud.MetaKeys;
@@ -47,6 +49,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandMeta;
 import org.incendo.cloud.description.Description;
@@ -56,7 +59,7 @@ import org.incendo.cloud.meta.CommandMeta;
 import org.incendo.cloud.minecraft.extras.AudienceProvider;
 import org.incendo.cloud.minecraft.extras.MinecraftHelp;
 import org.incendo.cloud.minecraft.extras.RichDescription;
-import org.incendo.cloud.paper.LegacyPaperCommandManager;
+import org.incendo.cloud.paper.PaperCommandManager;
 import org.incendo.cloud.parser.standard.StringParser;
 import org.incendo.cloud.permission.Permission;
 import org.intellij.lang.annotations.Pattern;
@@ -91,9 +94,9 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
     final Info commandInfo = this.getClass().getAnnotation(Info.class);
     @Inject
     ModuleBase moduleBase;
-    private @MonotonicNonNull ModuleLifecycle lifecycle;
-    private boolean registered;
+    private @Nullable ModuleLifecycle lifecycle;
     private Command.@MonotonicNonNull Builder<CommandDispatcher> rootBuilder;
+    private final Set<String> rootCommands = new HashSet<>(); // keep track of root commands for deletion
 
     private static <C> CommandExecutionHandler<C> createHelpHandler(final MinecraftHelp<C> help) {
         return context -> help.queryCommands(Objects.requireNonNull(context.getOrDefault("query", ""), "must supply a help query"), context.sender());
@@ -112,7 +115,11 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
         this.registerCommands();
         this.createInfoCommand();
         this.setupHelp();
-        this.registered = true;
+    }
+
+    final void unregisterCommands(final PaperCommandManager<CommandDispatcher> commandManager) {
+        this.lifecycle = null;
+        this.rootCommands.forEach(commandManager::deleteRootCommand);
     }
 
     void checkValid() {
@@ -123,7 +130,7 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
 
     @EnsuresNonNull("rootBuilder")
     private void setupRootBuilder() {
-        this.rootBuilder = this.manager.commandBuilder(this.commandInfo.value(), this.buildRootMeta(), this.commandInfo.aliases());
+        this.rootBuilder = this.builder(this.commandInfo.value(), this.buildRootMeta(), this.commandInfo.aliases());
         if (this.commandInfo.miniMessage()) {
             // if the command uses minimessage translations, set the verbose description to the minimessage translation key
             this.rootBuilder = this.rootBuilder.commandDescription(this.buildRootDescription(), description(this.buildRootDescription().textDescription()));
@@ -139,12 +146,12 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
 
     private void createInfoCommand() {
         Objects.requireNonNull(this.rootBuilder, "Must create info command after root builder");
-        Command.Builder<CommandDispatcher> builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle))
+        Command.Builder<CommandDispatcher> builder = this.rootBuilder.permission(ModulePermission.of(this.lifecycle()))
             .commandDescription(RichDescription.translatable("commands.info.hover", text(this.moduleBase.getName(), GOLD)));
         if (!this.commandInfo.infoOnRoot()) {
             builder = builder.literal("info");
         }
-        this.manager.command(builder.handler(context -> context.sender().sendMessage(this.buildInfoComponent(context.sender().sender()))));
+        this.register(builder.handler(context -> context.sender().sendMessage(this.buildInfoComponent(context.sender().sender()))));
     }
 
     @EnsuresNonNull("infoComponent")
@@ -195,8 +202,7 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
     void setupHelp() {
         Objects.requireNonNull(this.rootBuilder, "Must configure help after root builder");
         if (this.commandInfo.help()) {
-            final MinecraftHelp<CommandDispatcher> help = MinecraftHelp.<CommandDispatcher>builder()
-                .commandManager(this.manager)
+            final MinecraftHelp<CommandDispatcher> help = this.createHelp()
                 .audienceProvider(AudienceProvider.nativeAudience())
                 .commandPrefix("/" + this.commandInfo.value() + " help")
                 .colors(MODULE_HELP_COLORS)
@@ -205,9 +211,9 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
                     final boolean isOwnedByThis = command.commandMeta().optional(MODULE_OWNER).map(Functions.forPredicate(module -> module == this.moduleBase)).orElse(false);
                     return isOwnedByThis && !command.commandMeta().contains(MetaKeys.HIDDEN);
                 }).build();
-            this.manager.command(this.rootBuilder
+            this.register(this.rootBuilder
                 .literal("help")
-                .permission(ModulePermission.of(this.lifecycle))
+                .permission(ModulePermission.of(this.lifecycle()))
                 .commandDescription(RichDescription.translatable("commands.help", text(this.moduleBase.getName())))
                 .argument(StringParser.stringComponent(StringParser.StringMode.GREEDY).name("query").optional().description(RichDescription.translatable("commands.help.query")))
                 .handler(createHelpHandler(help)));
@@ -221,16 +227,12 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
         return this.lifecycle;
     }
 
-    LegacyPaperCommandManager<CommandDispatcher> manager() {
-        return this.manager;
-    }
-
     protected final Permission modulePermission(final String permission) {
         return ModulePermission.of(this.lifecycle(), permission);
     }
 
     boolean isRegistered() {
-        return this.registered;
+        return this.lifecycle != null;
     }
 
     protected final Command.Builder<CommandDispatcher> builder() {
@@ -247,6 +249,12 @@ public abstract class ModuleCommand extends PaperTweaksCommand {
 
     Description buildRootDescription() {
         return translatableDescriptionFactory(this.commandInfo.miniMessage()).apply(this.commandInfo.descriptionKey());
+    }
+
+    @Override
+    public void register(final Command<? extends CommandDispatcher> command) {
+        this.rootCommands.add(command.rootComponent().name());
+        super.register(command);
     }
 
     @Target(ElementType.TYPE)

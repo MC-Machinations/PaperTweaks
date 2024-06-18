@@ -24,15 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.lang.invoke.MethodHandle;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 import me.machinemaker.lectern.ConfigurationNode;
-import me.machinemaker.mirror.Mirror;
-import me.machinemaker.mirror.paper.PaperMirror;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -50,11 +48,6 @@ import static org.apache.commons.lang3.BooleanUtils.isTrue;
 @Singleton
 public final class ModuleManager {
 
-    private static final MethodHandle SYNC_COMMANDS_METHOD = Mirror.fuzzyMethod(PaperMirror.craftServerClass(), Void.TYPE).names("syncCommands").find();
-    private static final MethodHandle SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeGeneralTopics").find();
-    private static final MethodHandle SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD = Mirror.fuzzyMethod(Bukkit.getHelpMap().getClass(), Void.TYPE).names("initializeCommands").find();
-
-    private static final MethodHandle RESEND_DATA_METHOD = Mirror.fuzzyMethod(PaperMirror.playerListClass(), Void.TYPE).names("reloadResources").find();
     private final JavaPlugin plugin;
     private final NavigableMap<String, ModuleBase> moduleMap;
     private final Injector baseInjector;
@@ -66,25 +59,6 @@ public final class ModuleManager {
         this.moduleMap = new TreeMap<>(moduleMap);
         this.baseInjector = baseInjector;
         this.modulesConfig = modulesConfig;
-    }
-
-    private static void resendData() {
-        try {
-            RESEND_DATA_METHOD.invoke(PaperMirror.playerList());
-        } catch (final Throwable e) {
-            throw new RuntimeException("Failed to resend data to players", e);
-        }
-    }
-
-    public static void reSyncCommands() {
-        Bukkit.getServer().getHelpMap().clear();
-        try {
-            SIMPLE_HELP_MAP_INITIALIZE_GENERAL_TOPICS_METHOD.invoke(Bukkit.getHelpMap());
-            SYNC_COMMANDS_METHOD.invoke(Bukkit.getServer());
-            SIMPLE_HELP_MAP_INITIALIZE_COMMANDS_METHOD.invoke(Bukkit.getHelpMap());
-        } catch (final Throwable e) {
-            throw new RuntimeException("Failed to resync commands", e);
-        }
     }
 
     public int loadModules() {
@@ -139,10 +113,10 @@ public final class ModuleManager {
             }
         }
         if (enableCount > 0) {
-            reSyncCommands();
+            this.plugin.getServer().getOnlinePlayers().forEach(Player::updateCommands);
         }
         if (enableCount > 0 || disableCount > 0) {
-            resendData();
+            this.plugin.getServer().updateRecipes();
         }
         return new ReloadResult(disableCount, reloadCount, enableCount);
     }
@@ -177,8 +151,7 @@ public final class ModuleManager {
             return translatable("commands.enable.fail.already-enabled", YELLOW, text(moduleName, GOLD));
         }
         lifecycle.enable();
-        reSyncCommands();
-        resendData();
+        this.plugin.getServer().getOnlinePlayers().forEach(Player::updateCommands);
         if (lifecycle.getState() == ModuleState.ENABLED_FAILED) {
             lifecycle.disable(false);
             return translatable("commands.enable.fail.error", RED, text(moduleName, GOLD));
@@ -192,23 +165,24 @@ public final class ModuleManager {
         return translatable("commands.enable.success", GREEN, text(moduleName, GOLD));
     }
 
-    public Component disableModule(final String moduleName) {
+    public void disableModule(final String moduleName, final Consumer<Component> msgConsumer) {
         final ModuleLifecycle lifecycle = this.getLifecycle(moduleName, ModuleLifecycle.class).orElseThrow();
         if (!lifecycle.getState().isRunning()) {
-            return translatable("commands.disable.fail.already-disabled", YELLOW, text(moduleName, GOLD));
+            msgConsumer.accept(translatable("commands.disable.fail.already-disabled", YELLOW, text(moduleName, GOLD)));
+            return;
         }
         lifecycle.disable(false);
         if (lifecycle.getState() == ModuleState.DISABLE_FAILED) {
-            return translatable("commands.disable.fail.error", RED, text(moduleName, GOLD));
+            msgConsumer.accept(translatable("commands.disable.fail.error", RED, text(moduleName, GOLD)));
+            return;
         }
-        Bukkit.getOnlinePlayers().forEach(Player::updateCommands);
+        // run a full reload after disabling the module
+        this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
+            this.plugin.getServer().reloadData();
+            this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, this.modulesConfig::save);
+            msgConsumer.accept(translatable("commands.disable.success", GREEN, text(moduleName, GOLD)));
+        }, 1L);
         this.modulesConfig.set(this.getModule(moduleName).orElseThrow().getConfigPath(), false);
-        if (Bukkit.isPrimaryThread()) {
-            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, this.modulesConfig::save);
-        } else {
-            this.modulesConfig.save();
-        }
-        return translatable("commands.disable.success", GREEN, text(moduleName, GOLD));
     }
 
     public Component reloadModule(final String moduleName) {
@@ -218,7 +192,7 @@ public final class ModuleManager {
             if (lifecycle.getState() == ModuleState.RELOAD_FAILED) {
                 return translatable("commands.reload.module.fail.error", RED, text(moduleName, GOLD));
             }
-            resendData();
+            this.plugin.getServer().updateRecipes();
             return translatable("commands.reload.module.success", GREEN, text(moduleName, GOLD));
         } else {
             return translatable("commands.reload.module.fail.not-enabled", RED, text(moduleName, GOLD));

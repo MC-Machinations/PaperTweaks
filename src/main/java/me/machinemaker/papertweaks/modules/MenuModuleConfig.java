@@ -163,9 +163,8 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
     public void createCommands(final ConfiguredModuleCommand command, final Command.Builder<CommandDispatcher> builder) {
         final Command.Builder<CommandDispatcher> configBuilder = command.adminLiteral(builder, CONFIG_COMMAND_NAME).senderType(PlayerCommandDispatcher.class);
         final Description resetDescription = command.buildDescription(command.i18nValue("admin." + CONFIG_COMMAND_NAME) + ".reset");
-        command.manager()
-            .command(configBuilder.handler(this::sendMenu))
-            .command(configBuilder
+        command.register(configBuilder.handler(this::sendMenu));
+        command.register(configBuilder
                 .apply(MetaKeys.hiddenCommand())
                 .required(this.settingChangeCloudKey, configSettings(this.settingChangeCloudKey, this.settings))
                 .handler(context -> {
@@ -173,7 +172,8 @@ public abstract class MenuModuleConfig<C extends MenuModuleConfig<C, M>, M exten
                     this.save();
                     this.sendMenu(context);
                 })
-            ).command(command.addDescription(configBuilder, resetDescription)
+            );
+        command.register(command.addDescription(configBuilder, resetDescription)
                 .senderType(CommandDispatcher.class)
                 .literal("reset", resetDescription)
                 .handler(context -> {

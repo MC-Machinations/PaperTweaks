@@ -19,30 +19,21 @@
  */
 package me.machinemaker.papertweaks.cloud.dispatchers;
 
-import org.incendo.cloud.context.CommandContext;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.function.Function;
-import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.incendo.cloud.context.CommandContext;
 
 /**
  * Represents a player command sender
  */
 public class PlayerCommandDispatcher extends CommandDispatcher implements PersistentDataHolder {
 
-    private final Player player;
-    private final Function<Player, Audience> audienceSupplier;
-    private @MonotonicNonNull Audience audience;
-
-    public PlayerCommandDispatcher(final Player player, final Function<Player, Audience> audienceSupplier) {
+    public PlayerCommandDispatcher(final CommandSourceStack player) {
         super(player);
-        this.player = player;
-        this.audienceSupplier = audienceSupplier;
     }
 
     public static Player from(final CommandContext<?> context) {
@@ -58,25 +49,17 @@ public class PlayerCommandDispatcher extends CommandDispatcher implements Persis
     }
 
     @Override
-    public Audience audience() {
-        if (this.audience == null) {
-            this.audience = this.audienceSupplier.apply(this.player);
-        }
-        return this.audience;
-    }
-
-    @Override
     public PersistentDataContainer getPersistentDataContainer() {
         return this.sender().getPersistentDataContainer();
     }
 
     @Override
     public UUID getUUID() {
-        return this.player.getUniqueId();
+        return this.sender().getUniqueId();
     }
 
     @Override
     public Locale locale() {
-        return this.player.locale();
+        return this.sender().locale();
     }
 }

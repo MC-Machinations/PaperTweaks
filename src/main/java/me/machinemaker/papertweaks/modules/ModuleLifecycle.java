@@ -32,7 +32,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.cloud.paper.LegacyPaperCommandManager;
+import org.incendo.cloud.paper.PaperCommandManager;
 import org.incendo.cloud.setting.ManagerSetting;
 
 public abstract class ModuleLifecycle {
@@ -44,7 +44,7 @@ public abstract class ModuleLifecycle {
     private final Map<NamespacedKey, Recipe> moduleRecipes;
     private ModuleState state = ModuleState.DISABLED;
     @Inject
-    private LegacyPaperCommandManager<CommandDispatcher> commandManager;
+    private PaperCommandManager<CommandDispatcher> commandManager;
     @Inject
     private ModuleInfo moduleInfo;
 
@@ -102,7 +102,7 @@ public abstract class ModuleLifecycle {
 
     final void disable(final boolean changeState, final boolean isShutdown) {
         try {
-            // TODO disable commands
+            this.disableCommands();
             this.unregisterListeners();
             this.unregisterRecipes();
             this.onDisable(isShutdown);
@@ -133,6 +133,12 @@ public abstract class ModuleLifecycle {
         this.commandManager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, false);
     }
 
+    private void disableCommands() {
+        for (final ModuleCommand command : this.commands) {
+            command.unregisterCommands(this.commandManager);
+        }
+    }
+
     private void registerListeners() {
         this.listeners.forEach(listener -> this.plugin.getServer().getPluginManager().registerEvents(listener, this.plugin));
     }
@@ -147,6 +153,7 @@ public abstract class ModuleLifecycle {
                 Bukkit.addRecipe(recipe);
             }
         });
+        this.plugin.getServer().updateRecipes();
         Bukkit.getOnlinePlayers().forEach(p -> p.discoverRecipes(this.moduleRecipes.keySet()));
     }
 
@@ -154,6 +161,7 @@ public abstract class ModuleLifecycle {
         this.moduleRecipes.forEach((key, recipe) -> {
             Bukkit.removeRecipe(key);
         });
+        this.plugin.getServer().updateRecipes();
         Bukkit.getOnlinePlayers().forEach(p -> p.undiscoverRecipes(this.moduleRecipes.keySet()));
     }
 
