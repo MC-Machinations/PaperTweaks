@@ -90,7 +90,7 @@ public final class PTUtils {
         return getSkull(name, makeValidGameProfileName(name), uuid, texture, count);
     }
 
-    public static ItemStack getSkull(final String stringName, final UUID uuid, final String texture) {
+    public static ItemStack getSkull(final String stringName, final @Nullable UUID uuid, final String texture) {
         final String gameProfileName = makeValidGameProfileName(stringName);
         final @Nullable Component name;
         if (!gameProfileName.equals(stringName)) {

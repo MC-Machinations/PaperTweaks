@@ -52,7 +52,7 @@ public class MoreMobHeads extends ModuleBase {
 
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
+        return Lifecycle.class;
     }
 
     @Override

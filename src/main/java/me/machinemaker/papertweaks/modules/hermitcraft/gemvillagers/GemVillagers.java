@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -59,7 +58,7 @@ public class GemVillagers extends ModuleBase {
 
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
+        return Lifecycle.class;
     }
 
     @Override

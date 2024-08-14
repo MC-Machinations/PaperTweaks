@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,7 +80,7 @@ public class TreasureGems extends ModuleBase {
 
     @Override
     protected Class<? extends ModuleLifecycle> lifecycle() {
-        return ModuleLifecycle.Empty.class;
+        return Lifecycle.class;
     }
 
     @Override

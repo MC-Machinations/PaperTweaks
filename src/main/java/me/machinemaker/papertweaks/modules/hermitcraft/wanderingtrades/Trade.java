@@ -33,10 +33,10 @@ class Trade {
     private final ItemStack skull;
 
     @JsonCreator
-    Trade(final int maxUses, final Material secondaryCost, final int headCount, final String name, final UUID uuid, final String texture) {
+    Trade(final int maxUses, final Material secondaryCost, final int headCount, final String name, final String texture) {
         this.maxUses = maxUses;
         this.secondaryCost = secondaryCost;
-        this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), uuid, texture, headCount);
+        this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), null, texture, headCount);
     }
 
     public boolean isBlockTrade() {

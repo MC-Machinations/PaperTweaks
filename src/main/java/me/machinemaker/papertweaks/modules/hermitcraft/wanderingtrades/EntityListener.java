@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.utils.PTUtils;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.WanderingTrader;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -45,20 +44,19 @@ class EntityListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureSpawn(final CreatureSpawnEvent event) {
-        if (event.getEntityType() != EntityType.WANDERING_TRADER) return;
+        if (!(event.getEntity() instanceof final WanderingTrader trader)) return;
         if (this.config.headMin > this.config.headMax || this.config.blockMin > this.config.blockMax) {
             WanderingTrades.LOGGER.warn("You have configured the minimum number of trades to be higher than the max, no trades will be added.");
             return;
         }
-        final WanderingTrader trader = (WanderingTrader) event.getEntity();
         final int headTrades = this.config.hermitHeadTradesEnabled ? ThreadLocalRandom.current().nextInt(this.config.headMin, this.config.headMax + 1) : 0;
         final int blockTrades = this.config.blockTradesEnabled ? ThreadLocalRandom.current().nextInt(this.config.blockMin, this.config.blockMax + 1) : 0;
         final List<MerchantRecipe> recipes = new ArrayList<>(trader.getRecipes());
         for (int i = 0; i < blockTrades; i++) {
-            recipes.add(0, PTUtils.random(this.wanderingTrades.blockTrades).createTrade());
+            recipes.addFirst(PTUtils.random(this.wanderingTrades.blockTrades).createTrade());
         }
         for (int i = 0; i < headTrades; i++) {
-            recipes.add(0, PTUtils.random(this.wanderingTrades.hermitTrades).createTrade());
+            recipes.addFirst(PTUtils.random(this.wanderingTrades.hermitTrades).createTrade());
         }
         trader.setRecipes(recipes);
     }

@@ -26,11 +26,10 @@ def run():
             sell_tag: Compound = nbt["sell"]
             heads.append({
                 "maxUses": int(nbt["maxUses"]),
-                "secondaryCost": str(nbt["buyB"]["id"]),
-                "headCount": int(sell_tag["Count"]),
-                "name": str(sell_tag["tag"]["display"]["Name"]),
-                "uuid": str(array_to_uuid(sell_tag["tag"]["SkullOwner"]["Id"])),
-                "texture": sell_tag["tag"]["SkullOwner"]["Properties"]["textures"][0]["Value"]
+                "secondaryCost": str(nbt["buyB"]["id"]) if "buyB" in nbt else None,
+                "headCount": int(sell_tag["count"]),
+                "name": str(sell_tag["components"]["minecraft:item_name"]),
+                "texture": sell_tag["components"]["minecraft:profile"]["properties"][0]["value"]
             })
         with open("../src/main/resources/data/wandering_trades.json", "w") as out:
             out.write(dumps(heads, ensure_ascii=False, indent=2) + "\n")
