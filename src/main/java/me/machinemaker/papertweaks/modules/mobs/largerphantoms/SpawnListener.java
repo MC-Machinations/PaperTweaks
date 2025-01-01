@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2020-2024 Machine_Maker
+ * Copyright (C) 2020-2025 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,10 +67,10 @@ class SpawnListener implements ModuleListener {
             final Optional<Config.SpawnData> spawnData = this.config.sortedSpawns.stream().filter(sd -> sd.minimumTicks() <= ticksSinceSleep).findFirst();
             spawnData.ifPresent(sd -> {
                 phantom.setSize(sd.size());
-                requireNonNull(phantom.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(sd.maxHealth());
-                requireNonNull(phantom.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(sd.movementSpeed());
-                requireNonNull(phantom.getAttribute(Attribute.GENERIC_FOLLOW_RANGE)).setBaseValue(sd.followRange());
-                requireNonNull(phantom.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(sd.attackDamage());
+                requireNonNull(phantom.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(sd.maxHealth());
+                requireNonNull(phantom.getAttribute(Attribute.MOVEMENT_SPEED)).setBaseValue(sd.movementSpeed());
+                requireNonNull(phantom.getAttribute(Attribute.FOLLOW_RANGE)).setBaseValue(sd.followRange());
+                requireNonNull(phantom.getAttribute(Attribute.ATTACK_DAMAGE)).setBaseValue(sd.attackDamage());
             });
         }
     }

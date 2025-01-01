@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2024 Machine_Maker
+ * Copyright (C) 2021-2025 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,8 +67,8 @@ class VillagerData {
             villager.setCustomNameVisible(true);
             villager.setCanPickupItems(false);
             villager.setSilent(true);
-            requireNonNull(villager.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED), "missing movement speed attribute").setBaseValue(0);
-            requireNonNull(villager.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE), "missing knockback attribute").setBaseValue(0);
+            requireNonNull(villager.getAttribute(Attribute.MOVEMENT_SPEED), "missing movement speed attribute").setBaseValue(0);
+            requireNonNull(villager.getAttribute(Attribute.KNOCKBACK_RESISTANCE), "missing knockback attribute").setBaseValue(0);
             final List<MerchantRecipe> recipes = new ArrayList<>();
             for (final Offer offer : this.offers) {
                 recipes.add(offer.toRecipe());

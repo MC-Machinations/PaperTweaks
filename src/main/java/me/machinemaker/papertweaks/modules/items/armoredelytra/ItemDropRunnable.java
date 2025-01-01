@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2024 Machine_Maker
+ * Copyright (C) 2021-2025 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,7 +125,7 @@ class ItemDropRunnable extends BukkitRunnable {
         elytra.remove();
         block.getWorld().dropItem(block.getLocation().add(0, 1.1, 0), armoredElytra);
         final Location location = block.getLocation();
-        block.getWorld().playSound(Sound.sound(org.bukkit.Sound.BLOCK_ANVIL_USE.getKey(), Sound.Source.BLOCK, 1, 1), location.getX(), location.getY(), location.getZ());
+        block.getWorld().playSound(Sound.sound(org.bukkit.Sound.BLOCK_ANVIL_USE, Sound.Source.BLOCK, 1, 1), location.getX(), location.getY(), location.getZ());
     }
 
     static void breakArmoredElytra(final World world, final Location location, final Item elytra, final boolean sound) {
@@ -141,7 +141,7 @@ class ItemDropRunnable extends BukkitRunnable {
             world.dropItem(location.add(0, 1.1, 0), chestItem);
         }
         if (sound) {
-            world.playSound(Sound.sound(org.bukkit.Sound.BLOCK_GRINDSTONE_USE.getKey(), Sound.Source.BLOCK, 1, 1), location.getX(), location.getY(), location.getZ());
+            world.playSound(Sound.sound(org.bukkit.Sound.BLOCK_GRINDSTONE_USE, Sound.Source.BLOCK, 1, 1), location.getX(), location.getY(), location.getZ());
         }
         elytraStack.setAmount(0);
         elytra.remove();
