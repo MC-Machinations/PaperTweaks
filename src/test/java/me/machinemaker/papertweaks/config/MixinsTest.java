@@ -61,7 +61,7 @@ class MixinsTest {
         when(mockServer.getWorld("world")).thenReturn(mockWorld);
         when(mockServer.getLogger()).thenReturn(Logger.getLogger("MockServer"));
         when(mockServer.getRegistry(any())).thenAnswer(invocation -> {
-            return new Registry<>() {
+            return new Registry.NotARegistry<>() {
                 @Override
                 public @Nullable Keyed get(final NamespacedKey key) {
                     return null;
@@ -76,6 +76,8 @@ class MixinsTest {
                 public Iterator<Keyed> iterator() {
                     return Collections.emptyIterator();
                 }
+
+
             };
         });
         Bukkit.setServer(mockServer);
