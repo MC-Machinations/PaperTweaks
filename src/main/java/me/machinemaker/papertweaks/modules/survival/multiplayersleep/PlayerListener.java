@@ -20,6 +20,8 @@
 package me.machinemaker.papertweaks.modules.survival.multiplayersleep;
 
 import com.google.inject.Inject;
+import io.papermc.paper.block.bed.BedEnterAction;
+import io.papermc.paper.block.bed.BedRuleResult;
 import java.util.UUID;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Bukkit;
@@ -49,7 +51,8 @@ class PlayerListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerBedEnter(final PlayerBedEnterEvent event) {
-        if (event.getBedEnterResult() != PlayerBedEnterEvent.BedEnterResult.OK) return;
+        final BedEnterAction action = event.enterAction();
+        if (action.problem() != null || action.canSleep() != BedRuleResult.ALLOWED) return;
         this.config.worlds(false).forEach(world -> {
             final @Nullable SleepContext context = MultiplayerSleep.SLEEP_CONTEXT_MAP.computeIfAbsent(world.getUID(), uuid -> SleepContext.from(Bukkit.getWorld(uuid)));
             if (context != null) {

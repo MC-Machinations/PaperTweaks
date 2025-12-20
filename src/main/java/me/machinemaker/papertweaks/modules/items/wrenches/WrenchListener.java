@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.items.wrenches;
 
+import com.destroystokyo.paper.MaterialTags;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import java.util.List;
@@ -26,6 +27,8 @@ import me.machinemaker.papertweaks.integrations.Interactions;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import me.machinemaker.papertweaks.tags.MaterialTag;
 import me.machinemaker.papertweaks.tags.Tags;
+import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -63,7 +66,7 @@ class WrenchListener implements ModuleListener {
             final BlockData blockData = block.getBlockData();
             if (blockData instanceof final Directional directional
                 && (this.isValid(block, event.getPlayer(), this.config.redstoneWrench, Tags.REDSTONE_COMPONENTS, "vanillatweaks.wrench.redstone")
-                || this.isValid(block, event.getPlayer(), this.config.terracottaWrench, Tags.GLAZED_TERRACOTTA, "vanillatweaks.wrench.terracotta"))) {
+                || this.isValid(block, event.getPlayer(), this.config.terracottaWrench, MaterialTags.GLAZED_TERRACOTTA, "vanillatweaks.wrench.terracotta"))) {
                 if (!(directional instanceof final Piston piston && piston.isExtended()) && Interactions.isAllowedInteraction(event.getPlayer(), event.getClickedBlock())) { // Don't allow rotating extended pistons
                     final List<BlockFace> applicableFaces = Lists.newArrayList();
                     for (final BlockFace face : FACES) {
@@ -82,7 +85,7 @@ class WrenchListener implements ModuleListener {
 
     }
 
-    private boolean isValid(final Block block, final Player player, final boolean config, final MaterialTag tag, final String permission) {
+    private boolean isValid(final Block block, final Player player, final boolean config, final Tag<Material> tag, final String permission) {
         return config && tag.isTagged(block.getType()) && player.hasPermission(permission);
     }
 }

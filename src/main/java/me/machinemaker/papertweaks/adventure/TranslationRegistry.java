@@ -20,19 +20,21 @@
 package me.machinemaker.papertweaks.adventure;
 
 import com.google.common.collect.Maps;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.translation.GlobalTranslator;
+import net.kyori.adventure.translation.TranslationStore;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public final class TranslationRegistry {
 
     private static final Key LANG_KEY = Key.key("papertweaks", "lang");
     private static final Map<String, Translation> TRANSLATIONS = Maps.newConcurrentMap();
-    private static final net.kyori.adventure.translation.TranslationRegistry ADVENTURE_REGISTRY = net.kyori.adventure.translation.TranslationRegistry.create(LANG_KEY);
+    private static final TranslationStore.StringBased<MessageFormat> ADVENTURE_REGISTRY = TranslationStore.messageFormat(LANG_KEY);
 
     static {
         GlobalTranslator.translator().addSource(ADVENTURE_REGISTRY);
@@ -48,7 +50,7 @@ public final class TranslationRegistry {
         });
     }
 
-    public static Optional<String> translate(final String key, final Locale locale) {
+    public static Optional<@Nullable String> translate(final String key, final Locale locale) {
         final Translation translation = TRANSLATIONS.get(key);
         if (translation == null) {
             return Optional.empty();

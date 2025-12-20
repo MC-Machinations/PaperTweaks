@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.machinemaker"
-version = "0.5.0"
+version = "0.6.0-SNAPSHOT"
 description = "A replacement for the VanillaTweaks datapack"
 
 repositories {
@@ -55,7 +55,7 @@ dependencies {
     implementation("io.github.classgraph:classgraph:4.8.157")
     implementation("io.leangen.geantyref:geantyref:1.3.14")
     implementation("com.h2database:h2:1.4.200")
-    implementation("org.xerial:sqlite-jdbc:3.40.0.0")
+    implementation("org.xerial:sqlite-jdbc:3.41.2.2")
 
     // tests
     testImplementation(paperApi)
@@ -65,10 +65,10 @@ dependencies {
     testImplementation(libs.jackson.yaml)
     testImplementation(libs.jackson.paramNames)
     testImplementation(libs.guice)
-    testImplementation(libs.junit.api)
+    testImplementation(libs.junit)
     testImplementation(libs.mockito)
 
-    testRuntimeOnly(libs.junit.engine)
+    testRuntimeOnly(libs.junit.platform)
 }
 
 java {
@@ -109,9 +109,10 @@ tasks {
     }
 
     processResources {
+        val projectProvider = project.provider { project.version.toString() }
         filteringCharset = Charsets.UTF_8.name()
         filesMatching(listOf("plugin.yml", "paper-plugin.yml")) {
-            expand("version" to project.version)
+            expand("version" to projectProvider.get())
         }
     }
 
@@ -182,11 +183,11 @@ tasks {
         }
     }
 
-    withType<RunServer> { // set for both runServer and runMojangMappedServer
+    withType<RunServer> {
         systemProperty("com.mojang.eula.agree", "true")
 
         downloadPlugins {
-            url("https://download.luckperms.net/1549/bukkit/loader/LuckPerms-Bukkit-5.4.134.jar")
+            url("https://download.luckperms.net/1610/bukkit/loader/LuckPerms-Bukkit-5.5.21.jar")
         }
     }
 

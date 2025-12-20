@@ -72,6 +72,6 @@ public record GameRuleSetting<T>(GameRule<T> gameRule, ArgumentParser<CommandDis
 
     @Override
     public String indexKey() {
-        return this.gameRule.getName();
+        return this.gameRule.key().asString();
     }
 }

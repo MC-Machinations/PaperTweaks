@@ -43,6 +43,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
+import org.bukkit.GameRules;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.context.CommandContext;
@@ -81,8 +82,8 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
 
     public List<World> worlds(final boolean log) {
         for (final World world : this.includedWorlds) {
-            if (log && !Boolean.TRUE.equals(world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE))) {
-                MultiplayerSleep.LOGGER.warn("{} does not have the gamerule doDaylightCycle set to true, passing the night will have no effect there.", world.getName());
+            if (log && !Boolean.TRUE.equals(world.getGameRuleValue(GameRules.ADVANCE_TIME))) {
+                MultiplayerSleep.LOGGER.warn("{} does not have the gamerule minecraft:advance_time set to true, passing the night will have no effect there.", world.getName());
             }
         }
         if (this.includedWorlds.isEmpty()) {
@@ -95,7 +96,7 @@ class Config extends MenuModuleConfig<Config, MergedMenus.Menu1<Config, World>> 
     protected MergedMenus.Menu1<Config, World> createMenu(final Component title, final String commandPrefix, final List<MenuPartLike<Config>> configMenuParts) {
         return new MergedMenus.Menu1<>(
             new ReferenceConfigurationMenu<>(title, commandPrefix, configMenuParts, this),
-            IntegerMenuOption.builder("gamerule.playersSleepingPercentage", GameRuleSetting.ofInt(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 0, 100)).extendedDescription("gamerule.playersSleepingPercentage.description").configure("/gamerule")
+            IntegerMenuOption.builder("gamerule.playersSleepingPercentage", GameRuleSetting.ofInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE, 0, 100)).extendedDescription("gamerule.playersSleepingPercentage.description").configure("/gamerule")
         );
     }
 

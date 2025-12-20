@@ -1,5 +1,5 @@
 [versions]
-minecraft = "1.21.4"
+minecraft = "1.21.11"
 mm-mirror = "0.2.0"
 mm-lectern = "0.3.0" # deprecated
 cloud = "2.0.0-SNAPSHOT"
@@ -8,8 +8,8 @@ moonshine = "2.0.4"
 guice = "7.0.0"
 jdbi = "3.22.0"
 jackson = "2.15.2"
-commons-config = "2.8.0"
-commons-beans = "1.9.4"
+commons-config = "2.10.1"
+commons-beans = "1.11.0"
 
 # compile only
 slf4j-api = "2.0.7" # only until paper bumps api version
@@ -19,13 +19,13 @@ worldguard = "7.0.9"
 griefprevention = "16.18.1"
 
 # tests
-junit = "5.10.0"
+junit = "6.0.1"
 mockito = "5.5.0"
 
 # plugins
-shadow = "8.1.7"
-indra = "3.1.1"
-runPaper = "2.3.0"
+shadow = "9.3.0"
+indra = "4.0.0"
+runPaper = "3.0.2"
 
 [libraries]
 mm-mirror = { module = "me.machinemaker.mirror:mirror-paper", version.ref = "mm-mirror" }
@@ -57,12 +57,12 @@ worldguard = { module = "com.sk89q.worldguard:worldguard-bukkit", version.ref = 
 griefprevention = { module = "com.github.TechFortress:GriefPrevention", version.ref = "griefprevention" }
 
 # tests
-junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 
 [plugins]
-shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 indra-licenser-spotless = { id = "net.kyori.indra.licenser.spotless", version.ref = "indra" }
 runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 

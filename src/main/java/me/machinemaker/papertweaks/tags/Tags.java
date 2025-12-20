@@ -56,12 +56,6 @@ public final class Tags {
             .add(Material.PISTON)
             .build();
 
-    public static final MaterialTag GLAZED_TERRACOTTA = material("glazed_terracotta")
-            .endsWith("_GLAZED_TERRACOTTA").verify(16).build();
-
-    public static final MaterialTag CHESTPLATES = material("chestplates")
-            .endsWith("_CHESTPLATE").verify(6).build();
-
     private static MaterialTag.Builder material(String name) {
         return MaterialTag.builder(Keys.legacyKey(name));
     }

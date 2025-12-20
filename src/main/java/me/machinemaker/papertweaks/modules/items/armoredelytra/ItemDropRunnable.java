@@ -70,7 +70,7 @@ class ItemDropRunnable extends BukkitRunnable {
         this.item = item;
         this.lookingFor = lookingFor;
         this.itemPredicate = switch (lookingFor) {
-            case CHESTPLATE -> constructBiPredicate(Tags.CHESTPLATES::isTagged);
+            case CHESTPLATE -> constructBiPredicate(i -> Tag.ITEMS_CHEST_ARMOR.isTagged(i.getItemStack().getType()));
             case ARMORED_ELYTRA ->
                     constructBiPredicate(i -> i.getItemStack().getType() == Material.ELYTRA && ItemListener.IS_ARMORED_ELYTRA.has(i.getItemStack()));
         };

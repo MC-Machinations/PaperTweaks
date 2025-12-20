@@ -19,10 +19,10 @@
  */
 package me.machinemaker.papertweaks.modules.survival.cauldronconcrete;
 
-import com.destroystokyo.paper.MaterialTags;
 import io.papermc.paper.event.entity.EntityInsideBlockEvent;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,7 +32,7 @@ class CauldronListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityInsideBlock(final EntityInsideBlockEvent event) {
-        if (event.getEntity() instanceof final Item item && event.getBlock().getType() == Material.WATER_CAULDRON && MaterialTags.CONCRETE_POWDER.isTagged(item.getItemStack())) {
+        if (event.getEntity() instanceof final Item item && event.getBlock().getType() == Material.WATER_CAULDRON && Tag.CONCRETE_POWDER.isTagged(item.getItemStack().getType())) {
             item.getWorld().dropItem(item.getLocation(), new ItemStack(CauldronConcrete.toConcreteFromPowder(item.getItemStack().getType()), item.getItemStack().getAmount()));
             item.remove();
         }
