@@ -23,7 +23,7 @@ repositories {
     }
 }
 
-val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper:paper-api:$it-R0.1-SNAPSHOT" }
+val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper:paper-api:$it.build.+" }
 dependencies {
     compileOnly(paperApi)
 
