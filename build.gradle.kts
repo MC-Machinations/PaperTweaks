@@ -72,7 +72,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 spotless {
@@ -122,7 +122,7 @@ tasks {
             add("-parameters")
             add("-Xlint")
         }
-        options.release.set(21)
+        options.release.set(25)
     }
 
     test {
