@@ -20,7 +20,7 @@ griefprevention = "16.18.1"
 
 # tests
 junit = "6.0.1"
-mockito = "5.5.0"
+mockito = "5.20.0"
 
 # plugins
 shadow = "9.3.0"
