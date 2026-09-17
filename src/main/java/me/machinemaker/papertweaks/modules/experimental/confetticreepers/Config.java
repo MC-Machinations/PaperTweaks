@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
 import me.machinemaker.lectern.annotations.Description;
+import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
@@ -28,4 +29,8 @@ class Config extends ModuleConfig {
 
     @Description("Value between 0 (inclusive) and 1.0 (inclusive) for the chance a creeper will be a confetti creeper")
     public double chance = 1D;
+
+    @Key("allow-charged-creepers")
+    @Description("Allows charged creepers to explode normally, restoring the ability to obtain mob heads")
+    public boolean allowChargedCreepers = false;
 }

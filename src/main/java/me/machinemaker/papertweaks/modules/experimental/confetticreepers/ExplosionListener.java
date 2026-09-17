@@ -24,6 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
@@ -57,6 +58,10 @@ public class ExplosionListener implements ModuleListener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onExplosionPrime(final ExplosionPrimeEvent event) {
         if (event.getEntityType() != EntityType.CREEPER) return;
+        if (this.config.allowChargedCreepers) {
+            Creeper creeper = (Creeper) event.getEntity();
+            if (creeper.isPowered()) return;
+        }
         if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
             event.setFire(false);
             event.setRadius(0);
