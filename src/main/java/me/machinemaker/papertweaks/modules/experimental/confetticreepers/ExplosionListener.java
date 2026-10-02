@@ -24,6 +24,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
@@ -58,15 +62,21 @@ public class ExplosionListener implements ModuleListener {
     public void onExplosionPrime(final ExplosionPrimeEvent event) {
         if (event.getEntityType() != EntityType.CREEPER) return;
         if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
-            event.setFire(false);
-            event.setRadius(0);
-            event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class, firework -> {
-                final FireworkMeta fireworkMeta = firework.getFireworkMeta();
+            event.setCancelled(true);
+            final Entity creeper = event.getEntity();
+            final Location location = creeper.getLocation();
+            creeper.remove();
+
+            final Firework firework = location.getWorld().spawn(location, Firework.class, fw -> {
+                final FireworkMeta fireworkMeta = fw.getFireworkMeta();
                 fireworkMeta.setPower(0);
                 fireworkMeta.addEffect(COLORFUL_EFFECT);
-                firework.setFireworkMeta(fireworkMeta);
-                firework.detonate();
+                fw.setFireworkMeta(fireworkMeta);
             });
+            firework.detonate();
+
+            location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_BLAST, SoundCategory.HOSTILE, 1.0F, 1.0F);
+            location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
     }
 }
