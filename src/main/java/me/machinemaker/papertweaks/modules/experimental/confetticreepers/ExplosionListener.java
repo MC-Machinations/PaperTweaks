@@ -74,7 +74,7 @@ public class ExplosionListener implements ModuleListener {
         if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
             event.setCancelled(true);
             final Entity creeper = event.getEntity();
-            final Location location = creeper.getLocation();
+            final Location location = creeper.getLocation().add(0, 1.0, 0);
             creeper.remove();
 
             final Firework firework = location.getWorld().spawn(location, Firework.class, fw -> {
@@ -93,14 +93,14 @@ public class ExplosionListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onFireworkExplode(final FireworkExplodeEvent event) {
-        if (IS_CONFETTI.has(event.getEntity())) {
+        if (!this.config.fireworkDamage && IS_CONFETTI.has(event.getEntity())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof final Firework firework && IS_CONFETTI.has(firework)) {
+        if (!this.config.fireworkDamage && event.getDamager() instanceof final Firework firework && IS_CONFETTI.has(firework)) {
             event.setCancelled(true);
         }
     }

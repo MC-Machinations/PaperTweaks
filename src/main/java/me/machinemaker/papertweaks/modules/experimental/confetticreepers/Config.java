@@ -28,4 +28,7 @@ class Config extends ModuleConfig {
 
     @Description("Value between 0 (inclusive) and 1.0 (inclusive) for the chance a creeper will be a confetti creeper")
     public double chance = 1D;
+
+    @Description("Whether confetti fireworks should deal damage to nearby entities")
+    public boolean fireworkDamage = false;
 }
