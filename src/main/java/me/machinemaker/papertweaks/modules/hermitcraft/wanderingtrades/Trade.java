@@ -47,7 +47,7 @@ class Trade {
     public MerchantRecipe createTrade() {
         final MerchantRecipe recipe = new MerchantRecipe(this.skull.clone(), this.maxUses);
         recipe.addIngredient(new ItemStack(Material.EMERALD, 1));
-        if (this.secondaryCost != Material.AIR) {
+        if (this.isBlockTrade()) {
             recipe.addIngredient(new ItemStack(this.secondaryCost, 1));
         }
         return recipe;
