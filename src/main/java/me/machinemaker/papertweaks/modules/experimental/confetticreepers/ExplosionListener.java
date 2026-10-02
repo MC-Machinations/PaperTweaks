@@ -20,6 +20,8 @@
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
 import org.bukkit.Color;
@@ -37,25 +39,27 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 public class ExplosionListener implements ModuleListener {
 
-    private static final FireworkEffect COLORFUL_EFFECT = FireworkEffect.builder()
-        .flicker(false)
-        .trail(false)
-        .with(FireworkEffect.Type.BURST)
-        .withColor(
-            Color.fromRGB(11743532),
-            Color.fromRGB(15435844),
-            Color.fromRGB(14602026),
-            Color.fromRGB(4312372),
-            Color.fromRGB(6719955),
-            Color.fromRGB(8073150),
-            Color.fromRGB(14188952)
-        ).build();
-
     private final Config config;
 
     @Inject
     public ExplosionListener(final Config config) {
         this.config = config;
+    }
+
+    private static FireworkEffect createFireworkEffect() {
+        final ThreadLocalRandom random = ThreadLocalRandom.current();
+        final int count = random.nextInt(2, 5);
+        final List<Color> colors = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            colors.add(Color.fromRGB(random.nextInt(0x1000000)));
+        }
+        return FireworkEffect.builder()
+            .flicker(true)
+            .trail(false)
+            .with(FireworkEffect.Type.CREEPER)
+            .withColor(colors)
+            .withFade(Color.fromRGB(random.nextInt(0x1000000)))
+            .build();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -70,7 +74,7 @@ public class ExplosionListener implements ModuleListener {
             final Firework firework = location.getWorld().spawn(location, Firework.class, fw -> {
                 final FireworkMeta fireworkMeta = fw.getFireworkMeta();
                 fireworkMeta.setPower(0);
-                fireworkMeta.addEffect(COLORFUL_EFFECT);
+                fireworkMeta.addEffect(createFireworkEffect());
                 fw.setFireworkMeta(fireworkMeta);
             });
             firework.detonate();
