@@ -36,6 +36,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -93,6 +94,13 @@ public class ExplosionListener implements ModuleListener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onFireworkExplode(final FireworkExplodeEvent event) {
         if (IS_CONFETTI.has(event.getEntity())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof final Firework firework && IS_CONFETTI.has(firework)) {
             event.setCancelled(true);
         }
     }
