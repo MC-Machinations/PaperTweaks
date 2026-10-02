@@ -25,22 +25,23 @@ import me.machinemaker.papertweaks.utils.PTUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 class Trade {
 
     private final int maxUses;
-    private final Material secondaryCost;
+    private final @Nullable Material secondaryCost;
     private final ItemStack skull;
 
     @JsonCreator
-    Trade(final int maxUses, final Material secondaryCost, final int headCount, final String name, final String texture) {
+    Trade(final int maxUses, final @Nullable Material secondaryCost, final int headCount, final String name, final String texture) {
         this.maxUses = maxUses;
         this.secondaryCost = secondaryCost;
         this.skull = PTUtils.getSkull(PTUtils.sanitizeName(name), null, texture, headCount);
     }
 
     public boolean isBlockTrade() {
-        return this.secondaryCost != Material.AIR;
+        return this.secondaryCost != null && this.secondaryCost != Material.AIR;
     }
 
     public MerchantRecipe createTrade() {
