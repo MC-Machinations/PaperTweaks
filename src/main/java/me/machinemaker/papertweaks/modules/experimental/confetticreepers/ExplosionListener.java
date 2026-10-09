@@ -20,39 +20,53 @@
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
+import me.machinemaker.papertweaks.pdc.PDCKey;
+import me.machinemaker.papertweaks.utils.Keys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class ExplosionListener implements ModuleListener {
 
-    private static final FireworkEffect COLORFUL_EFFECT = FireworkEffect.builder()
-        .flicker(false)
-        .trail(false)
-        .with(FireworkEffect.Type.BURST)
-        .withColor(
-            Color.fromRGB(11743532),
-            Color.fromRGB(15435844),
-            Color.fromRGB(14602026),
-            Color.fromRGB(4312372),
-            Color.fromRGB(6719955),
-            Color.fromRGB(8073150),
-            Color.fromRGB(14188952)
-        ).build();
+    static final PDCKey<Boolean> IS_CONFETTI = PDCKey.bool(Keys.key("confetti_creeper"));
 
     private final Config config;
 
     @Inject
     public ExplosionListener(final Config config) {
         this.config = config;
+    }
+
+    private static FireworkEffect createFireworkEffect() {
+        final ThreadLocalRandom random = ThreadLocalRandom.current();
+        final int count = random.nextInt(2, 5);
+        final List<Color> colors = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            colors.add(Color.fromRGB(random.nextInt(0x1000000)));
+        }
+        return FireworkEffect.builder()
+            .flicker(true)
+            .trail(false)
+            .with(FireworkEffect.Type.CREEPER)
+            .withColor(colors)
+            .withFade(Color.fromRGB(random.nextInt(0x1000000)))
+            .build();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -63,15 +77,36 @@ public class ExplosionListener implements ModuleListener {
             if (creeper.isPowered()) return;
         }
         if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
-            event.setFire(false);
-            event.setRadius(0);
-            event.getEntity().getWorld().spawn(event.getEntity().getLocation(), Firework.class, firework -> {
-                final FireworkMeta fireworkMeta = firework.getFireworkMeta();
+            event.setCancelled(true);
+            final Entity creeper = event.getEntity();
+            final Location location = creeper.getLocation().add(0, 1.0, 0);
+            creeper.remove();
+
+            final Firework firework = location.getWorld().spawn(location, Firework.class, fw -> {
+                IS_CONFETTI.setTo(fw, true);
+                final FireworkMeta fireworkMeta = fw.getFireworkMeta();
                 fireworkMeta.setPower(0);
-                fireworkMeta.addEffect(COLORFUL_EFFECT);
-                firework.setFireworkMeta(fireworkMeta);
-                firework.detonate();
+                fireworkMeta.addEffect(createFireworkEffect());
+                fw.setFireworkMeta(fireworkMeta);
             });
+            firework.detonate();
+
+            location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_BLAST, SoundCategory.HOSTILE, 1.0F, 1.0F);
+            location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1.0F, 1.0F);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onFireworkExplode(final FireworkExplodeEvent event) {
+        if (!this.config.fireworkDamage && IS_CONFETTI.has(event.getEntity())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+        if (!this.config.fireworkDamage && event.getDamager() instanceof final Firework firework && IS_CONFETTI.has(firework)) {
+            event.setCancelled(true);
         }
     }
 }
