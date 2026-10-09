@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import me.machinemaker.papertweaks.modules.ModuleListener;
+import me.machinemaker.papertweaks.pdc.PDCKey;
+import me.machinemaker.papertweaks.utils.Keys;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -35,10 +37,14 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class ExplosionListener implements ModuleListener {
+
+    static final PDCKey<Boolean> IS_CONFETTI = PDCKey.bool(Keys.key("confetti_creeper"));
 
     private final Config config;
 
@@ -73,10 +79,11 @@ public class ExplosionListener implements ModuleListener {
         if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
             event.setCancelled(true);
             final Entity creeper = event.getEntity();
-            final Location location = creeper.getLocation();
+            final Location location = creeper.getLocation().add(0, 1.0, 0);
             creeper.remove();
 
             final Firework firework = location.getWorld().spawn(location, Firework.class, fw -> {
+                IS_CONFETTI.setTo(fw, true);
                 final FireworkMeta fireworkMeta = fw.getFireworkMeta();
                 fireworkMeta.setPower(0);
                 fireworkMeta.addEffect(createFireworkEffect());
@@ -86,6 +93,20 @@ public class ExplosionListener implements ModuleListener {
 
             location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_BLAST, SoundCategory.HOSTILE, 1.0F, 1.0F);
             location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1.0F, 1.0F);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onFireworkExplode(final FireworkExplodeEvent event) {
+        if (!this.config.fireworkDamage && IS_CONFETTI.has(event.getEntity())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+        if (!this.config.fireworkDamage && event.getDamager() instanceof final Firework firework && IS_CONFETTI.has(firework)) {
+            event.setCancelled(true);
         }
     }
 }
