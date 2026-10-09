@@ -28,6 +28,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
@@ -62,6 +65,23 @@ class PlayerListener implements ModuleListener {
                     Bukkit.getServer().sendMessage(translatable("modules.tag.tag.success", YELLOW, text(damager.getName()), text(damagee.getName())));
                 }
             }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerInteractEntity(final PlayerInteractEntityEvent event) {
+        if (!this.config.preventTagDestruction) return;
+        final ItemStack item = event.getPlayer().getInventory().getItem(event.getHand());
+        if (item.isSimilar(Tag.TAG_ITEM)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerDropItem(final PlayerDropItemEvent event) {
+        if (!this.config.preventTagDestruction) return;
+        if (event.getItemDrop().getItemStack().isSimilar(Tag.TAG_ITEM)) {
+            event.setCancelled(true);
         }
     }
 

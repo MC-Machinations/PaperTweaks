@@ -45,6 +45,11 @@ class Config extends SimpleMenuModuleConfig<Config> {
     @Description("modules.tag.settings.tag-cooldown.extended")
     public int timeBetweenTags = 0;
 
+    @Key("prevent-tag-destruction")
+    @I18nKey("modules.tag.settings.prevent-tag-destruction")
+    @Description("modules.tag.settings.prevent-tag-destruction.extended")
+    public boolean preventTagDestruction = true;
+
     @Override
     public Component title() {
         return buildDefaultTitle("Tag");
