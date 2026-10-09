@@ -52,11 +52,15 @@ class EntityListener implements ModuleListener {
         final int headTrades = this.config.hermitHeadTradesEnabled ? ThreadLocalRandom.current().nextInt(this.config.headMin, this.config.headMax + 1) : 0;
         final int blockTrades = this.config.blockTradesEnabled ? ThreadLocalRandom.current().nextInt(this.config.blockMin, this.config.blockMax + 1) : 0;
         final List<MerchantRecipe> recipes = new ArrayList<>(trader.getRecipes());
-        for (int i = 0; i < blockTrades; i++) {
-            recipes.addFirst(PTUtils.random(this.wanderingTrades.blockTrades).createTrade());
+        if (blockTrades > 0 && !this.wanderingTrades.blockTrades.isEmpty()) {
+            for (int i = 0; i < blockTrades; i++) {
+                recipes.addFirst(PTUtils.random(this.wanderingTrades.blockTrades).createTrade());
+            }
         }
-        for (int i = 0; i < headTrades; i++) {
-            recipes.addFirst(PTUtils.random(this.wanderingTrades.hermitTrades).createTrade());
+        if (headTrades > 0 && !this.wanderingTrades.hermitTrades.isEmpty()) {
+            for (int i = 0; i < headTrades; i++) {
+                recipes.addFirst(PTUtils.random(this.wanderingTrades.hermitTrades).createTrade());
+            }
         }
         trader.setRecipes(recipes);
     }
