@@ -192,4 +192,13 @@ public final class PTUtils {
         }
         consumer.accept(Bukkit.getConsoleSender());
     }
+
+    public static boolean containsIgnoreCase(final Iterable<String> collection, final String string) {
+        for (final String s : collection) {
+            if (s.equalsIgnoreCase(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

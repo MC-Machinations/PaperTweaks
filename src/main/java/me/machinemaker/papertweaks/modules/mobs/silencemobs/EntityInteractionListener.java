@@ -33,6 +33,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static me.machinemaker.papertweaks.utils.PTUtils.containsIgnoreCase;
 import static net.kyori.adventure.text.Component.text;
 
 class EntityInteractionListener implements ModuleListener {
@@ -54,7 +55,7 @@ class EntityInteractionListener implements ModuleListener {
             final @Nullable ItemMeta meta = item.getItemMeta();
             if (meta != null && meta.displayName() != null) {
                 final String name = PlainTextComponentSerializer.plainText().serializeOr(meta.displayName(), "");
-                if (this.config.isTriggerName(name)) {
+                if (containsIgnoreCase(this.config.triggerNames, name)) {
                     final Entity clickedEntity = event.getRightClicked();
                     clickedEntity.setSilent(true);
                     if (!this.config.silencedName.isEmpty()) {
