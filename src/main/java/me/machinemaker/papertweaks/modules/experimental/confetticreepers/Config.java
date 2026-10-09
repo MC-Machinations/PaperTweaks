@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2025 Machine_Maker
+ * Copyright (C) 2021-2026 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 package me.machinemaker.papertweaks.modules.experimental.confetticreepers;
 
 import me.machinemaker.lectern.annotations.Description;
+import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.modules.ModuleConfig;
 
@@ -31,4 +32,8 @@ class Config extends ModuleConfig {
 
     @Description("Whether confetti fireworks should deal damage to nearby entities")
     public boolean fireworkDamage = false;
+
+    @Key("allow-charged-creepers")
+    @Description("Allows charged creepers to explode normally, restoring the ability to obtain mob heads")
+    public boolean allowChargedCreepers = false;
 }

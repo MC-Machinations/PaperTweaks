@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2025 Machine_Maker
+ * Copyright (C) 2021-2026 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,13 +40,13 @@ class Trade {
     }
 
     public boolean isBlockTrade() {
-        return this.secondaryCost != Material.AIR;
+        return this.secondaryCost != null && this.secondaryCost != Material.AIR;
     }
 
     public MerchantRecipe createTrade() {
         final MerchantRecipe recipe = new MerchantRecipe(this.skull.clone(), this.maxUses);
         recipe.addIngredient(new ItemStack(Material.EMERALD, 1));
-        if (this.secondaryCost != Material.AIR) {
+        if (this.isBlockTrade()) {
             recipe.addIngredient(new ItemStack(this.secondaryCost, 1));
         }
         return recipe;
