@@ -31,4 +31,17 @@ class Config extends ModuleConfig {
     @Key("trigger-names")
     @Description("Names for name tags that trigger silencing a mob. Case-insensitive.")
     public List<String> triggerNames = List.of("silence me", "silence_me");
+
+    @Key("silenced-name")
+    @Description("The custom name given to the mob when silenced. If left empty, the mob keeps its existing name.")
+    public String silencedName = "silenced";
+
+    public boolean isTriggerName(final String name) {
+        for (final String trigger : this.triggerNames) {
+            if (name.equalsIgnoreCase(trigger)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
