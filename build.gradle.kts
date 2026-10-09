@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.machinemaker"
-version = "0.6.0-SNAPSHOT"
+version = "0.7.0-SNAPSHOT"
 description = "A replacement for the VanillaTweaks datapack"
 
 repositories {
@@ -23,7 +23,7 @@ repositories {
     }
 }
 
-val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper:paper-api:$it-R0.1-SNAPSHOT" }
+val paperApi: Provider<String> = libs.versions.minecraft.map { "io.papermc.paper:paper-api:$it.build.+" }
 dependencies {
     compileOnly(paperApi)
 
@@ -72,7 +72,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 spotless {
@@ -122,7 +122,7 @@ tasks {
             add("-parameters")
             add("-Xlint")
         }
-        options.release.set(21)
+        options.release.set(25)
     }
 
     test {
@@ -187,7 +187,7 @@ tasks {
         systemProperty("com.mojang.eula.agree", "true")
 
         downloadPlugins {
-            url("https://download.luckperms.net/1610/bukkit/loader/LuckPerms-Bukkit-5.5.21.jar")
+            url("https://download.luckperms.net/1668/bukkit/loader/LuckPerms-Bukkit-5.5.81.jar")
         }
     }
 

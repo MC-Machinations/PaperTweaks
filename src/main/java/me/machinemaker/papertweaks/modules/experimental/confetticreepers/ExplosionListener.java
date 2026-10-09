@@ -3,7 +3,7 @@
  *
  * PaperTweaks, a performant replacement for the VanillaTweaks datapacks.
  *
- * Copyright (C) 2021-2025 Machine_Maker
+ * Copyright (C) 2021-2026 Machine_Maker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -65,6 +66,10 @@ public class ExplosionListener implements ModuleListener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onExplosionPrime(final ExplosionPrimeEvent event) {
         if (event.getEntityType() != EntityType.CREEPER) return;
+        if (this.config.allowChargedCreepers) {
+            Creeper creeper = (Creeper) event.getEntity();
+            if (creeper.isPowered()) return;
+        }
         if (ThreadLocalRandom.current().nextDouble() < this.config.chance) {
             event.setCancelled(true);
             final Entity creeper = event.getEntity();
