@@ -33,15 +33,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static me.machinemaker.papertweaks.utils.PTUtils.containsIgnoreCase;
 import static net.kyori.adventure.text.Component.text;
 
 class EntityInteractionListener implements ModuleListener {
 
     private final Plugin plugin;
+    private final Config config;
 
     @Inject
-    EntityInteractionListener(final Plugin plugin) {
+    EntityInteractionListener(final Plugin plugin, final Config config) {
         this.plugin = plugin;
+        this.config = config;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -52,11 +55,12 @@ class EntityInteractionListener implements ModuleListener {
             final @Nullable ItemMeta meta = item.getItemMeta();
             if (meta != null && meta.displayName() != null) {
                 final String name = PlainTextComponentSerializer.plainText().serializeOr(meta.displayName(), "");
-                final boolean toSilent = name.equalsIgnoreCase("silence me") || name.equalsIgnoreCase("silence_me");
-                if (toSilent) {
+                if (containsIgnoreCase(this.config.triggerNames, name)) {
                     final Entity clickedEntity = event.getRightClicked();
                     clickedEntity.setSilent(true);
-                    Bukkit.getScheduler().runTaskLater(this.plugin, () -> clickedEntity.customName(text("silenced")), 10L);
+                    if (!this.config.silencedName.isEmpty()) {
+                        Bukkit.getScheduler().runTaskLater(this.plugin, () -> clickedEntity.customName(text(this.config.silencedName)), 10L);
+                    }
                 }
             }
         }

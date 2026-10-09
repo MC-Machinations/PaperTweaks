@@ -19,6 +19,7 @@
  */
 package me.machinemaker.papertweaks.modules.survival.durabilityping;
 
+import java.util.List;
 import me.machinemaker.lectern.annotations.Description;
 import me.machinemaker.lectern.annotations.Key;
 import me.machinemaker.lectern.annotations.validations.numbers.Min;
@@ -27,6 +28,7 @@ import me.machinemaker.papertweaks.config.PTConfig;
 import me.machinemaker.papertweaks.menus.Menu;
 import me.machinemaker.papertweaks.modules.SimpleMenuModuleConfig;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 
 @PTConfig
 @Menu(commandPrefix = "/durabilityping admin config")
@@ -63,6 +65,10 @@ class Config extends SimpleMenuModuleConfig<Config> {
     @I18nKey("modules.durability-ping.settings.defaults.display")
     @Description("Default setting for displaying the notification to the player. Can be one of: TITLE, SUBTITLE, CHAT, ACTION_BAR, HIDDEN")
     public Settings.DisplaySetting defaultDisplaySetting = Settings.DisplaySetting.SUBTITLE;
+
+    @Key("blacklisted-materials")
+    @Description("Materials listed here will not trigger durability ping notifications")
+    public List<Material> blacklistedMaterials = List.of();
 
     @Override
     protected Component title() {
