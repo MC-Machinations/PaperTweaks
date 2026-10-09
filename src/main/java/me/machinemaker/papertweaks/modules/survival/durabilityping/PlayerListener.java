@@ -75,6 +75,9 @@ class PlayerListener implements ModuleListener {
         ) {
             final CachedSettings playerSettings = this.getCachedSettings(event.getPlayer());
             final Material type = event.getItem().getType();
+            if (this.config.blacklistedMaterials.contains(type)) {
+                return;
+            }
             if ((!playerSettings.handPing() && Tags.DAMAGEABLE_TOOLS.isTagged(type)) || (!playerSettings.armorPing() && Tags.DAMAGEABLE_ARMOR.isTagged(type))) {
                 return;
             }
