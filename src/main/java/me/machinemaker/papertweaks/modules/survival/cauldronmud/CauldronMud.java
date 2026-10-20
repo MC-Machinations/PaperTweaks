@@ -30,7 +30,7 @@ import org.bukkit.Material;
 @ModuleInfo(name = "CauldronMud", configPath = "survival.cauldron-mud", description = "Make mud using cauldrons")
 public class CauldronMud extends ModuleBase {
 
-    static Material toMudFromDirt(final Material dirt) {
+    static Material toMudFromDirt(Material dirt) {
         if (!(dirt.equals(Material.DIRT) || dirt.equals(Material.COARSE_DIRT) || dirt.equals(Material.ROOTED_DIRT))) {
             throw new IllegalArgumentException(dirt + " is not a valid dirt type!");
         }
