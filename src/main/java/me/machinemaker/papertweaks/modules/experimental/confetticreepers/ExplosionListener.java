@@ -39,7 +39,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import org.bukkit.event.entity.FireworkExplodeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class ExplosionListener implements ModuleListener {
@@ -93,13 +92,6 @@ public class ExplosionListener implements ModuleListener {
 
             location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_BLAST, SoundCategory.HOSTILE, 1.0F, 1.0F);
             location.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, SoundCategory.HOSTILE, 1.0F, 1.0F);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onFireworkExplode(final FireworkExplodeEvent event) {
-        if (!this.config.fireworkDamage && IS_CONFETTI.has(event.getEntity())) {
-            event.setCancelled(true);
         }
     }
 
