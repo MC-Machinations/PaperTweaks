@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.machinemaker"
-version = "0.7.4"
+version = "0.7.5"
 description = "A replacement for the VanillaTweaks datapack"
 
 repositories {
@@ -110,6 +110,7 @@ tasks {
 
     processResources {
         val projectProvider = project.provider { project.version.toString() }
+        inputs.property("version", projectProvider)
         filteringCharset = Charsets.UTF_8.name()
         filesMatching(listOf("plugin.yml", "paper-plugin.yml")) {
             expand("version" to projectProvider.get())

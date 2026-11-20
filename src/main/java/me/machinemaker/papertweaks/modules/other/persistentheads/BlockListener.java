@@ -36,6 +36,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.block.TileState;
+import org.bukkit.entity.AbstractWindCharge;
 import org.bukkit.entity.Item;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -127,6 +128,7 @@ class BlockListener implements ModuleListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityExplosion(final EntityExplodeEvent event) {
+        if (event.getEntity() instanceof AbstractWindCharge) return;
         this.handleExplosionEvent(event.blockList(), event.getYield());
     }
 

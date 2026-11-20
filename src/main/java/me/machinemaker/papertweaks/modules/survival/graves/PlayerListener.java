@@ -48,6 +48,7 @@ import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -127,6 +128,8 @@ class PlayerListener implements ModuleListener {
         final World world = requireNonNull(playerLocation.getWorld());
         if (!player.hasPermission("vanillatweaks.playergraves") || !player.hasPermission("vanillatweaks.graves")) return;
         if (this.config.disabledWorlds.contains(world.getName())) return;
+        final @Nullable EntityDamageEvent lastDamage = player.getLastDamageCause();
+        if (!this.config.voidGraves && lastDamage != null && lastDamage.getCause() == EntityDamageEvent.DamageCause.VOID) return;
 
         Block spawnBlock = playerLocation.getBlock();
         if (playerLocation.getBlockY() <= world.getMinHeight()) {

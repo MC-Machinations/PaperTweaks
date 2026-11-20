@@ -25,6 +25,7 @@ import java.util.UUID;
 import me.machinemaker.papertweaks.annotations.ModuleInfo;
 import me.machinemaker.papertweaks.modules.ModuleBase;
 import me.machinemaker.papertweaks.modules.ModuleCommand;
+import me.machinemaker.papertweaks.modules.ModuleConfig;
 import me.machinemaker.papertweaks.modules.ModuleLifecycle;
 import me.machinemaker.papertweaks.pdc.PDCKey;
 import me.machinemaker.papertweaks.utils.Keys;
@@ -42,5 +43,10 @@ public class ThunderShrine extends ModuleBase {
     @Override
     protected Collection<Class<? extends ModuleCommand>> commands() {
         return Set.of(Commands.class);
+    }
+
+    @Override
+    protected Collection<Class<? extends ModuleConfig>> configs() {
+        return Set.of(Config.class);
     }
 }
