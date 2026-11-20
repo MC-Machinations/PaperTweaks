@@ -41,13 +41,17 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 @Singleton
 class ShrineRunnable extends TimerRunnable {
 
+    private final Config config;
+
     @Inject
-    ShrineRunnable(final Plugin plugin) {
+    ShrineRunnable(final Plugin plugin, final Config config) {
         super(plugin);
+        this.config = config;
     }
 
     @Override
     public void run() {
+        final double radius = this.config.announcementRadius;
         for (final World world : Bukkit.getWorlds()) {
             for (final AreaEffectCloud cloud : Entities.getEntitiesOfType(AreaEffectCloud.class, world, ThunderShrine.SHRINE::has)) {
                 final @Nullable Item item = Entities.getSingleNearbyEntityOfType(Item.class, cloud.getLocation(), 0.5, 0.5, 0.5, i -> i.getItemStack().getType() == Material.NETHER_STAR && i.getItemStack().getAmount() == 1);
@@ -61,7 +65,7 @@ class ShrineRunnable extends TimerRunnable {
                     world.setThunderDuration(6000);
                     world.setStorm(true);
                     world.setThundering(true);
-                    for (final Player player : Entities.getNearbyEntitiesOfType(Player.class, cloud.getLocation(), 5, 5, 5)) {
+                    for (final Player player : Entities.getNearbyEntitiesOfType(Player.class, cloud.getLocation(), radius, radius, radius)) {
                         player.sendMessage(translatable("modules.thunder-shrine.ritual.success", RED));
                     }
                 } else {
