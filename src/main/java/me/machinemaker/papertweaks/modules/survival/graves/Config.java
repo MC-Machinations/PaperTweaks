@@ -57,6 +57,11 @@ class Config extends SimpleMenuModuleConfig<Config> {
     @Description("modules.graves.settings.xp-collection.extended")
     public boolean xpCollection = true;
 
+    @Key("void-graves")
+    @I18nKey("modules.graves.settings.void-graves")
+    @Description("modules.graves.settings.void-graves.extended")
+    public boolean voidGraves = true;
+
     @Key("disabled-worlds")
     @Description("Worlds listed here will not create graves for players")
     public List<String> disabledWorlds = List.of("disabled_world_name");
